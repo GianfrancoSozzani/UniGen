@@ -1,3 +1,6 @@
+using Comunicazioni.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace Comunicazioni
 {
     public class Program
@@ -9,7 +12,11 @@ namespace Comunicazioni
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("MyConn")));
+
             var app = builder.Build();
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
