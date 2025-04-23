@@ -1,5 +1,6 @@
 ﻿using Comunicazioni.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Comunicazioni.Controllers
 {
@@ -10,12 +11,17 @@ namespace Comunicazioni.Controllers
         {
             this.dbContext = dbContext;
         }
-        
         //----------------------------------------------//
         //LIST------------------------------------------//
         //----------------------------------------------//
+        [HttpGet]
+        public async Task<IActionResult> List()
+        {
+            var comunicazioni = await dbContext.Comunicazioni.ToListAsync();
+            return View(comunicazioni);
+        }
 
-        
+
 
     }
 }
