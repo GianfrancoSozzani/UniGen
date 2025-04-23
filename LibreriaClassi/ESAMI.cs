@@ -17,7 +17,7 @@ namespace LibreriaClassi
         public string TitoloEsame { get; set; }
         public int CFU { get; set; }
         public Guid K_Docente { get; set; }
-    }
+    
 
         public void Inserimento()
         {

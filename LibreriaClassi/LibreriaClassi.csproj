@@ -50,6 +50,7 @@
     <Compile Include="LEZIONI.cs" />
     <Compile Include="LIBRETTI.cs" />
     <Compile Include="MATERIALI.cs" />
+    <Compile Include="OPERATORI.cs" />
     <Compile Include="PAGAMENTI.cs" />
     <Compile Include="PIANISTUDIO.cs" />
     <Compile Include="PIANISTUDIOPERSONALI.cs" />
