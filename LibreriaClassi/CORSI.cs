@@ -46,7 +46,7 @@ namespace LibreriaClassi
             return db.SQLselect();
         }
 
-        public void ModificaCorso()
+        public void Modifica()
         {
             DB dB = new DB();
             dB.query = "";
