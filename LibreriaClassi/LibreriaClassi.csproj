@@ -41,8 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="APPELLI.cs" />
+    <Compile Include="DB.cs" />
+    <Compile Include="ESAMI.cs" />
+    <Compile Include="FACOLTA.cs" />
     <Compile Include="DOCENTI.cs" />
+    <Compile Include="LEZIONI.cs" />
+    <Compile Include="MATERIALI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
