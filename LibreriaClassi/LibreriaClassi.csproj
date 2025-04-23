@@ -54,7 +54,10 @@
     <Compile Include="PIANISTUDIO.cs" />
     <Compile Include="PIANISTUDIOPERSONALI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PROVE.cs" />
     <Compile Include="STUDENTI.cs" />
+    <Compile Include="TEST_DA.cs" />
+    <Compile Include="TEST_DC.cs" />
     <Compile Include="TIPICORSI.cs" />
   </ItemGroup>
   <ItemGroup>
