@@ -3,26 +3,27 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace LibreriaClassi
 {
-    internal class FACOLTA
+    internal class TIPICORSI
     {
-        public Guid K_Facolta { get; set; }
-        public string TitoloFacolta { get; set; }
+        public Guid K_TipoCorso { get; set; }
+        public string Tipo { get; set; }
+        public string Durata { get; set; }
 
-        public FACOLTA()
+        public TIPICORSI()
         {
-             
+
         }
 
         public void Inserimento()
         {
             DB db = new DB();
             db.query = "";
-            db.cmd.Parameters.AddWithValue("", TitoloFacolta);
+            db.cmd.Parameters.AddWithValue("", Tipo);
+            db.cmd.Parameters.AddWithValue("", Durata);
             db.SQLcommand();
         }
 
@@ -37,7 +38,7 @@ namespace LibreriaClassi
         {
             DB db = new DB();
             db.query = "";
-            db.cmd.Parameters.AddWithValue("", K_Facolta);
+            db.cmd.Parameters.AddWithValue("", K_TipoCorso);
             return db.SQLselect();
         }
 
@@ -45,8 +46,9 @@ namespace LibreriaClassi
         {
             DB dB = new DB();
             dB.query = "";
-            dB.cmd.Parameters.AddWithValue("", K_Facolta);
-            dB.cmd.Parameters.AddWithValue("", TitoloFacolta);
+            dB.cmd.Parameters.AddWithValue("", K_TipoCorso);
+            dB.cmd.Parameters.AddWithValue("", Tipo);
+            dB.cmd.Parameters.AddWithValue("", Durata);
             dB.SQLcommand();
         }
     }

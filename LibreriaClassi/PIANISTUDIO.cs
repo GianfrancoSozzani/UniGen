@@ -3,26 +3,30 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace LibreriaClassi
 {
-    internal class FACOLTA
+    internal class PIANISTUDIO
     {
-        public Guid K_Facolta { get; set; }
-        public string TitoloFacolta { get; set; }
+        public Guid K_PianoStudio { get; set; }
+        public Guid K_Corso { get; set; }
+        public Guid K_Esame { get; set; }
+        public string AnnoAccademico { get; set; }
+        public string Obbligatorio { get; set; }
 
-        public FACOLTA()
+
+        public PIANISTUDIO()
         {
-             
+
         }
 
         public void Inserimento()
         {
             DB db = new DB();
             db.query = "";
-            db.cmd.Parameters.AddWithValue("", TitoloFacolta);
+            db.cmd.Parameters.AddWithValue("", AnnoAccademico);
+            db.cmd.Parameters.AddWithValue("", Obbligatorio);
             db.SQLcommand();
         }
 
@@ -33,11 +37,11 @@ namespace LibreriaClassi
             return dB.SQLselect();
         }
 
-        public DataTable SelezionaChiave()
+        public DataTable SelezionaChiavePianoStudio()
         {
             DB db = new DB();
             db.query = "";
-            db.cmd.Parameters.AddWithValue("", K_Facolta);
+            db.cmd.Parameters.AddWithValue("", K_PianoStudio);
             return db.SQLselect();
         }
 
@@ -45,8 +49,9 @@ namespace LibreriaClassi
         {
             DB dB = new DB();
             dB.query = "";
-            dB.cmd.Parameters.AddWithValue("", K_Facolta);
-            dB.cmd.Parameters.AddWithValue("", TitoloFacolta);
+            dB.cmd.Parameters.AddWithValue("", K_PianoStudio);
+            dB.cmd.Parameters.AddWithValue("", AnnoAccademico);
+            dB.cmd.Parameters.AddWithValue("", Obbligatorio);
             dB.SQLcommand();
         }
     }
