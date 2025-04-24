@@ -19,6 +19,9 @@ namespace LibreriaClassi
         public string Risposte { get; set; }
         public string RispostaCorretta { get; set; }
         public string RispostaData { get; set; }
+        /// <summary>
+        /// Codice Test uniqueidentifier per ogni domanda di uno stesso test
+        /// </summary>
         public Guid Codice_Test { get; set; }
 
         public void Inserimento()
