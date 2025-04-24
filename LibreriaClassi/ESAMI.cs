@@ -11,9 +11,10 @@ namespace LibreriaClassi
     /// <summary>
     /// Classe per la gestione degli esami
     /// </summary>
-    internal class ESAMI
+    public class ESAMI
     {
         public Guid K_Esame { get; set; }
+        public Guid K_PianoStudio { get; set; }
         public string TitoloEsame { get; set; }
         public int CFU { get; set; }
         public Guid K_Docente { get; set; }

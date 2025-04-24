@@ -10,7 +10,7 @@ namespace LibreriaClassi
     /// <summary>
     /// Classe per la gestione dei materiali didattici
     /// </summary>
-    internal class MATERIALI
+    public class MATERIALI
     {
         public Guid K_Materiale { get; set; }
         public string Titolo { get; set; }

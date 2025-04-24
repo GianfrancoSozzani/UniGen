@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaClassi
 {
-    internal class OPERATORI
+    public class OPERATORI
     {
         public Guid K_Operatore { get; set; }
         public string USR { get; set; }

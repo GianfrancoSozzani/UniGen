@@ -10,7 +10,7 @@ namespace LibreriaClassi
     /// <summary>
     /// Classe per la gestione delle lezioni.
     /// </summary>
-    internal class LEZIONI
+    public class LEZIONI
     {
         public Guid K_Lezione { get; set; }
         public Guid K_Esame { get; set; }

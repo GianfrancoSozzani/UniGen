@@ -11,14 +11,14 @@ namespace LibreriaClassi
     /// <summary>
     /// Classe per la gestione dei docenti
     /// </summary>
-    internal class DOCENTI
+    public class DOCENTI
     {
 
         public Guid K_Docente { get; set; }
         public string Nome { get; set; }
         public string Cognome { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
+        public string PWD { get; set; }
         public DateTime DataNascita { get; set; }
         public string Indirizzo { get; set; }
         public string CAP { get; set; }
