@@ -25,7 +25,7 @@ namespace Comunicazioni.Controllers
         }
 
         //D D L, da controllare in base a view => comunicazioni => add
-        // dropdown da eventualmente collegare(?)
+        // dropdown da eventualmente collegare(?) RIVEDERE
         public void PopolaDocente()
         {//crea una lista
             IEnumerable<SelectListItem> ListaDocente = dbContext.Docenti.Select(i => new SelectListItem
