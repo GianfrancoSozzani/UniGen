@@ -58,7 +58,7 @@ namespace Comunicazioni.Controllers
                 DataOraComunicazione = viewModel.DataOraComunicazione,
                 Soggetto = viewModel.Soggetto,
                 Testo = viewModel.Testo,
-                K_Studente = viewModel.K_Studente,
+                K_Studente = viewModel.K_Studente, 
                 K_Docente = viewModel.K_Docente,
             };
 
