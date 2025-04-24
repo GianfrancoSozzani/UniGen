@@ -24,12 +24,12 @@ namespace Comunicazioni.Controllers
             return View(comunicazioni);
         }
 
-
+        //D D L, da controllare in base a view => comunicazioni => add
         public void PopolaDocente()
         {//crea una lista
             IEnumerable<SelectListItem> ListaDocente = dbContext.Docenti.Select(i => new SelectListItem
             {
-                Text = i.Nome + " " + i.Cognome, //nel testo descrizione
+                Text = i.Nome + " " + i.Cognome + " - " + i.Email, //nel testo descrizione
                 Value = i.K_Docente.ToString() //nel value l'id
             });
             ViewBag.DocentiList = ListaDocente; //passo alla lista attraverso ViewBag
@@ -39,11 +39,13 @@ namespace Comunicazioni.Controllers
         {//crea una lista
             IEnumerable<SelectListItem> ListaStudente = dbContext.Studenti.Select(i => new SelectListItem
             {
-                Text = i.Nome + " " + i.Cognome, //nel testo descrizione
+                Text = i.Nome + " " + i.Cognome + " - " + i.Email, //nel testo descrizione
                 Value = i.K_Studente.ToString() //nel value l'id
             });
             ViewBag.StudentiList = ListaStudente; //passo alla lista attraverso ViewBag
         }
+        
+
 
         //----------------------------------------------//
         //ADD-------------------------------------------//
