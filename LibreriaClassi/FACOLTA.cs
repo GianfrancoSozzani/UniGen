@@ -26,6 +26,14 @@ namespace LibreriaClassi
             db.SQLcommand();
         }
 
+        public DataTable VerificaDuplicato()
+        {
+            DB dB = new DB();
+            dB.query = "FACOLTA_VerificaDuplicato";
+            dB.cmd.Parameters.AddWithValue("@TitoloFacolta", TitoloFacolta);
+            return dB.SQLselect();
+        }
+
         public DataTable SelezionaTutto()
         {
             DB dB = new DB();
