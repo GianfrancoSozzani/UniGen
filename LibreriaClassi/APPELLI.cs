@@ -10,7 +10,7 @@ namespace LibreriaClassi
     /// <summary>
     /// Classe per la gestione degli appelli
     /// </summary>
-    internal class APPELLI
+    public class APPELLI
     {
 
         public Guid K_Appello { get; set; }
@@ -22,6 +22,7 @@ namespace LibreriaClassi
         /// </summary>
         public char Tipo { get; set; }
         public string Link { get; set; }
+        public DateTime DataOrale { get; set; }
 
         public void Inserimento()
         {

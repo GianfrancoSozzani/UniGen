@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace LibreriaClassi
 {
-    internal class STUDENTI
+    public class STUDENTI
     {
         public Guid K_Studente { get; set; }
         public Guid K_Corso { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
+        public string PWD { get; set; }
         public string Cognome { get; set; }
         public string Nome { get; set; }
         public DateTime DataNascita { get; set; }
@@ -24,7 +24,7 @@ namespace LibreriaClassi
         public string Tipo { get; set; }
         public int Matricola { get; set; }
         public DateTime DataImmatricolazione { get; set; }
-        public string Abilitato { get; set; }
+        public char Abilitato { get; set; }
 
 
         public STUDENTI()
@@ -37,7 +37,7 @@ namespace LibreriaClassi
             DB db = new DB();
             db.query = "";
             db.cmd.Parameters.AddWithValue("", Email);
-            db.cmd.Parameters.AddWithValue("", Password);
+            db.cmd.Parameters.AddWithValue("", PWD);
             db.cmd.Parameters.AddWithValue("", Cognome);
             db.cmd.Parameters.AddWithValue("", Nome);
             db.cmd.Parameters.AddWithValue("", DataNascita);
@@ -56,8 +56,16 @@ namespace LibreriaClassi
         public DataTable SelezionaTutto()
         {
             DB dB = new DB();
-            dB.query = "";
+            dB.query = "Studenti_SelectAll";
             return dB.SQLselect();
+        }
+
+        public DataTable SelezionaPerMatricola()
+        {
+            DB db = new DB();
+            db.query = "";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
         }
 
         public DataTable SelezionaChiaveStudente()
@@ -74,7 +82,7 @@ namespace LibreriaClassi
             dB.query = "";
             dB.cmd.Parameters.AddWithValue("", K_Studente);
             dB.cmd.Parameters.AddWithValue("", Email);
-            dB.cmd.Parameters.AddWithValue("", Password);
+            dB.cmd.Parameters.AddWithValue("", PWD);
             dB.cmd.Parameters.AddWithValue("", Cognome);
             dB.cmd.Parameters.AddWithValue("", Nome);
             dB.cmd.Parameters.AddWithValue("", DataNascita);

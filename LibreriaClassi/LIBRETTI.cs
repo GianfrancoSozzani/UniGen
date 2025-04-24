@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaClassi
 {
-    internal class LIBRETTI
+    public class LIBRETTI
     {
         public Guid K_Libretto { get; set; }
         public Guid K_Studente { get; set; }
@@ -36,7 +36,7 @@ namespace LibreriaClassi
         public DataTable SelezionaTutto()
         {
             DB dB = new DB();
-            dB.query = "";
+            dB.query = "Libretti_SelectAll";
             return dB.SQLselect();
         }
 

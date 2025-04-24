@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaClassi
 {
-    internal class PAGAMENTI
+    public class PAGAMENTI
     {
         public Guid K_Pagamento { get; set; }
         public Guid K_Studente { get; set; }
@@ -17,6 +17,10 @@ namespace LibreriaClassi
         public string Anno { get; set; }
         public DateTime DataPagamento { get; set; }
         public decimal Importo { get; set; }
+        /// <summary>
+        /// Stato del pagamento: P=Pagato, N=Non pagato
+        /// </summary>
+        public char Stato { get; set; }
 
 
         public PAGAMENTI()
@@ -37,7 +41,7 @@ namespace LibreriaClassi
         public DataTable SelezionaTutto()
         {
             DB dB = new DB();
-            dB.query = "";
+            dB.query = "Pagamenti_SelectAll";
             return dB.SQLselect();
         }
 
