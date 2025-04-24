@@ -40,6 +40,11 @@ namespace Comunicazioni.Controllers
             //    return View(comunicazioni);
             //}
             var comunicazioni = await dbContext.Comunicazioni.ToListAsync();
+            foreach (var record in comunicazioni)
+            {
+                record.Studente = dbContext.Studenti.FirstOrDefault(u => u.K_Studente == record.K_Studente);
+                record.Docente = dbContext.Docenti.FirstOrDefault(u => u.K_Docente == record.K_Docente);
+            }
             return View(comunicazioni);
 
         }
