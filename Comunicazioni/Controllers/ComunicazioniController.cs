@@ -14,12 +14,7 @@ namespace Comunicazioni.Controllers
         //----------------------------------------------//
         //LIST------------------------------------------//
         //----------------------------------------------//
-        [HttpGet]
-        public async Task<IActionResult> List()
-        {
-            var comunicazioni = await dbContext.Comunicazioni.ToListAsync();
-            return View(comunicazioni);
-        }
+    
 
     }
 }
