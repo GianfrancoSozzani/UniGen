@@ -2,6 +2,7 @@
 using Comunicazioni.Models;
 using Comunicazioni.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Comunicazioni.Controllers
@@ -21,6 +22,27 @@ namespace Comunicazioni.Controllers
         {
             var comunicazioni = await dbContext.Comunicazioni.ToListAsync();
             return View(comunicazioni);
+        }
+
+
+        public void PopolaDocente()
+        {//crea una lista
+            IEnumerable<SelectListItem> ListaDocente = dbContext.Docenti.Select(i => new SelectListItem
+            {
+                Text = i.Nome + " " + i.Cognome, //nel testo descrizione
+                Value = i.K_Docente.ToString() //nel value l'id
+            });
+            ViewBag.DocentiList = ListaDocente; //passo alla lista attraverso ViewBag
+        }
+
+        public void PopolaStudente()
+        {//crea una lista
+            IEnumerable<SelectListItem> ListaStudente = dbContext.Studenti.Select(i => new SelectListItem
+            {
+                Text = i.Nome + " " + i.Cognome, //nel testo descrizione
+                Value = i.K_Studente.ToString() //nel value l'id
+            });
+            ViewBag.StudentiList = ListaStudente; //passo alla lista attraverso ViewBag
         }
 
         //----------------------------------------------//
