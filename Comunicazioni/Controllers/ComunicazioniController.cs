@@ -43,22 +43,16 @@ namespace Comunicazioni.Controllers
                 K_Docente = viewModel.K_Docente,
             };
 
-            //collegamento tra studenti e facoltà
-            foreach (var riga in comunicazione)
-            {
-                // var (=> quello che io sto cercando) sarà uguale
-                riga.Studente = dbContext.Facolta.FirstOrDefault(u => u.K_Studente == riga.K_Studente); //una join
-                riga.Docente = dbContext.Facolta.FirstOrDefault(u => u.K_Docente == riga.K_Docente); //una join
+            //collegamento tra comunicazioni e studente-docente
+            comunicazione.Studente = dbContext.Studenti.FirstOrDefault(s => s.K_Studente == comunicazione.K_Studente); //una join
+            comunicazione.Docente = dbContext.Docenti.FirstOrDefault(d => d.K_Docente == comunicazione.K_Docente); //una join
 
-            }
-
-            return View(comunicazione);
             await dbContext.Comunicazioni.AddAsync(comunicazione);
             await dbContext.SaveChangesAsync();
             return RedirectToAction("Listcshtml", "Comunicazioni");
         }
    
-        }
+        
 
     }
 }
