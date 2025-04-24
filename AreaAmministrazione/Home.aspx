@@ -40,9 +40,9 @@
         <!-- Sidebar -->
         <nav class="sidebar">
             <h5 class="text-center">Menu</h5>
-            <a href="#"><i class="bi bi-house-door-fill me-2"></i> Home amministrazione</a>
+            <a href="Home.aspx"><i class="bi bi-house-door-fill me-2"></i> Home amministrazione</a>
             <a href="#"><i class="bi bi-person-check-fill"></i> Abilita/disabilita studente</a>
-            <a href="#"><i class="bi bi-mortarboard-fill"></i> Gestione facoltà</a>
+            <a href="Gestione_Facolta.aspx"><i class="bi bi-mortarboard-fill"></i> Gestione facoltà</a>
             <a href="#"><i class="bi bi-clipboard2"></i> Gestione corsi</a>
             <a href="#"><i class="bi bi-book"></i> Gestione Piano Studi</a>
             <a href="#"><i class="bi bi-people-fill"></i> Gestione Docenti</a>
@@ -73,7 +73,7 @@
             <h1>Area amministrazione</h1>
             
             <%-----------------RIEPILOGO STUDENTI ISCRITTI, INCASSO ANNO CORRENTE E CORSI ATTIVI---------------------%>
-            <div class="row">
+            <div class="row mt-5">
     <div class="col-md-4 mb-3">
         <div class="card border-primary shadow-sm">
             <div class="card-body">
@@ -108,6 +108,16 @@
         <a class="btn btn-outline-secondary" href="#"><i class="bi bi-person-plus me-1"></i> Nuovo studente</a>
         <a class="btn btn-outline-success" href="#"><i class="bi bi-file-earmark-arrow-down me-1"></i> Esporta dati</a>
     </div>
+</div>
+
+       
+             <%----------------DOCUMENTI UTILI---------------------%>
+            <div class="mt-5 mb-3 ">
+    <h5>Documenti utili</h5>
+    <ul class="list-group">
+        <li class="list-group-item"><i class="bi bi-file-earmark-pdf me-2 text-danger"></i><a href="resources/Regolamento_Didattico_2025_UniGen.pdf">Regolamento didattico 2025</a></li>
+        <li class="list-group-item"><i class="bi bi-file-earmark-pdf me-2 text-danger"></i><a href="resources/Linee%20guida%20esami.pdf">Linee guida esami</a></li>
+    </ul>
 </div>
 
         </main>
