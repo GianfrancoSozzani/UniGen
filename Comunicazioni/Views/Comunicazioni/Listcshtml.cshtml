@@ -1,5 +1,51 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model List<Comunicazioni.Models.Entities.Comunicazione>
+
+<h1>Comunicazioni</h1>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Codice comunicazione</th>
+			<th>Data e ora</th>
+			<th>Comunicazione</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var comunicazione in Model)
+		{
+			//var testo = "";
+			<tr>
+				<td>
+					@comunicazione.Codice_Comunicazione
+				</td>
+				<td>
+					@comunicazione.DataOraComunicazione
+				</td>
+				<td>
+					<div class="accordion" id="accordionExample">
+						<div class="accordion-item">
+							<h2 class="accordion-header">
+								<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+									Titolo
+								</button>
+							</h2>
+							<div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+								<div class="accordion-body">
+									Campo testo del db
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
+				<td>
+					<button>Pop up</button>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
 
 

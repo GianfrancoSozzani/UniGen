@@ -1,6 +1,7 @@
 ﻿using Comunicazioni.Data;
 using Comunicazioni.Models;
 using Comunicazioni.Models.Entities;
+using LibreriaClassi;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,8 +20,26 @@ namespace Comunicazioni.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            var comunicazioni = await dbContext.Comunicazioni.ToListAsync();
-            return View(comunicazioni);
+            if (amministrazione)
+            {
+
+                var comunicazioni = await dbContext.Comunicazioni.ToListAsync();
+                return View(comunicazioni);
+            }
+
+            if (docente)
+            {
+                var comunicazioni = await dbContext.Comunicazioni.FindAsync(esame);
+                await dbContext.Comunicazioni.ToListAsync();
+                return View(comunicazioni);
+            }
+            else
+            {
+                var comunicazioni = await dbContext.Comunicazioni.FindAsync(corso);
+                await dbContext.Comunicazioni.ToListAsync();
+                return View(comunicazioni);
+            }
+
         }
 
         //----------------------------------------------//
