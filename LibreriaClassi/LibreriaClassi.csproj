@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="COMUNICAZIONI.cs" />
     <Compile Include="CORSI.cs" />
     <Compile Include="APPELLI.cs" />
     <Compile Include="DB.cs" />
