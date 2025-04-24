@@ -49,7 +49,7 @@ public partial class AreaPersonale : System.Web.UI.Page
     {
         DB db = new DB();
         db.cmd.Parameters.AddWithValue("@FacoltaId", Guid.Parse(facoltaId));
-        db.query = "sp_GetCorsiByFacolta";
+        //db.query = "sp_GetCorsiByFacolta";
         DataTable dt = db.SQLselect();
 
         ddlCorsi.DataSource = dt;
@@ -77,7 +77,7 @@ public partial class AreaPersonale : System.Web.UI.Page
         var lezioni = new List<Lezione>();
         DB db = new DB();
         db.cmd.Parameters.AddWithValue("@CorsoId", corsoId);
-        db.query = "sp_GetLezioniByCorso";
+        //db.query = "sp_GetLezioniByCorso";
         DataTable dt = db.SQLselect();
 
         foreach (DataRow row in dt.Rows)
@@ -98,7 +98,7 @@ public partial class AreaPersonale : System.Web.UI.Page
         var materiali = new List<Materiale>();
         DB db = new DB();
         db.cmd.Parameters.AddWithValue("@CorsoId", corsoId);
-        db.query = "sp_GetMaterialiByCorso";
+        //db.query = "sp_GetMaterialiByCorso";
         DataTable dt = db.SQLselect();
 
         foreach (DataRow row in dt.Rows)
