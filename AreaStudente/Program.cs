@@ -1,4 +1,8 @@
 
+using AreaStudente.Data;
+using Microsoft.EntityFrameworkCore;
+
+
 namespace AreaStudente
 {
     public class Program
@@ -14,6 +18,10 @@ namespace AreaStudente
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("UniGenConn")) // Aggiunge il contesto del database al contenitore DI
+             ); // devo preparare qua il meccanismo
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -28,7 +36,9 @@ namespace AreaStudente
             app.UseAuthorization();
 
 
-            app.MapControllers();
+            app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
         }
