@@ -1,0 +1,48 @@
+﻿<form method="post">
+    <div class="container">
+        <div class="bg-white border border-1 border-black rounded-3 p-4 row row-cols-2">
+            <div data-mdb-input-init class="form-outline mb-4 mt-4">
+                <label class="form-label" for="Email">E-Mail:</label>
+                <input type="email" id="Email" class="form-control" readonly />
+            </div>
+            <div data-mdb-input-init class="form-outline mb-4 mt-4">
+                <label class="form-label" for="Nome">Nome:</label>
+                <input id="Nome" class="form-control" required />
+            </div>
+
+            <div data-mdb-input-init class="form-outline mb-4 mt-4">
+                <label class="form-label" for="Indirizzo">Indirizzo:</label>
+                <input id="Indirizzo" class="form-control" required />
+            </div>
+            <div data-mdb-input-init class="form-outline mb-4 mt-4">
+                <label class="form-label" for="Cognome">Cognome:</label>
+                <input id="Cognome" class="form-control" required />
+
+            </div>
+            <div data-mdb-input-init class="form-outline mb-4 mt-4">
+                <label class="form-label" for="Citta">Città:</label>
+                <input id="Citta" class="form-control" required />
+            </div>
+            <div data-mdb-input-init class="form-outline mb-4 mt-4">
+                <label class="form-label" for="Provincia">Provincia:</label>
+                <input id="Provincia" class="form-control" maxlength="2" required />
+            </div>
+            <div data-mdb-input-init class="form-outline mb-4 mt-4">
+                <label class="form-label" for="Password">Password:</label>
+                <input type="password" id="Password" class="form-control" required />
+            </div>
+            <div data-mdb-input-init class="form-outline mb-4 mt-4">
+                <label class="form-label" for="CAP">CAP:</label>
+                <input id="CAP" class="form-control" maxlength="5" required type="number" />
+            </div>
+            <div data-mdb-input-init class="form-outline mb-4 mt-4">
+                <label class="form-label" for="Password">Ripeti Password:</label>
+                <input type="password" id="Password" class="form-control" required />
+            </div>
+            <button type="submit" data-mdb-button-init data-mdb-ripple-init
+                    class="btn btn-primary">
+                Salva
+            </button>
+        </div>
+    </div>
+</form>
