@@ -1,0 +1,17 @@
+﻿@model AreaPubblica.Models.LoginViewModel
+
+<h1>Login Studente</h1>
+
+<form method="post">
+	<div class="mb-3">
+		<label for="username" class="form-label">Username</label>
+		<input type="text" class="form-control" asp-for="username" required>
+	</div>
+	<div class="mb-3">
+		<label for="password" class="form-label">Password</label>
+		<input type="password" class="form-control" asp-for="PWD" required>
+	</div>
+	<button type="submit" class="btn btn-primary">Login</button>
+	<p>Se non sei ancora registrato</p>
+	<a class="btn btn-primary" asp-area="" asp-controller="Login" asp-action="Register">Registrati qui</a>
+</form>

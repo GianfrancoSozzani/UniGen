@@ -1,0 +1,55 @@
+﻿@model AreaPubblica.Models.RegisterViewModel
+
+<h2>Registrazione Studente</h2>
+
+<form asp-action="Register" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label>Email</label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input asp-for="Password" type="password" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Nome</label>
+        <input asp-for="Nome" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Cognome</label>
+        <input asp-for="Cognome" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Data di Nascita</label>
+        <input asp-for="DataNascita" type="date" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Indirizzo</label>
+        <input asp-for="Indirizzo" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>CAP</label>
+        <input asp-for="CAP" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Città</label>
+        <input asp-for="Citta" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Provincia</label>
+        <input asp-for="Provincia" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Tipo</label>
+        <input asp-for="Tipo" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Matricola</label>
+        <input asp-for="Matricola" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Immagine Profilo</label>
+        <input type="file" name="uploadFile" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Registrati</button>
+</form>
