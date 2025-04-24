@@ -8,16 +8,19 @@ using System.Threading.Tasks;
 
 namespace LibreriaClassi
 {
-    internal class PIANISTUDIOPERSONALI
+    public class PIANISTUDIOPERSONALI
     {
         public Guid K_PianoStudioPersonale { get; set; }
         public Guid K_Esame { get; set; }
         public Guid K_Studente { get; set; }
+        /// <summary>
+        /// inteso come anno accademico corrente (es. 2024/2025)
+        /// </summary>
         public string AnnoAccademico { get; set; }
         /// <summary>
         /// è obbligatorio? (S) si (N) no
         /// </summary>
-        public string Obbligatorio { get; set; }
+        public char Obbligatorio { get; set; }
 
 
         public PIANISTUDIOPERSONALI()

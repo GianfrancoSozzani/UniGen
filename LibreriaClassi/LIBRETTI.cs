@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaClassi
 {
-    internal class LIBRETTI
+    public class LIBRETTI
     {
         public Guid K_Libretto { get; set; }
         public Guid K_Studente { get; set; }

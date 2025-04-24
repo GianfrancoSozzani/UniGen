@@ -10,7 +10,7 @@ namespace LibreriaClassi
     /// <summary>
     /// Classe per la gestione delle comunicazioni
     /// </summary>
-    internal class COMUNICAZIONI
+    public class COMUNICAZIONI
     {
         public Guid K_Comunicazione { get; set; }
         /// <summary>

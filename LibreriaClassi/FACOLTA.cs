@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaClassi
 {
-    internal class FACOLTA
+    public class FACOLTA
     {
         public Guid K_Facolta { get; set; }
         public string TitoloFacolta { get; set; }

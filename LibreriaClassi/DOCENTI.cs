@@ -11,14 +11,14 @@ namespace LibreriaClassi
     /// <summary>
     /// Classe per la gestione dei docenti
     /// </summary>
-    internal class DOCENTI
+    public class DOCENTI
     {
 
         public Guid K_Docente { get; set; }
         public string Nome { get; set; }
         public string Cognome { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
+        public string PWD { get; set; }
         public DateTime DataNascita { get; set; }
         public string Indirizzo { get; set; }
         public string CAP { get; set; }
@@ -48,7 +48,7 @@ namespace LibreriaClassi
             dB.cmd.Parameters.AddWithValue("", Nome);
             dB.cmd.Parameters.AddWithValue("", Cognome);
             dB.cmd.Parameters.AddWithValue("", Email);
-            dB.cmd.Parameters.AddWithValue("", Password);
+            dB.cmd.Parameters.AddWithValue("", PWD);
             dB.cmd.Parameters.AddWithValue("", DataNascita);
             dB.cmd.Parameters.AddWithValue("", Indirizzo);
             dB.cmd.Parameters.AddWithValue("", CAP);
@@ -84,7 +84,7 @@ namespace LibreriaClassi
             dB.cmd.Parameters.AddWithValue("@Nome", Nome);
             dB.cmd.Parameters.AddWithValue("@Cognome", Cognome);
             dB.cmd.Parameters.AddWithValue("@Email", Email);
-            dB.cmd.Parameters.AddWithValue("@Password", Password);
+            dB.cmd.Parameters.AddWithValue("@Password", PWD);
             dB.cmd.Parameters.AddWithValue("@DataNascita", DataNascita);
             dB.cmd.Parameters.AddWithValue("@Indirizzo", Indirizzo);
             dB.cmd.Parameters.AddWithValue("@CAP", CAP);

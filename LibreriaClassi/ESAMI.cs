@@ -11,9 +11,10 @@ namespace LibreriaClassi
     /// <summary>
     /// Classe per la gestione degli esami
     /// </summary>
-    internal class ESAMI
+    public class ESAMI
     {
         public Guid K_Esame { get; set; }
+        public Guid K_PianoStudio { get; set; }
         public string TitoloEsame { get; set; }
         public int CFU { get; set; }
         public Guid K_Docente { get; set; }
@@ -24,6 +25,7 @@ namespace LibreriaClassi
             DB dB = new DB();
             dB.query = "";
             dB.cmd.Parameters.AddWithValue("", TitoloEsame);
+            dB.cmd.Parameters.AddWithValue("", K_PianoStudio);
             dB.cmd.Parameters.AddWithValue("", CFU);
             dB.cmd.Parameters.AddWithValue("", K_Docente);
             dB.SQLcommand();
@@ -49,6 +51,7 @@ namespace LibreriaClassi
             DB dB = new DB();
             dB.query = "";
             dB.cmd.Parameters.AddWithValue("", K_Esame);
+            dB.cmd.Parameters.AddWithValue("", K_PianoStudio);
             dB.cmd.Parameters.AddWithValue("", TitoloEsame);
             dB.cmd.Parameters.AddWithValue("", CFU);
             dB.cmd.Parameters.AddWithValue("", K_Docente);

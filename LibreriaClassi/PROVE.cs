@@ -10,7 +10,7 @@ namespace LibreriaClassi
     /// <summary>
     /// Classe per la gestione delle prove
     /// </summary>
-    internal class PROVE
+    public class PROVE
     {
         public Guid K_Prova { get; set; }
         public Guid K_Appello { get; set; }
