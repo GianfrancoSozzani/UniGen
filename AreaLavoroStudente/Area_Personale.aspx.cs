@@ -16,7 +16,7 @@ public partial class AreaPersonale : System.Web.UI.Page
         }
     }
 
-    // Carica le facoltà usando la classe DB e la stored procedure sp_GetFacolta
+    // Carica le facoltà usando la classe DB e la stored procedure 
     private void CaricaFacolta()
     {
         DB db = new DB();
