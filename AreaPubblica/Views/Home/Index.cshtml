@@ -1,8 +1,91 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<header>
+
+	<div class="container mt-3 mb-4">
+		<div class="">
+
+
+
+			<div id="carouselExampleIndicators" class="carousel slide position-relative" data-bs-ride="carousel">
+
+				<!-- SCRITTA FISSA CENTRATA -->
+
+				<div class="carousel-indicators">
+					<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></button>
+					<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></button>
+					<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></button>
+				</div>
+
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<img src="~/Sources/Image20250424100652.gif" class="d-block w-100" alt="GIF animata">
+					</div>
+					<div class="carousel-item">
+						<img src="~/Sources/Image20250424100701.gif" class="d-block w-100" alt="GIF animata">
+					</div>
+					<div class="carousel-item">
+						<div class="position-absolute top-50 start-50 translate-middle text-white text-center z-3">
+							<h2 class="fw-bold">La conoscenza rende liberi</h2>
+						</div>
+						<img src="~/Sources/Image20250424103740.gif" class="d-block w-100" alt="GIF animata">
+					</div>
+				</div>
+
+				<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon"></span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+					<span class="carousel-control-next-icon"></span>
+				</button>
+
+			</div>
+
+
+		</div>
+	</div>
+</header>
+<main>
+	<div class="d-flex flex-row justify-content-around">
+
+
+		<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
+			<img src="~/Sources/esamiedocentiUNIGEN.png" class="card-img-top" alt="...">
+			<div class="card-body">
+				<p class="fw-bold">Esamni e Docendi</p>
+				<p class="card-text">Consulta informazioni su esami, modalità di svolgimento, programmi e contatti dei docenti per ogni insegnamento.</p>
+			</div>
+		</div>
+
+
+		<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
+			<img src="~/Sources/corsostudiUNIGEN.png" class="card-img-top" alt="...">
+			<div class="card-body">
+				<p class="fw-bold">Corsi Studio</p>
+				<p class="card-text">Scopri l’offerta formativa completa: corsi triennali, magistrali e a ciclo unico, pensati per accompagnarti nel tuo percorso universitario.</p>
+			</div>
+		</div>
+
+
+
+		<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
+			<img src="~/Sources/calendarioUNIGENpng.png" class="card-img-top" alt="...">
+			<div class="card-body">
+				<p class="fw-bold">Calendario</p>
+				<p class="card-text">Consulta le date importanti dell’anno universitario: inizio lezioni, sessioni d’esame, scadenze e periodi di vacanza.</p>
+			</div>
+		</div>
+
+
+
+		<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
+			<img src="~/Sources/faqUNIGEN.png" class="card-img-top" alt="...">
+			<div class="card-body">
+				<p class="fw-bold">FAQ</p>
+				<p class="card-text">Hai dubbi? Trova rapidamente le risposte alle domande più frequenti su immatricolazioni, tasse, esami e molto altro.</p>
+			</div>
+		</div>
+	</div>
+</main>
