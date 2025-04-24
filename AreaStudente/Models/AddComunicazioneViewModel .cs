@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using AreaStudente.Models.Entities;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AreaStudente.Models.Entities
+namespace AreaStudente.Models
 {
-    public class Comunicazione
+    public class AddComunicazioneViewModel
     {
         [Key]
         public Guid K_Comunicazione { get; set; }
@@ -19,6 +20,9 @@ namespace AreaStudente.Models.Entities
         public string? Testo { get; set; }
         public Guid? K_Studente { get; set; } = null;
         public Guid? K_Docente { get; set; }
-
+        [ForeignKey("K_Docente")]
+        [ValidateNever]
+        public Docente? NomeDocente { get; set; }
+        public Docente? CognomeDocente { get; set; }
     }
 }
