@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Comunicazioni.Models.Entities
 {
-    public class Esami
+    public class Esame
     {
         [Key]
         public Guid K_Esame { get; set; }
