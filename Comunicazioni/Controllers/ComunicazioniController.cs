@@ -20,25 +20,27 @@ namespace Comunicazioni.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            if (amministrazione)
-            {
+            //if (amministrazione)
+            //{
 
-                var comunicazioni = await dbContext.Comunicazioni.ToListAsync();
-                return View(comunicazioni);
-            }
+            //    var comunicazioni = await dbContext.Comunicazioni.ToListAsync();
+            //    return View(comunicazioni);
+            //}
 
-            if (docente)
-            {
-                var comunicazioni = await dbContext.Comunicazioni.FindAsync(esame);
-                await dbContext.Comunicazioni.ToListAsync();
-                return View(comunicazioni);
-            }
-            else
-            {
-                var comunicazioni = await dbContext.Comunicazioni.FindAsync(corso);
-                await dbContext.Comunicazioni.ToListAsync();
-                return View(comunicazioni);
-            }
+            //if (docente)
+            //{
+            //    var comunicazioni = await dbContext.Comunicazioni.FindAsync(esame);
+            //    await dbContext.Comunicazioni.ToListAsync();
+            //    return View(comunicazioni);
+            //}
+            //else
+            //{
+            //    var comunicazioni = await dbContext.Comunicazioni.FindAsync(corso);
+            //    await dbContext.Comunicazioni.ToListAsync();
+            //    return View(comunicazioni);
+            //}
+            var comunicazioni = await dbContext.Comunicazioni.ToListAsync();
+            return View(comunicazioni);
 
         }
 
