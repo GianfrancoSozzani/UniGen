@@ -23,41 +23,41 @@ namespace LibreriaClassi
         public char Tipo { get; set; }
         public string Link { get; set; }
 
-        public void Inserimento()
-        {
-            DB dB = new DB();
-            dB.query = "APPELLI_Inserimento";
-            dB.cmd.Parameters.AddWithValue("@K_Esame", K_Esame);
-            dB.cmd.Parameters.AddWithValue("@DataAppello", DataAppello);
-            dB.cmd.Parameters.AddWithValue("@DataVerbalizzazione", DataVerbalizzazione);
-            dB.cmd.Parameters.AddWithValue("@Tipo", Tipo);
-            dB.cmd.Parameters.AddWithValue("@Link", Link);
-            dB.SQLcommand();
-        }
-        public void Modifica()
-        {
-            DB dB = new DB();
-            dB.query = "APPELLI_Modifica";
-            dB.cmd.Parameters.AddWithValue("@K_Appello", K_Appello);
-            dB.cmd.Parameters.AddWithValue("@K_Esame", K_Esame);
-            dB.cmd.Parameters.AddWithValue("@DataAppello", DataAppello);
-            dB.cmd.Parameters.AddWithValue("@DataVerbalizzazione", DataVerbalizzazione);
-            dB.cmd.Parameters.AddWithValue("@Tipo", Tipo);
-            dB.cmd.Parameters.AddWithValue("@Link", Link);
-            dB.SQLcommand();
-        }
-        public DataTable SelezionaTutto()
-        {
-            DB dB = new DB();
-            dB.query = "APPELLI_SelezionaTutto";
-            return dB.SQLselect();
-        }
-        public DataTable SelezionaChiave()
-        {
-            DB dB = new DB();
-            dB.query = "APPELLI_SelezionaChiave";
-            dB.cmd.Parameters.AddWithValue("@K_Appello", K_Appello);
-            return dB.SQLselect();
-        }
-    }
+    //    public void Inserimento()                                     //GESTIONE APPELLI TRAMITE API
+    //    {
+    //        DB dB = new DB();
+    //        dB.query = "APPELLI_Inserimento";
+    //        dB.cmd.Parameters.AddWithValue("@K_Esame", K_Esame);
+    //        dB.cmd.Parameters.AddWithValue("@DataAppello", DataAppello);
+    //        dB.cmd.Parameters.AddWithValue("@DataVerbalizzazione", DataVerbalizzazione);
+    //        dB.cmd.Parameters.AddWithValue("@Tipo", Tipo);
+    //        dB.cmd.Parameters.AddWithValue("@Link", Link);
+    //        dB.SQLcommand();
+    //    }
+    //    public void Modifica()
+    //    {
+    //        DB dB = new DB();
+    //        dB.query = "APPELLI_Modifica";
+    //        dB.cmd.Parameters.AddWithValue("@K_Appello", K_Appello);
+    //        dB.cmd.Parameters.AddWithValue("@K_Esame", K_Esame);
+    //        dB.cmd.Parameters.AddWithValue("@DataAppello", DataAppello);
+    //        dB.cmd.Parameters.AddWithValue("@DataVerbalizzazione", DataVerbalizzazione);
+    //        dB.cmd.Parameters.AddWithValue("@Tipo", Tipo);
+    //        dB.cmd.Parameters.AddWithValue("@Link", Link);
+    //        dB.SQLcommand();
+    //    }
+    //    public DataTable SelezionaTutto()
+    //    {
+    //        DB dB = new DB();
+    //        dB.query = "APPELLI_SelezionaTutto";
+    //        return dB.SQLselect();
+    //    }
+    //    public DataTable SelezionaChiave()
+    //    {
+    //        DB dB = new DB();
+    //        dB.query = "APPELLI_SelezionaChiave";
+    //        dB.cmd.Parameters.AddWithValue("@K_Appello", K_Appello);
+    //        return dB.SQLselect();
+    //    }
+    //}
 }

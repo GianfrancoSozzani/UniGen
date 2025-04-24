@@ -19,15 +19,15 @@ namespace LibreriaClassi
         public Guid K_Docente { get; set; }
 
 
-        public void Inserimento()
-        {
-            DB dB = new DB();
-            dB.query = "";
-            dB.cmd.Parameters.AddWithValue("", TitoloEsame);
-            dB.cmd.Parameters.AddWithValue("", CFU);
-            dB.cmd.Parameters.AddWithValue("", K_Docente);
-            dB.SQLcommand();
-        }
+        //public void Inserimento()     //Inserimento tramite API
+        //{
+        //    DB dB = new DB();
+        //    dB.query = "";
+        //    dB.cmd.Parameters.AddWithValue("", TitoloEsame);
+        //    dB.cmd.Parameters.AddWithValue("", CFU);
+        //    dB.cmd.Parameters.AddWithValue("", K_Docente);
+        //    dB.SQLcommand();
+        //}
 
         public DataTable SelezionaTutto()
         {
@@ -44,21 +44,29 @@ namespace LibreriaClassi
             return dB.SQLselect();
         }
 
-        public void Modifica()
-        {
-            DB dB = new DB();
-            dB.query = "";
-            dB.cmd.Parameters.AddWithValue("", K_Esame);
-            dB.cmd.Parameters.AddWithValue("", TitoloEsame);
-            dB.cmd.Parameters.AddWithValue("", CFU);
-            dB.cmd.Parameters.AddWithValue("", K_Docente);
-            dB.SQLcommand();
-        }
+        //public void Modifica()        //Gestione tramite API
+        //{
+        //    DB dB = new DB();
+        //    dB.query = "";
+        //    dB.cmd.Parameters.AddWithValue("", K_Esame);
+        //    dB.cmd.Parameters.AddWithValue("", TitoloEsame);
+        //    dB.cmd.Parameters.AddWithValue("", CFU);
+        //    dB.cmd.Parameters.AddWithValue("", K_Docente);
+        //    dB.SQLcommand();
+        //}
         public DataTable SelezionaChiave()
         {
             DB dB = new DB();
-            dB.query = "";
-            dB.cmd.Parameters.AddWithValue("", K_Esame);
+            dB.query = "Esami_FindByKey";
+            dB.cmd.Parameters.AddWithValue("@chiave", K_Esame);
+            return dB.SQLselect();
+        }
+
+        public DataTable SelezionaPerCorso(string Corso)
+        {
+            DB dB = new DB();
+            dB.query = "Esami_FindByCorso";
+            dB.cmd.Parameters.AddWithValue("@Corso", Corso);
             return dB.SQLselect();
         }
 
