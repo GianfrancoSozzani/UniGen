@@ -21,6 +21,5 @@ namespace Comunicazioni.Models.Entities
         [ValidateNever]
         public Docente? Docente{ get; set; }
 
-
     }
 }
