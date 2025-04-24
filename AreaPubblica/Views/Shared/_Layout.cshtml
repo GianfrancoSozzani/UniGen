@@ -7,40 +7,137 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AreaPubblica.styles.css" asp-append-version="true" />
+
+    <style>
+        .navbar-custom {
+            background-color: #12304F;
+        }
+
+            .navbar-custom .nav-link,
+            .navbar-custom .navbar-brand {
+                color: white !important;
+            }
+
+        .dropdown-menu > li:hover > .dropdown-submenu {
+            display: block;
+        }
+    </style>
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AreaPubblica</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <div class="bg-black pb-1">
+        <div class="container d-flex flex-column">
+            <div class="d-flex justify-content-end mb-2 mt-1">
+                <!-- Pulsanti in alto a destra -->
+                <div class="d-flex gap-2">
+                    <a href="#" class="btn btn-light btn-sm"><i class="bi bi-envelope"></i> Webmail</a>
+                    <a href="#" class="btn btn-light btn-sm"><i class="bi bi-person-circle"></i> Area riservata</a>
                 </div>
             </div>
-        </nav>
+
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <div>
+                    <a href="#"><img src="~/css/resources/logo.png" height="50px"></a>
+                </div>
+
+                <div>
+                    <p class="fs-4 text-white m-0">Fatti non foste a viver come bruti</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <header>
+        <div class="sticky-top">
+            <nav class="navbar navbar-expand-lg navbar-custom">
+                <div class="container">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Offerta Formativa
+                                </a>
+                                <ul class="dropdown-menu">
+
+                                    <li class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Piano di studi
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-submenu">
+                                            <li><a class="dropdown-item" href="#">Programma</a></li>
+                                            <li><a class="dropdown-item" href="#">Esami e docenti</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Offerta Formativa
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Calendario Accademico</a></li>
+                                    <li><a class="dropdown-item" href="#">Sedute di laurea</a></li>
+                                </ul>
+
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Contatti</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Come Funziona</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">FAQ</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Privacy</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - AreaPubblica - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer>
+        <div class="bg-dark text-white h-100">
+            <div class="container d-flex justify-content-between align-items-end flex-wrap">
+                <div>
+                    <img src="https://italy.generation.org/wp-content/uploads/2019/05/Generation_Italy_logo_WHITE.svg" alt="Logo UNIGen" class="img-fluid my-3" width="150px">
+                    <p class="fs-4 ms-4 mb-0">Università UNIGen</p>
+                    <p class="fs-6">Milano, Milano, MI 20100, IT</p>
+                </div>
+                <div>
+                    <p class="fs-6">© 2024 Generation: You Employed, Inc.</p>
+                </div>
+                <div>
+                    <p class="fs-5 mb-1">Chi Siamo</p>
+                    <ul class="list-unstyled ms-3">
+                        <li><a href="#" class="text-white">Contatti</a></li>
+                        <li><a href="#" class="text-white">Come Funziona</a></li>
+                        <li><a href="#" class="text-white">FAQ</a></li>
+                        <li><a href="#" class="text-white">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
