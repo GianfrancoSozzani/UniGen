@@ -56,8 +56,16 @@ namespace LibreriaClassi
         public DataTable SelezionaTutto()
         {
             DB dB = new DB();
-            dB.query = "";
+            dB.query = "Studenti_SelectAll";
             return dB.SQLselect();
+        }
+
+        public DataTable SelezionaPerMatricola()
+        {
+            DB db = new DB();
+            db.query = "";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
         }
 
         public DataTable SelezionaChiaveStudente()

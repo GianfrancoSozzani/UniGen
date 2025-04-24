@@ -29,7 +29,7 @@ namespace LibreriaClassi
         public DataTable SelezionaTutto()
         {
             DB dB = new DB();
-            dB.query = "";
+            dB.query = "Facolta_SelectAll";
             return dB.SQLselect();
         }
 
@@ -38,6 +38,14 @@ namespace LibreriaClassi
             DB db = new DB();
             db.query = "";
             db.cmd.Parameters.AddWithValue("", K_Facolta);
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaPerNome()
+        {
+            DB db = new DB();
+            db.query = "Facolta_FindByNome";
+            db.cmd.Parameters.AddWithValue("@Nome", TitoloFacolta);
             return db.SQLselect();
         }
 

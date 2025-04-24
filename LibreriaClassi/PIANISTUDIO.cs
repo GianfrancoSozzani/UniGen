@@ -33,7 +33,7 @@ namespace LibreriaClassi
         public DataTable SelezionaTutto()
         {
             DB dB = new DB();
-            dB.query = "";
+            dB.query = "PianiStudio_SelectAll";
             return dB.SQLselect();
         }
 

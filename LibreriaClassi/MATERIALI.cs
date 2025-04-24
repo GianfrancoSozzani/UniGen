@@ -30,35 +30,42 @@ namespace LibreriaClassi
         public void Inserimento()
         {
             DB dB = new DB();
-            dB.query = "MATERIALI_Inserimento";
-            dB.cmd.Parameters.AddWithValue("@Titolo", Titolo);
-            dB.cmd.Parameters.AddWithValue("@Materiale", Materiale);
-            dB.cmd.Parameters.AddWithValue("@Tipo", Tipo);
-            dB.cmd.Parameters.AddWithValue("@K_Esame", K_Esame);
+            dB.query = "";
+            dB.cmd.Parameters.AddWithValue("", Titolo);
+            dB.cmd.Parameters.AddWithValue("", Materiale);
+            dB.cmd.Parameters.AddWithValue("", Tipo);
+            dB.cmd.Parameters.AddWithValue("", K_Esame);
             dB.SQLcommand();
         }
         public DataTable SelezionaTutto()
         {
             DB dB = new DB();
-            dB.query = "MATERIALI_SelezionaTutto";
+            dB.query = "Materiali_SelectAll";
+            return dB.SQLselect();
+        }
+        public DataTable SelezionaPerNome()
+        {
+            DB dB = new DB();
+            dB.query = "Materiali_FindByNome";
+            dB.cmd.Parameters.AddWithValue("@Nome", Titolo);
             return dB.SQLselect();
         }
         public void Modifica()
         {
             DB dB = new DB();
-            dB.query = "MATERIALI_Modifica";
-            dB.cmd.Parameters.AddWithValue("@K_Materiale", K_Materiale);
-            dB.cmd.Parameters.AddWithValue("@Titolo", Titolo);
-            dB.cmd.Parameters.AddWithValue("@Materiale", Materiale);
-            dB.cmd.Parameters.AddWithValue("@Tipo", Tipo);
-            dB.cmd.Parameters.AddWithValue("@K_Esame", K_Esame);
+            dB.query = "";
+            dB.cmd.Parameters.AddWithValue("", K_Materiale);
+            dB.cmd.Parameters.AddWithValue("", Titolo);
+            dB.cmd.Parameters.AddWithValue("", Materiale);
+            dB.cmd.Parameters.AddWithValue("", Tipo);
+            dB.cmd.Parameters.AddWithValue("", K_Esame);
             dB.SQLcommand();
         }
         public DataTable SelezionaChiave()
         {
             DB dB = new DB();
-            dB.query = "MATERIALI_SelezionaChiave";
-            dB.cmd.Parameters.AddWithValue("@K_Materiale", K_Materiale);
+            dB.query = "";
+            dB.cmd.Parameters.AddWithValue("", K_Materiale);
             return dB.SQLselect();
         }
     }

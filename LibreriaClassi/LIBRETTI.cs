@@ -36,7 +36,7 @@ namespace LibreriaClassi
         public DataTable SelezionaTutto()
         {
             DB dB = new DB();
-            dB.query = "";
+            dB.query = "Libretti_SelectAll";
             return dB.SQLselect();
         }
 

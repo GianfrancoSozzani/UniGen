@@ -44,19 +44,19 @@ namespace LibreriaClassi
         public void Inserimento()
         {
             DB dB = new DB();
-            dB.query = "DOCENTI_Inserimento";
-            dB.cmd.Parameters.AddWithValue("@Nome", Nome);
-            dB.cmd.Parameters.AddWithValue("@Cognome", Cognome);
-            dB.cmd.Parameters.AddWithValue("@Email", Email);
-            dB.cmd.Parameters.AddWithValue("@Password", Password);
-            dB.cmd.Parameters.AddWithValue("@DataNascita", DataNascita);
-            dB.cmd.Parameters.AddWithValue("@Indirizzo", Indirizzo);
-            dB.cmd.Parameters.AddWithValue("@CAP", CAP);
-            dB.cmd.Parameters.AddWithValue("@Citta", Citta);
-            dB.cmd.Parameters.AddWithValue("@ImmagineProfilo", ImmagineProfilo);
-            dB.cmd.Parameters.AddWithValue("@Tipo", Tipo);
-            dB.cmd.Parameters.AddWithValue("@DataRegistrazione", DataRegistrazione);
-            dB.cmd.Parameters.AddWithValue("@Abilitato", Abilitato);
+            dB.query = "";
+            dB.cmd.Parameters.AddWithValue("", Nome);
+            dB.cmd.Parameters.AddWithValue("", Cognome);
+            dB.cmd.Parameters.AddWithValue("", Email);
+            dB.cmd.Parameters.AddWithValue("", Password);
+            dB.cmd.Parameters.AddWithValue("", DataNascita);
+            dB.cmd.Parameters.AddWithValue("", Indirizzo);
+            dB.cmd.Parameters.AddWithValue("", CAP);
+            dB.cmd.Parameters.AddWithValue("", Citta);
+            dB.cmd.Parameters.AddWithValue("", ImmagineProfilo);
+            dB.cmd.Parameters.AddWithValue("", Tipo);
+            dB.cmd.Parameters.AddWithValue("", DataRegistrazione);
+            dB.cmd.Parameters.AddWithValue("", Abilitato);
 
 
             dB.SQLcommand();
@@ -64,7 +64,16 @@ namespace LibreriaClassi
         public DataTable SelezionaTutto()
         {
             DB dB = new DB();
-            dB.query = "DOCENTI_SelezionaTutto";
+            dB.query = "Docenti_SelectAll";
+            return dB.SQLselect();
+        }
+
+        public DataTable SelezionaPerCognomeNome()
+        {
+            DB dB = new DB();
+            dB.query = "Docenti_FindByCognomeNome";
+            dB.cmd.Parameters.AddWithValue("@Cognome", Cognome);
+            dB.cmd.Parameters.AddWithValue("@Nome", Nome);
             return dB.SQLselect();
         }
 

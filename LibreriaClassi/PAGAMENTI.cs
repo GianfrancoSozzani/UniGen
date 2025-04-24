@@ -37,7 +37,7 @@ namespace LibreriaClassi
         public DataTable SelezionaTutto()
         {
             DB dB = new DB();
-            dB.query = "";
+            dB.query = "Pagamenti_SelectAll";
             return dB.SQLselect();
         }
 
