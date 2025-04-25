@@ -12,12 +12,12 @@ namespace Comunicazioni.Models.Entities
         public DateTime DataOraComunicazione { get; set; }
         public string? Soggetto { get; set; }
         public string? Testo { get; set; }
-        public Guid K_Studente { get; set; }
+        public Guid? K_Studente { get; set; }
         [ForeignKey("K_Studente")]
         [ValidateNever]
         public Studente? Studente { get; set; }
-        public Guid K_Docente { get; set; }
-        [ForeignKey("K_Studente")]
+        public Guid? K_Docente { get; set; }
+        [ForeignKey("K_Docente")]
         [ValidateNever]
         public Docente? Docente{ get; set; }
 

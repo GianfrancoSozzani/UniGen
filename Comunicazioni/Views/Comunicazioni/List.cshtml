@@ -8,44 +8,50 @@
 	<thead>
 		<tr>
 			<th>Codice comunicazione</th>
-			<th>Data e ora</th>
+			<th>Mittente</th>
+			<th>Ruolo</th>
 			<th>Comunicazione</th>
-			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		@foreach (var comunicazione in Model)
 		{
-			//var testo = "";
 			<tr>
 				<td>
 					@comunicazione.Codice_Comunicazione
 				</td>
 				<td>
-					@comunicazione.DataOraComunicazione
+					@if (comunicazione.K_Docente != null && comunicazione.K_Studente == null)
+					{
+						@($"{comunicazione.Docente.Nome} {comunicazione.Docente.Cognome}")
+					}
+					else if (comunicazione.K_Studente != null && comunicazione.K_Docente == null)
+					{
+						@($"{comunicazione.Studente.Nome} {comunicazione.Studente.Cognome}")
+					}
+					else if (comunicazione.K_Docente == null && comunicazione.K_Studente == null)
+					{
+						@:("Amministrazione")
+					}
 				</td>
+				<td>@comunicazione.Soggetto</td>
 				<td>
 					<div class="accordion" id="accordionExample">
 						<div class="accordion-item">
 							<h2 class="accordion-header">
 								<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-									Titolo
+								@* qui deve finire il titolo della comunicazione *@
 								</button>
 							</h2>
 							<div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
 								<div class="accordion-body">
-									Campo testo del db
+									@comunicazione.Testo
 								</div>
 							</div>
 						</div>
 					</div>
 				</td>
-				<td>
-					<button>Pop up</button>
-				</td>
 			</tr>
 		}
 	</tbody>
 </table>
-
-
