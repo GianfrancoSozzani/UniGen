@@ -20,7 +20,5 @@ namespace Comunicazioni.Models.Entities
         [ForeignKey("K_Docente")]
         [ValidateNever]
         public Docente? Docente{ get; set; }
-
-
     }
 }

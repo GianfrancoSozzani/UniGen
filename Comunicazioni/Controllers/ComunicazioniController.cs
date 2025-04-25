@@ -36,6 +36,19 @@ namespace Comunicazioni.Controllers
             return View(comunicazioni);
         }
 
+        //D D L, da controllare in base a view => comunicazioni => add
+        // dropdown da eventualmente collegare(?) RIVEDERE
+        public void PopolaEsami()
+        {//crea una lista
+            IEnumerable<SelectListItem> ListaEsami = dbContext.Esami.Select(i => new SelectListItem
+            {
+                Text = i.TitoloEsame, //nel testo descrizione
+                Value = i.K_Esame.ToString() //nel value l'id
+            });
+            ViewBag.EsamiList = ListaEsami; //passo alla lista attraverso ViewBag
+        }
+
+
         //----------------------------------------------//
         //ADD-------------------------------------------//
         //----------------------------------------------//
@@ -63,10 +76,8 @@ namespace Comunicazioni.Controllers
                 DataOraComunicazione = viewModel.DataOraComunicazione,
                 Soggetto = viewModel.Soggetto,
                 Testo = viewModel.Testo,
-                K_Studente = viewModel.K_Studente,
-                K_Docente = viewModel.K_Docente,
             };
-
+            
             //collegamento tra comunicazioni e studente-docente
             comunicazione.Studente = dbContext.Studenti.FirstOrDefault(s => s.K_Studente == comunicazione.K_Studente); //una join
             comunicazione.Docente = dbContext.Docenti.FirstOrDefault(d => d.K_Docente == comunicazione.K_Docente); //una join
