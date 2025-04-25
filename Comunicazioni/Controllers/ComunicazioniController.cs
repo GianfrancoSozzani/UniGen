@@ -1,7 +1,9 @@
 ﻿using Comunicazioni.Data;
 using Comunicazioni.Models;
 using Comunicazioni.Models.Entities;
+using LibreriaClassi;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Comunicazioni.Controllers
@@ -11,7 +13,7 @@ namespace Comunicazioni.Controllers
         private readonly ApplicationDbContext dbContext;
         public ComunicazioniController(ApplicationDbContext dbContext)
         {
-            this.dbContext = dbContext;
+            this.dbContext = dbContext; 
         }
         //----------------------------------------------//
         //LIST------------------------------------------//
@@ -19,16 +21,38 @@ namespace Comunicazioni.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            var comunicazioni = await dbContext.Comunicazioni.ToListAsync();
+            //Test lista
+            
+            //var comunicazioni = await dbContext.Comunicazioni.ToListAsync();
+            //foreach (var record in comunicazioni)
+            //{
+            //    record.Studente = dbContext.Studenti.FirstOrDefault(u => u.K_Studente == record.K_Studente);
+            //    record.Docente = dbContext.Docenti.FirstOrDefault(u => u.K_Docente == record.K_Docente);
+            //}
+            var comunicazioni = await dbContext.Comunicazioni
+                .Include(c => c.Studente)
+                .Include(c => c.Docente)
+                .ToListAsync();
             return View(comunicazioni);
         }
 
         //----------------------------------------------//
         //ADD-------------------------------------------//
         //----------------------------------------------//
+        public void PopolaEsami()
+        {
+            IEnumerable<SelectListItem> listaEsami = dbContext.Esami.Select(i => new SelectListItem
+            {
+                Text = i.TitoloEsame,
+                Value = i.K_Esame.ToString()
+            });
+            ViewBag.EsamiList = listaEsami;
+        }
+
         [HttpGet] //visualizzo i dati
         public IActionResult Add()
         {
+            PopolaEsami();
             return View();
         }
         [HttpPost]  //ricevo i dati dalla lista ed inserisco nel db
@@ -49,7 +73,7 @@ namespace Comunicazioni.Controllers
 
             await dbContext.Comunicazioni.AddAsync(comunicazione);
             await dbContext.SaveChangesAsync();
-            return RedirectToAction("Listcshtml", "Comunicazioni");
+            return RedirectToAction("List", "Comunicazioni");
         }
     }
 }

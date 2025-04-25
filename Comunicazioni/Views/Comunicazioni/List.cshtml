@@ -1,0 +1,57 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<Comunicazioni.Models.Entities.Comunicazione>
+
+<h1>Comunicazioni</h1>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Codice comunicazione</th>
+			<th>Mittente</th>
+			<th>Ruolo</th>
+			<th>Comunicazione</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var comunicazione in Model)
+		{
+			<tr>
+				<td>
+					@comunicazione.Codice_Comunicazione
+				</td>
+				<td>
+					@if (comunicazione.K_Docente != null && comunicazione.K_Studente == null)
+					{
+						@($"{comunicazione.Docente.Nome} {comunicazione.Docente.Cognome}")
+					}
+					else if (comunicazione.K_Studente != null && comunicazione.K_Docente == null)
+					{
+						@($"{comunicazione.Studente.Nome} {comunicazione.Studente.Cognome}")
+					}
+					else if (comunicazione.K_Docente == null && comunicazione.K_Studente == null)
+					{
+						@:("Amministrazione")
+					}
+				</td>
+				<td>@comunicazione.Soggetto</td>
+				<td>
+					<div class="accordion" id="accordionExample">
+						<div class="accordion-item">
+							<h2 class="accordion-header">
+								<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+								@* qui deve finire il titolo della comunicazione *@
+								</button>
+							</h2>
+							<div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+								<div class="accordion-body">
+									@comunicazione.Testo
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
