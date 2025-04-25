@@ -26,7 +26,7 @@ namespace Comunicazioni.Controllers
 
         //D D L, da controllare in base a view => comunicazioni => add
         // dropdown da eventualmente collegare(?) RIVEDERE
-        public void PopolaEsame()
+        public void PopolaEsami()
         {//crea una lista
             IEnumerable<SelectListItem> ListaEsami = dbContext.Esami.Select(i => new SelectListItem
             {
@@ -43,6 +43,7 @@ namespace Comunicazioni.Controllers
         [HttpGet] //visualizzo i dati
         public IActionResult Add()
         {
+            PopolaEsami();
             return View();
         }
         [HttpPost]  //ricevo i dati dalla lista ed inserisco nel db
