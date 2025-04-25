@@ -12,7 +12,7 @@ namespace Comunicazioni.Controllers
         private readonly ApplicationDbContext dbContext;
         public ComunicazioniController(ApplicationDbContext dbContext)
         {
-            this.dbContext = dbContext;
+            this.dbContext = dbContext; 
         }
     }
 }
