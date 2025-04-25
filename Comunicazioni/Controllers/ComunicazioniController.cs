@@ -35,20 +35,7 @@ namespace Comunicazioni.Controllers
                 .ToListAsync();
             return View(comunicazioni);
         }
-
-        //D D L, da controllare in base a view => comunicazioni => add
-        // dropdown da eventualmente collegare(?) RIVEDERE
-        public void PopolaEsami()
-        {//crea una lista
-            IEnumerable<SelectListItem> ListaEsami = dbContext.Esami.Select(i => new SelectListItem
-            {
-                Text = i.TitoloEsame, //nel testo descrizione
-                Value = i.K_Esame.ToString() //nel value l'id
-            });
-            ViewBag.EsamiList = ListaEsami; //passo alla lista attraverso ViewBag
-        }
-
-
+        
         //----------------------------------------------//
         //ADD-------------------------------------------//
         //----------------------------------------------//
