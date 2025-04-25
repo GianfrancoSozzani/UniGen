@@ -28,24 +28,13 @@ namespace Comunicazioni.Controllers
         // dropdown da eventualmente collegare(?) RIVEDERE
         public void PopolaDocente()
         {//crea una lista
-            IEnumerable<SelectListItem> ListaDocente = dbContext.Docenti.Select(i => new SelectListItem
+            IEnumerable<SelectListItem> ListaEsami = dbContext.Esami.Select(i => new SelectListItem
             {
-                Text = i.Nome + " " + i.Cognome + " - " + i.Email, //nel testo descrizione
-                Value = i.K_Docente.ToString() //nel value l'id
+                Text = i.TitoloEsame, //nel testo descrizione
+                Value = i.K_Esame.ToString() //nel value l'id
             });
-            ViewBag.DocentiList = ListaDocente; //passo alla lista attraverso ViewBag
+            ViewBag.EsamiList = ListaEsami; //passo alla lista attraverso ViewBag
         }
-
-        public void PopolaStudente()
-        {//crea una lista
-            IEnumerable<SelectListItem> ListaStudente = dbContext.Studenti.Select(i => new SelectListItem
-            {
-                Text = i.Nome + " " + i.Cognome + " - " + i.Email, //nel testo descrizione
-                Value = i.K_Studente.ToString() //nel value l'id
-            });
-            ViewBag.StudentiList = ListaStudente; //passo alla lista attraverso ViewBag
-        }
-        
 
 
         //----------------------------------------------//
