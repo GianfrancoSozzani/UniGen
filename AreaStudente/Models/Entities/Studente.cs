@@ -22,7 +22,7 @@ namespace AreaStudente.Models.Entities
         public string? Tipo { get; set; } 
         public int? Matricola { get; set; }
         public DateTime? DataImmatricolazione { get; set; }
-        public string Abilitato { get; set; }
+        public string? Abilitato { get; set; }
 
         [ForeignKey("K_Corso")]
         public Guid? K_Corso { get; set; }
