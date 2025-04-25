@@ -21,6 +21,10 @@
 		.dropdown-menu > li:hover > .dropdown-submenu {
 			display: block;
 		}
+
+		.sticky-top {
+			z-index: 1030 !important; /* Bootstrap usa 1000 per i dropdown, 1050+ per i modal. 1030 è un valore comune per le navbar fixed/sticky */
+		}
 	</style>
 
 </head>
@@ -72,6 +76,8 @@
 								<ul class="dropdown-menu">
 									<li><a class="dropdown-item" asp-area="" asp-controller="" asp-action="">Invia Documenti</a></li>
 								</ul>
+							</li>
+
 
 							<li class="nav-item">
 								<a class="nav-link active" aria-current="page" href="#">FAQ</a>
@@ -120,7 +126,6 @@
 			</div>
 		</div>
 	</footer>
-
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
