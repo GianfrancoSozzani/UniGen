@@ -153,11 +153,35 @@
 								</div>
 								<hr class="my-4">
 								<!-- Description -->
-								<h6 class="heading-small text-muted mb-4">About me</h6>
+								<h6 class="heading-small text-muted mb-4">Informazioni di Immatricolazione</h6>
 								<div class="pl-lg-4">
-									<div class="form-group focused">
-										<label>About Me</label>
-										<textarea rows="4" class="form-control form-control-alternative" placeholder="A few words about you ...">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group focused">
+												<label class="form-control-label" for="input-matriculation-number">Matricola</label>
+												<input id="input-matriculation-number" class="form-control form-control-alternative" placeholder="Numero Matricola" value="" type="number" readonly>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group focused">
+												<label class="form-control-label" for="input-date-matriculation">Data di Immatricolazione</label>
+												<input id="input-date-matriculation" class="form-control form-control-alternative" placeholder="Data di Immatricolazione" value="" type="text" readonly>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group focused">
+												<label class="form-control-label" for="input-enabled">Abilitato</label>
+												<input id="input-enabled" class="form-control form-control-alternative" placeholder="Abilitato" value="" type="text" readonly>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group focused">
+												<label class="form-control-label" for="input-course">Corso</label>
+												<input id="input-course" class="form-control form-control-alternative" placeholder="Corso" value="" type="text" readonly>
+											</div>
+										</div>
 									</div>
 								</div>
 							</form>
