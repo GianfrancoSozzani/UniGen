@@ -6,10 +6,8 @@ namespace AreaStudente.Models
     public class ShowStudenteViewModel
     {
         [Key]
-
+        public Guid K_Studente { get; set; }
         public string? Email { get; set; }
-
-        public string? Password { get; set; }
         public string? Cognome { get; set; }
         public string? Nome { get; set; }
         public DateTime? DataNascita { get; set; }
