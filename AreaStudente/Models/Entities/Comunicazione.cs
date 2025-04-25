@@ -13,7 +13,7 @@ namespace AreaStudente.Models.Entities
         public string? Soggetto { get; set; }
         public string? Testo { get; set; }
         public Guid K_Studente { get; set; }
-        [ForeignKey]
+        //[ForeignKey]
         [ValidateNever]
         public string? Nome { get; set; }
         public string? Cognome { get; set; }
