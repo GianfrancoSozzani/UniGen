@@ -51,8 +51,5 @@ namespace Comunicazioni.Controllers
             await dbContext.SaveChangesAsync();
             return RedirectToAction("Listcshtml", "Comunicazioni");
         }
-   
-        
-
     }
 }
