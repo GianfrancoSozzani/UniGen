@@ -21,14 +21,59 @@ namespace Comunicazioni.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            var comunicazioni = await dbContext.Comunicazioni
-                .Include(c => c.Studente)
-                .Include(c => c.Docente)
-                .Include(c => c.Esami)
-                .OrderBy(c => c.DataOraComunicazione)
-                .GroupBy(c => c.Codice_Comunicazione)
-                .ToListAsync();
-            return View(comunicazioni);
+
+            string ruolo = HttpContext.Session.GetString("ruolo");
+
+            if (ruolo == "Studente")
+            {
+                var pianoDiStudi = await dbContext.PianiStudioPersonali
+                    .Where(p => p.K_Studente == Guid.Parse(HttpContext.Session.GetString("chiave")))
+                    .Select(p => p.K_Esame)
+                    .Distinct()
+                    .ToListAsync();
+
+                var comunicazioni = await dbContext.Comunicazioni
+                    .Include(c => c.Studente)
+                    .Include(c => c.Docente)
+                    .Include(c => c.Esami)
+                    .Where(c => pianoDiStudi.Contains(c.K_Esame) || c.K_Esame == null)
+                    .OrderBy(c => c.DataOraComunicazione)
+                    .GroupBy(c => c.Codice_Comunicazione)
+                    .ToListAsync();
+
+                return View(comunicazioni);
+            }
+            else if (ruolo == "Docente")
+            {
+                var Esami = await dbContext.Esami
+                   .Where(p => p.K_Docente == Guid.Parse(HttpContext.Session.GetString("chiave")))
+                   .Select(p => p.K_Esame)
+                   .Distinct()
+                   .ToListAsync();
+
+                var comunicazioni = await dbContext.Comunicazioni
+                    .Include(c => c.Studente)
+                    .Include(c => c.Docente)
+                    .Include(c => c.Esami)
+                    .Where(c => c.K_Esame.HasValue && Esami.Contains(c.K_Esame.Value) || c.K_Esame == null)
+                    .OrderBy(c => c.DataOraComunicazione)
+                    .GroupBy(c => c.Codice_Comunicazione)
+                    .ToListAsync();
+
+                return View(comunicazioni);
+            }
+            else
+            {
+                var comunicazioni = await dbContext.Comunicazioni
+                    .Include(c => c.Studente)
+                    .Include(c => c.Docente)
+                    .Include(c => c.Esami)
+                    .OrderBy(c => c.DataOraComunicazione)
+                    .GroupBy(c => c.Codice_Comunicazione)
+                    .ToListAsync();
+
+                return View(comunicazioni);
+            }
         }
 
 
