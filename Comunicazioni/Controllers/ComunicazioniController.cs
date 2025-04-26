@@ -22,6 +22,52 @@ namespace Comunicazioni.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
+            string ruolo = HttpContext.Session.GetString("ruolo");
+
+            if (ruolo == "Studente")
+            {
+                //prendo gli esami del piano di studi dello studente
+                var pianoDiStudi = await dbContext.PianiStudioPersonali
+                    .Where(p => p.K_Studente == Guid.Parse(HttpContext.Session.GetString("chiave")))
+                    .Select(p => p.K_Esame)
+                    .Distinct()
+                    .ToListAsync();
+                //prendo le comunicazioni relative agli esami del piano di studi e quelle dell'Amministrazione
+                var comunicazioni = await dbContext.Comunicazioni
+                    .Include(c => c.Studente)
+                    .Include(c => c.Docente)
+                    .Include(c => c.Esami)
+                    .Where(c => pianoDiStudi.Contains(c.K_Esame) || c.K_Esame == null)
+                    .OrderBy(c => c.DataOraComunicazione)
+                    .GroupBy(c => c.Codice_Comunicazione)
+                    .ToListAsync();
+
+                return View(comunicazioni);
+            }
+            else if (ruolo == "Docente")
+            {
+                //prendo gli esami del docente
+                var Esami = await dbContext.Esami
+                   .Where(p => p.K_Docente == Guid.Parse(HttpContext.Session.GetString("chiave")))
+                   .Select(p => p.K_Esame)
+                   .Distinct()
+                   .ToListAsync();
+                //prendo le comunicazioni relative agli esami del docente (quelle scritte da lui quindi e le risposte sotto)
+                //+ prendo le comunicazioni dell'Amministrazione
+                var comunicazioni = await dbContext.Comunicazioni
+                    .Include(c => c.Studente)
+                    .Include(c => c.Docente)
+                    .Include(c => c.Esami)
+                    .Where(c => c.K_Esame.HasValue && Esami.Contains(c.K_Esame.Value) || c.K_Esame == null)
+                    .OrderBy(c => c.DataOraComunicazione)
+                    .GroupBy(c => c.Codice_Comunicazione)
+                    .ToListAsync();
+
+                return View(comunicazioni);
+            }
+            else
+            {
+                //se è un operatore dell'Amministrzione prendo tutte le comunicazioni
                 var comunicazioni = await dbContext.Comunicazioni
                     .Include(c => c.Studente)
                     .Include(c => c.Docente)
@@ -31,15 +77,16 @@ namespace Comunicazioni.Controllers
                     .ToListAsync();
 
                 return View(comunicazioni);
+            }
         }
-
-
         //----------------------------------------------//
         //ADD-------------------------------------------//
         //----------------------------------------------//
         public void PopolaEsami()
         {
-            IEnumerable<SelectListItem> listaEsami = dbContext.Esami.Select(i => new SelectListItem
+            IEnumerable<SelectListItem> listaEsami = dbContext.Esami
+                .Where(e => e.K_Docente == Guid.Parse(HttpContext.Session.GetString("chiave")))
+                .Select(i => new SelectListItem
             {
                 Text = i.TitoloEsame,
                 Value = i.K_Esame.ToString()
@@ -70,6 +117,9 @@ namespace Comunicazioni.Controllers
             if (ruolo == "Operatore")
             {
                 comunicazione.Soggetto = "A";
+                //aggiunta necessaria: di defaULT Guid? = 00000000-0000-0000-0000-0000-0000-0000, quindi non risultava null,
+                // e il meccanismo di list si inceppava
+                comunicazione.K_Esame = null;
             }
             else if (ruolo == "Docente")
             {
@@ -95,6 +145,7 @@ namespace Comunicazioni.Controllers
 
         public async Task<IActionResult> AddRisposta(Comunicazione viewModel)
         {
+            //meccanismo per aggiungere una risposta a una comunicazione
             string ruolo = HttpContext.Session.GetString("ruolo");
 
             var comunicazione = new Comunicazione
@@ -109,6 +160,7 @@ namespace Comunicazioni.Controllers
             if (ruolo == "Operatore")
             {
                 comunicazione.Soggetto = "A";
+                comunicazione.K_Esame = null;
             }
             else if (ruolo == "Docente")
             {
