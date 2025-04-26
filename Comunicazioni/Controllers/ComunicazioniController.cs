@@ -1,4 +1,5 @@
-﻿using Comunicazioni.Data;
+﻿using System.Linq;
+using Comunicazioni.Data;
 using Comunicazioni.Models;
 using Comunicazioni.Models.Entities;
 using LibreriaClassi;
@@ -21,14 +22,15 @@ namespace Comunicazioni.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            var comunicazioni = await dbContext.Comunicazioni
-                .Include(c => c.Studente)
-                .Include(c => c.Docente)
-                .Include(c => c.Esami)
-                .OrderBy(c => c.DataOraComunicazione)
-                .GroupBy(c => c.Codice_Comunicazione)
-                .ToListAsync();
-            return View(comunicazioni);
+                var comunicazioni = await dbContext.Comunicazioni
+                    .Include(c => c.Studente)
+                    .Include(c => c.Docente)
+                    .Include(c => c.Esami)
+                    .OrderBy(c => c.DataOraComunicazione)
+                    .GroupBy(c => c.Codice_Comunicazione)
+                    .ToListAsync();
+
+                return View(comunicazioni);
         }
 
 
