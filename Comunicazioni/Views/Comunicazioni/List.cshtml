@@ -42,7 +42,7 @@
                                 <div class="accordion-body">
                                     <div class="col-md-6 col-lg-7 col-xl-8">
                                         <ul class="list-unstyled">
-                                            @foreach (var comunicazione in gruppo)
+                                            @foreach (var comunicazione in gruppo.OrderBy(c => c.DataOraComunicazione))
                                             {
                                                 <li class="d-flex justify-content-between mb-4">
                                                     <div class="card">
