@@ -45,21 +45,27 @@
 												<div class="card">
 													<div class="card-header d-flex justify-content-between p-3">
 														<div class="d-flex justify-content-between align-items-baseline">
-															<p class="fw-bold mb-0">
 
-																@if (comunicazione.K_Docente != null && comunicazione.K_Studente == null)
-																{
+
+															@if (comunicazione.K_Docente != null && comunicazione.K_Studente == null)
+															{
+																<p class="fw-bold mb-0 text-danger">
 																	@($"{comunicazione.Docente.Nome} {comunicazione.Docente.Cognome} - {comunicazione.Soggetto}")
-																}
-																else if (comunicazione.K_Studente != null && comunicazione.K_Docente == null)
-																{
+																</p>
+															}
+															else if (comunicazione.K_Studente != null && comunicazione.K_Docente == null)
+															{
+																<p class="fw-bold mb-0 text-primary">
 																	@($"{comunicazione.Studente.Nome} {comunicazione.Studente.Cognome} - {comunicazione.Soggetto}")
-																}
-																else if (comunicazione.K_Docente == null && comunicazione.K_Studente == null)
-																{
-																	@:Amministrazione
-																}
-															</p>
+																</p>
+															}
+															else if (comunicazione.K_Docente == null && comunicazione.K_Studente == null)
+															{
+																<p class="fw-bold mb-0 text-primary">
+																	@("Amministrazione")
+																</p>
+															}
+
 															<span class="px-2"></span>
 															<p class="text-muted small mb-0"><i class="far fa-clock"></i>@comunicazione.DataOraComunicazione</p>
 														</div>
