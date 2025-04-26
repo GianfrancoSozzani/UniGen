@@ -19,6 +19,12 @@ namespace Comunicazioni.Controllers
 
         public IActionResult Login(string ruolo, string usr, string pwd)
         {
+            //if (HttpContext.Session.GetString("chiave") != null)
+            //{
+            //    // Se l'utente è già loggato, redirigilo direttamente a Home
+            //    return RedirectToAction("Index", "Home");
+            //}
+
             int ruoloId = int.Parse(ruolo);
             if (ruoloId == 1)
             {

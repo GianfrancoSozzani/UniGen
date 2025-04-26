@@ -13,7 +13,7 @@ namespace Comunicazioni.Controllers
         private readonly ApplicationDbContext dbContext;
         public ComunicazioniController(ApplicationDbContext dbContext)
         {
-            this.dbContext = dbContext; 
+            this.dbContext = dbContext;
         }
         //----------------------------------------------//
         //LIST------------------------------------------//
@@ -21,21 +21,15 @@ namespace Comunicazioni.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            //Test lista
-            
-            //var comunicazioni = await dbContext.Comunicazioni.ToListAsync();
-            //foreach (var record in comunicazioni)
-            //{
-            //    record.Studente = dbContext.Studenti.FirstOrDefault(u => u.K_Studente == record.K_Studente);
-            //    record.Docente = dbContext.Docenti.FirstOrDefault(u => u.K_Docente == record.K_Docente);
-            //}
             var comunicazioni = await dbContext.Comunicazioni
                 .Include(c => c.Studente)
                 .Include(c => c.Docente)
+                .Include(c => c.Esami)
                 .ToListAsync();
             return View(comunicazioni);
         }
-        
+
+
         //----------------------------------------------//
         //ADD-------------------------------------------//
         //----------------------------------------------//
@@ -55,19 +49,38 @@ namespace Comunicazioni.Controllers
             PopolaEsami();
             return View();
         }
-        [HttpPost]  //ricevo i dati dalla lista ed inserisco nel db
-        public async Task<IActionResult>Add(AddComunicazioneViewModel viewModel)
+        [HttpPost]
+        public async Task<IActionResult> Add(AddComunicazioneViewModel viewModel)
         {
+            string ruolo = HttpContext.Session.GetString("ruolo");
+
             var comunicazione = new Comunicazione
             {
-                DataOraComunicazione = viewModel.DataOraComunicazione,
-                Soggetto = viewModel.Soggetto,
+                Codice_Comunicazione = Guid.NewGuid(),
+                DataOraComunicazione = DateTime.Now,
                 Testo = viewModel.Testo,
+                K_Soggetto = Guid.Parse(HttpContext.Session.GetString("chiave")),
+                K_Esame = viewModel.K_Esame
             };
-            
+            if (ruolo == "Operatore")
+            {
+                comunicazione.Soggetto = "A";
+            }
+            else if (ruolo == "Docente")
+            {
+                comunicazione.Soggetto = "D";
+                comunicazione.K_Docente = Guid.Parse(HttpContext.Session.GetString("chiave"));
+            }
+            else if (ruolo == "Studente")
+            {
+                comunicazione.Soggetto = "S";
+                comunicazione.K_Studente = Guid.Parse(HttpContext.Session.GetString("chiave"));
+            }
+
             //collegamento tra comunicazioni e studente-docente
             comunicazione.Studente = dbContext.Studenti.FirstOrDefault(s => s.K_Studente == comunicazione.K_Studente); //una join
             comunicazione.Docente = dbContext.Docenti.FirstOrDefault(d => d.K_Docente == comunicazione.K_Docente); //una join
+            comunicazione.Esami = dbContext.Esami.FirstOrDefault(e => e.K_Esame == comunicazione.K_Esame);
 
             await dbContext.Comunicazioni.AddAsync(comunicazione);
             await dbContext.SaveChangesAsync();

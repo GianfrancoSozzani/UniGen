@@ -13,6 +13,6 @@ namespace Comunicazioni.Models.Entities
         [ForeignKey("K_Docente")]
         [ValidateNever]
         public Docente? Docente { get; set; }
-        public int? CFU { get; set; }
+        public byte? CFU { get; set; }
     }
 }

@@ -13,7 +13,6 @@ namespace Comunicazioni.Models.Entities
         public string? PWD { get; set; }
         public string? Nome { get; set; }
         public string? Cognome { get; set; }
-        public string? Nome { get; set; }
         public DateTime? DataNascita { get; set; }
         public string? Indirizzo { get; set; }
         public string? CAP { get; set; }
@@ -22,8 +21,8 @@ namespace Comunicazioni.Models.Entities
         public byte[]? ImmagineProfilo { get; set; }
         public string? Tipo { get; set; }
         public int? Matricola { get; set; }
-        public DateTime? DataImmitricolazione { get; set; }
-        public Guid K_Corso { get; set; }
+        public DateTime? DataImmatricolazione { get; set; }
+        public Guid? K_Corso { get; set; }
         [ForeignKey("K_Corso")]
         [ValidateNever]
         public Corso? Corso { get; set; }

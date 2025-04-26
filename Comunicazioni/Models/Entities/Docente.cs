@@ -21,6 +21,7 @@ namespace Comunicazioni.Models.Entities
         public string? Tipo { get; set; }
         public DateTime? DataRegistrazione { get; set; }
         public string? Abilitato { get; set; }
-
+        //per accedere agli esami dei docenti
+        public virtual ICollection<Esame>? Esami { get; set; }
     }
 }

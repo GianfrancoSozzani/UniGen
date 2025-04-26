@@ -7,9 +7,8 @@
 <table class="table">
 	<thead>
 		<tr>
-			<th>Codice comunicazione</th>
-			<th>Mittente</th>
-			<th>Ruolo</th>
+			<th>Ruolo Mittente</th>
+			<th>Destinatari</th>
 			<th>Comunicazione</th>
 		</tr>
 	</thead>
@@ -18,34 +17,62 @@
 		{
 			<tr>
 				<td>
-					@comunicazione.Codice_Comunicazione
+					@comunicazione.Soggetto
 				</td>
 				<td>
-					@if (comunicazione.K_Docente != null && comunicazione.K_Studente == null)
+					@if (comunicazione.Esami == null || comunicazione.Esami.TitoloEsame == null)
 					{
-						@($"{comunicazione.Docente.Nome} {comunicazione.Docente.Cognome}")
+						@:Comunicazione generale
 					}
-					else if (comunicazione.K_Studente != null && comunicazione.K_Docente == null)
+					else
 					{
-						@($"{comunicazione.Studente.Nome} {comunicazione.Studente.Cognome}")
-					}
-					else if (comunicazione.K_Docente == null && comunicazione.K_Studente == null)
-					{
-						@:("Amministrazione")
+						@($"Comunicazione destinata a: {comunicazione.Esami.TitoloEsame}")
 					}
 				</td>
-				<td>@comunicazione.Soggetto</td>
 				<td>
 					<div class="accordion" id="accordionExample">
 						<div class="accordion-item">
 							<h2 class="accordion-header">
-								<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-								@* qui deve finire il titolo della comunicazione *@
+								<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@comunicazione.Codice_Comunicazione" aria-expanded="true" aria-controls="collapse_@comunicazione.Codice_Comunicazione">
+									@($"Comunicazione numero: {comunicazione.Codice_Comunicazione}")
 								</button>
 							</h2>
-							<div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+							<div id="collapse_@comunicazione.Codice_Comunicazione" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
 								<div class="accordion-body">
-									@comunicazione.Testo
+									<div class="col-md-6 col-lg-7 col-xl-8">
+										<ul class="list-unstyled">
+											<li class="d-flex justify-content-between mb-4">
+												<div class="card">
+													<div class="card-header d-flex justify-content-between p-3">
+														<div class="d-flex justify-content-between align-items-baseline">
+															<p class="fw-bold mb-0">
+
+																@if (comunicazione.K_Docente != null && comunicazione.K_Studente == null)
+																{
+																	@($"{comunicazione.Docente.Nome} {comunicazione.Docente.Cognome} - {comunicazione.Soggetto}")
+																}
+																else if (comunicazione.K_Studente != null && comunicazione.K_Docente == null)
+																{
+																	@($"{comunicazione.Studente.Nome} {comunicazione.Studente.Cognome} - {comunicazione.Soggetto}")
+																}
+																else if (comunicazione.K_Docente == null && comunicazione.K_Studente == null)
+																{
+																	@:Amministrazione
+																}
+															</p>
+															<span class="px-2"></span>
+															<p class="text-muted small mb-0"><i class="far fa-clock"></i>@comunicazione.DataOraComunicazione</p>
+														</div>
+													</div>
+													<div class="card-body">
+														<p class="mb-0">
+															@comunicazione.Testo
+														</p>
+													</div>
+												</div>
+											</li>
+										</ul>
+									</div>
 								</div>
 							</div>
 						</div>
