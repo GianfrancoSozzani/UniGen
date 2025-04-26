@@ -26,12 +26,13 @@ namespace Comunicazioni.Controllers
 
             if (ruolo == "Studente")
             {
+                //prendo gli esami del piano di studi dello studente
                 var pianoDiStudi = await dbContext.PianiStudioPersonali
                     .Where(p => p.K_Studente == Guid.Parse(HttpContext.Session.GetString("chiave")))
                     .Select(p => p.K_Esame)
                     .Distinct()
                     .ToListAsync();
-
+                //prendo le comunicazioni relative agli esami del piano di studi e quelle dell'Amministrazione
                 var comunicazioni = await dbContext.Comunicazioni
                     .Include(c => c.Studente)
                     .Include(c => c.Docente)
@@ -45,12 +46,14 @@ namespace Comunicazioni.Controllers
             }
             else if (ruolo == "Docente")
             {
+                //prendo gli esami del docente
                 var Esami = await dbContext.Esami
                    .Where(p => p.K_Docente == Guid.Parse(HttpContext.Session.GetString("chiave")))
                    .Select(p => p.K_Esame)
                    .Distinct()
                    .ToListAsync();
-
+                //prendo le comunicazioni relative agli esami del docente (quelle scritte da lui quindi e le risposte sotto)
+                //+ prendo le comunicazioni dell'Amministrazione
                 var comunicazioni = await dbContext.Comunicazioni
                     .Include(c => c.Studente)
                     .Include(c => c.Docente)
@@ -64,6 +67,7 @@ namespace Comunicazioni.Controllers
             }
             else
             {
+                //se è un operatore dell'Amministrzione prendo tutte le comunicazioni
                 var comunicazioni = await dbContext.Comunicazioni
                     .Include(c => c.Studente)
                     .Include(c => c.Docente)
@@ -113,6 +117,8 @@ namespace Comunicazioni.Controllers
             if (ruolo == "Operatore")
             {
                 comunicazione.Soggetto = "A";
+                //aggiunta necessaria: di defaULT Guid? = 00000000-0000-0000-0000-0000-0000-0000, quindi non risultava null,
+                // e il meccanismo di list si inceppava
                 comunicazione.K_Esame = null;
             }
             else if (ruolo == "Docente")
@@ -139,6 +145,7 @@ namespace Comunicazioni.Controllers
 
         public async Task<IActionResult> AddRisposta(Comunicazione viewModel)
         {
+            //meccanismo per aggiungere una risposta a una comunicazione
             string ruolo = HttpContext.Session.GetString("ruolo");
 
             var comunicazione = new Comunicazione
