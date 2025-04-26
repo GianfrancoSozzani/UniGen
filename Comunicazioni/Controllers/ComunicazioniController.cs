@@ -75,14 +75,14 @@ namespace Comunicazioni.Controllers
                 return View(comunicazioni);
             }
         }
-
-
         //----------------------------------------------//
         //ADD-------------------------------------------//
         //----------------------------------------------//
         public void PopolaEsami()
         {
-            IEnumerable<SelectListItem> listaEsami = dbContext.Esami.Select(i => new SelectListItem
+            IEnumerable<SelectListItem> listaEsami = dbContext.Esami
+                .Where(e => e.K_Docente == Guid.Parse(HttpContext.Session.GetString("chiave")))
+                .Select(i => new SelectListItem
             {
                 Text = i.TitoloEsame,
                 Value = i.K_Esame.ToString()
@@ -113,6 +113,7 @@ namespace Comunicazioni.Controllers
             if (ruolo == "Operatore")
             {
                 comunicazione.Soggetto = "A";
+                comunicazione.K_Esame = null;
             }
             else if (ruolo == "Docente")
             {
@@ -152,6 +153,7 @@ namespace Comunicazioni.Controllers
             if (ruolo == "Operatore")
             {
                 comunicazione.Soggetto = "A";
+                comunicazione.K_Esame = null;
             }
             else if (ruolo == "Docente")
             {
