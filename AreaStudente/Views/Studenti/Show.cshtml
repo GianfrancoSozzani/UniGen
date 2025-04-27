@@ -11,7 +11,7 @@
 
 <div class="main-content">
 	<!-- Header -->
-	<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-image: url('/resources/studenti-universitari.jpg'); background-size: cover; background-position: center top;">
+	<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-image: url('/resources/StudentiUniversitari.jpg'); background-size: cover; background-position: center top;">
 		<!-- Mask -->
 		<span class="mask bg-gradient-default opacity-8"></span>
 		<!-- Header container -->
@@ -20,8 +20,8 @@
 				<div class="col-lg-7 col-md-10">
 					<!-- Mostra il nome solo se il modello non è null/vuoto -->
 					<h1 class="display-2 text-white">Benvenuto/a @(Model?.Nome ?? "Studente")!</h1>
-					<p class="text-white mt-0 mb-5">
-						'Quest'area personale permette di consultare e modificare i dati della tua registrazione, procedere all'immatricolazione e contattare l'università per ottenere informazioni.'
+					<p class="text-white fs-4 mt-0 mb-5">
+						Quest'area personale permette di consultare e modificare i dati della tua registrazione, procedere all'immatricolazione e contattare l'università per ottenere informazioni.
 					</p>
 				</div>
 			</div>
@@ -39,27 +39,45 @@
 						<div class="row justify-content-center">
 							<div class="col-lg-3 order-lg-2">
 								<div class="card-profile-image">
-									<a href="#">
-										<img src="https://demos.creative-tim.com/argon-dashboard/assets-old/img/theme/team-4.jpg" class="rounded-circle">
-									</a>
+									<img src="@(Model?.ImmagineProfilo != null ? $"data:{Model.Tipo};base64,{Convert.ToBase64String(Model.ImmagineProfilo)}" : Url.Content("~/resources/BlankProfile.jpg"))" class="rounded-circle img-fluid">
+
 								</div>
 							</div>
 						</div>
 						<div class="p-4">
 						</div>
 						<div class="card-body pt-0 pt-md-4">
-							<div class="p-5">
+							<div class="p-4">
 							</div>
 							<div class="text-center">
+								<small class="d-block text-muted mt-2 mb-3">Per modificare l'immagine del profilo vai su "Modifica Dati"</small>
+
 								<h3>
-									@Model.Nome @Model.Cognome
+									@(Model?.Nome ?? "N/A") @(Model?.Cognome ?? "N/A")
 								</h3>
 								<div>
 									<i class="ni education_hat mr-2"></i>Università UniGen
 								</div>
 								<hr class="my-4">
 								<p>Vai alla tua Area Lavoro</p>
-								<a href="#">Area Lavoro</a>
+								@if (Model?.Abilitato == "S")
+								{
+									<a class="fs-4" href="/AreaLavoro" title="Accedi alla tua Area Lavoro" data-bs-toggle="tooltip" data-bs-placement="top">
+										Area Lavoro
+									</a>
+								}
+								else
+								{
+									<a class="fs-4 text-muted"
+									   style="pointer-events: none; cursor: not-allowed;"
+									   title="Devi essere abilitato per accedere"
+									   data-bs-toggle="tooltip"
+									   data-bs-placement="top"
+									   tabindex="-1">
+										Area Lavoro
+									</a>
+								}
+
 							</div>
 						</div>
 					</div>
@@ -155,7 +173,7 @@
 										<div class="col-md-4">
 											<div class="form-group focused">
 												<label class="form-control-label" for="input-enabled">Abilitato</label>
-												<input id="input-enabled" class="form-control form-control-alternative" placeholder="Abilitato" value="@(Model?.Abilitato.ToString() ?? "N/A")" type="text" readonly>
+												<input id="input-enabled" class="form-control form-control-alternative" placeholder="Abilitato" value="@(Model?.Abilitato ?? "N/A")" type="text" readonly>
 											</div>
 										</div>
 										<div class="col-md-4">
@@ -174,15 +192,18 @@
 		}
 		else
 		{
-		<div class="row justify-content-center">
-			<div class="col-lg-8">
-				<div class="card bg-secondary shadow">
-					<div class="card-body text-center">
-						<p>Nessun dato studente da visualizzare. Assicurati di aver specificato un ID valido.</p>
+			<div class="row justify-content-center">
+				<div class="col-lg-8">
+					<div class="card bg-secondary shadow">
+						<div class="card-body text-center">
+							@if (ViewBag.ErrorMessage != null)
+							{
+								<p>@ViewBag.ErrorMessage</p>
+							}
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 		}
 	</div>
 </div>

@@ -513,10 +513,12 @@ a > code {
 
 .form-control:focus {
     color: #8898aa;
-    border-color: rgba(50, 151, 211, .25);
+    /*border-color: rgba(50, 151, 211, .25);*/
     outline: 0;
     background-color: #fff;
-    box-shadow: none, none;
+   /* box-shadow: none, none;*/
+    border-color: #5e72e4; /* un blu carino */
+    box-shadow: 0 0 0 0.2rem rgba(94, 114, 228, 0.25);
 }
 
 .form-control:-ms-input-placeholder {
@@ -2031,3 +2033,15 @@ p {
 /*#navbar .navbar {
     margin-bottom: 20px;
 }*/
+
+input.form-control[readonly] {
+    background-color: #f8f9fa; /* colore sfondo chiaro */
+    color: #212529; /* testo scuro */
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem; /* dimensione font chiara e leggibile */
+    font-weight: 400; /* peso regolare */
+    border: 1px solid #ced4da; /* bordo più visibile */
+    padding: 10px; /* spazio interno */
+    border-radius: 5px; /* bordi morbidi */
+}
+

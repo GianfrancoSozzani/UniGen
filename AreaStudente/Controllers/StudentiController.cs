@@ -26,11 +26,12 @@ namespace AreaStudente.Controllers
                 // Sostituisci con il tuo DbSet<Studente>
                                                     // .Include(s => s.Corso) // Esempio: Decommenta se hai una navigation property 'Corso' in Studente e vuoi il nome
                                           .FirstOrDefaultAsync(s => s.K_Studente == id);
-
             if (studente == null)
             {
-                // Puoi personalizzare il messaggio o la pagina
-                return NotFound($"Studente con ID {id} non trovato.");
+                ViewBag.ErrorMessage = $"Nessun dato studente da visualizzare.Assicurati di aver specificato un ID valido.";
+
+                // Torni comunque alla view "Show" passando un model vuoto
+                return View(new ShowStudenteViewModel());
             }
 
             // Mappa dall'entità Studente (dal DB) a ShowStudenteViewModel
@@ -48,16 +49,13 @@ namespace AreaStudente.Controllers
                 Citta = studente.Citta,
                 Provincia = studente.Provincia,
                 ImmagineProfilo = studente.ImmagineProfilo,
+                Tipo = studente.Tipo, 
                 Matricola = studente.Matricola,
                 DataImmatricolazione = studente.DataImmatricolazione,
                 K_Corso = studente.K_Corso,
+                Abilitato = studente.Abilitato  
 
-                // Gestione di Abilitato (ora sappiamo che studente.Abilitato è string?)
-                // Opzione 1: Passa direttamente la stringa, usa un default se è null
-                Abilitato = studente.Abilitato ?? "Non specificato", // Se è null, mostra "Non specificato" (o "No", o "", scegli tu)
-
-                // Opzione 2: Se vuoi comunque mostrare "Sì"/"No" basandoti sulla presenza di una stringa
-                // Abilitato = !string.IsNullOrEmpty(studente.Abilitato) ? "Sì" : "No",
+               
 
                 // Opzione 3: Se la stringa nel DB ha valori specifici come "ATTIVO", "SOSPESO" etc.
                 //            e vuoi mapparli a "Sì"/"No" o altro. Esempio:

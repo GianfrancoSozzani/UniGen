@@ -16,6 +16,7 @@ namespace AreaStudente.Models
         public string? Citta { get; set; }
         public string? Provincia { get; set; }
         public byte[]? ImmagineProfilo { get; set; }
+        public string? Tipo { get; set; } 
         public int? Matricola { get; set; }
         public DateTime? DataImmatricolazione { get; set; }
         public string? Abilitato { get; set; }
