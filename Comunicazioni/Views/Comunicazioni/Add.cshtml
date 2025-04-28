@@ -2,37 +2,69 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
-@*INSERIMENTO FORM*@
-
 @model Comunicazioni.Models.AddComunicazioneViewModel
 
 <h1>Nuova Comunicazione</h1>
-<div class="row gx-5">
-	<div class="col-9">
-		<form method="post">
+
+@{
+	var ruolo = Context.Session.GetString("ruolo");
+}
+
+@if (ruolo == "Docente")
+{
+	<div class="col-6">
+		<form method="post" asp-action="AddStudente">
 			<div class="mt-3">
-				<label class="form-label">Testo: </label>
-				<textarea asp-for="Testo" class="form-control" rows="6"></textarea>
-				<span asp-validation-for="Testo" class="text-danger"></span>
-			</div>
-			@{
-				var ruolo = Context.Session.GetString("ruolo");
-			}
-			@if (ruolo == "Docente")
-			{
-				<div class="mt-3">
-					<label class="form-label">Esame: </label>
-					<select asp-for="K_Esame" asp-items="@ViewBag.EsamiList" class="form-select">
-						<option disabled selected>-- Seleziona un esame --</option>
-					</select>
-					<span asp-validation-for="K_Esame" class="text-danger"></span>
-				</div>
-			}
-			<div class="mt-4">
-				<button type="submit" class="btn btn-primary">Inserisci Comunicazione</button>
+				<label class="form-label">Esame:</label>
+				<select asp-for="K_Esame" asp-items="@ViewBag.EsamiList" class="form-select" onchange="this.form.submit()">
+					<option disabled selected>-- Seleziona un esame --</option>
+				</select>
+				<span asp-validation-for="K_Esame" class="text-danger"></span>
 			</div>
 		</form>
 	</div>
-	<div class="col-3 shadow p-3 bg-body-tertiary rounded">In questa pagina </div>
+}
+
+<form method="post">
+	@if (ruolo == "Docente" && ViewBag.SelectedKEsame != null)
+	{
+		<input type="hidden" asp-for="K_Esame" value="@ViewBag.SelectedKEsame" />
+	}
+	@if (ruolo == "Docente" || ruolo == "Operatore")
+	{
+		<div class="mt-3">
+			<label class="form-label">Studenti:</label>
+			<select asp-for="K_Studente" asp-items="@ViewBag.StudentiList" class="form-select">
+				<option selected>-- Seleziona uno studente --</option>
+			</select>
+			<span asp-validation-for="K_Studente" class="text-danger"></span>
+		</div>
+	}
+	@if (ruolo == "Studente" || ruolo == "Operatore")
+	{
+		<div class="mt-3">
+			<label class="form-label">Docenti:</label>
+			<select asp-for="K_Docente" asp-items="@ViewBag.DocentiList" class="form-select">
+				<option selected>-- Seleziona un docente --</option>
+			</select>
+			<span asp-validation-for="K_Docente" class="text-danger"></span>
+		</div>
+	}
+	<div class="mt-4">
+		<label class="form-label">Testo:</label>
+		<textarea asp-for="Testo" class="form-control" rows="6"></textarea>
+		<span asp-validation-for="Testo" class="text-danger"></span>
+		<button type="submit" class="btn btn-primary mt-3">Inserisci Comunicazione</button>
+	</div>
+</form>
+			</div>
+		</div>
+	</div>
+<div class="col-3 shadow p-3 bg-body-tertiary rounded">
+	In questa pagina
 </div>
+</div>
+
+
+
 
