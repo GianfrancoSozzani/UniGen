@@ -18,8 +18,4 @@
     <ProjectReference Include="..\LibreriaClassi\LibreriaClassi.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Entities\" />
-  </ItemGroup>
-
 </Project>
