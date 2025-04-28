@@ -80,7 +80,7 @@ namespace AreaPubblica.Controllers
                 // Salvo solo ciò che serve
                 HttpContext.Session.SetString("KOperatore", operatore.K_Operatore.ToString());
                 HttpContext.Session.SetString("USR", operatore.USR);
-                HttpContext.Session.SetString("Ruolo", "O"");
+                HttpContext.Session.SetString("Ruolo", "O");
 
                 //return RedirectToAction("AREA AMMINISTRAZIONE", "Home");
             }
