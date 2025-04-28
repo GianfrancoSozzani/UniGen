@@ -103,6 +103,23 @@ namespace LibreriaClassi
             dB.cmd.Parameters.AddWithValue("@K_Docente", K_Docente);
             return dB.SQLselect();
         }
+
+        public void Abilita()
+        {
+            DB db = new DB();
+            db.query = "Docenti_Abilita";
+            db.cmd.Parameters.AddWithValue("@Chiave", K_Docente);
+            db.SQLcommand();
+        }
+
+        public void Disabilita()
+        {
+            DB db = new DB();
+            db.query = "Docenti_Disabilita";
+            db.cmd.Parameters.AddWithValue("@Chiave", K_Docente);
+            db.SQLcommand();
+        }
+
         public DataTable DocentiAttivi()
         {
             DB db = new DB();
