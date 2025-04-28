@@ -77,7 +77,7 @@ namespace Comunicazioni.Controllers
                             comunicazione.Docente = await dbContext.Docenti
                                 .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
                         }
-                        // Carica il mittente (se è uno studente) - Potrebbe essere necessario un controllo aggiuntivo
+                        // Carica il mittente (se è uno studente) 
                         if (comunicazione.K_Soggetto.HasValue && comunicazione.Docente == null)
                         {
                             comunicazione.Studente = await dbContext.Studenti
@@ -88,8 +88,9 @@ namespace Comunicazioni.Controllers
 
                 return View(comunicazioni);
             }
-            else // Ruolo Amministrazione (Operatore) o altro
+            else
             {
+
                 // Recupera i Codice_Comunicazione dei messaggi inviati dall'amministrazione
                 var codiciComunicazioneAmministrazione = await dbContext.Comunicazioni
                     .Where(c => c.K_Studente == null && c.K_Docente == null)
@@ -97,17 +98,38 @@ namespace Comunicazioni.Controllers
                     .Distinct()
                     .ToListAsync();
 
-                // Recupera tutte le comunicazioni con quei Codice_Comunicazione
+                // Recupera tutte le comunicazioni che hanno un Codice_Comunicazione appartenente alle comunicazioni amministrative
                 comunicazioni = await dbContext.Comunicazioni
                     .Include(c => c.Studente)
                     .Include(c => c.Docente)
-                    .Where(c => codiciComunicazioneAmministrazione.Contains(c.Codice_Comunicazione))
+                    .Where(c => codiciComunicazioneAmministrazione.Contains(c.Codice_Comunicazione)) // Qui prendiamo sia le comunicazioni amministrative che le risposte
                     .OrderBy(c => c.DataOraComunicazione)
                     .GroupBy(c => c.Codice_Comunicazione)
                     .ToListAsync();
 
+                foreach (var gruppo in comunicazioni)
+                {
+                    foreach (var comunicazione in gruppo)
+                    {
+                        // Carica il mittente (se è un docente)
+                        if (comunicazione.K_Soggetto.HasValue)
+                        {
+                            comunicazione.Docente = await dbContext.Docenti
+                                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+                        }
+                        // Carica il mittente (se è uno studente) 
+                        if (comunicazione.K_Soggetto.HasValue && comunicazione.Docente == null)
+                        {
+                            comunicazione.Studente = await dbContext.Studenti
+                                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
+                        }
+                    }
+                }
+
                 return View(comunicazioni);
+
             }
+
         }
 
         //----------------------------------------------//
@@ -255,7 +277,7 @@ namespace Comunicazioni.Controllers
                 comunicazione.Soggetto = "S";
                 if (viewModel.K_Docente == null || viewModel.K_Docente.ToString() == "Amministrazione")  // Se "Amministrazione"
                 {
-                    comunicazione.K_Studente = null;  // Non associato a uno studente
+                    comunicazione.K_Docente = null;  // Non associato a uno studente
                 }
             }
 
@@ -267,6 +289,56 @@ namespace Comunicazioni.Controllers
             await dbContext.SaveChangesAsync();
             return RedirectToAction("List", "Comunicazioni");
 
+        }
+
+        [HttpPost]
+        [HttpPost]
+        public async Task<IActionResult> AddRisposta(Comunicazione viewModel)
+        {
+            string ruolo = HttpContext.Session.GetString("ruolo");
+            Guid chiaveUtente = Guid.Parse(HttpContext.Session.GetString("chiave"));
+
+            var ultimaComunicazione = dbContext.Comunicazioni
+                .Where(c => c.Codice_Comunicazione == viewModel.Codice_Comunicazione)
+                .OrderByDescending(c => c.DataOraComunicazione)
+                .FirstOrDefault();
+
+            if (ultimaComunicazione == null)
+            {
+                return BadRequest("Comunicazione non trovata.");
+            }
+
+            var nuovaRisposta = new Comunicazione
+            {
+                Codice_Comunicazione = viewModel.Codice_Comunicazione,
+                DataOraComunicazione = DateTime.Now,
+                Testo = viewModel.Testo,
+                K_Soggetto = chiaveUtente,
+            };
+
+            if (ruolo == "Operatore")
+            {
+                nuovaRisposta.Soggetto = "A";
+            }
+            else if (ruolo == "Docente")
+            {
+                nuovaRisposta.Soggetto = "D";
+                nuovaRisposta.K_Studente = ultimaComunicazione.K_Studente;
+            }
+            else if (ruolo == "Studente")
+            {
+                nuovaRisposta.Soggetto = "S";
+                nuovaRisposta.K_Docente = ultimaComunicazione.K_Docente;
+            }
+
+            // Assegna chi riceverà la risposta
+            nuovaRisposta.Docente = dbContext.Docenti.FirstOrDefault(d => d.K_Docente == nuovaRisposta.K_Docente);
+            nuovaRisposta.Studente = dbContext.Studenti.FirstOrDefault(s => s.K_Studente == nuovaRisposta.K_Studente);
+
+            await dbContext.Comunicazioni.AddAsync(nuovaRisposta);
+            await dbContext.SaveChangesAsync();
+
+            return RedirectToAction("List", "Comunicazioni");
         }
     }
 }
