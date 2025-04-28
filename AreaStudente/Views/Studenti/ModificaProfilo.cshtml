@@ -15,24 +15,23 @@
 
 <div class="main-container">
 	<!-- Header -->
-	<div class="header pb-8 pt-5 d-flex align-items-center" style="max-height: 400px; background-image: url('/resources/StudentiUniversitari.jpg'); background-size: cover; background-position: center top;">
+	<div class="header px-5 pb-8 pt-5 d-flex align-items-center" style="max-height: 400px; background-image: url('/resources/StudentiUniversitari.jpg'); background-size: cover; background-position: center top;">
 		<!-- Mask -->
 		<span class="mask bg-gradient-default opacity-8"></span>
 		<!-- Header container -->
 		<div class="container-fluid d-flex align-items-center">
 			<div class="row">
 				<div class="col-lg-7 col-md-10">
-					<!-- Mostra il nome solo se il modello non è null/vuoto -->
-					<h1 class="display-2 text-white">Benvenuto/a @(Model?.Nome ?? "Studente")!</h1>
+					<!-- Mostra il nome solo se il modello non è null/vuoto -->				
 					<p class="text-white fs-4 mt-0 mb-5">
-						Quest'area personale permette di consultare e modificare i dati della tua registrazione, procedere all'immatricolazione e contattare l'università per ottenere informazioni.
+						In quest'area personale puoi aggiornare i tuoi dati anagrafici e di contatto, modificare la password e personalizzare la tua immagine di profilo.
+						Ti ricordiamo che l'indirizzo e-mail associato al tuo account non può essere modificato.
 					</p>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-
+	<div class="container container-fluid mt--7">
 		<div class="row" style="margin: 5rem 0;">
 
 			<form class="col-8" method="post" id="modifica-form">
@@ -46,16 +45,16 @@
 							<label class="form-label form-control-label">Cognome:</label>
 							<input type="text" asp-for="Cognome" class="form-control form-control-alternative" required />
 						</div>
-						<div class="col-12 col-lg-4  mb-2 mb-lg-0">
+						<div class="col-12 col-lg-4  mb-2">
 							<label class="form-label form-control-label">Nome:</label>
 							<input type="text" asp-for="Nome" class="form-control form-control-alternative" required />
 						</div>
-						<div class="col-12 col-lg-4 mb-2 mb-lg-0">
+						<div class="col-12 col-lg-4 mb-2">
 							<label class="form-label form-control-label">Data di Nascita:</label>
 							<input type="date" asp-for="DataNascita" class="form-control form-control-alternative" required />
 						</div>
 					</div>
-
+					<hr class="my-4">
 					<h4 class="heading-small mb-4 text-muted">Informazioni di contatto</h4>
 
 					<div class="row mb-0 mb-lg-3">
@@ -131,6 +130,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 
 
