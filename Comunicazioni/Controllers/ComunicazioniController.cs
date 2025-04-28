@@ -1,4 +1,5 @@
-﻿using Comunicazioni.Data;
+﻿using System.Linq;
+using Comunicazioni.Data;
 using Comunicazioni.Models;
 using Comunicazioni.Models.Entities;
 using LibreriaClassi;
@@ -21,7 +22,6 @@ namespace Comunicazioni.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-
             string ruolo = HttpContext.Session.GetString("ruolo");
 
             if (ruolo == "Studente")
