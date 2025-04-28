@@ -26,15 +26,12 @@ namespace AreaDocente.Controllers
                 {
                     await viewModel.materiale.CopyToAsync(memoryStream);
 
-
                     materiali.Materiale = memoryStream.ToArray();
                     materiali.Tipo = viewModel.materiale.ContentType;
 
                 }
 
             }
-
-
 
             await dbContext.materiali.AddAsync(materiali);
 
