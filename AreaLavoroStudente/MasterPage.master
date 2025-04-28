@@ -30,110 +30,87 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <%--<div>
-            <div class="bg-black pb-1">
-                <div class="container d-flex flex-column">
-                  
 
-                    <div class="d-flex justify-content-between align-items-center flex-wrap">
-                        <div>
-                            <a href="#">
-                                <img src="resources/logo.png" height="50px"></a>
-                        </div>
+        <header>
+            <div class="sticky-top">
+                <nav class="navbar navbar-expand-lg navbar-custom">
+                    <div class="container">
+                        <!-- Logo -->
+                        <a class="navbar-brand me-3" href="#">
+                            <img src="resources/logonobg.png" height="50px" alt="Logo">
+                        </a>
 
-                        <div>
-                            <p class="fs-4 text-white m-0">Fatti non foste a viver come bruti</p>
-                        </div>
-                    </div>
-                </div>
-            </div>--%>
-            <header>
-                <div class="sticky-top">
-                    <nav class="navbar navbar-expand-lg navbar-custom">
-                        <div class="container">
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                          
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                                    </li>
+                        <!-- Pulsante per il menu mobile -->
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
 
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Offerta Formativa
-                                        </a>
-                                        <ul class="dropdown-menu">
-
-                                            <li class="dropdown">
-                                                <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Piano di studi
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-submenu">
-                                                    <li><a class="dropdown-item" href="#">Programma</a></li>
-                                                    <li><a class="dropdown-item" href="#">Esami e docenti</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Offerta Formativa
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Calendario Accademico</a></li>
-                                            <li><a class="dropdown-item" href="#">Sedute di laurea</a></li>
-                                        </ul>
-
-                                        <li class="nav-item">
-                                            <a class="nav-link active" aria-current="page" href="#">Contatti</a>
-                                        </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="#">Come Funziona</a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="#">FAQ</a>
-                                    </li>
-
-                                    <li class="nav-item">
-                                        <a class="nav-link active" aria-current="page" href="#">Privacy</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-            </header>
-
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-            </asp:ContentPlaceHolder>
-
-            <footer>
-                <div class="bg-dark text-white h-100">
-                    <div class="container d-flex justify-content-between align-items-end flex-wrap">
-                        <div>
-                            <img src="https://italy.generation.org/wp-content/uploads/2019/05/Generation_Italy_logo_WHITE.svg" alt="Logo UNIGen" class="img-fluid my-3" width="150px">
-                            <p class="fs-4 ms-4 mb-0">Università UNIGen</p>
-                            <p class="fs-6">Milano, Milano, MI 20100, IT</p>
-                        </div>
-                        <div>
-                            <p class="fs-6">© 2024 Generation: You Employed, Inc.</p>
-                        </div>
-                        <div>
-                            <p class="fs-5 mb-1">Chi Siamo</p>
-                            <ul class="list-unstyled ms-3">
-                                <li><a href="#" class="text-white">Contatti</a></li>
-                                <li><a href="#" class="text-white">Come Funziona</a></li>
-                                <li><a href="#" class="text-white">FAQ</a></li>
-                                <li><a href="#" class="text-white">Privacy</a></li>
+                        <!-- Voci di navigazione -->
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#">Home</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Lezioni</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Accesso lezioni</a></li>
+                                        <li><a class="dropdown-item" href="#">Materiale lezioni</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Appelli</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Prenotazione Appelli</a></li>
+                                        <li><a class="dropdown-item" href="#">Gestione Appelli</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Piano di Studio</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Libretto Carriera</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Pagamenti</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Comunicazioni</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
+                </nav>
+            </div>
+        </header>
+
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"><asp:Label ID="lblStudente" runat="server" CssClass="fw-bold fs-5 text-primary"></asp:Label>
+        </asp:ContentPlaceHolder>
+
+        <footer>
+            <div class="bg-dark text-white h-100">
+                <div class="container d-flex justify-content-between align-items-end flex-wrap stick-bottom">
+                    <div>
+                        <img src="https://italy.generation.org/wp-content/uploads/2019/05/Generation_Italy_logo_WHITE.svg" alt="Logo UNIGen" class="img-fluid my-3" width="150px">
+                        <p class="fs-4 ms-4 mb-0">Università UNIGen</p>
+                        <p class="fs-6">Milano, Milano, MI 20100, IT</p>
+                    </div>
+                    <div>
+                        <p class="fs-6">© 2024 Generation: You Employed, Inc.</p>
+                    </div>
+                    <div>
+                        <p class="fs-5 mb-1">Chi Siamo</p>
+                        <ul class="list-unstyled ms-3">
+                            <li><a href="#" class="text-white">Contatti</a></li>
+                            <li><a href="#" class="text-white">Come Funziona</a></li>
+                            <li><a href="#" class="text-white">FAQ</a></li>
+                            <li><a href="#" class="text-white">Privacy</a></li>
+                        </ul>
+                    </div>
                 </div>
-            </footer>
-      
+            </div>
+        </footer>
     </form>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>

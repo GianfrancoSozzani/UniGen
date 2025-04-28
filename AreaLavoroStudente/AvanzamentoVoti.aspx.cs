@@ -16,7 +16,7 @@ using System.Activities.Expressions;
 //VotiSelectMatricola
 public partial class _Default : System.Web.UI.Page
 {
-    public string matricolaTest;
+    public int matricolaTest;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -34,9 +34,9 @@ public partial class _Default : System.Web.UI.Page
             //    CaricaEsami(matricolaTest);
             //}
 
-            string matricolaTest = "4491B5BD-CE09-4519-A511-57701E047FCB";
+            matricolaTest = 1;
 
-            if (String.IsNullOrEmpty(matricolaTest))
+            if (matricolaTest == 0)
             {
                 ClientScript.RegisterStartupScript(this.GetType(), "ShowLoginModal", "showLoginModal();", true);
                 //ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Utente non loggato')", true);
@@ -54,7 +54,7 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
-    private void CaricaEsami(string matricolaTest)
+    private void CaricaEsami(int matricolaTest)
     {
         DB db = new DB();
         db.query = "Libretti_EsamiByMatricola";
@@ -67,7 +67,7 @@ public partial class _Default : System.Web.UI.Page
         rptVoti.DataBind();
     }
 
-    private void CaricaMedia(string matricolaTest)
+    private void CaricaMedia(int matricolaTest)
     {
         DB db = new DB();
         db.query = "Libretti_MediaVotiByMatricola";
@@ -104,7 +104,7 @@ public partial class _Default : System.Web.UI.Page
 
     }
 
-    private void CaricaCFU(string matricolaTest)
+    private void CaricaCFU(int matricolaTest)
     {
 
         DB db = new DB();
