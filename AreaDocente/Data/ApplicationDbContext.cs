@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AreaDocente.Models.Entites;
+using Microsoft.EntityFrameworkCore;
 
 namespace AreaDocente.Data
 {
@@ -8,7 +9,7 @@ namespace AreaDocente.Data
         {
 
         }
-
+        public DbSet<Materiali> materiali { get; set; }
 
     }
 }
