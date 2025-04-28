@@ -70,7 +70,7 @@
 
         <!-- Contenuto principale -->
         <main class="main-content">
-            <h1>Area amministrazione</h1>
+            <h1>Area Amministrazione</h1>
             
             <%-----------------RIEPILOGO STUDENTI ISCRITTI, INCASSO ANNO CORRENTE E CORSI ATTIVI---------------------%>
             <div class="row mt-5">
