@@ -15,6 +15,7 @@ public partial class _Default : System.Web.UI.Page
             CaricaDocenti();
         }
     }
+
     public void CaricaDocenti()
     {
         DOCENTI d = new DOCENTI();
@@ -23,35 +24,52 @@ public partial class _Default : System.Web.UI.Page
         rpDocenti.DataBind();
     }
 
+    protected void btnCerca_Click(object sender, EventArgs e)
+    {
+        DOCENTI d = new DOCENTI();
+        d.Cognome = txtCognome.Text.Trim();
+        d.Nome = txtNome.Text.Trim();
+        rpDocenti.DataSource = d.SelezionaPerCognomeNome();
+        ViewState["Cognome"] = d.Cognome;
+        ViewState["Nome"] = d.Nome;
+        rpDocenti.DataBind();
+    }
+
     protected void Selected_Command(object sender, CommandEventArgs e)
     {
-        string action = e.CommandName; // "Abilita" o "Disabilita"
-        string K_docente = e.CommandArgument.ToString(); // GUID del docente
+        string command = e.CommandName; // "Abilita" o "Disabilita"
 
-        if (action == "Abilita")
+        string salvaK_docente = e.CommandArgument.ToString(); // GUID del docente
+
+        Guid K_docente = Guid.Parse(salvaK_docente);
+
+        if (command == "Abilita")
         {
             // Richiama il metodo per impostare Abilitato = 'Y' in Docenti in base alla K_docente
             AbilitaDocente(K_docente);
-            return;
         }
-        else if (action == "Disabilita")
+        else if (command == "Disabilita")
         {
             //  Richiama il metodo per impostare Abilitato = 'N' in Docenti in base alla K_docente
             DisabilitaDocente(K_docente);
-            return;
         }
+        CaricaDocenti();
     }
 
-    protected void AbilitaDocente(string K_Docente)
+    protected void AbilitaDocente(Guid K_Docente)
     {
         DOCENTI d = new DOCENTI();
+        d.K_Docente = K_Docente;
         d.Abilita();
+        rpDocenti.DataBind();
     }
 
-    protected void DisabilitaDocente(string K_Docente)
+    protected void DisabilitaDocente(Guid K_Docente)
     {
        DOCENTI d = new DOCENTI();
-        d.Disabilita();
+       d.K_Docente = K_Docente;
+       d.Disabilita();
+       rpDocenti.DataBind();
     }
-
+   
 }
