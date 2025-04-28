@@ -1,9 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.EnterpriseServices;
+using LibreriaClassi;
+using System.ComponentModel;
+using System.Activities.Expressions;
 
-public partial class AreaPersonale : System.Web.UI.Page
+
+public partial class Materiali_Lezioni : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -17,7 +27,7 @@ public partial class AreaPersonale : System.Web.UI.Page
     }
 
     // Carica le facoltà usando la classe DB e la stored procedure 
-    private void CaricaFacolta()
+    public void CaricaFacolta()
     {
         DB db = new DB();
         db.query = "Facolta_SelectAll";
@@ -44,12 +54,12 @@ public partial class AreaPersonale : System.Web.UI.Page
         rptMateriali.DataBind();
     }
 
-    // Carica i corsi relativi alla facoltà selezionata
+    // Carica i corsi relativi alla session in modo da avere gia la facoltà dello studente
     private void CaricaCorsi(string facoltaId)
     {
         DB db = new DB();
         db.cmd.Parameters.AddWithValue("@FacoltaId", Guid.Parse(facoltaId));
-        //db.query = "sp_GetCorsiByFacolta";
+        db.query = "";
         DataTable dt = db.SQLselect();
 
         ddlCorsi.DataSource = dt;
@@ -71,18 +81,18 @@ public partial class AreaPersonale : System.Web.UI.Page
         rptMateriali.DataBind();
     }
 
-    // Ottieni lezioni tramite stored procedure sp_GetLezioniByCorso
-    private List<Lezione> GetLezioni(string corsoId)
+    // Ottieni lezioni tramite stored procedure 
+    private List<Lezioni> GetLezioni(string corsoId)
     {
-        var lezioni = new List<Lezione>();
+        var lezioni = new List<Lezioni>();
         DB db = new DB();
         db.cmd.Parameters.AddWithValue("@CorsoId", corsoId);
-        //db.query = "sp_GetLezioniByCorso";
+        db.query = "";
         DataTable dt = db.SQLselect();
 
         foreach (DataRow row in dt.Rows)
         {
-            lezioni.Add(new Lezione
+            lezioni.Add(new Lezioni
             {
                 Titolo = row["Titolo"].ToString(),
                 Vista = Convert.ToBoolean(row["Vista"])
@@ -92,18 +102,18 @@ public partial class AreaPersonale : System.Web.UI.Page
         return lezioni;
     }
 
-    // Ottieni materiali tramite stored procedure sp_GetMaterialiByCorso
-    private List<Materiale> GetMateriali(string corsoId)
+    // Ottieni materiali tramite stored procedure 
+    private List<Materiali> GetMateriali(string corsoId)
     {
-        var materiali = new List<Materiale>();
+        var materiali = new List<Materiali>();
         DB db = new DB();
         db.cmd.Parameters.AddWithValue("@CorsoId", corsoId);
-        //db.query = "sp_GetMaterialiByCorso";
+        db.query = "MATERIALI_SelezionaTutto";
         DataTable dt = db.SQLselect();
 
         foreach (DataRow row in dt.Rows)
         {
-            materiali.Add(new Materiale
+            materiali.Add(new Materiali
             {
                 Titolo = row["Titolo"].ToString(),
                 UrlFile = row["UrlFile"].ToString(),
@@ -112,20 +122,5 @@ public partial class AreaPersonale : System.Web.UI.Page
         }
 
         return materiali;
-    }
-
-    // Classe Lezione
-    public class Lezione
-    {
-        public string Titolo { get; set; }
-        public bool Vista { get; set; }
-    }
-
-    // Classe Materiale
-    public class Materiale
-    {
-        public string Titolo { get; set; }
-        public string UrlFile { get; set; }
-        public string Tipo { get; set; }
     }
 }
