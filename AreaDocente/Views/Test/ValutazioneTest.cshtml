@@ -1,1 +1,40 @@
-﻿
+﻿<div class="container">
+    <div class="card shadow rounded-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Valutazione Test</h5>
+        </div>
+        <div class="card-body p-4">
+
+            <form id="valutazioneForm">
+                <div class="mb-3">
+                    <label for="esame" class="form-label">Seleziona Esame</label>
+                    <select id="esame" name="esame" class="form-select">
+                        <option value="">-- Seleziona Esame --</option>
+                        <!-- Caricati dinamicamente -->
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="appello" class="form-label">Seleziona Appello</label>
+                    <select id="appello" name="appello" class="form-select" disabled>
+                        <option value="">-- Seleziona Appello --</option>
+                        <!-- Caricati dinamicamente -->
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label for="prova" class="form-label">Seleziona Prova</label>
+                    <select id="prova" name="prova" class="form-select" disabled>
+                        <option value="">-- Seleziona Prova --</option>
+                        <!-- Caricati dinamicamente -->
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100" disabled id="btnValuta">
+                    Procedi alla Valutazione
+                </button>
+            </form>
+
+        </div>
+    </div>
+</div>

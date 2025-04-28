@@ -7,11 +7,9 @@ namespace AreaDocente.Models.Entities
     {
         [Key]
         public Guid K_Esame { get; set; }
-        //public Guid K_PianoStudio { get; set; }
-        //[ForeignKey("K_PianoStudio")]
-        //public PIANOSTUDIO PianoStudio { get; set; }
         public string TitoloEsame { get; set; }
         public Guid K_Docente { get; set; }
+
         [ForeignKey("K_Docente")]
         public DOCENTE Docente { get; set; }
         public int CFU { get; set; }
