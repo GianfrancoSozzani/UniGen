@@ -40,8 +40,8 @@ namespace AreaPubblica.Controllers
             if (studente != null)
             {
                 // Salvo solo ciò che serve
+                HttpContext.Session.SetString("K_Studente", studente.K_Studente.ToString());
                 HttpContext.Session.SetString("Email", studente.Email);
-                HttpContext.Session.SetString("IdStudente", studente.K_Studente.ToString());
                 HttpContext.Session.SetString("Ruolo", "S");
 
                 if (studente.Matricola == null)
@@ -60,8 +60,8 @@ namespace AreaPubblica.Controllers
 
             if (docente != null)
             {
+                HttpContext.Session.SetString("K_Docente", docente.K_Docente.ToString());
                 HttpContext.Session.SetString("Email", docente.Email);
-                HttpContext.Session.SetString("IdDocente", docente.K_Docente.ToString());
                 HttpContext.Session.SetString("Ruolo", "D");
                 if (docente.Abilitato == "No")
                 {
@@ -78,7 +78,7 @@ namespace AreaPubblica.Controllers
             if (operatore != null)
             {
                 // Salvo solo ciò che serve
-                HttpContext.Session.SetString("KOperatore", operatore.K_Operatore.ToString());
+                HttpContext.Session.SetString("K_Operatore", operatore.K_Operatore.ToString());
                 HttpContext.Session.SetString("USR", operatore.USR);
                 HttpContext.Session.SetString("Ruolo", "O");
 
