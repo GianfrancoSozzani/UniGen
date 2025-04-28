@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaClassi
 {
-    internal class FACOLTA
+    public class FACOLTA
     {
         public Guid K_Facolta { get; set; }
         public string TitoloFacolta { get; set; }
@@ -21,32 +21,32 @@ namespace LibreriaClassi
         public void Inserimento()
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", TitoloFacolta);
+            db.query = "Facolta_Insert";
+            db.cmd.Parameters.AddWithValue("@titolofacolta", TitoloFacolta);
             db.SQLcommand();
         }
 
         public DataTable SelezionaTutto()
         {
             DB dB = new DB();
-            dB.query = "";
+            dB.query = "Facolta_SelectAll";
             return dB.SQLselect();
         }
 
         public DataTable SelezionaChiave()
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", K_Facolta);
+            db.query = "Facolta_SelectKey";
+            db.cmd.Parameters.AddWithValue("@chiave", K_Facolta);
             return db.SQLselect();
         }
 
         public void Modifica()
         {
             DB dB = new DB();
-            dB.query = "";
-            dB.cmd.Parameters.AddWithValue("", K_Facolta);
-            dB.cmd.Parameters.AddWithValue("", TitoloFacolta);
+            dB.query = "Facolta_Update";
+            dB.cmd.Parameters.AddWithValue("@chiave", K_Facolta);
+            dB.cmd.Parameters.AddWithValue("@titolofacolta", TitoloFacolta);
             dB.SQLcommand();
         }
     }
