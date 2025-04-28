@@ -27,7 +27,7 @@ public partial class _Default : System.Web.UI.Page
             Response.Write("Data non valida.");
             return;
         }
-        DataDiNascita = DataDiNascita.Date;
+        DataDiNascita = DateTime.Parse(dataNascitaString).Date;
         string Indirizzo = txtIndirizzo.Text.Trim();
         string Citta = txtCitta.Text.Trim();
         string CAP = txtCAP.Text.Trim();
@@ -44,7 +44,6 @@ public partial class _Default : System.Web.UI.Page
         }
         byte[] imgData = fuFotoProfilo.FileBytes;
         string Tipo = txtTipo.Text.Trim();
-        DateTime DataRegistrazione = DateTime.Now;
         string Abilitato = CheckBoxAbilitato.Checked ? "S" : "N"; 
         if (String.IsNullOrEmpty(Cognome) ||
             String.IsNullOrEmpty(Nome) ||
@@ -90,6 +89,7 @@ public partial class _Default : System.Web.UI.Page
         d.Provincia = Provincia;
         d.ImmagineProfilo = imgData;
         d.Tipo = Tipo;
+        d.DataRegistrazione = DateTime.Now;
         d.Abilitato = Abilitato;
 
         DataTable dt = d.VerificaDoppione();
@@ -102,6 +102,6 @@ public partial class _Default : System.Web.UI.Page
         }
 
         d.Inserimento();
-        Response.Redirect("Gestione_Facolta.aspx");
+        Response.Redirect("GestioneDocenti.aspx");
     }
 }
