@@ -38,9 +38,6 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
-        // Aggiorno il campo TextBox con la stringa modificata
-        txtFacolta.Text = titoloFacolta;
-
         // Controllo che non permette l'uso di numeri o caratteri speciali
         if (!System.Text.RegularExpressions.Regex.IsMatch(titoloFacolta, @"^[a-zA-Z\s]+$"))
         {

@@ -21,7 +21,7 @@
 
         <div>
             <asp:Repeater ID="rpFacolta" runat="server">
-                <headertemplate>
+                <HeaderTemplate>
                     <table class="table table-striped shadow">
                         <thead>
                             <tr>
@@ -30,9 +30,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                </headertemplate>
+                </HeaderTemplate>
 
-                <itemtemplate>
+                <ItemTemplate>
                     <tr>
                         <td><%# Eval("TitoloFacolta") %></td>
                         <td>
@@ -40,17 +40,17 @@
 
                         </td>
                     </tr>
-                </itemtemplate>
+                </ItemTemplate>
 
-                <footertemplate>
+                <FooterTemplate>
                     </tbody>
             </table>
-                </footertemplate>
+                </FooterTemplate>
             </asp:Repeater>
         </div>
     </div>
 
-    <!--Modal-->
+    <%--Modal--%>
     <div class="modal fade" id="modalModificaFacolta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
