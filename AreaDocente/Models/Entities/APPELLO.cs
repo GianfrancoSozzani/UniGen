@@ -12,9 +12,6 @@ namespace AreaDocente.Models.Entities
         public ESAME Esame { get; set; }
         public DateTime DataAppello { get; set; }
         public DateTime DataVerbalizzazione { get; set; }
-        /// <summary>
-        /// Tipo di appello: O = Orale, S=Scritto, L=Laurea
-        /// </summary>
         public char Tipo { get; set; }
         public string Link { get; set; }
         public DateTime DataOrale { get; set; }
