@@ -3,12 +3,36 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <h1>Lista Facoltà</h1>
 
-    <div class="container mt-5">
-        <h3>Elenco Facoltà</h3>
-        <asp:Literal ID="litFacolta" runat="server"></asp:Literal>
-    </div>
+    <asp:Repeater ID="rpFacolta" runat="server">
+        <HeaderTemplate>
+            <div class="container mt-4">
+                <table class="table">
+                        <tr>
+                            <th>Facoltà</th>
+                            <th>Azioni</th>
+                        </tr>
+                    <tbody>
+        </HeaderTemplate>
+
+        <ItemTemplate>
+            <tr>
+                <td><%# Eval("TitoloFacolta") %></td>
+                <td>
+                    <a href='<%# "ModificaFacolta.aspx?id=" + Eval("K_Facolta") %>' class="btn btn-sm btn-primary">Modifica
+                    </a>
+                </td>
+            </tr>
+        </ItemTemplate>
+
+        <FooterTemplate>
+            </tbody>
+            </table>
+        </div>
+        </FooterTemplate>
+    </asp:Repeater>
+
+    <a href ="InserimentoFacolta.aspx">INSERIMENTO</a>
 
 </asp:Content>
 
