@@ -26,6 +26,7 @@ namespace AreaPubblica
 
 
             var app = builder.Build();
+
             app.UseSession();
 
 

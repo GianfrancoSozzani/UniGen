@@ -34,32 +34,32 @@ namespace AreaPubblica.Controllers
             // Controllo login Studente
             var studente = await dbContext.Studenti
                 .Where(s => s.Email == viewModel.username && s.Password == viewModel.PWD)
-                .Select(s => new { s.K_Studente, s.Email }) // Carico solo K_Studente ed Email
+                .Select(s => new { s.K_Studente, s.Email, s.Matricola }) // Carico solo K_Studente ed Email
                 .FirstOrDefaultAsync();
 
             if (studente != null)
             {
                 // Salvo solo ciò che serve
-                HttpContext.Session.SetString("Email", studente.Email ?? "");
+                HttpContext.Session.SetString("Email", studente.Email);
                 HttpContext.Session.SetString("IdStudente", studente.K_Studente.ToString());
+                HttpContext.Session.SetString("Matricola", studente.Matricola.ToString() ?? "");
 
-
-                return RedirectToAction("Index", "Home");
+                //return RedirectToAction("Index", "Home");
             }
 
             // Controllo login Docente
             var docente = await dbContext.Docenti
-                .FirstOrDefaultAsync(d => d.Email == viewModel.username && d.Password == viewModel.PWD);
+                .Where(s => s.Email == viewModel.username && s.Password == viewModel.PWD)
+                .Select(s => new { s.K_Docente, s.Email, s.Abilitato }) // Carico solo K_Studente ed Email
+                .FirstOrDefaultAsync();
 
             if (docente != null)
             {
-                HttpContext.Session.SetString("Email", docente.Email ?? "");
+                HttpContext.Session.SetString("Email", docente.Email);
                 HttpContext.Session.SetString("IdDocente", docente.K_Docente.ToString());
+                HttpContext.Session.SetString("Abilitato", docente.Abilitato);
 
-                // I docenti non hanno Matricola
-                HttpContext.Session.Remove("Matricola");
-
-                return RedirectToAction("Index", "Home");
+                //return RedirectToAction("Index", "Home");
             }
 
             // Nessun utente trovato
