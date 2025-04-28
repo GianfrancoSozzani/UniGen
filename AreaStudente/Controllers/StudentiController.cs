@@ -34,7 +34,8 @@ namespace AreaStudente.Controllers
                 CAP = studente.CAP,
                 Citta = studente.Citta,
                 Provincia = studente.Provincia,
-                DataNascita = studente.DataNascita
+                DataNascita = studente.DataNascita,
+                ImmagineProfilo = studente.ImmagineProfilo
             };
             //In questo caso il nome della view viene dedotto dall'action del controller (che ha lo stesso nome).
             return View(model);
@@ -79,6 +80,7 @@ namespace AreaStudente.Controllers
                 if (!tuttiCompilati)
                 {
                     TempData["PopupErrore"] = "Per cambiare la password, devi compilare tutti e tre i campi.";
+                    TempData["ApriModalePassword"] = true;
                     return RedirectToAction("ModificaProfilo");
                 }
 
@@ -86,6 +88,7 @@ namespace AreaStudente.Controllers
                 if (model.Password != studente.Password)
                 {
                     TempData["PopupErrore"] = "La password vecchia inserita non risulta essere corretta.";
+                    TempData["ApriModalePassword"] = true;
                     return RedirectToAction("ModificaProfilo");
                 }
 
@@ -93,15 +96,21 @@ namespace AreaStudente.Controllers
                 if (PasswordNew != PasswordConfirm)
                 {
                     TempData["PopupErrore"] = "La nuova password e la conferma non coincidono.";
+                    TempData["ApriModalePassword"] = true;
                     return RedirectToAction("ModificaProfilo");
                 }
 
                 // 4. Tutto corretto, aggiorna
+                TempData["PopupErrore"] = null;
+                TempData["ApriModalePassword"] = true;
                 TempData["PopupSuccesso"] = "Password aggiornata con successo.";
                 studente.Password = PasswordNew;
             }
 
+
             await dbContext.SaveChangesAsync();
+            TempData["DisplaySuccessMsg"] = true;
+            TempData["PopupSuccesso"] = "I dati sono stati salvati correttamente.";
             return RedirectToAction("ModificaProfilo", "Studenti");
         }
 
@@ -128,6 +137,6 @@ namespace AreaStudente.Controllers
     }
 
 
-    
+
 }
 
