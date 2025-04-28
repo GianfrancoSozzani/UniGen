@@ -19,7 +19,7 @@ namespace AreaStudente.Controllers
         public async Task<IActionResult> ModificaProfilo()
         {
             // Simulo l'ID, solo per test (poi userò la sessione)
-            var studenteId = new Guid("78FF09CF-B90A-4F17-BF58-D0D6E89BFEA8");
+            var studenteId = new Guid("0CDDDB26-14FE-4937-91A8-ED9014654CA3");
             var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == studenteId);
 
             if (studente == null)
@@ -43,7 +43,7 @@ namespace AreaStudente.Controllers
         [HttpPost]
         public async Task<IActionResult> ModificaProfilo(ModificaStudenteViewModel model, string PasswordNew, string PasswordConfirm)
         {
-            var studenteId = new Guid("78FF09CF-B90A-4F17-BF58-D0D6E89BFEA8");
+            var studenteId = new Guid("0CDDDB26-14FE-4937-91A8-ED9014654CA3");
             var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == studenteId);
 
             if (studente == null)
@@ -57,6 +57,17 @@ namespace AreaStudente.Controllers
             studente.Citta = model.Citta;
             studente.Provincia = model.Provincia;
             studente.DataNascita = model.DataNascita;
+
+            if (model.ImmagineProfiloFile != null && model.ImmagineProfiloFile.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await model.ImmagineProfiloFile.CopyToAsync(memoryStream);
+                    studente.ImmagineProfilo = memoryStream.ToArray();
+                    studente.Tipo = model.ImmagineProfiloFile.ContentType;
+                }
+                TempData["PopupSuccesso"] = "Immagine aggiornata con successo.";
+            }
 
             //logica password
             bool AlmenoUnoCompilato = !string.IsNullOrEmpty(model.Password) || !string.IsNullOrEmpty(PasswordNew) || !string.IsNullOrEmpty(PasswordConfirm);

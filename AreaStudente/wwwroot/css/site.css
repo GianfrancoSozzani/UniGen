@@ -26,7 +26,17 @@ body {
     width: 100px;
     height: 100px;
     background: lime;
+    overflow: hidden; /* importante per ritagliare l'immagine */
+    position: relative; /* già hai position-absolute nel div */
 }
+
+    #img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%; /* arrotonda l'immagine */
+        display: block; /* rimuove eventuali spazi bianchi sotto l'immagine */
+    }
 
 .heading-small {
     font-size: .90rem;
@@ -87,8 +97,8 @@ body {
     padding-left: 15px;
 }
 
-mt--7 {
-    margin-top: -6rem !important;
+.mt--7 {
+    margin-top: 6rem !important;
 }
 
 @media (min-width: 768px) {

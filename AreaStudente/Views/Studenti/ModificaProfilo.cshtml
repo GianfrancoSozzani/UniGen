@@ -22,7 +22,7 @@
 		<div class="container-fluid d-flex align-items-center">
 			<div class="row">
 				<div class="col-lg-7 col-md-10">
-					<!-- Mostra il nome solo se il modello non è null/vuoto -->				
+					<!-- Mostra il nome solo se il modello non è null/vuoto -->
 					<p class="text-white fs-4 mt-0 mb-5">
 						In quest'area personale puoi aggiornare i tuoi dati anagrafici e di contatto, modificare la password e personalizzare la tua immagine di profilo.
 						Ti ricordiamo che l'indirizzo e-mail associato al tuo account non può essere modificato.
@@ -31,71 +31,26 @@
 			</div>
 		</div>
 	</div>
-	<div class="container container-fluid mt--7">
-		<div class="row" style="margin: 5rem 0;">
+	<div class="container mt--7">
 
-			<form class="col-8" method="post" id="modifica-form">
 
-				<div class="bg-white border border-1 border-black shadow rounded-5 p-4">
-					<h3 class="text-center">Modifica Profilo</h3>
-					<h4 class="heading-small mb-4 text-muted">Dati Anagrafici</h4>
+		<form class="row" method="post" id="modifica-form" enctype="multipart/form-data">
+			<div class="col-12 col-xl-8 bg-white border border-1 border-black shadow rounded-5 p-4">
+				<h3 class="text-center">Modifica Profilo</h3>
 
-					<div class="row mb-0 mb-lg-3">
-						<div class="col-12 col-lg-4  mb-2 mb-lg-0">
-							<label class="form-label form-control-label">Cognome:</label>
-							<input type="text" asp-for="Cognome" class="form-control form-control-alternative" required />
-						</div>
-						<div class="col-12 col-lg-4  mb-2">
-							<label class="form-label form-control-label">Nome:</label>
-							<input type="text" asp-for="Nome" class="form-control form-control-alternative" required />
-						</div>
-						<div class="col-12 col-lg-4 mb-2">
-							<label class="form-label form-control-label">Data di Nascita:</label>
-							<input type="date" asp-for="DataNascita" class="form-control form-control-alternative" required />
-						</div>
+				<h4 class="heading-small text-muted">USER</h4>
+				<div class="row mb-0 mb-lg-3 align-items-end">
+					<div class="col-12 col-lg-9 mb-2 mb-lg-0">
+						<label class="form-label form-control-label">E-Mail:</label>
+						<input type="email" asp-for="Email" class="form-control form-control-alternative" readonly />
 					</div>
-					<hr class="my-4">
-					<h4 class="heading-small mb-4 text-muted">Informazioni di contatto</h4>
-
-					<div class="row mb-0 mb-lg-3">
-						<div class="col-12 col-lg-10  mb-2 mb-lg-0">
-							<label class="form-label form-control-label">Indirizzo:</label>
-							<input type="text" asp-for="Indirizzo" class="form-control form-control-alternative" required />
-						</div>
-
-						<div class="col-12 col-lg-2  mb-2 mb-lg-0">
-							<label class="form-label form-control-label">CAP:</label>
-							<input type="text" asp-for="CAP" class="form-control form-control-alternative" maxlength="5" required />
-						</div>
-
+					<div class="col-12 col-lg-3 mb-2 mb-lg-0">
+						<a type="button" class="btn btn-primary fs-6" data-bs-toggle="collapse" data-bs-target="#modifica-password-collapse" aria-expanded="false" aria-controls="modifica-password-collapse">Modifica Password</a>
 					</div>
-
-					<div class="row mb-0 mb-lg-3">
-						<div class="col-12 col-lg-10  mb-2 mb-lg-0">
-							<label class="form-label form-control-label">Città:</label>
-							<input type="text" asp-for="Citta" class="form-control form-control-alternative" required />
-						</div>
-						<div class="col-12 col-lg-2  mb-2 mb-lg-0">
-							<label class="form-label form-control-label">Provincia:</label>
-							<input type="text" asp-for="Provincia" class="form-control text-uppercase form-control-alternative" maxlength="2" required />
-						</div>
-					</div>
-
-					<div class="row mb-0 mb-lg-3 align-items-end">
-						<div class="col-12 col-lg-10  mb-2 mb-lg-0">
-							<label class="form-label form-control-label">E-Mail:</label>
-							<input type="email" asp-for="Email" class="form-control form-control-alternative" readonly />
-						</div>
-						<div class="col-12 col-lg-2  mb-2 mb-lg-0">
-							<a type="button" data-bs-toggle="collapse" data-bs-target="#modifica-password-collapse" aria-expanded="false" aria-controls="modifica-password-collapse">Modifica Password</a>
-						</div>
-					</div>
-
-
 				</div>
-
 				<div class="collapse mt-4" id="modifica-password-collapse">
 					<div class="bg-white border border-1 border-black shadow rounded-5 p-4">
+						<h3 class="text-center">Modifica Password</h3>
 
 						<div class="mb-2 ">
 							<label class="form-label form-control-label">Inserisci la Vecchia Password:</label>
@@ -116,21 +71,99 @@
 
 					</div>
 				</div>
-			</form>
 
-			<div class="col-4">
+				<hr class="my-4">
+
+				<h4 class="heading-small text-muted">Dati Anagrafici</h4>
+				<div class="row mb-0 mb-lg-3">
+					<div class="col-12 col-lg-4 mb-2 mb-lg-0">
+						<label class="form-label form-control-label">Cognome:</label>
+						<input type="text" asp-for="Cognome" class="form-control form-control-alternative" required />
+					</div>
+					<div class="col-12 col-lg-4 mb-2">
+						<label class="form-label form-control-label">Nome:</label>
+						<input type="text" asp-for="Nome" class="form-control form-control-alternative" required />
+					</div>
+					<div class="col-12 col-lg-4 mb-2">
+						<label class="form-label form-control-label">Data di Nascita:</label>
+						<input type="date" asp-for="DataNascita" class="form-control form-control-alternative" required />
+					</div>
+				</div>
+
+				<hr class="my-4">
+
+				<h4 class="heading-small text-muted mt-0">Informazioni di contatto</h4>
+				<div class="row mb-0 mb-lg-3">
+					<div class="col-12 col-lg-9 mb-2 mb-lg-0">
+						<label class="form-label form-control-label">Indirizzo:</label>
+						<input type="text" asp-for="Indirizzo" class="form-control form-control-alternative" required />
+					</div>
+					<div class="col-12 col-lg-3 mb-2 mb-lg-0">
+						<label class="form-label form-control-label">CAP:</label>
+						<input type="text" asp-for="CAP" class="form-control form-control-alternative" maxlength="5" required />
+					</div>
+				</div>
+
+				<div class="row mb-0 mb-lg-3">
+					<div class="col-12 col-lg-9 mb-2 mb-lg-0">
+						<label class="form-label form-control-label">Città:</label>
+						<input type="text" asp-for="Citta" class="form-control form-control-alternative" required />
+					</div>
+					<div class="col-12 col-lg-3 mb-2 mb-lg-0">
+						<label class="form-label form-control-label">Provincia:</label>
+						<input type="text" asp-for="Provincia" class="form-control text-uppercase form-control-alternative" maxlength="2" required />
+					</div>
+				</div>
+				<div class="text-center">
+					<button type="submit" class="btn btn-primary" style="width: 179px;">Salva</button>
+				</div>
+			</div>
+
+
+			<div class="col-12 col-xl-4">
 				<div class="bg-white border border-1 border-black shadow rounded-5 p-4 position-relative">
 
-					<div id="img-container" class="position-absolute top-0 start-50 translate-middle" style="background-image: url('https://placehold.co/100x100')">
-					</div>
+					@{
+						bool hasImage = Model?.ImmagineProfilo != null && Model.ImmagineProfilo.Length > 0;
+						string imgSrc = null;
 
-					<h4>Il mio profilo</h4>
+						if (hasImage)
+						{
+							var base64 = Convert.ToBase64String(Model.ImmagineProfilo);
+							imgSrc = $"data:image/jpeg;base64,{base64}";
+						}
+					}
+
+					<div id="img-container" class="position-absolute top-0 start-50 translate-middle mb-5 d-flex justify-content-center align-items-center"
+						 style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background-color: #f0f0f0; font-size: 4rem; color: #6c757d;">
+						@if (hasImage)
+						{
+							<img src="@imgSrc" alt="Immagine Profilo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
+						}
+						else
+						{
+							<i class="bi bi-person-circle rounded"></i>
+						}
+					</div>
+					<h4 class="text-center mt-5">
+						<!-- Mostra il nome solo se il modello non è null/vuoto -->
+						@(Model?.Nome ?? "Studente") @(Model?.Cognome ?? "Cognome")
+					</h4>
+					<p class="text-center">Università UniGen</p>
+					<hr class="my-4">
+					<h5 class="text-center">Modifica Immagine Profilo</h5>
+					<p class="text-center">Qualora volessi aggiornare il tuo profilo, carica una nuova immagine scegliendo un file dal tuo dispositivo.</p>
+
+					<div class="input-group mt-5">
+						<input type="file" class="form-control" asp-for="ImmagineProfiloFile" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+						<button type="submit" class="btn btn-outline-secondary">Salva</button>
+					</div>
 
 
 				</div>
 			</div>
-		</div>
+		</form>
 	</div>
-	</div>
+</div>
 
 

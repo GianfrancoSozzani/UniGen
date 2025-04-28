@@ -14,6 +14,11 @@ namespace AreaStudente.Models
         public string? CAP { get; set; }
         public string? Citta { get; set; }
         public string? Provincia { get; set; }
-             
+        //ogni volta che carichiamo una immagine dobbiamo avere il tipo di immagine
+        public byte[]? ImmagineProfilo { get; set; }
+        // nuovo campo per il file caricato
+        public IFormFile? ImmagineProfiloFile { get; set; }
+        public string? Tipo { get; set; }
+
     }
 }
