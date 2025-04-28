@@ -72,41 +72,7 @@
 													<li class="bg-white">
 														<form method="post" asp-action="AddRisposta">
 															<input type="hidden" name="Codice_Comunicazione" value="@gruppo.Key" />
-															@{
-																var ultimoMessaggio = gruppo.Last();
-																Guid? altroUtenteStudenteId = null;
-																Guid? altroUtenteDocenteId = null;
-																bool rispostaAdAmministrazione = false;
-
-																if (ultimoMessaggio.Studente != null && ultimoMessaggio.Studente.K_Studente == ultimoMessaggio.K_Soggetto)
-																{
-																	// L'ultimo messaggio è di uno studente, la risposta sarà a un docente (se presente) o all'amministrazione
-																	altroUtenteDocenteId = gruppo.FirstOrDefault(c => c.Docente != null && c.Docente.K_Docente != ultimoMessaggio.K_Soggetto)?.Docente?.K_Docente;
-																	if (altroUtenteDocenteId == null && !gruppo.Any(c => c.Soggetto == "A"))
-																	{
-																		rispostaAdAmministrazione = true;
-																	}
-																}
-																else if (ultimoMessaggio.Docente != null && ultimoMessaggio.Docente.K_Docente == ultimoMessaggio.K_Soggetto)
-																{
-																	// L'ultimo messaggio è di un docente, la risposta sarà a uno studente (se presente) o all'amministrazione
-																	altroUtenteStudenteId = gruppo.FirstOrDefault(c => c.Studente != null && c.Studente.K_Studente != ultimoMessaggio.K_Soggetto)?.Studente?.K_Studente;
-																	if (altroUtenteStudenteId == null && !gruppo.Any(c => c.Soggetto == "A"))
-																	{
-																		rispostaAdAmministrazione = true;
-																	}
-																}
-																else // L'ultimo messaggio è dell'amministrazione
-																{
-																	// La risposta dell'amministrazione sarà all'ultimo studente o docente che ha scritto
-																	altroUtenteStudenteId = gruppo.LastOrDefault(c => c.Studente != null && c.Studente.K_Studente != ultimoMessaggio.K_Soggetto)?.Studente?.K_Studente;
-																	altroUtenteDocenteId = gruppo.LastOrDefault(c => c.Docente != null && c.Docente.K_Docente != ultimoMessaggio.K_Soggetto)?.Docente?.K_Docente;
-																}
-
-																<input type="hidden" name="K_DestinatarioStudente" value="@altroUtenteStudenteId" />
-																<input type="hidden" name="K_DestinatarioDocente" value="@altroUtenteDocenteId" />
-																<input type="hidden" name="RispostaAdAmministrazione" value="@rispostaAdAmministrazione" />
-															}
+															<input type="hidden" name="K_Esame" value="@gruppo.First().K_Esame" />
 															<div data-mdb-input-init class="form-outline">
 																<textarea class="form-control bg-body-tertiary" id="textAreaExample2" rows="4" name="Testo"></textarea>
 																<label class="form-label" for="textAreaExample2">Message</label>
