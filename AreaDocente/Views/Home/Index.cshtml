@@ -2,10 +2,9 @@
     ViewData["Title"] = "Home Page - Docente";
 }
 
-<div class="container my-5">
+<div class="container-fluid my-5">
     <div class="mb-5">
-        <h1 class="text-center">Benvenuto nel pannello di controllo del docente</h1>
-        <h3 class="text-center">Cosa vorrebbe fare?</h3>
+        <h1 class="text-center">Pannello del docente</h1>
     </div>
 
     <div class="row g-4 justify-content-around">
@@ -16,7 +15,7 @@
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">Materiali</h5>
                     <p class="card-text">Qui sono contenuti l'aggiunta dei materiali e la loro gestione.</p>
-                    <a href="#" class="btn btn-primary mt-auto">Vai</a>
+                    <a asp-area="" asp-controller="Materiali" asp-action="Add" class="btn btn-primary mt-auto">Vai</a>
                 </div>
             </div>
         </div>
@@ -58,7 +57,7 @@
             <div class="card shadow">
                 <img src="~/css/resources/exam.jpg" class="card-img-top" alt="Card 5 Image">
                 <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Valutazione esami</h5>
+                    <h5 class="card-title">Valutazioni</h5>
                     <p class="card-text">In questa area potrai valutare gli esami del corso dei cui sei docente.</p>
                     <a href="#" class="btn btn-primary mt-auto">Vai</a>
                 </div>
