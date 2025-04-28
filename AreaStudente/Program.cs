@@ -13,7 +13,7 @@ namespace AreaStudente
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("AteneoConn")));
+            options.UseSqlServer(builder.Configuration.GetConnectionString("UniGenConn")));
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>
             {
