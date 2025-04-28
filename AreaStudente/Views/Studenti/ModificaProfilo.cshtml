@@ -13,71 +13,124 @@
 	</script>
 }
 
-<form method="post" id="modifica-form">
-	<div class="container">
-		<h3 class="text-center mt-4 mb-3">Benvenuto in Modifica Profilo</h3>
-		<div class="bg-white border border-1 border-black shadow rounded-5 p-4 row row-cols-2">
-
-			<div class="form-outline mb-4 mt-4">
-				<label class="form-label">E-Mail:</label>
-				<input type="email" asp-for="Email" class="form-control" readonly />
+<div class="main-container">
+	<!-- Header -->
+	<div class="header pb-8 pt-5 d-flex align-items-center" style="max-height: 400px; background-image: url('/resources/StudentiUniversitari.jpg'); background-size: cover; background-position: center top;">
+		<!-- Mask -->
+		<span class="mask bg-gradient-default opacity-8"></span>
+		<!-- Header container -->
+		<div class="container-fluid d-flex align-items-center">
+			<div class="row">
+				<div class="col-lg-7 col-md-10">
+					<!-- Mostra il nome solo se il modello non è null/vuoto -->
+					<h1 class="display-2 text-white">Benvenuto/a @(Model?.Nome ?? "Studente")!</h1>
+					<p class="text-white fs-4 mt-0 mb-5">
+						Quest'area personale permette di consultare e modificare i dati della tua registrazione, procedere all'immatricolazione e contattare l'università per ottenere informazioni.
+					</p>
+				</div>
 			</div>
-
-			<div class="form-outline mb-4 mt-4">
-				<label class="form-label">Nome:</label>
-				<input type="text" asp-for="Nome" class="form-control" required />
-			</div>
-
-			<div class="form-outline mb-4 mt-4">
-				<label class="form-label">Indirizzo:</label>
-				<input type="text" asp-for="Indirizzo" class="form-control" required />
-			</div>
-
-			<div class="form-outline mb-4 mt-4">
-				<label class="form-label">Cognome:</label>
-				<input type="text" asp-for="Cognome" class="form-control" required />
-			</div>
-
-			<div class="form-outline mb-4 mt-4">
-				<label class="form-label">Città:</label>
-				<input type="text" asp-for="Citta" class="form-control" required />
-			</div>
-
-			<div class="form-outline mb-4 mt-4">
-				<label class="form-label">Data di Nascita:</label>
-				<input type="date" asp-for="DataNascita" class="form-control" required />
-			</div>
-
-			<div class="form-outline mb-4 mt-4">
-				<label class="form-label">Provincia:</label>
-				<input type="text" asp-for="Provincia" class="form-control text-uppercase" maxlength="2" required />
-			</div>
-
-			<div class="form-outline mb-4 mt-4">
-				<label class="form-label">CAP:</label>
-				<input type="text" asp-for="CAP" class="form-control" maxlength="5" required />
-			</div>
-
-			<div class="form-outline mb-4 mt-4">
-				<label class="form-label">Inserisci la Vecchia Password:</label>
-				<input type="password" asp-for="Password" class="form-control" />
-			</div>
-
-			<div class="form-outline mb-4 mt-4">
-				<label class="form-label">Nuova Password:</label>
-				<input type="password" name="PasswordNew" class="form-control" />
-			</div>
-
-			<div class="form-outline mb-4 mt-4">
-				<label class="form-label">Conferma Nuova Password:</label>
-				<input type="password" name="PasswordConfirm" class="form-control" />
-			</div>
-
-			<div class="w-100 text-center form-outline mb-4 mt-4">
-				<button type="submit" class="btn btn-primary">Salva</button>
-			</div>
-
 		</div>
 	</div>
-</form>
+	
+
+		<div class="row" style="margin: 5rem 0;">
+
+			<form class="col-8" method="post" id="modifica-form">
+
+				<div class="bg-white border border-1 border-black shadow rounded-5 p-4">
+					<h3 class="text-center">Modifica Profilo</h3>
+					<h4 class="heading-small mb-4 text-muted">Dati Anagrafici</h4>
+
+					<div class="row mb-0 mb-lg-3">
+						<div class="col-12 col-lg-4  mb-2 mb-lg-0">
+							<label class="form-label form-control-label">Cognome:</label>
+							<input type="text" asp-for="Cognome" class="form-control form-control-alternative" required />
+						</div>
+						<div class="col-12 col-lg-4  mb-2 mb-lg-0">
+							<label class="form-label form-control-label">Nome:</label>
+							<input type="text" asp-for="Nome" class="form-control form-control-alternative" required />
+						</div>
+						<div class="col-12 col-lg-4 mb-2 mb-lg-0">
+							<label class="form-label form-control-label">Data di Nascita:</label>
+							<input type="date" asp-for="DataNascita" class="form-control form-control-alternative" required />
+						</div>
+					</div>
+
+					<h4 class="heading-small mb-4 text-muted">Informazioni di contatto</h4>
+
+					<div class="row mb-0 mb-lg-3">
+						<div class="col-12 col-lg-10  mb-2 mb-lg-0">
+							<label class="form-label form-control-label">Indirizzo:</label>
+							<input type="text" asp-for="Indirizzo" class="form-control form-control-alternative" required />
+						</div>
+
+						<div class="col-12 col-lg-2  mb-2 mb-lg-0">
+							<label class="form-label form-control-label">CAP:</label>
+							<input type="text" asp-for="CAP" class="form-control form-control-alternative" maxlength="5" required />
+						</div>
+
+					</div>
+
+					<div class="row mb-0 mb-lg-3">
+						<div class="col-12 col-lg-10  mb-2 mb-lg-0">
+							<label class="form-label form-control-label">Città:</label>
+							<input type="text" asp-for="Citta" class="form-control form-control-alternative" required />
+						</div>
+						<div class="col-12 col-lg-2  mb-2 mb-lg-0">
+							<label class="form-label form-control-label">Provincia:</label>
+							<input type="text" asp-for="Provincia" class="form-control text-uppercase form-control-alternative" maxlength="2" required />
+						</div>
+					</div>
+
+					<div class="row mb-0 mb-lg-3 align-items-end">
+						<div class="col-12 col-lg-10  mb-2 mb-lg-0">
+							<label class="form-label form-control-label">E-Mail:</label>
+							<input type="email" asp-for="Email" class="form-control form-control-alternative" readonly />
+						</div>
+						<div class="col-12 col-lg-2  mb-2 mb-lg-0">
+							<a type="button" data-bs-toggle="collapse" data-bs-target="#modifica-password-collapse" aria-expanded="false" aria-controls="modifica-password-collapse">Modifica Password</a>
+						</div>
+					</div>
+
+
+				</div>
+
+				<div class="collapse mt-4" id="modifica-password-collapse">
+					<div class="bg-white border border-1 border-black shadow rounded-5 p-4">
+
+						<div class="mb-2 ">
+							<label class="form-label form-control-label">Inserisci la Vecchia Password:</label>
+							<input type="password" asp-for="Password" class="form-control form-control-alternative" />
+						</div>
+						<div class="mb-2 ">
+							<label class="form-label form-control-label">Nuova Password:</label>
+							<input type="password" name="PasswordNew" class="form-control form-control-alternative" />
+						</div>
+						<div class="mb-4">
+							<label class="form-label form-control-label">Conferma Nuova Password:</label>
+							<input type="password" name="PasswordConfirm" class="form-control form-control-alternative" />
+						</div>
+
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary">Salva</button>
+						</div>
+
+					</div>
+				</div>
+			</form>
+
+			<div class="col-4">
+				<div class="bg-white border border-1 border-black shadow rounded-5 p-4 position-relative">
+
+					<div id="img-container" class="position-absolute top-0 start-50 translate-middle" style="background-image: url('https://placehold.co/100x100')">
+					</div>
+
+					<h4>Il mio profilo</h4>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
 
