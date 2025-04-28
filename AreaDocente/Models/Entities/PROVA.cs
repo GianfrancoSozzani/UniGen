@@ -22,9 +22,6 @@ namespace AreaDocente.Models.Entities
         [ValidateNever]
         public Test_DA Test_DA { get; set; }
 
-        /// <summary>
-        /// Domanda a risposta aperta o chiusa
-        /// </summary>
         public string Tipologia { get; set; }
 
     }
