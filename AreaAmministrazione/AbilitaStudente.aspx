@@ -20,6 +20,9 @@
             <asp:TextBox ID="txtRicercaMatricola" runat="server" CssClass="form-control mr-2" TextMode="Number"></asp:TextBox>
             <asp:Button ID="btnRicerca" runat="server" Text="Cerca" CssClass="btn btn-primary" OnClick="btnRicerca_Click"
                 Style="box-shadow: 0px 4px 12px #21212115;" />
+           <span style="margin-left: 1em;">
+                <asp:Label ID="lblErrore" runat="server" CssClass="text-danger mt-3" Text="" Visible="False"></asp:Label>
+            </span>
         </div>
 
         <h3>Elenco Studenti</h3>
@@ -64,7 +67,7 @@
             </FooterTemplate>
         </asp:Repeater>
 
-        <asp:Label ID="lblErrore" runat="server" CssClass="text-danger mt-3" Text="" Visible="False"></asp:Label>
+
     </div>
 </asp:Content>
 

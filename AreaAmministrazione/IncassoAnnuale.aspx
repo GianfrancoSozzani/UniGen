@@ -6,14 +6,14 @@
     <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <asp:Chart ID="Chart1" runat="server" Width="100%" Height="400px">
+            <%--<asp:Chart ID="Chart1" runat="server" Width="100%" Height="400px">
                 <ChartAreas>
                     <asp:ChartArea Name="ChartArea1" />
                 </ChartAreas>
                 <Series>
                     <asp:Series Name="Series1" ChartType="Column" />
                 </Series>
-            </asp:Chart>
+            </asp:Chart>--%>
         </div>
     </div>
 </div>
