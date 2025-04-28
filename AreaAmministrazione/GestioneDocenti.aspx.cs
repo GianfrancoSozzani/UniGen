@@ -14,12 +14,23 @@ public partial class _Default : System.Web.UI.Page
         {
             CaricaDocenti();
         }
+        btnCerca_Click(sender, e);
     }
+
     public void CaricaDocenti()
     {
         DOCENTI d = new DOCENTI();
 
         rpDocenti.DataSource = d.SelezionaTutto();
+        rpDocenti.DataBind();
+    }
+
+    protected void btnCerca_Click(object sender, EventArgs e)
+    {
+        DOCENTI d = new DOCENTI();
+        d.Cognome = txtCognome.Text.Trim();
+        d.Nome = txtNome.Text.Trim();
+        rpDocenti.DataSource = d.SelezionaPerCognomeNome();
         rpDocenti.DataBind();
     }
 
@@ -53,5 +64,5 @@ public partial class _Default : System.Web.UI.Page
        DOCENTI d = new DOCENTI();
         d.Disabilita();
     }
-
+   
 }
