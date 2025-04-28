@@ -34,54 +34,65 @@
 		@if (Model != null && Model.K_Studente != Guid.Empty)
 		{
 			<div class="row">
-				<div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+			<!-- COLONNA SINISTRA: 2 profili impilati -->
+				<div class="col-xl-4 order-xl-2">
+					<!-- PRIMO PROFILO -->
+					<div class="card card-profile shadow mb-4">
+						<div class="row justify-content-center">
+							<div class="col-lg-3 order-lg-2">
+								<div class="card-profile-image">
+									<img src="@(Model?.ImmagineProfilo != null ? $"data:{Model.Tipo};base64,{Convert.ToBase64String(Model.ImmagineProfilo)}" : Url.Content("~/resources/BlankProfile.jpg"))" class="rounded-circle img-fluid">
+								</div>
+							</div>
+						</div>
+						<div class="card-body pt-0 pt-md-4">
+							<div class="text-center">
+								<small class="d-block text-muted mt-2 mb-3">Per modificare l'immagine del profilo vai su "Modifica Dati"</small>
+								<h3>@(Model?.Nome ?? "N/A") @(Model?.Cognome ?? "N/A")</h3>
+								<div><i class="ni education_hat mr-2"></i>Università UniGen</div>
+								<hr class="my-4">
+								<p>Vai alla tua Area Lavoro</p>
+								@if (Model?.Abilitato == "S")
+								{
+									<a class="fs-4" href="/AreaLavoro" title="Accedi alla tua Area Lavoro" data-bs-toggle="tooltip" data-bs-placement="top">Area Lavoro</a>
+								}
+								else
+								{
+									<a class="fs-4 text-muted" style="pointer-events: none; cursor: not-allowed;" title="Devi essere abilitato per accedere" data-bs-toggle="tooltip" data-bs-placement="top" tabindex="-1">Area Lavoro</a>
+								}
+							</div>
+						</div>
+					</div>
+
+					<!-- SECONDO PROFILO -->
 					<div class="card card-profile shadow">
 						<div class="row justify-content-center">
 							<div class="col-lg-3 order-lg-2">
 								<div class="card-profile-image">
 									<img src="@(Model?.ImmagineProfilo != null ? $"data:{Model.Tipo};base64,{Convert.ToBase64String(Model.ImmagineProfilo)}" : Url.Content("~/resources/BlankProfile.jpg"))" class="rounded-circle img-fluid">
-
 								</div>
 							</div>
-						</div>
-						<div class="p-4">
 						</div>
 						<div class="card-body pt-0 pt-md-4">
-							<div class="p-4">
-							</div>
 							<div class="text-center">
 								<small class="d-block text-muted mt-2 mb-3">Per modificare l'immagine del profilo vai su "Modifica Dati"</small>
-
-								<h3>
-									@(Model?.Nome ?? "N/A") @(Model?.Cognome ?? "N/A")
-								</h3>
-								<div>
-									<i class="ni education_hat mr-2"></i>Università UniGen
-								</div>
+								<h3>@(Model?.Nome ?? "N/A") @(Model?.Cognome ?? "N/A")</h3>
+								<div><i class="ni education_hat mr-2"></i>Università UniGen</div>
 								<hr class="my-4">
 								<p>Vai alla tua Area Lavoro</p>
 								@if (Model?.Abilitato == "S")
 								{
-									<a class="fs-4" href="/AreaLavoro" title="Accedi alla tua Area Lavoro" data-bs-toggle="tooltip" data-bs-placement="top">
-										Area Lavoro
-									</a>
+									<a class="fs-4" href="/AreaLavoro" title="Accedi alla tua Area Lavoro" data-bs-toggle="tooltip" data-bs-placement="top">Area Lavoro</a>
 								}
 								else
 								{
-									<a class="fs-4 text-muted"
-									   style="pointer-events: none; cursor: not-allowed;"
-									   title="Devi essere abilitato per accedere"
-									   data-bs-toggle="tooltip"
-									   data-bs-placement="top"
-									   tabindex="-1">
-										Area Lavoro
-									</a>
+									<a class="fs-4 text-muted" style="pointer-events: none; cursor: not-allowed;" title="Devi essere abilitato per accedere" data-bs-toggle="tooltip" data-bs-placement="top" tabindex="-1">Area Lavoro</a>
 								}
-
 							</div>
 						</div>
 					</div>
 				</div>
+
 				<!-- User -->
 				<div class="col-xl-8 order-xl-1">
 					<div class="card bg-secondary shadow">
