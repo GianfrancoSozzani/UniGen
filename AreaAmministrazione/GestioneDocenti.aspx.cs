@@ -33,6 +33,7 @@ public partial class _Default : System.Web.UI.Page
         ViewState["Cognome"] = d.Cognome;
         ViewState["Nome"] = d.Nome;
         rpDocenti.DataBind();
+
     }
 
     protected void Selected_Command(object sender, CommandEventArgs e)

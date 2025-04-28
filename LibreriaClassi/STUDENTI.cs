@@ -70,17 +70,8 @@ namespace LibreriaClassi
         public DataTable SelezionaPerMatricola()
         {
             DB db = new DB();
-            db.query = "SelezionaMatricola";
+            db.query = "Studenti_SelectByMatricola";
             db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
-            return db.SQLselect();
-        }
-
-        public DataTable AggiornaStato()
-        {
-            DB db = new DB();
-            db.query = "StatoStudente";
-            db.cmd.Parameters.AddWithValue("@matricola", Matricola);
-            db.cmd.Parameters.AddWithValue("@stato", Abilitato);
             return db.SQLselect();
         }
 
@@ -102,7 +93,7 @@ namespace LibreriaClassi
         public DataTable Attiva()
         {
             DB db = new DB();
-            db.query = "AttivaStudente";
+            db.query = "Studenti_Attiva";
             db.cmd.Parameters.AddWithValue("@matricola", Matricola);
             return db.SQLselect();
         }
@@ -110,7 +101,7 @@ namespace LibreriaClassi
         public DataTable Disattiva()
         {
             DB db = new DB();
-            db.query = "DisattivaStudente";
+            db.query = "Studenti_Disattiva";
             db.cmd.Parameters.AddWithValue("@matricola", Matricola);
             return db.SQLselect();
         }
