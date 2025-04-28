@@ -16,14 +16,13 @@ public partial class _Default : System.Web.UI.Page
 
         if (!IsPostBack)
         {
-            // apro il collegamento al db
+            // richiamo le facoltà dal database
             FACOLTA f = new FACOLTA();
             f.K_Facolta = Guid.Parse(chiave);
 
             DataTable DT = new DataTable();
             DT = f.SelezionaChiave();
 
-            // popolo la txt Cognome
             txtFacolta.Text = DT.Rows[0]["TitoloFacolta"].ToString();
 
         }
@@ -31,24 +30,32 @@ public partial class _Default : System.Web.UI.Page
 
     protected void btnSalva_Click(object sender, EventArgs e)
     {
-        if (String.IsNullOrEmpty(txtFacolta.Text))
+        string titoloFacolta = txtFacolta.Text.Trim();
+
+        if (String.IsNullOrEmpty(titoloFacolta))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Il campo non può essere vuoto')", true);
             return;
         }
 
-        // controllo che non accetta numeri o caratteri speciali
-        if (!System.Text.RegularExpressions.Regex.IsMatch(txtFacolta.Text, @"^[a-zA-Z\s]+$"))
+        // Rendo la prima lettera scritta sempre maiuscola
+        titoloFacolta = char.ToUpper(titoloFacolta[0]) + titoloFacolta.Substring(1);
+
+        // Aggiorno il campo TextBox con la stringa modificata
+        txtFacolta.Text = titoloFacolta;
+
+        // controllo che non permette l'uso di numeri o caratteri speciali
+        if (!System.Text.RegularExpressions.Regex.IsMatch(titoloFacolta, @"^[a-zA-Z\s]+$"))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Inserire solo lettere')", true);
             return;
         }
 
         FACOLTA f = new FACOLTA();
-        f.TitoloFacolta = txtFacolta.Text.Trim();
+        f.TitoloFacolta = titoloFacolta;
         f.K_Facolta = Guid.Parse(chiave);
 
         f.Modifica();
-        Response.Redirect("GestioneFacolta2.aspx");
+        Response.Redirect("Gestione_Facolta.aspx");
     }
 }
