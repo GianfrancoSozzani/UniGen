@@ -89,7 +89,7 @@ public partial class _Default : System.Web.UI.Page
             Label lblMedia = (Label)formMedia.FindControl("lblMedia");
             if (lblMedia != null)
             {
-                lblMedia.Text = "Media ponderata degli esami: " + mediaPonderata.ToString();
+                lblMedia.Text = mediaPonderata.ToString();
             }
         }
         else
@@ -116,7 +116,7 @@ public partial class _Default : System.Web.UI.Page
 
         if (dt.Rows.Count > 0)
         {
-            
+
             var totaleCFU = dt.Rows[0]["TotaleCFU"];
 
             formCFU.DataSource = dt;
@@ -125,7 +125,7 @@ public partial class _Default : System.Web.UI.Page
             Label lblCFU = (Label)formCFU.FindControl("lblCFU");
             if (lblCFU != null)
             {
-                lblCFU.Text = "Totale CFU conseguiti: " + totaleCFU.ToString();
+                lblCFU.Text = totaleCFU.ToString() + " CFU";
             }
         }
         else
@@ -136,10 +136,13 @@ public partial class _Default : System.Web.UI.Page
                 lblCFU.Text = "Nessuna media disponibile";
             }
         }
+
     }
-    
 
 }
+    
+
+
 
 
 
