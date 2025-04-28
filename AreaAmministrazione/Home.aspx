@@ -40,10 +40,10 @@
         <!-- Sidebar -->
         <nav class="sidebar">
             <h5 class="text-center">Menu</h5>
-            <a href="#"><i class="bi bi-house-door-fill me-2"></i> Home amministrazione</a>
-            <a href="#"><i class="bi bi-person-check-fill"></i> Abilita/disabilita studente</a>
-            <a href="#"><i class="bi bi-mortarboard-fill"></i> Gestione facoltà</a>
-            <a href="#"><i class="bi bi-clipboard2"></i> Gestione corsi</a>
+            <a href="#"><i class="bi bi-house-door-fill me-2"></i> Home Amministrazione</a>
+            <a href="#"><i class="bi bi-person-check-fill"></i> Abilita/disabilita Studente</a>
+            <a href="#"><i class="bi bi-mortarboard-fill"></i> Gestione Facoltà</a>
+            <a href="#"><i class="bi bi-clipboard2"></i> Gestione Corsi</a>
             <a href="#"><i class="bi bi-book"></i> Gestione Piano Studi</a>
             <a href="#"><i class="bi bi-people-fill"></i> Gestione Docenti</a>
             <div class="dropdown-sidebar">
@@ -70,7 +70,7 @@
 
         <!-- Contenuto principale -->
         <main class="main-content">
-            <h1>Area amministrazione</h1>
+            <h1>Area Amministrazione</h1>
             
             <%-----------------RIEPILOGO STUDENTI ISCRITTI, INCASSO ANNO CORRENTE E CORSI ATTIVI---------------------%>
             <div class="row">
