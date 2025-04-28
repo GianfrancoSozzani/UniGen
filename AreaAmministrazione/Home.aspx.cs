@@ -17,6 +17,9 @@ public partial class _Default : System.Web.UI.Page
             CaricaStudenti();
             CaricaIncasso();
             CaricaNumCorsi();
+            CaricaNumDocenti();
+            CaricaEsamiMeseCorrente();
+            CaricaTassaMedia();
         }
     }
     protected void btnAggiorna_OnClick(object sender, EventArgs e)
@@ -25,13 +28,16 @@ public partial class _Default : System.Web.UI.Page
         CaricaStudenti();
         CaricaIncasso();
         CaricaNumCorsi();
+        CaricaNumDocenti();
+        CaricaEsamiMeseCorrente();
+        CaricaTassaMedia();
     }
     protected void CaricaStudenti()
     {
 
         STUDENTI s = new STUDENTI();
         DataTable dt = s.StudentiIscritti();
-        litStudenti.Text = dt.Rows[0][0].ToString();
+        litStudentii.Text = dt.Rows[0][0].ToString();
 
     }
     protected void CaricaIncasso()
@@ -39,7 +45,7 @@ public partial class _Default : System.Web.UI.Page
 
         PAGAMENTI p = new PAGAMENTI();
         DataTable dt = p.IncassoAnnoCorrente();
-        litIncasso.Text = dt.Rows[0][0].ToString();
+        litIncassoC.Text = dt.Rows[0][0].ToString();
 
     }
     protected void CaricaNumCorsi()
@@ -47,7 +53,33 @@ public partial class _Default : System.Web.UI.Page
 
         CORSI c = new CORSI();
         DataTable dt = c.CorsiAttivi();
-        litCorsi.Text = dt.Rows[0][0].ToString();
+        litCorsiA.Text = dt.Rows[0][0].ToString();
+
+    }
+
+    protected void CaricaNumDocenti()
+    {
+
+        DOCENTI d = new DOCENTI();
+        DataTable dt = d.DocentiAttivi();
+        litDocenti.Text = dt.Rows[0][0].ToString();
+
+    }
+
+    protected void CaricaEsamiMeseCorrente()
+    {
+
+        APPELLI a = new APPELLI();
+        DataTable dt = a.CaricaEsamiMeseCorrente();
+        litEsami.Text = dt.Rows[0][0].ToString();
+
+    }
+    protected void CaricaTassaMedia()
+    {
+
+        CORSI c = new CORSI();
+        DataTable dt = c.TassaMediaAnnuale();
+        litTassaM.Text = dt.Rows[0][0].ToString();
 
     }
 
