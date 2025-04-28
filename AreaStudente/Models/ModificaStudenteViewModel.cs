@@ -14,9 +14,6 @@ namespace AreaStudente.Models
         public string? CAP { get; set; }
         public string? Citta { get; set; }
         public string? Provincia { get; set; }
-
-        
-       
-       
+             
     }
 }

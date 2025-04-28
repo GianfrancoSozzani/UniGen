@@ -1,0 +1,35 @@
+﻿@model AreaStudente.Models.RecuperaViewModel
+@if (TempData["PopupErrore"] != null)
+{
+	<script>
+		alert("@TempData["PopupErrore"]");
+	</script>
+}
+@if (TempData["PopupSuccesso"] != null)
+{
+	<script>
+		alert('@TempData["PopupSuccesso"]');
+	</script>
+}
+
+<form method="post" id="modifica-form">
+	<div class="d-flex flex-column align-items-center">
+		<h3 class="text-center mt-4 mb-3">Benvenuto in Modifica Profilo</h3>
+		<div class="card shadow rounded-5" style="width: 18rem;">
+			<div class="card-body text-center p-0">
+				<i class="bi bi-person-circle mb-2 mt-2 p-3" style=" font-size: 5rem; color: #12304F"></i>
+				<h5 class="card-title text-center p-2" style="color: #12304F">Problemi di accesso?</h5>
+				<p class="card-text text-muted text-center p-1">Inserisci il tuo indirizzo e-mail: ti invieremo un link per accedere nuovamente al tuo account.</p>
+				<div class="form-outline mb-2 mt-2 p-3">
+					<input type="email" asp-for="Email" class="form-control" placeholder="Email" required/>
+				</div>
+				<div class="w-100 p-1 text-center form-outline mb-4 mt-4">
+					<button type="submit" class="btn btn-primary">Invia il link di accesso</button>
+				</div>
+				<div class="card-footer text-center ">
+					<a class="text-muted text-decoration-none" asp-controller="" asp-action="">Torna alla pagina di accesso</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

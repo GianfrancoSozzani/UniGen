@@ -1,48 +1,83 @@
-﻿<form method="post">
+﻿@model AreaStudente.Models.ModificaStudenteViewModel
+
+@if (TempData["PopupErrore"] != null)
+{
+	<script>
+		alert("@TempData["PopupErrore"]");
+	</script>
+}
+@if (TempData["PopupSuccesso"] != null)
+{
+	<script>
+		alert('@TempData["PopupSuccesso"]');
+	</script>
+}
+
+<form method="post" id="modifica-form">
 	<div class="container">
-		<div class="bg-white border border-1 border-black rounded-3 p-4 row row-cols-2">
-			<div data-mdb-input-init class="form-outline mb-4 mt-4">
-				<label class="form-label" for="Email">E-Mail:</label>
-				<input type="email" id="Email" class="form-control" readonly />
-			</div>
-			<div data-mdb-input-init class="form-outline mb-4 mt-4">
-				<label class="form-label" for="Nome">Nome:</label>
-				<input id="Nome" class="form-control" required />
+		<h3 class="text-center mt-4 mb-3">Benvenuto in Modifica Profilo</h3>
+		<div class="bg-white border border-1 border-black shadow rounded-5 p-4 row row-cols-2">
+
+			<div class="form-outline mb-4 mt-4">
+				<label class="form-label">E-Mail:</label>
+				<input type="email" asp-for="Email" class="form-control" readonly />
 			</div>
 
-			<div data-mdb-input-init class="form-outline mb-4 mt-4">
-				<label class="form-label" for="Indirizzo">Indirizzo:</label>
-				<input id="Indirizzo" class="form-control" required />
+			<div class="form-outline mb-4 mt-4">
+				<label class="form-label">Nome:</label>
+				<input type="text" asp-for="Nome" class="form-control" required />
 			</div>
-			<div data-mdb-input-init class="form-outline mb-4 mt-4">
-				<label class="form-label" for="Cognome">Cognome:</label>
-				<input id="Cognome" class="form-control" required />
 
+			<div class="form-outline mb-4 mt-4">
+				<label class="form-label">Indirizzo:</label>
+				<input type="text" asp-for="Indirizzo" class="form-control" required />
 			</div>
-			<div data-mdb-input-init class="form-outline mb-4 mt-4">
-				<label class="form-label" for="Citta">Città:</label>
-				<input id="Citta" class="form-control" required />
+
+			<div class="form-outline mb-4 mt-4">
+				<label class="form-label">Cognome:</label>
+				<input type="text" asp-for="Cognome" class="form-control" required />
 			</div>
-			<div data-mdb-input-init class="form-outline mb-4 mt-4">
-				<label class="form-label" for="Provincia">Provincia:</label>
-				<input id="Provincia" class="form-control" maxlength="2" required />
+
+			<div class="form-outline mb-4 mt-4">
+				<label class="form-label">Città:</label>
+				<input type="text" asp-for="Citta" class="form-control" required />
 			</div>
-			<div data-mdb-input-init class="form-outline mb-4 mt-4">
-				<label class="form-label" for="Password">Password:</label>
-				<input type="password" id="Password" class="form-control" required />
+
+			<div class="form-outline mb-4 mt-4">
+				<label class="form-label">Data di Nascita:</label>
+				<input type="date" asp-for="DataNascita" class="form-control" required />
 			</div>
-			<div data-mdb-input-init class="form-outline mb-4 mt-4">
-				<label class="form-label" for="CAP">CAP:</label>
-				<input id="CAP" class="form-control" maxlength="5" required type="number" />
+
+			<div class="form-outline mb-4 mt-4">
+				<label class="form-label">Provincia:</label>
+				<input type="text" asp-for="Provincia" class="form-control text-uppercase" maxlength="2" required />
 			</div>
-			<div data-mdb-input-init class="form-outline mb-4 mt-4">
-				<label class="form-label" for="Password">Ripeti Password:</label>
-				<input type="password" id="Password" class="form-control" required />
+
+			<div class="form-outline mb-4 mt-4">
+				<label class="form-label">CAP:</label>
+				<input type="text" asp-for="CAP" class="form-control" maxlength="5" required />
 			</div>
-			<button type="submit" data-mdb-button-init data-mdb-ripple-init
-					class="btn btn-primary" style="max-height: 40px; max-width: 599.2px; margin-top: 54px; margin-left: 10px; ">
-				Salva
-			</button>
+
+			<div class="form-outline mb-4 mt-4">
+				<label class="form-label">Inserisci la Vecchia Password:</label>
+				<input type="password" asp-for="Password" class="form-control" />
+			</div>
+
+			<div class="form-outline mb-4 mt-4">
+				<label class="form-label">Nuova Password:</label>
+				<input type="password" name="PasswordNew" class="form-control" />
+			</div>
+
+			<div class="form-outline mb-4 mt-4">
+				<label class="form-label">Conferma Nuova Password:</label>
+				<input type="password" name="PasswordConfirm" class="form-control" />
+			</div>
+
+			<div class="w-100 text-center form-outline mb-4 mt-4">
+				<button type="submit" class="btn btn-primary">Salva</button>
+			</div>
+
 		</div>
 	</div>
 </form>
+

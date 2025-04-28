@@ -18,4 +18,8 @@
     <ProjectReference Include="..\LibreriaClassi\LibreriaClassi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\css\resources\" />
+  </ItemGroup>
+
 </Project>

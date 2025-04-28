@@ -22,7 +22,7 @@ namespace AreaStudente.Models.Entities
         public int? Matricola { get; set; }
         public DateTime? DataImmatricolazione { get; set; }
         //lasciamo il campo corso nell'Entity e poi passeremo un valore vuoto (anziché prenderlo dalla view)
-        public Guid K_Corso { get; set; }
+        public Guid? K_Corso { get; set; }
         public string? Abilitato { get; set; }
 
     }
