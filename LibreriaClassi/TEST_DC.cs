@@ -11,7 +11,7 @@ namespace LibreriaClassi
     /// <summary>
     /// Classe per la gestione delle domande a risposta chiusa
     /// </summary>
-    internal class TEST_DC
+    public class TEST_DC
     {
         public Guid K_Test_DC { get; set; }
         public int Numero_Domanda { get; set; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaClassi
 {
-    internal class OPERATORI
+    public class OPERATORI
     {
         public Guid K_Operatore { get; set; }
         public string USR { get; set; }
@@ -24,38 +24,38 @@ namespace LibreriaClassi
         public void Inserimento()
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", USR);
-            db.cmd.Parameters.AddWithValue("", PWD);
-            db.cmd.Parameters.AddWithValue("", Cognome);
-            db.cmd.Parameters.AddWithValue("", Nome);
+            db.query = "Operatori_Insert";
+            db.cmd.Parameters.AddWithValue("@user", USR);
+            db.cmd.Parameters.AddWithValue("@pwd", PWD);
+            db.cmd.Parameters.AddWithValue("@cognome", Cognome);
+            db.cmd.Parameters.AddWithValue("@nome", Nome);
             db.SQLcommand();
         }
 
         public DataTable SelezionaTutto()
         {
             DB dB = new DB();
-            dB.query = "";
+            dB.query = "Operatori_SelectAll";
             return dB.SQLselect();
         }
 
         public DataTable SelezionaChiave()
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", K_Operatore);
+            db.query = "Operatori_FindByKey";
+            db.cmd.Parameters.AddWithValue("@chiave", K_Operatore);
             return db.SQLselect();
         }
 
         public void Modifica()
         {
             DB dB = new DB();
-            dB.query = "";
-            dB.cmd.Parameters.AddWithValue("", K_Operatore);
-            dB.cmd.Parameters.AddWithValue("", USR);
-            dB.cmd.Parameters.AddWithValue("", PWD);
-            dB.cmd.Parameters.AddWithValue("", Cognome);
-            dB.cmd.Parameters.AddWithValue("", Nome);
+            dB.query = "Operatori_Update";
+            dB.cmd.Parameters.AddWithValue("@chiave", K_Operatore);
+            dB.cmd.Parameters.AddWithValue("@user", USR);
+            dB.cmd.Parameters.AddWithValue("@pwd", PWD);
+            dB.cmd.Parameters.AddWithValue("@cognome", Cognome);
+            dB.cmd.Parameters.AddWithValue("@nome", Nome);
             dB.SQLcommand();
         }
     }

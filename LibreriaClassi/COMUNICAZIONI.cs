@@ -10,7 +10,7 @@ namespace LibreriaClassi
     /// <summary>
     /// Classe per la gestione delle comunicazioni
     /// </summary>
-    internal class COMUNICAZIONI
+    public class COMUNICAZIONI
     {
         public Guid K_Comunicazione { get; set; }
         /// <summary>
@@ -37,48 +37,48 @@ namespace LibreriaClassi
         /// </summary>
         public Guid K_Docente { get; set; }
 
-        public void Inserimento()
-        {
-            DB dB = new DB();
-            dB.query = "COMUNICAZIONI_Inserimento";
-            dB.cmd.Parameters.AddWithValue("@Codice_Comunicazione", Codice_Comunicazione);
-            dB.cmd.Parameters.AddWithValue("@DataOraComunicazione", DataOraComunicazione);
-            dB.cmd.Parameters.AddWithValue("@Soggetto", Soggetto);
-            dB.cmd.Parameters.AddWithValue("@K_Soggetto", K_Soggetto);
-            dB.cmd.Parameters.AddWithValue("@Testo", Testo);
-            dB.cmd.Parameters.AddWithValue("@K_Studente", K_Studente);
-            dB.cmd.Parameters.AddWithValue("@K_Docente", K_Docente);
-            dB.SQLcommand();
-        }
+        //public void Inserimento()                                     //GESTIONE COMUNICAZIONI TRAMITE API
+        //{
+        //    DB dB = new DB();
+        //    dB.query = "COMUNICAZIONI_Inserimento";
+        //    dB.cmd.Parameters.AddWithValue("@Codice_Comunicazione", Codice_Comunicazione);
+        //    dB.cmd.Parameters.AddWithValue("@DataOraComunicazione", DataOraComunicazione);
+        //    dB.cmd.Parameters.AddWithValue("@Soggetto", Soggetto);
+        //    dB.cmd.Parameters.AddWithValue("@K_Soggetto", K_Soggetto);
+        //    dB.cmd.Parameters.AddWithValue("@Testo", Testo);
+        //    dB.cmd.Parameters.AddWithValue("@K_Studente", K_Studente);
+        //    dB.cmd.Parameters.AddWithValue("@K_Docente", K_Docente);
+        //    dB.SQLcommand();
+        //}
 
-        public void Modifica()
-        {
-            DB dB = new DB();
-            dB.query = "COMUNICAZIONI_Modifica";
-            dB.cmd.Parameters.AddWithValue("@K_Comunicazione", K_Comunicazione);
-            dB.cmd.Parameters.AddWithValue("@Codice_Comunicazione", Codice_Comunicazione);
-            dB.cmd.Parameters.AddWithValue("@DataOraComunicazione", DataOraComunicazione);
-            dB.cmd.Parameters.AddWithValue("@Soggetto", Soggetto);
-            dB.cmd.Parameters.AddWithValue("@K_Soggetto", K_Soggetto);
-            dB.cmd.Parameters.AddWithValue("@Testo", Testo);
-            dB.cmd.Parameters.AddWithValue("@K_Studente", K_Studente);
-            dB.cmd.Parameters.AddWithValue("@K_Docente", K_Docente);
-            dB.SQLcommand();
-        }
+        //public void Modifica()
+        //{
+        //    DB dB = new DB();
+        //    dB.query = "COMUNICAZIONI_Modifica";
+        //    dB.cmd.Parameters.AddWithValue("@K_Comunicazione", K_Comunicazione);
+        //    dB.cmd.Parameters.AddWithValue("@Codice_Comunicazione", Codice_Comunicazione);
+        //    dB.cmd.Parameters.AddWithValue("@DataOraComunicazione", DataOraComunicazione);
+        //    dB.cmd.Parameters.AddWithValue("@Soggetto", Soggetto);
+        //    dB.cmd.Parameters.AddWithValue("@K_Soggetto", K_Soggetto);
+        //    dB.cmd.Parameters.AddWithValue("@Testo", Testo);
+        //    dB.cmd.Parameters.AddWithValue("@K_Studente", K_Studente);
+        //    dB.cmd.Parameters.AddWithValue("@K_Docente", K_Docente);
+        //    dB.SQLcommand();
+        //}
 
-        public DataTable SelezionaTutto()
-        {
-            DB dB = new DB();
-            dB.query = "COMUNICAZIONI_SelezionaTutto";
-            return dB.SQLselect();
-        }
-        public DataTable SelezionaChiave()
-        {
-            DB dB = new DB();
-            dB.query = "COMUNICAZIONI_SelezionaChiave";
-            dB.cmd.Parameters.AddWithValue("@K_Comunicazione", K_Comunicazione);
-            return dB.SQLselect();
-        }
+        //public DataTable SelezionaTutto()
+        //{
+        //    DB dB = new DB();
+        //    dB.query = "COMUNICAZIONI_SelezionaTutto";
+        //    return dB.SQLselect();
+        //}
+        //public DataTable SelezionaChiave()
+        //{
+        //    DB dB = new DB();
+        //    dB.query = "COMUNICAZIONI_SelezionaChiave";
+        //    dB.cmd.Parameters.AddWithValue("@K_Comunicazione", K_Comunicazione);
+        //    return dB.SQLselect();
+        //}
 
     }
 }

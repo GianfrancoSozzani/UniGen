@@ -10,7 +10,7 @@ namespace LibreriaClassi
     /// <summary>
     /// Classe per la gestione delle domande a risposta aperta
     /// </summary>
-    internal class TEST_DA
+    public class TEST_DA
     {
         public Guid K_Test_DA { get; set; }
         public int Numero_Domanda { get; set; }
