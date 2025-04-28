@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AreaDocente.Models.Entites
+namespace AreaDocente.Models.Entities
 {
     public class Materiali
     {

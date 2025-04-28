@@ -1,4 +1,4 @@
-﻿using AreaDocente.Models.Entites;
+﻿using AreaDocente.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AreaDocente.Data

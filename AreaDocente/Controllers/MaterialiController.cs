@@ -1,9 +1,7 @@
 ﻿using AreaDocente.Data;
 using AreaDocente.Models;
-using AreaDocente.Models.Entites;
+using AreaDocente.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.EntityFrameworkCore;
 
 namespace AreaDocente.Controllers
 {
@@ -16,7 +14,7 @@ namespace AreaDocente.Controllers
             this.dbContext = dbContext;
         }
         [HttpPost]
-        public async Task<ActionResult> Add(AddMaterialiViewModel viewModel ) 
+        public async Task<ActionResult> Add(AddMaterialiViewModel viewModel)
         {
             var materiali = new Materiali
             {
@@ -33,13 +31,20 @@ namespace AreaDocente.Controllers
                     materiali.Tipo = viewModel.materiale.ContentType;
 
                 }
-           
+
             }
+
+
 
             await dbContext.materiali.AddAsync(materiali);
 
             await dbContext.SaveChangesAsync();
-            
+
+            return View();
+        }
+
+        public ActionResult Add()
+        {
             return View();
         }
     }
