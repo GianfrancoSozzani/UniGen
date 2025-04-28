@@ -68,7 +68,7 @@ namespace LibreriaClassi
         public DataTable IncassoAnnoCorrente()
         {
             DB db = new DB();
-            db.query = "Pagamenti_IncassoAnnoCorrente";
+            db.query = "Pagamenti_SelectIncassoAnnuale";
             return db.SQLselect();
         }
     }
