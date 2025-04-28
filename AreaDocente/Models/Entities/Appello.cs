@@ -8,6 +8,7 @@ namespace AreaDocente.Models.Entities
         [Key]
         public Guid K_Appello { get; set; }
         public Guid K_Esame { get; set; }
+
         [ForeignKey("K_Esame")]
         public ESAME Esame { get; set; }
         public DateTime DataAppello { get; set; }
