@@ -4,28 +4,21 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
-    <div class="d-flex flex-column align-items-center mt-4">
+    <div class="container d-flex flex-column align-items-center mt-5">
+        <h1 class="mb-4 fw-bold">Modifica Facoltà</h1>
 
-        <h1>Modifica Facoltà</h1>
+        <div class="card shadow p-4" style="max-width: 500px; width: 100%;">
+            <div class="mb-3">
+                <label for="txtFacolta" class="form-label fw-bold">Nome Facoltà</label>
+                <asp:TextBox ID="txtFacolta" runat="server" CssClass="form-control"></asp:TextBox>
+            </div>
 
-        <div class="container mt-5 mb-5">
-            <table class="table">
-                <tr>
-                    <td>
-                        <asp:Label ID="Label1" runat="server" Text="Facoltà"></asp:Label>
-                    </td>
-                    <td>
-                        <asp:TextBox ID="txtFacolta" runat="server"></asp:TextBox>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <asp:Button ID="btnSalva" runat="server" Text="Salva" OnClick="btnSalva_Click" />
-                    </td>
-                </tr>
-            </table>
+            <div class="text-end">
+                <asp:Button ID="btnSalva" runat="server" Text="Salva" CssClass="btn btn-primary" OnClick="btnSalva_Click" />
+            </div>
         </div>
+
     </div>
+
 </asp:Content>
 
