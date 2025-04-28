@@ -2,9 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     <style>
-         .bg-black.pb-1, .navbar-custom {
-            display: none !important;
-        }
+         
 
         .layout-wrapper {
             display: flex;
@@ -47,37 +45,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
     <div class="layout-wrapper">
-        <!-- Sidebar -->
-        <nav class="sidebar box-shadow: 0px 4px 12px #21212115">
-            <img src="resources/logo.png" />
-            <h5 class="text-center mt-3">Menu</h5>
-            <a href="Home.aspx"><i class="bi bi-house-door-fill me-2"></i> Dashboard</a>
-            <a href="#"><i class="bi bi-person-check-fill"></i> Gestione studente</a>
-            <a href="Gestione_Facolta.aspx"><i class="bi bi-mortarboard-fill"></i> Gestione facoltà</a>
-            <a href="#"><i class="bi bi-clipboard2"></i> Gestione corsi</a>
-            <a href="Gestione_PianoStudi.aspx"><i class="bi bi-book"></i> Gestione Piano Studi</a>
-            <a href="#"><i class="bi bi-people-fill"></i> Gestione Docenti</a>
-            <div class="dropdown-sidebar">
-    <a class="dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenuEconomica" role="button" aria-expanded="false" aria-controls="submenuEconomica">
-        <i class="bi bi-wallet2 me-2"></i> Gestione Economica
-    </a>
-    <div class="collapse" id="submenuEconomica">
-        <a class="submenu-item" href="#"><i class="bi bi-cash-stack me-2"></i> Incasso Annuale</a>
-        <a class="submenu-item" href="#"><i class="bi bi-receipt me-2"></i> Incasso per corso</a>
-        <a class="submenu-item" href="#"><i class="bi bi-piggy-bank me-2"></i> Stima incassi dell'anno</a>
-    </div>
-</div>
-            <div class="dropdown-sidebar">
-    <a class="dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenuStatistiche" role="button" aria-expanded="false" aria-controls="submenuEconomica">
-        <i class="bi bi-bar-chart-line-fill me-2"></i> Statistiche studenti
-    </a>
-    <div class="collapse" id="submenuStatistiche">
-        <a class="submenu-item" href="#"><i class="bi bi-people-fill"></i> Studenti laureati per anno</a>
-        <a class="submenu-item" href="#"><i class="bi bi-receipt me-2"></i> Studenti iscritti per anno</a>
-    </div>
-</div>
-        <a href="#"><i class="bi bi-envelope"></i> Comunicazioni</a>    
-        </nav>
+     
+      
 
         <!-- Contenuto principale -->
         <main class="main-content">
