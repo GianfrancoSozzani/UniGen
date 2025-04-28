@@ -60,5 +60,11 @@ namespace LibreriaClassi
             dB.cmd.Parameters.AddWithValue("@K_Appello", K_Appello);
             return dB.SQLselect();
         }
+        public DataTable CaricaEsamiMeseCorrente()
+        {
+            DB dB = new DB();
+            dB.query = "APPELLI_CountEsamiMeseCorrente";
+            return dB.SQLselect();
+        }
     }
 }

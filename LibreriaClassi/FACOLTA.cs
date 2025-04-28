@@ -21,15 +21,15 @@ namespace LibreriaClassi
         public void Inserimento()
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", TitoloFacolta);
+            db.query = "Facolta_Insert";
+            db.cmd.Parameters.AddWithValue("@titolofacolta", TitoloFacolta);
             db.SQLcommand();
         }
 
         public DataTable VerificaDuplicato()
         {
             DB dB = new DB();
-            dB.query = "FACOLTA_VerificaDuplicato";
+            dB.query = "Facolta_VerificaDuplicato";
             dB.cmd.Parameters.AddWithValue("@TitoloFacolta", TitoloFacolta);
             return dB.SQLselect();
         }
@@ -44,8 +44,8 @@ namespace LibreriaClassi
         public DataTable SelezionaChiave()
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", K_Facolta);
+            db.query = "Facolta_SelectKey";
+            db.cmd.Parameters.AddWithValue("@chiave", K_Facolta);
             return db.SQLselect();
         }
 
@@ -60,9 +60,9 @@ namespace LibreriaClassi
         public void Modifica()
         {
             DB dB = new DB();
-            dB.query = "";
-            dB.cmd.Parameters.AddWithValue("", K_Facolta);
-            dB.cmd.Parameters.AddWithValue("", TitoloFacolta);
+            dB.query = "Facolta_Update";
+            dB.cmd.Parameters.AddWithValue("@chiave", K_Facolta);
+            dB.cmd.Parameters.AddWithValue("TitoloFacolta", TitoloFacolta);
             dB.SQLcommand();
         }
     }
