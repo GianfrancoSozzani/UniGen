@@ -11,7 +11,7 @@
 
 <div class="main-content">
 	<!-- Header -->
-	<div class="header pb-8 pt-5 d-flex align-items-center" style="max-height: 400px; background-image: url('/resources/StudentiUniversitari.jpg'); background-size: cover; background-position: center top;">
+	<div class="header pb-3 pt-5 mb-5 d-flex align-items-center" style="max-height: 400px; background-image: url('/resources/StudentiUniversitari.jpg'); background-size: cover; background-position: center top;">
 		<!-- Mask -->
 		<span class="mask bg-gradient-default opacity-8"></span>
 		<!-- Header container -->
@@ -29,7 +29,7 @@
 	</div>
 
 	<!-- Page content -->
-	<div class="container-fluid mt--7">
+	<div class="container-fluid">
 		<!-- Mostra il contenuto solo se il modello ha dati validi (es. ID > 0) -->
 		@if (Model != null && Model.K_Studente != Guid.Empty)
 		{

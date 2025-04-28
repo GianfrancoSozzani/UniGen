@@ -1534,7 +1534,7 @@ a.text-white:focus {
 }
 
 .card-profile-image {
-    position: relative;
+    position: relative;s
 }
 
     .card-profile-image img {
@@ -1542,7 +1542,7 @@ a.text-white:focus {
         left: 50%;
         max-width: 180px;
         /*transition: all .15s ease;*/
-        transform: translate(-50%, -30%);
+        transform: translate(-50%, -10%);
         border-radius: .375rem;
     }
 
