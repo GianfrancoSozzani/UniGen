@@ -2,7 +2,7 @@
 
 namespace AreaPubblica.Controllers
 {
-    public class Contatti : Controller
+    public class ContattiController : Controller
     {
         public IActionResult Index()
         {

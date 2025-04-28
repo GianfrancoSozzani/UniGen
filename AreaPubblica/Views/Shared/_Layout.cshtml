@@ -79,7 +79,7 @@
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Offerta Formativa
+                                    Didattica
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#">Calendario Accademico</a></li>
@@ -87,19 +87,19 @@
                                 </ul>
 
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Contatti</a>
+                                <a class="nav-link active" asp-area="" asp-controller="Contatti" asp-action="Contatti">Come Funziona</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Come Funziona</a>
+                                <a class="nav-link active" asp-area="" asp-controller="ComeFunziona" asp-action="Index">Come Funziona</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">FAQ</a>
+                                <a class="nav-link active" asp-area="" asp-controller="FAQ" asp-action="Index">FAQ</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Privacy</a>
+                                <a class="nav-link active" asp-area="" asp-controller="Privacy" asp-action="Index">Privacy</a>
                             </li>
                         </ul>
                     </div>
@@ -128,10 +128,18 @@
                 <div>
                     <p class="fs-5 mb-1">Chi Siamo</p>
                     <ul class="list-unstyled ms-3">
-                        <li><a href="#" class="text-white">Contatti</a></li>
-                        <li><a href="#" class="text-white">Come Funziona</a></li>
-                        <li><a href="#" class="text-white">FAQ</a></li>
-                        <li><a href="#" class="text-white">Privacy</a></li>
+                        <li>
+                            <a class="text-white" asp-area="" asp-controller="Contatti" asp-action="Index">Conattti</a>
+                        </li>
+                        <li>
+                            <a class="text-white" asp-area="" asp-controller="ComeFunziona" asp-action="Index">Come Funziona</a>
+                        </li>
+                        <li>
+                            <a class="text-white" asp-area="" asp-controller="FAQ" asp-action="Index">FAQ</a>
+                        </li>
+                        <li>
+                            <a class="text-white" asp-area="" asp-controller="Privacy" asp-action="Index">Privacy</a>
+                        </li>
                     </ul>
                 </div>
             </div>
