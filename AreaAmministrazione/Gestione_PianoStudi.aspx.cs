@@ -15,6 +15,12 @@ public partial class _Default : System.Web.UI.Page
         ddlFacolta.DataTextField = "TitoloFacolta";
         ddlFacolta.DataValueField = "K_Facolta";
         ddlFacolta.DataBind();
+
+        CORSI c = new CORSI();
+        ddlCorso.DataSource = c.SelezionaTutto();
+        ddlCorso.DataTextField = "TitoloCorso";
+        ddlCorso.DataValueField = "K_Corso";
+        ddlCorso.DataBind();
     }
 
     protected void btnAggiungiEsame_Click(object sender, EventArgs e)
