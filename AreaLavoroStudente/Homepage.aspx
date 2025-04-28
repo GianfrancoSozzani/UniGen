@@ -4,77 +4,69 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<<<<<<< Updated upstream
-
-
-         
-
-=======
-    <div class="container my-5">
+<div class="container-fluid my-5">
     <div class="mb-5">
-        <h1 class="text-center">Benvenuto nella tua area personale</h1>
-        <h3 class="text-center">Cosa vuoi fare?</h3>
+        <h1 class="text-center">Pannello del docente</h1>
     </div>
 
-    <div class="row g-4">
+    <div class="row g-4 justify-content-around">
 
-        <div class="col-12 col-md-6 col-lg-3">
+        <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
             <div class="card shadow">
                 <img src="~/css/resources/material.jpg" class="card-img-top" alt="Card 1 Image">
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
                     <h5 class="card-title">Materiali</h5>
                     <p class="card-text">Qui sono contenuti l'aggiunta dei materiali e la loro gestione.</p>
-                    <a href="#" class="btn btn-primary">Vai</a>
+                    <a asp-area="" asp-controller="Materiali" asp-action="Add" class="btn btn-primary mt-auto">Vai</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-3">
+        <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
             <div class="card shadow">
                 <img src="~/css/resources/lesson.jpg" class="card-img-top" alt="Card 2 Image">
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
                     <h5 class="card-title">Lezioni</h5>
                     <p class="card-text">Qui sono contenuti tutti gli applicativi per gestire le lezioni.</p>
-                    <a href="#" class="btn btn-primary">Vai</a>
+                    <a href="#" class="btn btn-primary mt-auto">Vai</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-3">
+        <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
             <div class="card shadow">
                 <img src="~/css/resources/time.jpg" class="card-img-top" alt="Card 3 Image">
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
                     <h5 class="card-title">Appelli</h5>
                     <p class="card-text">Qui è presente la gestione degli appelli.</p>
-                    <a href="#" class="btn btn-primary">Vai</a>
+                    <a href="#" class="btn btn-primary mt-auto">Vai</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-3">
+        <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
             <div class="card shadow">
                 <img src="~/css/resources/test.jpg" class="card-img-top" alt="Card 4 Image">
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
                     <h5 class="card-title">Test</h5>
                     <p class="card-text">Sezione dedicata alla gestione dei test.</p>
-                    <a href="#" class="btn btn-primary">Vai</a>
+                    <a href="#" class="btn btn-primary mt-auto">Vai</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-12 col-md-6 col-lg-3">
+        <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
             <div class="card shadow">
                 <img src="~/css/resources/exam.jpg" class="card-img-top" alt="Card 5 Image">
-                <div class="card-body">
-                    <h5 class="card-title">Valutazione esami</h5>
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Valutazioni</h5>
                     <p class="card-text">In questa area potrai valutare gli esami del corso dei cui sei docente.</p>
-                    <a href="#" class="btn btn-primary">Vai</a>
+                    <a href="#" class="btn btn-primary mt-auto">Vai</a>
                 </div>
             </div>
         </div>
 
     </div>
 </div>
->>>>>>> Stashed changes
 </asp:Content>
 
