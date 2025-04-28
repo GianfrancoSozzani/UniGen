@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>@ViewData["Title"] - AreaStudente</title>
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 	<link rel="stylesheet" href="~/AreaStudente.styles.css" asp-append-version="true" />
 
@@ -21,6 +22,7 @@
 		.dropdown-menu > li:hover > .dropdown-submenu {
 			display: block;
 		}
+
 
 		.sticky-top {
 			z-index: 1030 !important; /* Bootstrap usa 1000 per i dropdown, 1050+ per i modal. 1030 è un valore comune per le navbar fixed/sticky */
@@ -143,6 +145,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
 
 </body>
 </html>
