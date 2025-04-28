@@ -1,72 +1,83 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Homepage.aspx.cs" Inherits="_Default" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-<div class="container-fluid my-5">
-    <div class="mb-5">
-        <h1 class="text-center">Pannello del docente</h1>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <div class="container my-5">
+        <div class="mb-5">
+            <h1 class="text-center">Pannello studente</h1>
+        </div>
+
+       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-2 justify-content-center">
+
+
+            <div class="col d-flex justify-content-center">
+                <div class="card shadow h-100" style="width: 18rem;">
+                    <img src="resources/1.png" class="card-img-top" alt="Card 1 Image">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Lezioni e materiali</h5>
+                        <p class="card-text">Scarica le lezioni del tuo corso di studi e i relativi materiali.</p>
+                        <a href="#" class="btn btn-primary mt-auto">Vai</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col d-flex justify-content-center">
+                <div class="card shadow h-100" style="width: 18rem;">
+                    <img src="resources/2.png" class="card-img-top" alt="Card 2 Image">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Appelli</h5>
+                        <p class="card-text">Gestisci e visualizza le prenotazioni agli esami.</p>
+                        <a href="#" class="btn btn-primary mt-auto">Vai</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col d-flex justify-content-center">
+                <div class="card shadow h-100" style="width: 18rem;">
+                    <img src="resources/3.png" class="card-img-top" alt="Card 3 Image">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Piano di studio</h5>
+                        <p class="card-text">Gestisci e visualizza il tuo piano di studio.</p>
+                        <a href="#" class="btn btn-primary mt-auto">Vai</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col d-flex justify-content-center">
+                <div class="card shadow h-100" style="width: 18rem;">
+                    <img src="resources/4.png" class="card-img-top" alt="Card 4 Image">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">La tua carriera</h5>
+                        <p class="card-text">Visualizza gli esami verbalizzati, la tua media e i CFU conseguiti.</p>
+                        <a href="#" class="btn btn-primary mt-auto">Vai</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col d-flex justify-content-center">
+                <div class="card shadow h-100" style="width: 18rem;">
+                    <img src="resources/5.png" class="card-img-top" alt="Card 5 Image">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Pagamenti</h5>
+                        <p class="card-text">Gestisci e visualizza i tuoi pagamenti.</p>
+                        <a asp-area="" asp-controller="Materiali" asp-action="Add" class="btn btn-primary mt-auto">Vai</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col d-flex justify-content-center">
+                <div class="card shadow h-100" style="width: 18rem;">
+                    <img src="resources/6.png" class="card-img-top" alt="Card 6 Image">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Comunicazioni</h5>
+                        <p class="card-text">Accedi alle tue comunicazioni relative al tuo corso e ai tuoi esami.</p>
+                        <a href="#" class="btn btn-primary mt-auto">Vai</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
-
-    <div class="row g-4 justify-content-around">
-
-        <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
-            <div class="card shadow">
-                <img src="~/css/resources/material.jpg" class="card-img-top" alt="Card 1 Image">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Materiali</h5>
-                    <p class="card-text">Qui sono contenuti l'aggiunta dei materiali e la loro gestione.</p>
-                    <a asp-area="" asp-controller="Materiali" asp-action="Add" class="btn btn-primary mt-auto">Vai</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
-            <div class="card shadow">
-                <img src="~/css/resources/lesson.jpg" class="card-img-top" alt="Card 2 Image">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Lezioni</h5>
-                    <p class="card-text">Qui sono contenuti tutti gli applicativi per gestire le lezioni.</p>
-                    <a href="#" class="btn btn-primary mt-auto">Vai</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
-            <div class="card shadow">
-                <img src="~/css/resources/time.jpg" class="card-img-top" alt="Card 3 Image">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Appelli</h5>
-                    <p class="card-text">Qui è presente la gestione degli appelli.</p>
-                    <a href="#" class="btn btn-primary mt-auto">Vai</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
-            <div class="card shadow">
-                <img src="~/css/resources/test.jpg" class="card-img-top" alt="Card 4 Image">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Test</h5>
-                    <p class="card-text">Sezione dedicata alla gestione dei test.</p>
-                    <a href="#" class="btn btn-primary mt-auto">Vai</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
-            <div class="card shadow">
-                <img src="~/css/resources/exam.jpg" class="card-img-top" alt="Card 5 Image">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Valutazioni</h5>
-                    <p class="card-text">In questa area potrai valutare gli esami del corso dei cui sei docente.</p>
-                    <a href="#" class="btn btn-primary mt-auto">Vai</a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
 </asp:Content>
-
