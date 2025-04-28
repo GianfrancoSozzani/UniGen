@@ -59,6 +59,13 @@ namespace LibreriaClassi
             dB.query = "Studenti_SelectAll";
             return dB.SQLselect();
         }
+        //---------------AGGIUNTA PER HOME AMMINISTRAZIONE
+        public DataTable StudentiIscritti()
+        {
+            DB db = new DB();
+            db.query = "Studenti_SelectImmatricolati";
+            return db.SQLselect();
+        }
 
         public DataTable SelezionaPerMatricola()
         {

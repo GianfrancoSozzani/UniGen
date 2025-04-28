@@ -56,5 +56,12 @@ namespace LibreriaClassi
             dB.cmd.Parameters.AddWithValue("", CostoAnnuale);
             dB.SQLcommand();
         }
+        //---------------AGGIUNTA PER HOME AMMINISTRAZIONE
+        public DataTable CorsiAttivi()
+        {
+            DB db = new DB();
+            db.query = "Corsi_CountCorsi";
+            return db.SQLselect();
+        }
     }
 }

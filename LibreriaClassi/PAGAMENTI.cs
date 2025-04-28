@@ -63,5 +63,13 @@ namespace LibreriaClassi
             dB.cmd.Parameters.AddWithValue("", Importo);
             dB.SQLcommand();
         }
+
+        //---------------AGGIUNTA PER HOME AMMINISTRAZIONE
+        public DataTable IncassoAnnoCorrente()
+        {
+            DB db = new DB();
+            db.query = "Pagamenti_IncassoAnnoCorrente";
+            return db.SQLselect();
+        }
     }
 }
