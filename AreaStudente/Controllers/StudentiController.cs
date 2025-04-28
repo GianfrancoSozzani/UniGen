@@ -1,6 +1,5 @@
 ﻿using AreaStudente.Data;
 using AreaStudente.Models;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -51,12 +50,10 @@ namespace AreaStudente.Controllers
                 Cognome = studente.Cognome,
                 Nome = studente.Nome,
                 DataNascita = studente.DataNascita,
-
                 Indirizzo = studente.Indirizzo,
                 CAP = studente.CAP,
                 Citta = studente.Citta,
                 Provincia = studente.Provincia,
-
                 ImmagineProfilo = studente.ImmagineProfilo,
                 Tipo = studente.Tipo,
                 Matricola = studente.Matricola,
@@ -101,14 +98,41 @@ namespace AreaStudente.Controllers
 
             return View(dashboardViewModel);
         }
-    }
-}
+
+        [HttpGet]
+        public async Task<IActionResult> ModificaProfilo(Guid id)
+        {
+            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == id);
+
+            if (studente == null)
+            {
+                TempData["PopupErrore"] = "Studente non trovato.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            var model = new ModificaStudenteViewModel
+            {
+                K_Studente = studente.K_Studente,
+                Nome = studente.Nome,
+                Cognome = studente.Cognome,
+                Email = studente.Email,
+                DataNascita = studente.DataNascita,
+                Indirizzo = studente.Indirizzo,
+                CAP = studente.CAP,
+                Citta = studente.Citta,
+                Provincia = studente.Provincia,
+                ImmagineProfilo = studente.ImmagineProfilo
+            };
+
+            return View(model);
+        }
+
+
 
         [HttpPost]
         public async Task<IActionResult> ModificaProfilo(ModificaStudenteViewModel model, string PasswordNew, string PasswordConfirm)
         {
-            var studenteId = new Guid("0CDDDB26-14FE-4937-91A8-ED9014654CA3");
-            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == studenteId);
+            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == model.K_Studente);
 
             if (studente == null)
                 return NotFound();
@@ -188,7 +212,10 @@ namespace AreaStudente.Controllers
 
         }
 
+    }
+}
 
- 
+
+
 
 
