@@ -23,15 +23,19 @@ namespace AreaStudente.Controllers
             // In questo caso, per il ViewModel fornito, non serve caricare il Corso,
             // ma lo lascio commentato come esempio se volessi il nome del corso in futuro.
             var studente = await dbContext.Studenti
-                // Sostituisci con il tuo DbSet<Studente>
-                                                    // .Include(s => s.Corso) // Esempio: Decommenta se hai una navigation property 'Corso' in Studente e vuoi il nome
+                                          // Sostituisci con il tuo DbSet<Studente>
+                                          // .Include(s => s.Corso) // Esempio: Decommenta se hai una navigation property 'Corso' in Studente e vuoi il nome
                                           .FirstOrDefaultAsync(s => s.K_Studente == id);
             if (studente == null)
             {
                 ViewBag.ErrorMessage = $"Nessun dato studente da visualizzare.Assicurati di aver specificato un ID valido.";
 
                 // Torni comunque alla view "Show" passando un model vuoto
-                return View(new ShowStudenteViewModel());
+                return View(new StudenteDashboardViewModel
+                {
+                    Studente = new ShowStudenteViewModel(),
+                    Comunicazioni = new List<ComunicazioneViewModel>()
+                });
             }
 
             // Mappa dall'entità Studente (dal DB) a ShowStudenteViewModel
@@ -49,13 +53,13 @@ namespace AreaStudente.Controllers
                 Citta = studente.Citta,
                 Provincia = studente.Provincia,
                 ImmagineProfilo = studente.ImmagineProfilo,
-                Tipo = studente.Tipo, 
+                Tipo = studente.Tipo,
                 Matricola = studente.Matricola,
                 DataImmatricolazione = studente.DataImmatricolazione,
                 K_Corso = studente.K_Corso,
-                Abilitato = studente.Abilitato  
+                Abilitato = studente.Abilitato
 
-               
+
 
                 // Opzione 3: Se la stringa nel DB ha valori specifici come "ATTIVO", "SOSPESO" etc.
                 //            e vuoi mapparli a "Sì"/"No" o altro. Esempio:
@@ -69,8 +73,28 @@ namespace AreaStudente.Controllers
                 // },
             };
 
+            var comunicazioni = await dbContext.Comunicazioni
+                .Where(c => c.K_Studente == studente.K_Studente)
+                .Select(c => new ComunicazioneViewModel
+                {
+                    K_Comunicazione = c.K_Comunicazione,
+                    Codice_Comunicazione = c.Codice_Comunicazione,
+                    DataOraComunicazione = c.DataOraComunicazione,
+                    Soggetto = c.Soggetto,
+                    K_Soggetto = c.K_Soggetto,
+                    Testo = c.Testo,
+                    K_Studente = c.K_Studente
+                })
+                .ToListAsync();
 
-            return View(viewModel);
+
+            var dashboardViewModel = new StudenteDashboardViewModel
+            {
+                Studente = viewModel,
+                Comunicazioni = comunicazioni
+            };
+
+            return View(dashboardViewModel);
         }
     }
 }

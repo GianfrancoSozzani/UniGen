@@ -3,7 +3,7 @@
 *@
 @{
 }
-@model AreaStudente.Models.ShowStudenteViewModel
+@model AreaStudente.Models.StudenteDashboardViewModel
 
 
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
@@ -19,7 +19,7 @@
 			<div class="row">
 				<div class="col-lg-7 col-md-10">
 					<!-- Mostra il nome solo se il modello non è null/vuoto -->
-					<h1 class="display-2 text-white">Benvenuto/a @(Model?.Nome ?? "Studente")!</h1>
+					<h1 class="display-2 text-white">Benvenuto/a @(Model.Studente?.Nome ?? "Studente")!</h1>
 					<p class="text-white fs-4 mt-0 mb-5">
 						Quest'area personale permette di consultare e modificare i dati della tua registrazione, procedere all'immatricolazione e contattare l'università per ottenere informazioni.
 					</p>
@@ -31,7 +31,7 @@
 	<!-- Page content -->
 	<div class="container-fluid">
 		<!-- Mostra il contenuto solo se il modello ha dati validi (es. ID > 0) -->
-		@if (Model != null && Model.K_Studente != Guid.Empty)
+		@if (Model != null && Model.Studente?.K_Studente != Guid.Empty)
 		{
 			<div class="row">
 				<!-- COLONNA SINISTRA: 2 card impilate -->
@@ -41,7 +41,7 @@
 						<div class="row justify-content-center">
 							<div class="col-lg-3 order-lg-2">
 								<div class="card-profile-image">
-									<img src="@(Model?.ImmagineProfilo != null ? $"data:{Model.Tipo};base64,{Convert.ToBase64String(Model.ImmagineProfilo)}" : Url.Content("~/resources/BlankProfile.jpg"))" class="rounded-circle img-fluid">
+									<img src="@(Model.Studente?.ImmagineProfilo != null ? $"data:{Model.Studente.Tipo};base64,{Convert.ToBase64String(Model.Studente.ImmagineProfilo)}" : Url.Content("~/resources/BlankProfile.jpg"))" class="rounded-circle img-fluid">
 								</div>
 							</div>
 						</div>
@@ -52,11 +52,11 @@
 							</div>
 							<div class="text-center">
 								<small class="d-block text-muted mt-2 mb-3">Per modificare l'immagine del profilo vai su "Modifica Dati"</small>
-								<h3>@(Model?.Nome ?? "N/A") @(Model?.Cognome ?? "N/A")</h3>
+								<h3>@(Model.Studente?.Nome ?? "N/A") @(Model.Studente?.Cognome ?? "N/A")</h3>
 								<div><i class="ni education_hat mr-2"></i>Università UniGen</div>
 								<hr class="my-4">
 								<p>Vai alla tua Area Lavoro</p>
-								@if (Model?.Abilitato == "S")
+								@if (Model.Studente?.Abilitato == "S")
 								{
 									<a class="fs-4" href="/AreaLavoro" title="Accedi alla tua Area Lavoro" data-bs-toggle="tooltip" data-bs-placement="top">Area Lavoro</a>
 								}
@@ -72,7 +72,7 @@
 					<div class="card card-profile shadow">
 						<div class="row text-center">
 							<p class="fs-3">Riepilogo Profilo</p>
-							<span>@Model.Email</span>
+							<span>@Model.Studente?.Email</span>
 						</div>
 						<div class="card-body pt-0">
 							<div class="text-center">
@@ -84,13 +84,13 @@
 											<div class="col-md-6">
 												<div class="form-group focused">
 													<label class="form-control-label" for="input-matriculation-number">Matricola</label>
-													<input id="input-matriculation-number" class="form-control form-control-alternative" placeholder="Numero Matricola" value="@(Model?.Matricola?.ToString() ?? "N/A")" type="text" readonly>
+													<input id="input-matriculation-number" class="form-control form-control-alternative" placeholder="Numero Matricola" value="@(Model.Studente?.Matricola?.ToString() ?? "N/A")" type="text" readonly>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group focused">
 													<label class="form-control-label" for="input-date-matriculation">Data di Immatricolazione</label>
-													<input id="input-date-matriculation" class="form-control form-control-alternative" placeholder="Data di Immatricolazione" value="@(Model?.DataImmatricolazione?.ToString("dd/MM/yyyy") ?? "N/A")" type="text" readonly>
+													<input id="input-date-matriculation" class="form-control form-control-alternative" placeholder="Data di Immatricolazione" value="@(Model.Studente?.DataImmatricolazione?.ToString("dd/MM/yyyy") ?? "N/A")" type="text" readonly>
 												</div>
 											</div>
 										</div>
@@ -98,13 +98,13 @@
 											<div class="col-md-6">
 												<div class="form-group focused">
 													<label class="form-control-label" for="input-enabled">Abilitato</label>
-													<input id="input-enabled" class="form-control form-control-alternative" placeholder="Abilitato" value="@(Model?.Abilitato ?? "N/A")" type="text" readonly>
+													<input id="input-enabled" class="form-control form-control-alternative" placeholder="Abilitato" value="@(Model.Studente?.Abilitato ?? "N/A")" type="text" readonly>
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group focused">
 													<label class="form-control-label" for="input-course">Corso</label>
-													<input id="input-course" class="form-control form-control-alternative" placeholder="Corso" value="@(Model?.K_Corso?.ToString() ?? "N/A")" type="text" readonly>
+													<input id="input-course" class="form-control form-control-alternative" placeholder="Corso" value="@(Model.Studente?.K_Corso?.ToString() ?? "N/A")" type="text" readonly>
 												</div>
 											</div>
 										</div>
@@ -121,6 +121,23 @@
 						<div class="card-body">
 							<h1>LE TUE COMUNICAZIONI</h1>
 							<hr class="my-4">
+							@if (Model.Comunicazioni != null && Model.Comunicazioni.Count > 0)
+							{
+								<ul class="list-group">
+									@foreach (var comunicazione in Model.Comunicazioni)
+									{
+										<li class="list-group-item">
+											<h5>@comunicazione.Soggetto</h5>
+											<p>@comunicazione.Testo</p>
+											<small class="text-muted">@comunicazione.DataOraComunicazione?.ToString("dd/MM/yyyy HH:mm")</small>
+										</li>
+									}
+								</ul>
+							}
+							else
+							{
+								<p>Non hai comunicazioni.</p>
+							}
 						</div>
 					</div>
 				</div>
