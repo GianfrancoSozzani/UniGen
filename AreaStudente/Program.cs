@@ -1,3 +1,6 @@
+using AreaStudente.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace AreaStudente
 {
     public class Program
@@ -8,6 +11,16 @@ namespace AreaStudente
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("AteneoConn")));
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromHours(24);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             var app = builder.Build();
 
