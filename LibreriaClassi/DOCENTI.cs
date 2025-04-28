@@ -120,5 +120,11 @@ namespace LibreriaClassi
             db.SQLcommand();
         }
 
+        public DataTable DocentiAttivi()
+        {
+            DB db = new DB();
+            db.query = "Docenti_CountAttivi";
+            return db.SQLselect();
+        }
     }
 }
