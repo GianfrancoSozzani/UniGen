@@ -6,19 +6,19 @@
 
 <h1>Inserimento Materiale</h1>
 
-<form method="post" enctype="multipart/form-data">
+<form method="post">
 
     <div class="mt-3">
         <label class="form-label">Titolo</label>
         <input type="text" class="form-control" asp-for="Titolo" />
         <label class="form-label" for="file">Titolo</label>
-		<input type="file" id="file" name="materiale" class="form-control" asp-for="materiale"/>
-
+		<input type="file" id="file" name="materiale" class="form-control" />
+        
     </div>
+
+    
 
     <div class="mt-3">
         <button type="submit" class="btn btn-primary">Salva</button>
     </div>
-
-
 </form>

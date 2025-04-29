@@ -9,8 +9,12 @@ namespace AreaDocente.Data
         {
 
         }
-        public DbSet<Materiali> materiali { get; set; }
-        public DbSet<MVCLezioni> lezioni { get; set; }
-
+        public DbSet<MVCMateriali> materiali { get; set; }
+        public DbSet<MVCEsame> esami { get; set; }
+        public DbSet<MVCAPPELLO> appelli { get; set; }
+        public DbSet<MVCDOCENTE> docenti { get; set; }
+        public DbSet<MVCPROVA> prove { get; set; }
+        public DbSet<MVCTest_DA> test_DA { get; set; }
+        public DbSet<MVCTest_DC> test_DC { get; set; }
     }
 }
