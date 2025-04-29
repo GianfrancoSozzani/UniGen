@@ -15,6 +15,6 @@ namespace AreaDocente.Models.Entities
         [ForeignKey("K_Esame")]
 
         [ValidateNever]
-        public ESAME esame { get; set; }
+        public MVCEsame esame{ get; set; }
     }
 }

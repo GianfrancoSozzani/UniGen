@@ -11,7 +11,7 @@ namespace AreaDocente.Models.Entities
         public Guid K_Appello { get; set; }
 
         [ForeignKey("K_Appello")]
-        public MVCAppello Appello { get; set; }
+        public MVCAPPELLO Appello { get; set; }
         public string Link { get; set; }
 
         [ForeignKey("Link")]
