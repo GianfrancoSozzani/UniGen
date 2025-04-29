@@ -47,7 +47,7 @@ namespace AreaPubblica.Controllers
                 if (studente.Matricola == null)
                 {
                     //return RedirectToAction("AREA STUDENTE (NON IMMATRICOLATO)", "Home");
-                    return Redirect("http://localhost:5201/Studenti/ModificaProfilo");
+                    return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod="+studente.K_Studente.ToString()+"&&usr="+studente.Email+"&&r=S");
 
                 }
 
