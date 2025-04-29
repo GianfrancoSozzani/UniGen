@@ -94,5 +94,14 @@ namespace LibreriaClassi
             db.query = "Pagamenti_SelectGroupByFacolta";
             return db.SQLselect();
         }
+
+        public DataTable IncassiPerCorso(Guid Facolta)
+        {
+            DB db = new DB();
+            db.cmd.Parameters.AddWithValue("@anno", Anno);
+            db.cmd.Parameters.AddWithValue("@facolta", Facolta);
+            db.query = "Pagamenti_SelectGroupByCorso";
+            return db.SQLselect();
+        }
     }
 }
