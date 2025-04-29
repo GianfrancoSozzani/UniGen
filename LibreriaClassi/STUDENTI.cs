@@ -59,12 +59,26 @@ namespace LibreriaClassi
             dB.query = "Studenti_SelectAll";
             return dB.SQLselect();
         }
+        //---------------AGGIUNTA PER HOME AMMINISTRAZIONE
+        public DataTable StudentiIscritti()
+        {
+            DB db = new DB();
+            db.query = "Studenti_SelectImmatricolati";
+            return db.SQLselect();
+        }
 
         public DataTable SelezionaPerMatricola()
         {
             DB db = new DB();
-            db.query = "";
+            db.query = "Studenti_SelectByMatricola";
             db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+
+        public DataTable AttivaStudenteList()
+        {
+            DB db = new DB();
+            db.query = "ListAbilitaStudenti";
             return db.SQLselect();
         }
 
@@ -73,6 +87,22 @@ namespace LibreriaClassi
             DB db = new DB();
             db.query = "";
             db.cmd.Parameters.AddWithValue("", K_Studente);
+            return db.SQLselect();
+        }
+
+        public DataTable Attiva()
+        {
+            DB db = new DB();
+            db.query = "Studenti_Attiva";
+            db.cmd.Parameters.AddWithValue("@matricola", Matricola);
+            return db.SQLselect();
+        }
+
+        public DataTable Disattiva()
+        {
+            DB db = new DB();
+            db.query = "Studenti_Disattiva";
+            db.cmd.Parameters.AddWithValue("@matricola", Matricola);
             return db.SQLselect();
         }
 
