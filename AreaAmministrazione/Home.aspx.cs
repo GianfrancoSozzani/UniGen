@@ -37,6 +37,11 @@ public partial class _Default : System.Web.UI.Page
 
         STUDENTI s = new STUDENTI();
         DataTable dt = s.StudentiIscritti();
+        if(dt.Rows.Count == 0)
+        {
+            litStudentii.Text = "0";
+            return;
+        }
         litStudentii.Text = dt.Rows[0][0].ToString();
 
     }
@@ -45,6 +50,11 @@ public partial class _Default : System.Web.UI.Page
 
         PAGAMENTI p = new PAGAMENTI();
         DataTable dt = p.IncassoAnnoCorrente();
+        if (dt.Rows.Count == 0)
+        {
+            litIncassoC.Text = "0";
+            return;
+        }
         litIncassoC.Text = dt.Rows[0][0].ToString();
 
     }
@@ -53,6 +63,11 @@ public partial class _Default : System.Web.UI.Page
 
         CORSI c = new CORSI();
         DataTable dt = c.CorsiAttivi();
+        if (dt.Rows.Count == 0)
+        {
+            litCorsiA.Text = "0";
+            return;
+        }
         litCorsiA.Text = dt.Rows[0][0].ToString();
 
     }
@@ -62,6 +77,11 @@ public partial class _Default : System.Web.UI.Page
 
         DOCENTI d = new DOCENTI();
         DataTable dt = d.DocentiAttivi();
+        if (dt.Rows.Count == 0)
+        {
+            litDocenti.Text = "0";
+            return;
+        }
         litDocenti.Text = dt.Rows[0][0].ToString();
 
     }
@@ -71,6 +91,11 @@ public partial class _Default : System.Web.UI.Page
 
         APPELLI a = new APPELLI();
         DataTable dt = a.CaricaEsamiMeseCorrente();
+        if (dt.Rows.Count == 0)
+        {
+            litEsami.Text = "0";
+            return;
+        }
         litEsami.Text = dt.Rows[0][0].ToString();
 
     }
@@ -79,6 +104,11 @@ public partial class _Default : System.Web.UI.Page
 
         CORSI c = new CORSI();
         DataTable dt = c.TassaMediaAnnuale();
+        if (dt.Rows[0][0].ToString() == "")
+        {
+            litTassaM.Text = "0";
+            return;
+        }
         litTassaM.Text = dt.Rows[0][0].ToString();
 
     }

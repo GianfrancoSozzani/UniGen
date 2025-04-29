@@ -59,9 +59,9 @@
                 </div>
                 <h5 class="text-center">Menu</h5>
                 <a href="Home.aspx"><i class="bi bi-house-door-fill me-2"></i>Dashboard</a>
-                <a href="AbilitaStudente.aspx"><i class="bi bi-person-check-fill me-2"></i>Gestione studente</a>
-                <a href="Gestione_Facolta.aspx"><i class="bi bi-mortarboard-fill me-2"></i>Gestione facoltà</a>
-                <a href="Gestione_Corsi.aspx"><i class="bi bi-clipboard2 me-2"></i>Gestione corsi</a>
+                <a href="AbilitaStudente.aspx"><i class="bi bi-person-check-fill me-2"></i>Gestione Studente</a>
+                <a href="Gestione_Facolta.aspx"><i class="bi bi-mortarboard-fill me-2"></i>Gestione Facoltà</a>
+                <a href="Gestione_Corsi.aspx"><i class="bi bi-clipboard2 me-2"></i>Gestione Corsi</a>
                 <a href="Gestione_PianoStudi.aspx"><i class="bi bi-book me-2"></i>Gestione Piano Studi</a>
                 <a href="GestioneDocenti.aspx"><i class="bi bi-people-fill me-2"></i>Gestione Docenti</a>
 
@@ -78,7 +78,7 @@
 
                 <div class="dropdown-sidebar">
                     <a class="dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenuStatistiche" role="button" aria-expanded="false" aria-controls="submenuStatistiche">
-                        <i class="bi bi-bar-chart-line-fill me-2"></i>Statistiche studenti
+                        <i class="bi bi-bar-chart-line-fill me-2"></i>Statistiche Studenti
                     </a>
                     <div class="collapse" id="submenuStatistiche">
                         <a class="submenu-item" href="StudentiLaureatiPerAnno.aspx"><i class="bi bi-people-fill me-2"></i>Studenti laureati per anno</a>
