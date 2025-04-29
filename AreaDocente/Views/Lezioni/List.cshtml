@@ -1,0 +1,51 @@
+﻿@model List<AreaDocente.Models.Entities.MVCLezioni>
+
+<!-- SweetAlert2 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<h1>Elenco Lezioni</h1>
+
+@* TABELLA *@
+<table class="table">
+
+	@* HEAD *@
+	<thead>
+		<tr>
+			<th>Titolo</th>
+			<th>Video</th>
+			<th></th>
+		</tr>
+	</thead>
+
+	@* BODY *@
+	<tbody>
+		@foreach (var lezioni in Model)
+		{
+			<tr>
+				<td>
+					@lezioni.Titolo
+				</td>
+				<td>
+					@lezioni.Video
+				</td>
+				<td>
+					<a class="btn btn-primary" asp-controller="Lezioni" asp-action="Edit" asp-route-id="@lezioni.K_Lezione">Modifica</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+@* JS *@
+@if (TempData["AlertMessage"] != null)
+{
+	<script>
+		Swal.fire({
+			icon: 'success',
+			title: 'Fatto!',
+			text: '@TempData["AlertMessage"]'
+		});
+	</script>
+}

@@ -10,6 +10,7 @@ namespace AreaDocente.Data
 
         }
         public DbSet<Materiali> materiali { get; set; }
+        public DbSet<MVCLezioni> lezioni { get; set; }
 
     }
 }
