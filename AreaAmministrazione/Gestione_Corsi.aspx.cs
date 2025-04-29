@@ -16,6 +16,8 @@ public partial class _Default : System.Web.UI.Page
             CaricaCorsi();
             CaricaFacolta();
             CaricaTipoCorsi();
+            CaricaFacoltaModal();
+            CaricaTipoCorsiModal();
         }
     }
 
@@ -36,6 +38,16 @@ public partial class _Default : System.Web.UI.Page
         ddlFacolta.DataBind();
     }
 
+    // Popolo la dropdownlist delle facoltà del MODAL
+    protected void CaricaFacoltaModal()
+    {
+        FACOLTA f = new FACOLTA();
+        ddlTitoloFacolta.DataSource = f.SelezionaTutto();
+        ddlTitoloFacolta.DataTextField = "TitoloFacolta";
+        ddlTitoloFacolta.DataValueField = "K_Facolta";
+        ddlTitoloFacolta.DataBind();
+    }
+
     //Popolo la dropdownlist dei tipicorsi
     protected void CaricaTipoCorsi()
     {
@@ -46,9 +58,19 @@ public partial class _Default : System.Web.UI.Page
         ddlTipoCorso.DataBind();
     }
 
+    //Popolo la dropdownlist dei tipicorsi del MODAL
+    protected void CaricaTipoCorsiModal()
+    {
+        TIPICORSI t = new TIPICORSI();
+        ddlTitoloTipo.DataSource = t.SelezionaTutto();
+        ddlTitoloTipo.DataTextField = "Tipo";
+        ddlTitoloTipo.DataValueField = "K_TipoCorso";
+        ddlTitoloTipo.DataBind();
+    }
+
     protected void btnSalva_Click(object sender, EventArgs e)
     {
-        string titoloCorso = txtTitoloCorso.Text.Trim();
+        string titoloCorso = txtCorso.Text.Trim();
 
         // Controllo che i campi non siano vuoti
         if (String.IsNullOrEmpty(titoloCorso) ||
@@ -77,10 +99,10 @@ public partial class _Default : System.Web.UI.Page
         }
 
         // Controllo costoannuale numerico decimale dove accetta anche il punto e lo converte in virgola
-        string inputCosto = txtCostoAnnuale.Text.Trim().Replace(".", ",");
+        string inserimentoCosto = txtCostoAnnuale.Text.Trim().Replace(".", ",");
 
         decimal costoAnnuale;
-        if (!decimal.TryParse(inputCosto, out costoAnnuale))
+        if (!decimal.TryParse(inserimentoCosto, out costoAnnuale))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Inserisci un valore numerico valido per il costo annuale')", true);
             return;
@@ -106,6 +128,70 @@ public partial class _Default : System.Web.UI.Page
         }
 
         c.Inserimento();
+        CaricaCorsi();
+    }
+
+    protected void btnSalvaModifica_Click(object sender, EventArgs e)
+    {
+        Guid id = Guid.Parse(hiddenIdCorso.Value);
+        string nuovoTitoloCorso = txtTitoloCorso.Text.Trim();
+        string nuovoTitoloMinimoCFU = txtTitoloMinimoCFU.Text.Trim();
+        string nuovoTitoloCostoAnnuale = txtTitoloCostoAnnuale.Text.Trim();
+
+        // Controllo che il campo non sia vuoto
+        if (string.IsNullOrEmpty(txtTitoloCorso.Text) ||
+           string.IsNullOrEmpty(txtTitoloMinimoCFU.Text) ||
+           string.IsNullOrEmpty(txtTitoloCostoAnnuale.Text))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Non sono ammessi campi vuoti')", true);
+            return;
+        }
+
+        // Controllo che non permette l'uso di numeri o caratteri speciali
+        if (!System.Text.RegularExpressions.Regex.IsMatch(nuovoTitoloCorso, @"^[a-zA-Z\s]+$"))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Inserire solo lettere')", true);
+            return;
+        }
+
+        // Controllo CFU numerico intero e maggiore di 0
+        short minimoCFU;
+        if (!short.TryParse(txtTitoloMinimoCFU.Text.Trim(), out minimoCFU) || minimoCFU <= 0)
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Inserisci un numero intero valido per i CFU')", true);
+            return;
+        }
+
+        // Controllo costoannuale numerico decimale dove accetta anche il punto e lo converte in virgola
+        string inserimentoCosto = nuovoTitoloCostoAnnuale.Replace(".", ",");
+
+        decimal costoAnnuale;
+        if (!decimal.TryParse(inserimentoCosto, out costoAnnuale))
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Inserisci un valore numerico valido per il costo annuale')", true);
+            return;
+        }
+
+        CORSI c = new CORSI();
+        c.K_Corso = id;
+        c.TitoloCorso = char.ToUpper(nuovoTitoloCorso[0]) + nuovoTitoloCorso.Substring(1);
+        c.MinimoCFU = minimoCFU;
+        c.CostoAnnuale = costoAnnuale;
+        c.K_Facolta = Guid.Parse(ddlTitoloFacolta.SelectedValue);
+        c.K_TipoCorso = Guid.Parse(ddlTitoloTipo.SelectedValue);
+
+        // Controllo duplicato
+        DataTable dt = c.VerificaDuplicatoModifica();
+
+        // Controllo duplicato
+        if (dt.Rows.Count == 1)
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Corso già presente')", true);
+            return;
+        }
+
+        c.Modifica();
+
         CaricaCorsi();
     }
 }
