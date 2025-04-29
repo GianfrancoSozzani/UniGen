@@ -1,13 +1,16 @@
 ﻿using AreaStudente.Data;
 using AreaStudente.Models;
-using AreaStudente.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
+
 
 namespace AreaStudente.Controllers
 {
     public class StudentiController : Controller
     {
+
         private readonly ApplicationDbContext dbContext;
 
         public StudentiController(ApplicationDbContext dbContext)
@@ -30,10 +33,12 @@ namespace AreaStudente.Controllers
                 Email = studente.Email,
                 Nome = studente.Nome,
                 Cognome = studente.Cognome,
+
                 Indirizzo = studente.Indirizzo,
                 CAP = studente.CAP,
                 Citta = studente.Citta,
                 Provincia = studente.Provincia,
+
                 DataNascita = studente.DataNascita,
                 ImmagineProfilo = studente.ImmagineProfilo
             };
@@ -140,3 +145,5 @@ namespace AreaStudente.Controllers
 
 }
 
+
+                
