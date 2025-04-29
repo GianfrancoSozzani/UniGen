@@ -2,15 +2,13 @@
 
 namespace AreaDocente.Models.Entities
 {
-    public class Test_DC
+    public class MVCTest_DA
     {
         [Key]
-        public Guid K_Test_DC { get; set; }
+        public Guid K_Test_DA { get; set; }
         public int Numero_Domanda { get; set; }
         public string Domanda { get; set; }
-        public string Risposte { get; set; }
-        public string RispostaCorretta { get; set; }
-        public string RispostaData { get; set; }
+        public string Risposta { get; set; }
         public Guid Codice_Test { get; set; }
     }
 }
