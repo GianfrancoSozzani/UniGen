@@ -78,7 +78,7 @@ namespace LibreriaClassi
         public DataTable AttivaStudenteList()
         {
             DB db = new DB();
-            db.query = "ListAbilitaStudenti";
+            db.query = "Studenti_AbilitaList";
             return db.SQLselect();
         }
 
@@ -93,7 +93,7 @@ namespace LibreriaClassi
         public DataTable Attiva()
         {
             DB db = new DB();
-            db.query = "Studenti_Attiva";
+            db.query = "Studenti_Abilita";
             db.cmd.Parameters.AddWithValue("@matricola", Matricola);
             return db.SQLselect();
         }
@@ -101,7 +101,7 @@ namespace LibreriaClassi
         public DataTable Disattiva()
         {
             DB db = new DB();
-            db.query = "Studenti_Disattiva";
+            db.query = "Studenti_Disabilita";
             db.cmd.Parameters.AddWithValue("@matricola", Matricola);
             return db.SQLselect();
         }

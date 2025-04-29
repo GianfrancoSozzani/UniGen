@@ -7,27 +7,27 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
     <div class="container mt-3">
-        <h2>Gestione Studenti</h2>
+        <h2 class="form-inline">Gestione Studenti</h2>
 
         <div class="form-inline mb-3">
-            <label class="mr-2" for="txtRicercaMatricola">Ricerca Matricola:</label>
+            <label class="mr-2" for="txtRicercaMatricola">Ricerca Matricola</label>
             <asp:TextBox ID="txtRicercaMatricola" runat="server" CssClass="form-control mr-2" TextMode="Number"></asp:TextBox>
-            <asp:Button ID="btnRicerca" runat="server" Text="Cerca" CssClass="btn btn-primary" OnClick="btnRicerca_Click"
-                Style="box-shadow: 0px 4px 12px #21212115;" />
-           <span style="margin-left: 1em;">
+            <button id="btnRicerca" runat="server" class="btn btn-primary" OnClick="btnRicerca_Click">
+                <i class="bi bi-search"></i>
+            </button>
+            <span style="margin-left: 1em;">
                 <asp:Label ID="lblErrore" runat="server" CssClass="text-danger mt-3" Text="" Visible="False"></asp:Label>
             </span>
         </div>
 
         <h3>Elenco Studenti</h3>
         <asp:Repeater ID="rptStudenti" runat="server" OnItemCommand="rptStudenti_ItemCommand">
-            <HeaderTemplate>
+            <headertemplate>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -39,8 +39,8 @@
                         </tr>
                     </thead>
                     <tbody>
-            </HeaderTemplate>
-            <ItemTemplate>
+            </headertemplate>
+            <itemtemplate>
                 <tr>
                     <td><%# Eval("Matricola") %></td>
                     <td><%# Eval("Cognome") %></td>
@@ -59,12 +59,12 @@
                             Style="box-shadow: 0px 4px 12px #21212115;" CssClass="btn btn-danger btn-sm" />
                     </td>
                 </tr>
-            </ItemTemplate>
-            <FooterTemplate>
+            </itemtemplate>
+            <footertemplate>
                 </tbody>
                 </table>
            
-            </FooterTemplate>
+            </footertemplate>
         </asp:Repeater>
 
 
