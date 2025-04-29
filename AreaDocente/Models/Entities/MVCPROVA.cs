@@ -4,23 +4,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AreaDocente.Models.Entities
 {
-    public class PROVA
+    public class MVCPROVA
     {
         [Key]
         public Guid K_Prova { get; set; }
         public Guid K_Appello { get; set; }
 
         [ForeignKey("K_Appello")]
-        public APPELLO Appello { get; set; }
+        public MVCAppello Appello { get; set; }
         public string Link { get; set; }
 
         [ForeignKey("Link")]
         [ValidateNever]
-        public Test_DC Test_DC { get; set; }
+        public MVCTest_DC Test_DC { get; set; }
 
         [ForeignKey("Link")]
         [ValidateNever]
-        public Test_DA Test_DA { get; set; }
+        public MVCTest_DA Test_DA { get; set; }
 
         public string Tipologia { get; set; }
 
