@@ -79,14 +79,32 @@
                                     <a class="nav-link" href="#">Comunicazioni</a>
                                 </li>
                             </ul>
+
+
+                            <div class="d-flex ms-auto">
+                                <div class="dropdown">
+                                    <button class="btn btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-person-circle me-2"></i>
+                                        <asp:Label ID="lblStudente" runat="server"></asp:Label></button>
+
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Logout</a></li>
+
+                                    </ul>
+                                </div>
+
+
+
+                            </div>
                         </div>
-                    </div>
                 </nav>
             </div>
         </header>
 
-        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"><asp:Label ID="lblStudente" runat="server" CssClass="fw-bold fs-5 text-primary"></asp:Label>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
         </asp:ContentPlaceHolder>
+
+
 
         <footer>
             <div class="bg-dark text-white h-100">
