@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 
 namespace AreaStudente.Controllers
@@ -48,6 +49,7 @@ namespace AreaStudente.Controllers
         public async Task<IActionResult> Show(Guid id) // L'ID dello studente da visualizzare
         {
             ViewData["studente_id"] = id;
+            HttpContext.Session.SetString("studente_id", id.ToString());
             // Trova lo studente includendo potenzialmente dati correlati se servissero
             // In questo caso, per il ViewModel fornito, non serve caricare il Corso,
             // ma lo lascio commentato come esempio se volessi il nome del corso in futuro.

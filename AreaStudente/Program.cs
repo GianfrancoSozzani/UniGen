@@ -50,6 +50,7 @@ namespace AreaStudente
             // Abilita la sessione
             app.UseSession();
 
+
             app.Run();
         }
     }
