@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Net.Mail;
 using Comunicazioni.Data;
 using Comunicazioni.Models;
 using Comunicazioni.Models.Entities;
@@ -231,6 +232,7 @@ namespace Comunicazioni.Controllers
             return View("Add");
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Add(AddComunicazioneViewModel viewModel)
         {
@@ -289,11 +291,118 @@ namespace Comunicazioni.Controllers
 
             await dbContext.Comunicazioni.AddAsync(comunicazione);
             await dbContext.SaveChangesAsync();
+
+
+            //EMAIL
+
+            List<string> destinatariEmail = new List<string>();
+
+            // Determina i destinatari in base al ruolo e ai campi K_Studente/K_Docente
+            if (ruolo == "Operatore")
+            {
+                // L'operatore potrebbe inviare a uno studente o a un docente specifico
+                if (comunicazione.K_Studente.HasValue && comunicazione.Studente?.Email != null)
+                {
+                    destinatariEmail.Add(comunicazione.Studente.Email);
+                }
+                else if (comunicazione.K_Docente.HasValue && comunicazione.Docente?.Email != null)
+                {
+                    destinatariEmail.Add(comunicazione.Docente.Email);
+                }
+
+            }
+            else if (ruolo == "Docente")
+            {
+                // Il docente potrebbe inviare a uno studente specifico
+                if (comunicazione.K_Studente.HasValue && comunicazione.Studente?.Email != null)
+                {
+                    destinatariEmail.Add(comunicazione.Studente.Email);
+                }
+                else
+                {
+                    destinatariEmail.Add("generation@brovia.it");
+                }
+
+            }
+            else if (ruolo == "Studente")
+            {
+                // Lo studente potrebbe inviare a un docente specifico
+                if (comunicazione.K_Docente.HasValue && comunicazione.Docente?.Email != null)
+                {
+                    destinatariEmail.Add(comunicazione.Docente.Email);
+                }
+                else
+                {
+                    destinatariEmail.Add("generation@brovia.it");
+                }
+            }
+
+            // Invia email se ci sono destinatari
+            if (destinatariEmail.Any())
+            {
+                SmtpClient smtpClient = new SmtpClient("mail.brovia.it", 25);
+                smtpClient.Credentials = new System.Net.NetworkCredential("generation@brovia.it", "G3n3rat!on");
+                smtpClient.EnableSsl = true;
+
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress("generation@brovia.it", "Comunicazione UniGen");
+
+                foreach (var email in destinatariEmail.Distinct())
+                {
+                    mail.To.Add(new MailAddress(email));
+                }
+
+                mail.Subject = "Nuova comunicazione";
+                
+                if (ruolo == "D")
+                {
+                    comunicazione.Docente = await dbContext.Docenti
+                              .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+
+                    mail.Body = @$"In data {comunicazione.DataOraComunicazione}  
+hai ricevuto una comunicazione da {comunicazione.Docente?.Nome} {comunicazione.Docente?.Cognome}. 
+
+{comunicazione.Testo}";
+                }
+                else if (ruolo == "S")
+                {
+                    comunicazione.Studente = await dbContext.Studenti
+                              .FirstOrDefaultAsync(d => d.K_Studente == comunicazione.K_Soggetto);
+
+                    mail.Body = @$"In data {comunicazione.DataOraComunicazione}  
+hai ricevuto una comunicazione da {comunicazione.Studente?.Nome} {comunicazione.Studente?.Cognome}. 
+
+{comunicazione.Testo}";
+                }
+                else
+                {
+                    mail.Body = @$"In data {comunicazione.DataOraComunicazione}  
+hai ricevuto una comunicazione dall'Amministrazione. 
+
+{comunicazione.Testo}";
+                }
+
+
+
+                try
+                {
+                    smtpClient.Send(mail);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Errore invio email: " + ex.Message);
+                }
+            }
+
+
+            //---------------------------------------------------//
+
+
+
             return RedirectToAction("List", "Comunicazioni");
 
         }
 
-        [HttpPost]
         [HttpPost]
         public async Task<IActionResult> AddRisposta(Comunicazione viewModel)
         {

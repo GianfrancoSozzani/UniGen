@@ -17,7 +17,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					@foreach (var gruppo in Model)
+					@foreach (var gruppo in Model.OrderByDescending(g => g.Max(c => c.DataOraComunicazione)))
 					{
 						<tr>
 							<td>
