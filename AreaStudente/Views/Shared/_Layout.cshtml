@@ -54,7 +54,7 @@
 			</div>
 			<div class="d-flex justify-content-between align-items-center flex-wrap mx-3">
 				<div>
-					<a asp-area="" asp-controller="Studenti" asp-action="Show"><img src="/resources/logo.png" height="50px;"></a>
+					<a asp-area="" asp-controller="Studenti" asp-action="Show" asp-route-id=@ViewData["studente_id"]><img src="/resources/logo.png" height="50px;"></a>
 				</div>
 
 				<div>
@@ -73,7 +73,7 @@
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 							<li class="nav-item">
-								<a class="nav-link active" aria-current="page" asp-area="" asp-controller="Studenti" asp-action="Show">Il mio Profilo</a>
+								<a class="nav-link active" aria-current="page" href="/Studenti/Show/@ViewData["studente_id"]">Il mio Profilo</a>
 							</li>
 
 							<li class="nav-item dropdown">
@@ -83,11 +83,8 @@
 								<ul class="dropdown-menu">
 
 									<li class="dropdown">
-										<a class="dropdown-item" asp-area="" asp-controller="Studenti" asp-action="ModificaProfilo">
+										<a class="dropdown-item" href="/Studenti/ModificaProfilo/@ViewData["studente_id"]">
 											Modifica Dati
-										</a>
-										<a class="dropdown-item" asp-area="" asp-controller="Studenti" asp-action="Recupera">
-											Recupera Password
 										</a>									
 									</li>
 								</ul>

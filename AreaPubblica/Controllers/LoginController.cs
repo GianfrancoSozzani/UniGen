@@ -44,15 +44,8 @@ namespace AreaPubblica.Controllers
                 //HttpContext.Session.SetString("Email", studente.Email);
                 //HttpContext.Session.SetString("Ruolo", "S");
 
-                if (studente.Matricola == null)
-                {
-                    //return RedirectToAction("AREA STUDENTE (NON IMMATRICOLATO)", "Home");
-                    return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod="+studente.K_Studente.ToString()+"&&usr="+studente.Email+"&&r=s");
-
-                }
-
                 //return RedirectToAction("AREA LAVORO STUDENTE (IMMATRICOLATO)", "Home");
-                return Redirect("http://localhost:5201/Studenti/ModificaProfilo");
+                return Redirect("https://localhost:7050/Studenti/Show/"+studente.K_Studente.ToString().ToUpper());
 
             }
 
