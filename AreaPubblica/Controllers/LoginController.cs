@@ -102,7 +102,7 @@ namespace AreaPubblica.Controllers
         {
             return View();
         }
-        [HttpPost]
+        
 
 
         [HttpPost]
@@ -124,7 +124,7 @@ namespace AreaPubblica.Controllers
             // Ora puoi creare lo studente associato al corso
             var studente = new Studente
             {
-                K_Studente = Guid.NewGuid(),
+                //K_Studente = Guid.NewGuid(),
                 Nome = viewModel.Nome?.Trim(),
                 Cognome = viewModel.Cognome?.Trim(),
                 Email = viewModel.Email?.Trim(),
@@ -135,17 +135,17 @@ namespace AreaPubblica.Controllers
                 Citta = viewModel.Citta,
                 Provincia = viewModel.Provincia,
                 ImmagineProfilo = viewModel.ImmagineProfilo,
-                Tipo = viewModel.Tipo,
-                Matricola = viewModel.Matricola,
-                Abilitato = "Sì",
-                DataImmatricolazione = DateTime.Now,
+                //Tipo = viewModel.Tipo,
+                //Matricola = null,
+                Abilitato = "No",
+                DataImmatricolazione = null,
                 K_Corso = corso.K_Corso // 👈 Associazione corretta
             };
 
             await dbContext.Studenti.AddAsync(studente);
             await dbContext.SaveChangesAsync();
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction("Index", "FAQ");
         }
     }
 }
