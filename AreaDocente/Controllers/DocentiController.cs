@@ -7,34 +7,34 @@ namespace AreaDocente.Controllers
 {
     public class DocentiController : Controller
     {
-        public readonly DbContext dbContext;
+        private readonly ApplicationDbContext dbContext;
 
-        public DocentiController(ApplicationDbContext context)
+        public DocentiController(ApplicationDbContext dbContext)
         {
-            dbContext = context;
+            this.dbContext = dbContext;
         }
 
         [HttpGet]
         public async Task<IActionResult> ModificaProfilo()
         {
             // Simulo l'ID, solo per test (poi userò la sessione)
-            var studenteId = new Guid("0CDDDB26-14FE-4937-91A8-ED9014654CA3");
-            var studente = await dbContext.Docenti.FirstOrDefaultAsync(s => s.K_Studente == studenteId);
+            var docenteId = new Guid("976CAA9E-DFCB-403C-B9F7-7BEC6829CFCD");
+            var docente = await dbContext.docenti.FirstOrDefaultAsync(d => d.K_Docente == docenteId);
 
-            if (studente == null)
+            if (docente == null)
                 return NotFound();
 
             var model = new ModificaDocenteViewModel
             {
-                Email = studente.Email,
-                Nome = studente.Nome,
-                Cognome = studente.Cognome,
-                Indirizzo = studente.Indirizzo,
-                CAP = studente.CAP,
-                Citta = studente.Citta,
-                Provincia = studente.Provincia,
-                DataNascita = studente.DataNascita,
-                ImmagineProfilo = studente.ImmagineProfilo
+                Email = docente.Email,
+                Nome = docente.Nome,
+                Cognome = docente.Cognome,
+                Indirizzo = docente.Indirizzo,
+                CAP = docente.CAP,
+                Citta = docente.Citta,
+                Provincia = docente.Provincia,
+                DataNascita = docente.DataNascita,
+                ImmagineProfilo = docente.ImmagineProfilo
             };
             //In questo caso il nome della view viene dedotto dall'action del controller (che ha lo stesso nome).
             return View(model);
@@ -43,20 +43,20 @@ namespace AreaDocente.Controllers
         [HttpPost]
         public async Task<IActionResult> ModificaProfilo(ModificaDocenteViewModel model, string PasswordNew, string PasswordConfirm)
         {
-            var studenteId = new Guid("0CDDDB26-14FE-4937-91A8-ED9014654CA3");
-            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == studenteId);
+            var docenteId = new Guid("976CAA9E-DFCB-403C-B9F7-7BEC6829CFCD");
+            var docente = await dbContext.docenti.FirstOrDefaultAsync(d => d.K_Docente == docenteId);
 
-            if (studente == null)
+            if (docente == null)
                 return NotFound();
 
             // Aggiorna i dati anagrafici
-            studente.Nome = model.Nome;
-            studente.Cognome = model.Cognome;
-            studente.Indirizzo = model.Indirizzo;
-            studente.CAP = model.CAP;
-            studente.Citta = model.Citta;
-            studente.Provincia = model.Provincia;
-            studente.DataNascita = model.DataNascita;
+            docente.Nome = model.Nome;
+            docente.Cognome = model.Cognome;
+            docente.Indirizzo = model.Indirizzo;
+            docente.CAP = model.CAP;
+            docente.Citta = model.Citta;
+            docente.Provincia = model.Provincia;
+            docente.DataNascita = model.DataNascita;
 
             if (model.ImmagineProfiloFile != null && model.ImmagineProfiloFile.Length > 0)
             {
@@ -70,8 +70,8 @@ namespace AreaDocente.Controllers
                 using (var memoryStream = new MemoryStream())
                 {
                     await model.ImmagineProfiloFile.CopyToAsync(memoryStream);
-                    studente.ImmagineProfilo = memoryStream.ToArray();
-                    studente.Tipo = tipo;
+                    docente.ImmagineProfilo = memoryStream.ToArray();
+                    docente.Tipo = tipo;
                 }
 
                 TempData["PopupSuccesso"] = "Immagine aggiornata con successo.";
@@ -92,7 +92,7 @@ namespace AreaDocente.Controllers
                 }
 
                 // 2. Password vecchia errata
-                if (model.PWD != studente.PWD)
+                if (model.PWD != docente.PWD)
                 {
                     TempData["PopupErrore"] = "La password vecchia inserita non risulta essere corretta.";
                     TempData["ApriModalePassword"] = true;
@@ -111,14 +111,14 @@ namespace AreaDocente.Controllers
                 TempData["PopupErrore"] = null;
                 TempData["ApriModalePassword"] = true;
                 TempData["PopupSuccesso"] = "Password aggiornata con successo.";
-                studente.PWD = PasswordNew;
+                docente.PWD = PasswordNew;
             }
 
 
             await dbContext.SaveChangesAsync();
             TempData["DisplaySuccessMsg"] = true;
             TempData["PopupSuccesso"] = "I dati sono stati salvati correttamente.";
-            return RedirectToAction("ModificaProfilo", "Studenti");
+            return RedirectToAction("ModificaProfilo");
         }
     }
 }
