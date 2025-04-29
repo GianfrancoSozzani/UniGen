@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AreaDocente.Models.Entities
 {
@@ -15,6 +16,7 @@ namespace AreaDocente.Models.Entities
         public string CAP { get; set; }
         public string Citta { get; set; }
         public string Provincia { get; set; }
+        [NotMapped]
         public IFormFile ImmagineProfilo { get; set; }
         public string Tipo { get; set; }
         public DateTime DataRegistrazione { get; set; }

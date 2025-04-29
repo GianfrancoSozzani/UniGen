@@ -5,6 +5,7 @@ using AreaDocente.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 using LibreriaClassi;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AreaDocente.Controllers
 {
@@ -22,6 +23,10 @@ namespace AreaDocente.Controllers
         public async Task<IActionResult> List()
         {
             var lez = await dbContext.lezioni.ToListAsync();
+            foreach (var riga in lez)
+            {
+                riga.Esame = dbContext.esami.FirstOrDefault(u => u.K_Esame == riga.K_Esame);
+            }
             return View(lez);
         }
 
@@ -29,11 +34,13 @@ namespace AreaDocente.Controllers
         [HttpGet]
         public IActionResult Add()
         {
+            PopoloDDL();
             return View();
         }
         [HttpPost]
         public async Task<IActionResult> Add(AddLezioniViewModel viewModel)
         {
+            PopoloDDL();
             //CONTROLLI FORMALI
             if (viewModel.Titolo == null)
             {
@@ -50,11 +57,17 @@ namespace AreaDocente.Controllers
                 TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
                 return View(viewModel);
             }
+            if (viewModel.K_Esame == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "Selezionare l'esame!";
+                return View(viewModel);
+            }
 
             var lez = new MVCLezioni
             {
                 Titolo = viewModel.Titolo.ToString(),
-                Video = viewModel.Video.ToString()
+                Video = viewModel.Video.ToString(),
+                K_Esame = (Guid)viewModel.K_Esame
             };
             await dbContext.lezioni.AddAsync(lez);
             await dbContext.SaveChangesAsync();
@@ -62,11 +75,23 @@ namespace AreaDocente.Controllers
             return RedirectToAction("List", "Lezioni");
         }
 
+        //POPOLO DDL ESAMI
+        public void PopoloDDL()
+        {
+            IEnumerable<SelectListItem> ListaEsami = dbContext.esami.Select(e => new SelectListItem
+            {
+                Text = e.TitoloEsame,
+                Value = e.K_Esame.ToString()
+            });
+            ViewBag.EsamiDDL = ListaEsami;
+        }
+
         //EDIT
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
             var lez = await dbContext.lezioni.FindAsync(id);
+            PopoloDDL();
             return View(lez);
         }
         [HttpPost]
@@ -88,12 +113,18 @@ namespace AreaDocente.Controllers
                 TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
                 return View(viewModel);
             }
+            if (viewModel.K_Esame == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "Selezionare l'esame!";
+                return View(viewModel);
+            }
 
             var lez = await dbContext.lezioni.FindAsync(viewModel.K_Lezione);
             if (lez is not null)
             {
                 lez.Titolo = viewModel.Titolo;
                 lez.Video = viewModel.Video;
+                lez.K_Esame = viewModel.K_Esame;
                 await dbContext.SaveChangesAsync();
             }
             return RedirectToAction("List", "Lezioni");
