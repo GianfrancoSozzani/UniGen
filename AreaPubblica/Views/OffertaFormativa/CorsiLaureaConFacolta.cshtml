@@ -1,0 +1,30 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model List<AreaPubblica.Models.Entities.Corso>
+@{
+	var dati = ViewBag.Dati as List<dynamic>;
+}
+
+<h1>Elenco Corsi di Laurea</h1>
+
+<table>
+	<thead>
+		<tr>
+			<th>Corso di Laurea</th>
+			<th>Facoltà</th>
+			<th>Tipo di corso</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var riga in dati)
+		{
+			<tr>
+				<td>@riga.NomeCorso</td>
+				<td>@riga.NomeFacolta</td>
+				<td>@riga.TipoCorso</td>
+			</tr>
+		}
+	</tbody>
+</table>

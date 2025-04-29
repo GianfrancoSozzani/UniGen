@@ -1,5 +1,6 @@
 ﻿using System.Dynamic;
 using AreaPubblica.Data;
+using AreaPubblica.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,10 +18,49 @@ namespace AreaPubblica.Controllers
         {
             return View();
         }
+
+        public IActionResult CorsiLaurea()
+        {
+            var corsi = dbContext.Corsi.ToList();
+            return View(corsi);
+        }
+
+        public IActionResult CorsiLaureaConFacoltà()
+        {
+            var corsi = dbContext.Corsi
+                .Join(
+                dbContext.Corsi,
+                corso => corso.K_Corso,
+                facolta => facolta.K_Facolta,
+               
+                (corso, facolta) => new
+                {
+                    TitoloCorso = corso.TitoloCorso,
+                    NomeFacolta = facolta.Facolta
+                   
+                })
+             .ToList();
+            var risultato = new List<dynamic>();
+            foreach (var corso in corsi)
+            {
+                dynamic expando = new ExpandoObject();
+                expando.TitoloCorso = corso.TitoloCorso;
+                expando.Facolta = corso.NomeFacolta;
+                risultato.Add(expando);
+            }
+            ViewBag.Dati = risultato;
+            return View();
+        }
+
+
+
+
+
+
         public IActionResult ElencoDocenti()
         {
             var docenti = dbContext.Docenti.ToList();
-            return View(docenti);                     // Passa la lista alla View
+            return View(docenti);
         }
         public IActionResult ElencoDocentiConEsami()
         {
