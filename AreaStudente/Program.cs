@@ -1,10 +1,5 @@
-
-
 using AreaStudente.Data;
 using Microsoft.EntityFrameworkCore;
-
-
-
 
 namespace AreaStudente
 {
@@ -16,9 +11,7 @@ namespace AreaStudente
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-
             options.UseSqlServer(builder.Configuration.GetConnectionString("UniGenConn")));
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>
@@ -27,8 +20,6 @@ namespace AreaStudente
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
-
-
 
             var app = builder.Build();
 
@@ -47,20 +38,11 @@ namespace AreaStudente
 
             app.UseAuthorization();
 
-
             app.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Studenti}/{action=Show}/{id?}");
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
-
-            builder.Services.AddDistributedMemoryCache();
-            builder.Services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromHours(24);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
         }
     }
 }
