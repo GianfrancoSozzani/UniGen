@@ -28,9 +28,8 @@ namespace AreaStudente
                 options.Cookie.IsEssential = true;
             });
 
-
-
             var app = builder.Build();
+            app.UseSession();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -54,13 +53,7 @@ namespace AreaStudente
 
             app.Run();
 
-            builder.Services.AddDistributedMemoryCache();
-            builder.Services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromHours(24);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
+           
         }
     }
 }
