@@ -1,5 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+
+
 using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace AreaStudente.Models.Entities
 {
@@ -11,6 +14,7 @@ namespace AreaStudente.Models.Entities
         public string? Email { get; set; }
 
         public string? PWD { get; set; }
+
         public string? Cognome { get; set; }
         public string? Nome { get; set; }
         public DateTime? DataNascita { get; set; }
@@ -26,7 +30,6 @@ namespace AreaStudente.Models.Entities
 
         [ForeignKey("K_Corso")]
         public Guid? K_Corso { get; set; }
-
 
 
     }
