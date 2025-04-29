@@ -1,5 +1,11 @@
 ﻿@model AreaStudente.Models.ModificaStudenteViewModel
 
+@if (TempData["AlertMessage"] != null)
+{
+	<script>
+		alert('@TempData["AlertMessage"]');
+	</script>
+}
 @* @if (TempData["PopupErrore"] != null)
 {
 	<script>
@@ -40,6 +46,7 @@
 				<div class="row mb-0 mb-lg-3 align-items-end">
 					<div class="col-12 col-lg-9 mb-2 mb-lg-0">
 						<label class="form-label form-control-label">E-Mail:</label>
+						<label class="form-label form-control-label">E-Mail</label>
 						<input type="email" asp-for="Email" class="form-control form-control-alternative" readonly />
 					</div>
 					<div class="col-12 col-lg-3 mb-2 mb-lg-0">
@@ -57,14 +64,19 @@
 							<div class="modal-body">
 								<div class="mb-2 ">
 									<label class="form-label form-control-label">Inserisci la Vecchia Password:</label>
-									<input type="password" asp-for="Password" class="form-control form-control-alternative" />
+
+									<label class="form-label form-control-label">Inserisci la Vecchia Password</label>
+									<input type="password" asp-for="PWD" class="form-control form-control-alternative" />
+
 								</div>
 								<div class="mb-2 ">
 									<label class="form-label form-control-label">Nuova Password:</label>
+									<label class="form-label form-control-label">Nuova Password</label>
 									<input type="password" name="PasswordNew" class="form-control form-control-alternative" />
 								</div>
 								<div class="mb-4">
 									<label class="form-label form-control-label">Conferma Nuova Password:</label>
+									<label class="form-label form-control-label">Conferma Nuova Password</label>
 									<input type="password" name="PasswordConfirm" class="form-control form-control-alternative" />
 								</div>
 
@@ -96,14 +108,17 @@
 				<div class="row mb-0 mb-lg-3">
 					<div class="col-12 col-lg-4 mb-2 mb-lg-0">
 						<label class="form-label form-control-label">Cognome:</label>
+						<label class="form-label form-control-label">Cognome</label>
 						<input type="text" asp-for="Cognome" class="form-control form-control-alternative" required />
 					</div>
 					<div class="col-12 col-lg-4 mb-2">
 						<label class="form-label form-control-label">Nome:</label>
+						<label class="form-label form-control-label">Nome</label>
 						<input type="text" asp-for="Nome" class="form-control form-control-alternative" required />
 					</div>
 					<div class="col-12 col-lg-4 mb-2">
 						<label class="form-label form-control-label">Data di Nascita:</label>
+						<label class="form-label form-control-label">Data di Nascita</label>
 						<input type="date" asp-for="DataNascita" class="form-control form-control-alternative" required />
 					</div>
 				</div>
@@ -114,10 +129,12 @@
 				<div class="row mb-0 mb-lg-3">
 					<div class="col-12 col-lg-9 mb-2 mb-lg-0">
 						<label class="form-label form-control-label">Indirizzo:</label>
+						<label class="form-label form-control-label">Indirizzo</label>
 						<input type="text" asp-for="Indirizzo" class="form-control form-control-alternative" required />
 					</div>
 					<div class="col-12 col-lg-3 mb-2 mb-lg-0">
 						<label class="form-label form-control-label">CAP:</label>
+						<label class="form-label form-control-label">CAP</label>
 						<input type="text" asp-for="CAP" class="form-control form-control-alternative" maxlength="5" required />
 					</div>
 				</div>
@@ -125,10 +142,12 @@
 				<div class="row mb-0 mb-lg-3">
 					<div class="col-12 col-lg-9 mb-2 mb-lg-0">
 						<label class="form-label form-control-label">Città:</label>
+						<label class="form-label form-control-label">Città</label>
 						<input type="text" asp-for="Citta" class="form-control form-control-alternative" required />
 					</div>
 					<div class="col-12 col-lg-3 mb-2 mb-lg-0">
 						<label class="form-label form-control-label">Provincia:</label>
+						<label class="form-label form-control-label">Provincia</label>
 						<input type="text" asp-for="Provincia" class="form-control text-uppercase form-control-alternative" maxlength="2" required />
 					</div>
 				</div>
@@ -138,7 +157,6 @@
 			</div>
 
 		
-				<div class="col-12 col-xl-3 mt-5 mt-lg-0 px-0 px-lg-2">
 					<div class="bg-white border border-1 border-black shadow rounded-5 p-4 position-relative">
 
 						@{
@@ -175,7 +193,6 @@
 
 						<div class="input-group mt-5">
 							<input type="file" class="form-control" asp-for="ImmagineProfiloFile" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
-							<button type="submit" class="btn btn-outline-secondary">Salva</button>
 						</div>
 
 					</div>

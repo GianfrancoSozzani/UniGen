@@ -3,6 +3,7 @@ using AreaStudente.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 
 
@@ -115,12 +116,10 @@ namespace AreaStudente.Controllers
                 Email = studente.Email,
                 Nome = studente.Nome,
                 Cognome = studente.Cognome,
-
                 Indirizzo = studente.Indirizzo,
                 CAP = studente.CAP,
                 Citta = studente.Citta,
                 Provincia = studente.Provincia,
-
                 DataNascita = studente.DataNascita,
                 ImmagineProfilo = studente.ImmagineProfilo
             };
@@ -148,18 +147,26 @@ namespace AreaStudente.Controllers
 
             if (model.ImmagineProfiloFile != null && model.ImmagineProfiloFile.Length > 0)
             {
+                var tipo = model.ImmagineProfiloFile.ContentType.ToLower();
+                if (tipo != "image/jpeg" && tipo != "image/jpg" && tipo != "image/png")
+                {
+                    TempData["AlertMessage"] = "Formato non valido. Sono accettati solo JPG, JPEG e PNG.";
+                    return RedirectToAction("ModificaProfilo");
+                }
+
                 using (var memoryStream = new MemoryStream())
                 {
                     await model.ImmagineProfiloFile.CopyToAsync(memoryStream);
                     studente.ImmagineProfilo = memoryStream.ToArray();
-                    studente.Tipo = model.ImmagineProfiloFile.ContentType;
+                    studente.Tipo = tipo;
                 }
+
                 TempData["PopupSuccesso"] = "Immagine aggiornata con successo.";
             }
 
             //logica password
-            bool AlmenoUnoCompilato = !string.IsNullOrEmpty(model.Password) || !string.IsNullOrEmpty(PasswordNew) || !string.IsNullOrEmpty(PasswordConfirm);
-            bool tuttiCompilati = !string.IsNullOrEmpty(model.Password) && !string.IsNullOrEmpty(PasswordNew) && !string.IsNullOrEmpty(PasswordConfirm);
+            bool AlmenoUnoCompilato = !string.IsNullOrEmpty(model.PWD) || !string.IsNullOrEmpty(PasswordNew) || !string.IsNullOrEmpty(PasswordConfirm);
+            bool tuttiCompilati = !string.IsNullOrEmpty(model.PWD) && !string.IsNullOrEmpty(PasswordNew) && !string.IsNullOrEmpty(PasswordConfirm);
 
             if (AlmenoUnoCompilato)
             {
@@ -172,7 +179,7 @@ namespace AreaStudente.Controllers
                 }
 
                 // 2. Password vecchia errata
-                if (model.Password != studente.Password)
+                if (model.PWD != studente.PWD)
                 {
                     TempData["PopupErrore"] = "La password vecchia inserita non risulta essere corretta.";
                     TempData["ApriModalePassword"] = true;
@@ -191,7 +198,7 @@ namespace AreaStudente.Controllers
                 TempData["PopupErrore"] = null;
                 TempData["ApriModalePassword"] = true;
                 TempData["PopupSuccesso"] = "Password aggiornata con successo.";
-                studente.Password = PasswordNew;
+                studente.PWD = PasswordNew;
             }
 
 
