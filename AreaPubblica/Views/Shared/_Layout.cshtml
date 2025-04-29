@@ -3,10 +3,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - AreaPubblica</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>@ViewData["Title"] - AreaDocente</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/AreaPubblica.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AreaDocente.styles.css" asp-append-version="true" />
 
     <style>
         .navbar-custom {
@@ -21,86 +22,74 @@
         .dropdown-menu > li:hover > .dropdown-submenu {
             display: block;
         }
+
+        .flex-wrapper {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            justify-content: space-between;
+        }
     </style>
 
 </head>
-<body class="m-0">
-    <div class="bg-black pb-1">
-        <div class="container d-flex flex-column">
-            <div class="d-flex justify-content-end mb-2 mt-1">
-                <!-- Pulsanti in alto a destra -->
-                <div class="d-flex gap-2">
-                    <a href="#" class="btn btn-light btn-sm"><i class="bi bi-envelope"></i> Webmail</a>
-                    <a  class="btn btn-light btn-sm" asp-area="" asp-controller="Login" asp-action="Login" ><i class="bi bi-person-circle"></i> Area riservata</a>
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-between align-items-center flex-wrap">
-                <div>
-                    <a href="#"><img src="~/css/resources/logo.png" height="50px"></a>
-                </div>
-
-                <div>
-                    <p class="fs-4 text-white m-0">Fatti non foste a viver come bruti</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <header>
-        <div class="sticky-top">
-            <nav class="navbar navbar-expand-lg navbar-custom">
+<body class="m-0 flex-wrapper">
+    <header class="mb-5">
+        <div class="fixed-top">
+            <nav class="navbar navbar-dark navbar-expand-lg navbar-custom">
                 <div class="container">
+                    <a class="navbar-brand" href="#">
+                        <img src="~/css/resources/logonobg.png" alt="Bootstrap" width="150">
+                    </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="#">Home</a>
                             </li>
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Offerta Formativa
+                                    Attività
                                 </a>
                                 <ul class="dropdown-menu">
-
-                                    <li class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Piano di studi
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-submenu">
-                                            <li><a class="dropdown-item" href="#">Programma</a></li>
-                                            <li><a class="dropdown-item" href="#">Esami e docenti</a></li>
-                                        </ul>
-                                    </li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Materiali" asp-action="Add">Materiali</a></li>
+                                    <li><a class="dropdown-item" href="#">Lezioni</a></li>
                                 </ul>
                             </li>
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Didattica
+                                    Esami
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Calendario Accademico</a></li>
-                                    <li><a class="dropdown-item" href="#">Sedute di laurea</a></li>
+                                    <li><a class="dropdown-item" href="#">Appelli</a></li>
+                                    <li><a class="dropdown-item" href="#">Test</a></li>
+                                    <li><a class="dropdown-item" href="#">Valutazioni</a></li>
                                 </ul>
-
-                            <li class="nav-item">
-                                <a class="nav-link active" asp-area="" asp-controller="Contatti" asp-action="Contatti">Come Funziona</a>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link active" asp-area="" asp-controller="ComeFunziona" asp-action="Index">Come Funziona</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Account
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Modifica Dati</a></li>
+                                    <li><a class="dropdown-item" href="#">Recupera Password</a></li>
+                                </ul>
                             </li>
 
+                        </ul>
+                        <ul class="navbar-nav navbar-right">
                             <li class="nav-item">
-                                <a class="nav-link active" asp-area="" asp-controller="FAQ" asp-action="Index">FAQ</a>
+                                <a class="btn btn-light btn-sm disabled me-2"><i class="bi bi-person-circle"></i> *Placeholder*</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-light btn-sm">Logout</a>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link active" asp-area="" asp-controller="Privacy" asp-action="Index">Privacy</a>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -108,19 +97,19 @@
         </div>
     </header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container-fluid">
+        <main role="main" class="pb-3 mt-5">
             @RenderBody()
         </main>
     </div>
 
     <footer>
-        <div class="bg-dark text-white h-100">
+        <div class="bg-dark text-white position-sticky">
             <div class="container d-flex justify-content-between align-items-end flex-wrap">
                 <div>
                     <img src="https://italy.generation.org/wp-content/uploads/2019/05/Generation_Italy_logo_WHITE.svg" alt="Logo UNIGen" class="img-fluid my-3" width="150px">
-                    <p class="fs-4  mb-0">Università UNIGen</p>
-                    <p class="fs-6">Milano, Milano, MI 20100, IT</p>
+                    <p class="fs-4">Università UNIGen</p>
+                    <p class="fs-6">Milano, MI 20100, IT</p>
                 </div>
                 <div>
                     <p class="fs-6">© 2024 Generation: You Employed, Inc.</p>
@@ -128,26 +117,18 @@
                 <div>
                     <p class="fs-5 mb-1">Chi Siamo</p>
                     <ul class="list-unstyled ms-3">
-                        <li>
-                            <a class="text-white" asp-area="" asp-controller="Contatti" asp-action="Index">Conattti</a>
-                        </li>
-                        <li>
-                            <a class="text-white" asp-area="" asp-controller="ComeFunziona" asp-action="Index">Come Funziona</a>
-                        </li>
-                        <li>
-                            <a class="text-white" asp-area="" asp-controller="FAQ" asp-action="Index">FAQ</a>
-                        </li>
-                        <li>
-                            <a class="text-white" asp-area="" asp-controller="Privacy" asp-action="Index">Privacy</a>
-                        </li>
+                        <li><a href="#" class="text-white">Contatti</a></li>
+                        <li><a href="#" class="text-white">Come Funziona</a></li>
+                        <li><a href="#" class="text-white">FAQ</a></li>
+                        <li><a href="#" class="text-white">Privacy</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
