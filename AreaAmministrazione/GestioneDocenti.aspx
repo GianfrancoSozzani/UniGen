@@ -5,7 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div class="container">
         <div class="mb-5">
-            <h3>Elenco Docenti</h3>
+            <h1>Elenco Docenti</h1>
         </div>
 
         <div class="row mt-3 mb-5">
@@ -21,9 +21,10 @@
                 <asp:TextBox ID="txtNome" runat="server"></asp:TextBox>
             </div>
             <div class="col-auto">
-                <button id="btnCerca" runat="server" class="btn btn-primary" onclick="btnCerca_ServerClick">
+                <asp:LinkButton ID="btnCerca" runat="server" CssClass="btn btn-primary" OnClick="btnCerca_Click">
                     <i class="bi bi-search"></i>
-                </button>
+                </asp:LinkButton>
+
             </div>
         </div>
 
@@ -59,9 +60,9 @@
                     <tr>
                         <td><%# Eval("Cognome") %></td>
                         <td><%# Eval("Nome") %></td>
-                        <td><%# Eval("DataNascita") %></td>
+                        <td><%# Eval("DataNascita","{0:dd/M/yyyy}") %></td>
                         <td>
-                            <%# Eval("Abilitato").ToString() == "S" ? "Abilitato" : "Disattivato" %>
+                            <%# Eval("Abilitato").ToString() == "S" ? "Abilitato" : "Disabilitato" %>
                         </td>
                         <td>
                             <%# Eval("TitoloCorso") %>

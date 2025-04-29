@@ -27,6 +27,12 @@ public partial class _Default : System.Web.UI.Page
             Response.Write("Data non valida.");
             return;
         }
+        // Controllo che la data di nascita non sia futura
+        if (DataDiNascita > DateTime.Now)
+        {
+            Response.Write("Data di nascita non valida.");
+            return;
+        }
         DataDiNascita = DateTime.Parse(dataNascitaString).Date;
         string Indirizzo = txtIndirizzo.Text.Trim();
         string Citta = txtCitta.Text.Trim();
@@ -98,14 +104,14 @@ public partial class _Default : System.Web.UI.Page
         d.DataRegistrazione = DateTime.Now;
         d.Abilitato = Abilitato;
 
-        DataTable dt = d.VerificaDoppione();
+        //DataTable dt = d.VerificaDoppione();
 
-        // Controllo duplicato
-        if (dt.Rows.Count != 0)
-        {
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Docente già registrato')", true);
-            return;
-        }
+        //// Controllo duplicato
+        //if (dt.Rows.Count != 0)
+        //{
+        //    ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Docente già registrato')", true);
+        //    return;
+        //}
 
         d.Inserimento();
         Response.Redirect("GestioneDocenti.aspx");

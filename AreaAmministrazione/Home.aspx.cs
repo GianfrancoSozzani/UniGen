@@ -42,7 +42,7 @@ public partial class _Default : System.Web.UI.Page
             litStudentii.Text = "0";
             return;
         }
-        litStudentii.Text = dt.Rows[0][0].ToString();
+        litStudentii.Text = dt.Rows.Count.ToString();
 
     }
     protected void CaricaIncasso()
