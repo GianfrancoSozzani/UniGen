@@ -10,21 +10,40 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        FACOLTA f = new FACOLTA();
-        ddlFacolta.DataSource = f.SelezionaTutto();
-        ddlFacolta.DataTextField = "TitoloFacolta";
-        ddlFacolta.DataValueField = "K_Facolta";
-        ddlFacolta.DataBind();
 
-        CORSI c = new CORSI();
-        ddlCorso.DataSource = c.SelezionaTutto();
-        ddlCorso.DataTextField = "TitoloCorso";
-        ddlCorso.DataValueField = "K_Corso";
-        ddlCorso.DataBind();
+        if (!IsPostBack)
+        {
+            CaricaEsami();
+            FACOLTA f = new FACOLTA();
+            ddlFacolta.DataSource = f.SelezionaTutto();
+            ddlFacolta.DataTextField = "TitoloFacolta";
+            ddlFacolta.DataValueField = "K_Facolta";
+            ddlFacolta.DataBind();
+
+            CORSI c = new CORSI();
+            ddlCorso.DataSource = c.SelezionaTutto();
+            ddlCorso.DataTextField = "TitoloCorso";
+            ddlCorso.DataValueField = "K_Corso";
+            ddlCorso.DataBind();
+        }
     }
 
     protected void btnAggiungiEsame_Click(object sender, EventArgs e)
     {
 
     }
+    protected void btnAggiungiEsameObbligatorio_Click(object sender, EventArgs e)
+    {
+
+    }
+    protected void CaricaEsami()
+    {
+        ESAMI e = new ESAMI();
+
+        rpEsami.DataSource = e.SelezionaTutto();
+        rpEsami.DataBind();
+    }
+
+
+
 }
