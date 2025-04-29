@@ -102,7 +102,6 @@ namespace AreaPubblica.Controllers
         {
             return View();
         }
-        
 
 
         [HttpPost]
@@ -113,18 +112,24 @@ namespace AreaPubblica.Controllers
                 return View(viewModel);
             }
 
-            // Recupera un corso esistente
-            var corso = await dbContext.Corsi.FirstOrDefaultAsync();
+            // Elaborazione immagine profilo
+            if (viewModel.ImmagineFile != null)
+            {
+                using var ms = new MemoryStream();
+                await viewModel.ImmagineFile.CopyToAsync(ms);
+                viewModel.ImmagineProfilo = ms.ToArray();
+                viewModel.Tipo = Path.GetExtension(viewModel.ImmagineFile.FileName).ToLowerInvariant();
+            }
+
+            var corso = await dbContext.Corsi.FirstOrDefaultAsync(); // solo per k_corso
             if (corso == null)
             {
                 ModelState.AddModelError("", "Nessun corso disponibile.");
                 return View(viewModel);
             }
 
-            // Ora puoi creare lo studente associato al corso
             var studente = new Studente
             {
-                //K_Studente = Guid.NewGuid(),
                 Nome = viewModel.Nome?.Trim(),
                 Cognome = viewModel.Cognome?.Trim(),
                 Email = viewModel.Email?.Trim(),
@@ -135,11 +140,10 @@ namespace AreaPubblica.Controllers
                 Citta = viewModel.Citta,
                 Provincia = viewModel.Provincia,
                 ImmagineProfilo = viewModel.ImmagineProfilo,
-                //Tipo = viewModel.Tipo,
-                //Matricola = null,
+                Tipo = viewModel.Tipo,
                 Abilitato = "No",
                 DataImmatricolazione = null,
-                K_Corso = corso.K_Corso // 👈 Associazione corretta
+                K_Corso = corso.K_Corso
             };
 
             await dbContext.Studenti.AddAsync(studente);
