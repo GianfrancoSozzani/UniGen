@@ -44,8 +44,10 @@ namespace AreaPubblica.Controllers
                 //HttpContext.Session.SetString("Email", studente.Email);
                 //HttpContext.Session.SetString("Ruolo", "S");
 
+
                 //return RedirectToAction("AREA LAVORO STUDENTE (IMMATRICOLATO)", "Home");
                 return Redirect("https://localhost:7050/Studenti/Show/"+studente.K_Studente.ToString().ToUpper());
+
 
             }
 
@@ -62,8 +64,10 @@ namespace AreaPubblica.Controllers
                 //HttpContext.Session.SetString("Ruolo", "D");
                 if (docente.Abilitato == "N")
                 {
+                    return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=dn");
                     //return RedirectToAction("AREA DOCENTE (NON ABILITATO)", "Home");
                 }
+                return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=da");
                 //return RedirectToAction("AREA DOCENTE (ABILITATO)", "Home");
             }
 
@@ -79,6 +83,9 @@ namespace AreaPubblica.Controllers
                 //HttpContext.Session.SetString("USR", operatore.USR);
                 //HttpContext.Session.SetString("Ruolo", "O");
 
+
+                return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + operatore.K_Operatore.ToString() + "&&usr=" + operatore.USR + "&&r=o");
+
                 //return RedirectToAction("AREA AMMINISTRAZIONE", "Home");
             }
 
@@ -93,7 +100,7 @@ namespace AreaPubblica.Controllers
         {
             return View();
         }
-        [HttpPost]
+        
 
 
         [HttpPost]
@@ -115,7 +122,7 @@ namespace AreaPubblica.Controllers
             // Ora puoi creare lo studente associato al corso
             var studente = new Studente
             {
-                K_Studente = Guid.NewGuid(),
+                //K_Studente = Guid.NewGuid(),
                 Nome = viewModel.Nome?.Trim(),
                 Cognome = viewModel.Cognome?.Trim(),
                 Email = viewModel.Email?.Trim(),
@@ -126,17 +133,17 @@ namespace AreaPubblica.Controllers
                 Citta = viewModel.Citta,
                 Provincia = viewModel.Provincia,
                 ImmagineProfilo = viewModel.ImmagineProfilo,
-                Tipo = viewModel.Tipo,
-                Matricola = viewModel.Matricola,
-                Abilitato = "Sì",
-                DataImmatricolazione = DateTime.Now,
+                //Tipo = viewModel.Tipo,
+                //Matricola = null,
+                Abilitato = "No",
+                DataImmatricolazione = null,
                 K_Corso = corso.K_Corso // 👈 Associazione corretta
             };
 
             await dbContext.Studenti.AddAsync(studente);
             await dbContext.SaveChangesAsync();
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction("Index", "FAQ");
         }
     }
 }
