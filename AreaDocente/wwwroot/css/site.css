@@ -1,26 +1,3 @@
-/*html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-}*/
-
 html {
     font-size: 14px;
 }
@@ -50,18 +27,21 @@ body {
     height: 100px;
     background: lime;
     overflow: hidden;*/ /* importante per ritagliare l'immagine */
-/*position: relative;*/ /* già hai position-absolute nel div */
+    /*position: relative;*/ /* già hai position-absolute nel div */
 /*}*/
 
-#img-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%; /* arrotonda l'immagine */
-    display: block; /* rimuove eventuali spazi bianchi sotto l'immagine */
-}
+    #img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%; /* arrotonda l'immagine */
+        display: block; /* rimuove eventuali spazi bianchi sotto l'immagine */
+    }
 
-.img-icon {
+.img-icon 
+  
+
+{
     font-size: 4rem; /* grandezza dell'icona */
     color: #6c757d;
     width: 100px;
@@ -112,20 +92,19 @@ body {
 .bg-gradient-default {
     background: linear-gradient(87deg, #172b4d 0, #1a174d 100%) !important;
 }
-
 .header {
     position: relative;
 }
-
 .main-content {
     position: relative;
+
 }
 
 .text-white {
     color: #fff !important;
 }
 
-.col-lg-7, .col-md-10 {
+.col-lg-7, .col-md-10{
     position: relative;
     width: 100%;
     min-height: 1px;
