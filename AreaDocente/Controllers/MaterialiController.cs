@@ -61,14 +61,14 @@ namespace AreaDocente.Controllers
         [HttpGet]
         public async Task<IActionResult> Lista()
         {
-            //var materiali = await dbContext.materiali.ToListAsync();
-            //foreach(var item in materiali)
-            //{
-            //     item.esame = dbContext.esami.FirstOrDefault(e => e.K_Esame == (int)item.K_Esame);
-            //}
-            var materiali =  dbContext.materiali
-           .Include(m => m.esame)
-           .ToList();
+            var materiali = await dbContext.materiali.ToListAsync();
+            foreach (var item in materiali)
+            {
+                item.esame = await dbContext.esami.FirstOrDefaultAsync(e => e.K_Esame == item.K_Esame);
+            }
+            // var materiali =  dbContext.materiali
+            //.Include(m => m.esame)
+            //.ToList();
 
             return View(materiali);
         }

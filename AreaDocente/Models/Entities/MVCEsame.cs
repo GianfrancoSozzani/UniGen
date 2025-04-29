@@ -12,6 +12,6 @@ namespace AreaDocente.Models.Entities
 
         [ForeignKey("K_Docente")]
         public MVCDOCENTE Docente { get; set; }
-        public int CFU { get; set; }
+        public byte CFU { get; set; }
     }
 }
