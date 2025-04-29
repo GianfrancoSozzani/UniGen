@@ -1,5 +1,6 @@
 ﻿using AreaPubblica.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AreaPubblica.Controllers
 {
@@ -13,6 +14,14 @@ namespace AreaPubblica.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        
+        public async Task <IActionResult> PopoloCorsiLaurea()
+        {
+            var corso = await dbContext.Corsi.ToListAsync();
+            return Json(corso);
         }
     }
 }
