@@ -2,9 +2,9 @@
 
 namespace AreaDocente.Controllers
 {
-    public class TestController : Controller
+    public class AppelliController : Controller
     {
-        public IActionResult ValutazioneTest()
+        public IActionResult Add()
         {
             return View();
         }
