@@ -26,14 +26,6 @@ namespace LibreriaClassi
             db.SQLcommand();
         }
 
-        public DataTable VerificaDuplicato()
-        {
-            DB dB = new DB();
-            dB.query = "Facolta_VerificaDuplicato";
-            dB.cmd.Parameters.AddWithValue("@TitoloFacolta", TitoloFacolta);
-            return dB.SQLselect();
-        }
-
         public DataTable SelezionaTutto()
         {
             DB dB = new DB();
@@ -49,20 +41,12 @@ namespace LibreriaClassi
             return db.SQLselect();
         }
 
-        public DataTable SelezionaPerNome()
-        {
-            DB db = new DB();
-            db.query = "Facolta_FindByNome";
-            db.cmd.Parameters.AddWithValue("@Nome", TitoloFacolta);
-            return db.SQLselect();
-        }
-
         public void Modifica()
         {
             DB dB = new DB();
             dB.query = "Facolta_Update";
             dB.cmd.Parameters.AddWithValue("@chiave", K_Facolta);
-            dB.cmd.Parameters.AddWithValue("TitoloFacolta", TitoloFacolta);
+            dB.cmd.Parameters.AddWithValue("@titolofacolta", TitoloFacolta);
             dB.SQLcommand();
         }
     }

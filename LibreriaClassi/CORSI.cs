@@ -24,36 +24,45 @@ namespace LibreriaClassi
         public void Inserimento()
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", TitoloCorso);
-            db.cmd.Parameters.AddWithValue("", MinimoCFU);
-            db.cmd.Parameters.AddWithValue("", CostoAnnuale);
+            db.query = "Corsi_Insert";
+            db.cmd.Parameters.AddWithValue("@titolocorso", TitoloCorso);
+            db.cmd.Parameters.AddWithValue("@minimocfu", MinimoCFU);
+            db.cmd.Parameters.AddWithValue("@costoannuale", CostoAnnuale);
+            db.cmd.Parameters.AddWithValue("@k_facolta", K_Facolta);
             db.SQLcommand();
         }
 
         public DataTable SelezionaTutto()
         {
             DB dB = new DB();
-            dB.query = "";
+            dB.query = "Corsi_SelectAll";
             return dB.SQLselect();
         }
 
         public DataTable SelezionaChiaveCorso()
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", K_Corso);
+            db.query = "Corsi_SelectKey";
+            db.cmd.Parameters.AddWithValue("@chiave", K_Corso);
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaChiaveFacolta()
+        {
+            DB db = new DB();
+            db.query = "Corsi_FindByFacolta";
+            db.cmd.Parameters.AddWithValue("@chiave", K_Facolta);
             return db.SQLselect();
         }
 
         public void Modifica()
         {
             DB dB = new DB();
-            dB.query = "";
-            dB.cmd.Parameters.AddWithValue("", K_Corso);
-            dB.cmd.Parameters.AddWithValue("", TitoloCorso);
-            dB.cmd.Parameters.AddWithValue("", MinimoCFU);
-            dB.cmd.Parameters.AddWithValue("", CostoAnnuale);
+            dB.query = "Corsi_Update";
+            dB.cmd.Parameters.AddWithValue("@chiave", K_Corso);
+            dB.cmd.Parameters.AddWithValue("@titolocorso", TitoloCorso);
+            dB.cmd.Parameters.AddWithValue("@minimocfu", MinimoCFU);
+            dB.cmd.Parameters.AddWithValue("@costoannuale", CostoAnnuale);
             dB.SQLcommand();
         }
         //---------------AGGIUNTE PER HOME AMMINISTRAZIONE
