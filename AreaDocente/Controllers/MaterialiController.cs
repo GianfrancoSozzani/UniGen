@@ -2,6 +2,7 @@
 using AreaDocente.Models;
 using AreaDocente.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AreaDocente.Controllers
 {
@@ -16,7 +17,7 @@ namespace AreaDocente.Controllers
         [HttpPost]
         public async Task<ActionResult> Add(AddMaterialiViewModel viewModel)
         {
-            var materiali = new Materiali
+            var materiali = new MVCMateriali
             {
                 Titolo = viewModel.Titolo.ToString(),
             };
@@ -42,7 +43,15 @@ namespace AreaDocente.Controllers
 
             return View();
         }
-
+        //public void PopolaEsame()
+        //{
+        //    IEnumerable<SelectListItem> ListaEsame = dbContext.Facolta.Select(i => new SelectListItem
+        //    {
+        //        Text = i.descrizione,
+        //        Value = i.IdFacolta.ToString()
+        //    });
+        //    ViewBag.FacoltaList = ListaEsame;
+        //}
         public ActionResult Add()
         {
             return View();

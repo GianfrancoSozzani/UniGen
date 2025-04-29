@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace AreaDocente.Models.Entities
 {
-    public class Materiali
+    public class MVCMateriali
     {
         [Key]
         public Guid K_Materiale { get; set; }
