@@ -298,7 +298,7 @@ namespace Comunicazioni.Controllers
             await dbContext.Comunicazioni.AddAsync(comunicazione);
             await dbContext.SaveChangesAsync();
 
-            //INVIA EMAIL
+            //INVIA EMAIL 
 
             //Se la lista ha destinatari viene creato un oggetto SmtpClient per inviare l'email tramite un server SMTP (mail.brovia.it).
             //Per ogni destinatario nella lista destinatari, viene aggiunto l'indirizzo email a mail.To.
