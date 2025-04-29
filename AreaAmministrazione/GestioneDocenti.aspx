@@ -21,9 +21,10 @@
                 <asp:TextBox ID="txtNome" runat="server"></asp:TextBox>
             </div>
             <div class="col-auto">
-                <button id="btnCerca" runat="server" class="btn btn-primary" onclick="btnCerca_ServerClick">
+                <asp:LinkButton ID="btnCerca" runat="server" CssClass="btn btn-primary" OnClick="btnCerca_Click">
                     <i class="bi bi-search"></i>
-                </button>
+                </asp:LinkButton>
+
             </div>
         </div>
 
@@ -61,7 +62,7 @@
                         <td><%# Eval("Nome") %></td>
                         <td><%# Eval("DataNascita") %></td>
                         <td>
-                            <%# Eval("Abilitato").ToString() == "S" ? "Abilitato" : "Disattivato" %>
+                            <%# Eval("Abilitato").ToString() == "S" ? "Abilitato" : "Disabilitato" %>
                         </td>
                         <td>
                             <%# Eval("TitoloCorso") %>
