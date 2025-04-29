@@ -2,7 +2,7 @@
 
 namespace AreaDocente.Models.Entities
 {
-    public class DOCENTE
+    public class MVCDOCENTE
     {
         [Key]
         public Guid K_Docente { get; set; }
