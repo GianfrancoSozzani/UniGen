@@ -1,21 +1,23 @@
 ﻿@model List<AreaDocente.Models.Entities.MVCLezioni>
 
-<!-- SweetAlert2 CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-<!-- SweetAlert2 JS -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+	.th {
+		display: none;
+	}
+</style>
 
-<h1>Elenco Lezioni</h1>
+<h1>Elenco lezioni</h1>
 
 @* TABELLA *@
-<table class="table">
+<table>
 
 	@* HEAD *@
 	<thead>
 		<tr>
-			<th>Titolo</th>
-			<th>Video</th>
-			<th></th>
+			<th class="th">K</th>
+			<th>Lezioni</th>
+			<td>Video</td>
+			<td></td>
 		</tr>
 	</thead>
 
@@ -24,28 +26,40 @@
 		@foreach (var lezioni in Model)
 		{
 			<tr>
+				<td class="th">
+					@lezioni.K_Lezione
+				</td>
+			</tr>
+			<tr>
 				<td>
 					@lezioni.Titolo
 				</td>
+			</tr>
+			<tr>
 				<td>
 					@lezioni.Video
 				</td>
+			</tr>
+			<tr>
 				<td>
-					<a class="btn btn-primary" asp-controller="Lezioni" asp-action="Edit" asp-route-id="@lezioni.K_Lezione">Modifica</a>
+					<a class="btn btn-primary" asp-controller="Lezione" asp-action="Edit" asp-route-id="@lezioni.K_Lezione">Modifica</a>
 				</td>
 			</tr>
 		}
 	</tbody>
 </table>
 
-@* JS *@
-@if (TempData["AlertMessage"] != null)
-{
-	<script>
-		Swal.fire({
-			icon: 'success',
-			title: 'Fatto!',
-			text: '@TempData["AlertMessage"]'
-		});
-	</script>
+@section Scripts {
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+	@if (TempData["AlertMessage"] != null)
+	{
+		<script>
+			Swal.fire({
+				icon: 'success',
+				title: 'Operazione riuscita',
+				text: '@TempData["AlertMessage"]'
+			});
+		</script>
+	}
 }
