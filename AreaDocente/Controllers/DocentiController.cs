@@ -4,7 +4,7 @@ namespace AreaDocente.Controllers
 {
     public class DocentiController : Controller
     {
-        public IActionResult Add()
+        public IActionResult ModificaProfilo()
         {
             return View();
         }
