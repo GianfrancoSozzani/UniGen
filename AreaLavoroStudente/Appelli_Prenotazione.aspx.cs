@@ -21,20 +21,19 @@ public partial class _Default : System.Web.UI.Page
         // Carica gli appelli solo al primo caricamento della pagina(non su PostBack, ad esempio dopo un click)
         if (!IsPostBack)
         {
-            string Matricola = "4491B5BD-CE09-4519-A511-57701E047FCB"; //verrà sostituita con la session 
-            CaricaAppelli(Matricola);
+             //verrà sostituita con la session 
+            CaricaAppelli();
 
         }
     }
 
-    protected void CaricaAppelli(string Matricola)
+    protected void CaricaAppelli()
     {
-        DB db = new DB();
-        db.query = "Appelli_SelectMat";
-        db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
-        DataTable dt = db.SQLselect();
-        rptAppelli.DataSource = dt;
+        int matricola = int.Parse("123556"); //da sostituire con la session
+        APPELLI m = new APPELLI();
+        rptAppelli.DataSource = m.ListaAppelli( matricola);
         rptAppelli.DataBind();
+       
     }
 
 
@@ -42,9 +41,9 @@ public partial class _Default : System.Web.UI.Page
     protected void btnPrenotaSelezionati_Click(object sender, EventArgs e)
     {
         // Recupera gli identificativi fissi (da sostituire poi con quelli della sessione utente)
-        Guid K_Studente = Guid.Parse("6B787310-8260-4517-A2F4-B7132DE47C2E");
-        Guid K_Libretto = Guid.Parse("C12E1195-736F-4AE5-AD43-13BFE0532190");
-        string Esito = "prenotato"; // Stato da inserire nel database
+        int matricola = int.Parse("123556"); 
+        //Guid K_Libretto = Guid.Parse("C12E1195-736F-4AE5-AD43-13BFE0532190");
+        string Esito = "Prenotato"; // Stato da inserire nel database
 
         int countPrenotati = 0; // Contatore degli appelli prenotati con successo
 
@@ -61,18 +60,24 @@ public partial class _Default : System.Web.UI.Page
                 // Recupera il GUID dell'appello selezionato
                 Guid K_Appello = Guid.Parse(hfKAppello.Value);
 
-                // Crea un nuovo oggetto DB per la prenotazione
-                DB db = new DB();
-                db.query = "Prenotazione_Insert"; // Nome della stored procedure per la prenotazione
-                db.cmd.CommandType = CommandType.StoredProcedure; // Specifica che è una stored procedure
-                db.cmd.Parameters.AddWithValue("@k_libretto", K_Libretto); // Parametri da passare
-                db.cmd.Parameters.AddWithValue("@k_studente", K_Studente);
-                db.cmd.Parameters.AddWithValue("@k_appello", K_Appello);
-                db.cmd.Parameters.AddWithValue("@esito", Esito);
+                //Controllo prenotazioni duplicati 
+
+                LIBRETTI m = new LIBRETTI();
+                m.Matricola = matricola;
+                m.K_Appello = K_Appello;
+                m.Esito= Esito;
+
+                if (m.ControlloDoppioni().Rows.Count == 1)
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Prenotazione già presente')", true);
+                    return;
+                }
+
+                // Inserire prenotazione
 
                 try
                 {
-                    db.SQLcommand(); // Esegue la prenotazione
+                    m.PrenotazioneAppelli();  // Esegue la prenotazione
                     countPrenotati++; // Incrementa il contatore dei successi
                 }
                 catch (Exception ex)

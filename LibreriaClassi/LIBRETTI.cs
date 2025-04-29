@@ -13,6 +13,7 @@ namespace LibreriaClassi
         public Guid K_Studente { get; set; }
         public Guid K_Appello { get; set; }
         public int VotoEsame { get; set; }
+        public int Matricola { get; set; }
         /// <summary>
         /// l'esito è positivo o negativo? (N) negativo, (P) positivo
         /// </summary>
@@ -76,6 +77,46 @@ namespace LibreriaClassi
             DB db = new DB();
             db.query = "Libretti_FindByMatricola";
             db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+
+        //prenotazione appelli 
+        public void PrenotazioneAppelli()
+        {
+            DB db = new DB();
+            db.query = "Prenotazione_Insert";
+            db.cmd.Parameters.AddWithValue("@k_studente", K_Studente);
+            db.cmd.Parameters.AddWithValue("@k_appello", K_Appello);
+            db.cmd.Parameters.AddWithValue("@esito", Esito);
+            db.SQLcommand();
+        }
+
+        //lista prenotazioni appelli 
+        public DataTable ListaPrenotazioni()
+        {
+            
+            DB db = new DB();
+            db.query = "Appelli_Prenotati";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+
+        //eliminazione prenotazione appelli 
+        public void EliminazioneAppelli()
+        {
+            DB db = new DB();
+            db.query = "Prenotazione_Delete";
+            db.cmd.Parameters.AddWithValue("@k_libretto", K_Libretto);
+            db.SQLcommand();
+        }
+
+        //controllo prenotazioni doppioni
+        public DataTable ControlloDoppioni()
+        {
+            DB db = new DB();
+            db.query = "Prenotazione_Duplicati";
+            db.cmd.Parameters.AddWithValue("@matricola", Matricola);
+            db.cmd.Parameters.AddWithValue("@k_appello", K_Appello);
             return db.SQLselect();
         }
     }

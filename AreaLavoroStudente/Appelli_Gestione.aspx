@@ -1,12 +1,10 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Appelli_Prenotazione.aspx.cs" Inherits="_Default" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Appelli_Gestione.aspx.cs" Inherits="_Default" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-    <div class="container">
-
-        <h2 class="mb-4 text-center">Prenotazione Appelli</h2>
+    <div class="container mt-5">
+        <h2>Gestione Prenotazione Appelli</h2>
 
         <table class="table table-bordered table-striped">
             <thead class="table-light">
@@ -25,7 +23,7 @@
                         <tr>
                             <td>
                                 <asp:CheckBox ID="chkSeleziona" runat="server" />
-                                <asp:HiddenField ID="hfKAppello" runat="server" Value='<%# Eval("K_Appello") %>' />
+                                <asp:HiddenField ID="hfKLibretto" runat="server" Value='<%# Eval("K_Libretto") %>' />
                             </td>
                             <td><%# Eval("TitoloEsame") %></td>
                             <td><%# Eval("Obbligatorio").ToString().ToLower() == "true" ? "Obbligatorio" : "Facoltativo" %></td>
@@ -40,7 +38,7 @@
             </tbody>
         </table>
 
-        <asp:Button ID="btnPrenotaSelezionati" runat="server" Text="Prenota Selezionati" CssClass="btn btn-primary mt-3" OnClick="btnPrenotaSelezionati_Click" />
+        <asp:Button ID="btnEliminaPrenotazione" runat="server" Text="Elimina" CssClass="btn btn-primary mt-3" OnClick="btnEliminaPrenotazione_Click" />
 
         <asp:Label ID="lblMessaggio" runat="server" CssClass="mt-3 alert d-none"></asp:Label>
     </div>
