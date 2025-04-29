@@ -63,7 +63,7 @@ namespace AreaPubblica.Controllers
                 HttpContext.Session.SetString("K_Docente", docente.K_Docente.ToString());
                 HttpContext.Session.SetString("Email", docente.Email);
                 HttpContext.Session.SetString("Ruolo", "D");
-                if (docente.Abilitato == "No")
+                if (docente.Abilitato == "N")
                 {
                     //return RedirectToAction("AREA DOCENTE (NON ABILITATO)", "Home");
                 }
