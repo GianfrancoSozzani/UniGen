@@ -44,7 +44,7 @@
                     <div class="d-flex justify-content-between align-items-center flex-wrap">
                         <div>
                             <a href="#">
-                                <img src="~/resources/logo.png" height="50px"></a>
+                                <img src="resources/logo.png" style="height:4rem;" /></a>
                         </div>
 
                         <div>
@@ -120,7 +120,7 @@
                     <div class="container d-flex justify-content-between align-items-end flex-wrap">
                         <div>
                             <img src="https://italy.generation.org/wp-content/uploads/2019/05/Generation_Italy_logo_WHITE.svg" alt="Logo UNIGen" class="img-fluid my-3" width="150px">
-                            <p class="fs-4 ms-4 mb-0">Università UNIGen</p>
+                            <p class="fs-4  mb-0">Università UNIGen</p>
                             <p class="fs-6">Milano, Milano, MI 20100, IT</p>
                         </div>
                         <div>
