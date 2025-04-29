@@ -239,6 +239,7 @@ namespace Comunicazioni.Controllers
             return View("Add");
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Add(AddComunicazioneViewModel viewModel)
         {
@@ -298,12 +299,8 @@ namespace Comunicazioni.Controllers
             await dbContext.Comunicazioni.AddAsync(comunicazione);
             await dbContext.SaveChangesAsync();
 
-            //INVIA EMAIL 
+            //EMAIL
 
-            //Se la lista ha destinatari viene creato un oggetto SmtpClient per inviare l'email tramite un server SMTP (mail.brovia.it).
-            //Per ogni destinatario nella lista destinatari, viene aggiunto l'indirizzo email a mail.To.
-            //Il corpo dell'email è il testo della comunicazione (comunicazione.Testo), e l'oggetto è "Nuova comunicazione".
-            //Infine, si tenta di inviare l'email con il metodo smtpClient.Send(mail).
             List<string> destinatariEmail = new List<string>();
 
             // Determina i destinatari in base al ruolo e ai campi K_Studente/K_Docente
@@ -327,6 +324,10 @@ namespace Comunicazioni.Controllers
                 {
                     destinatariEmail.Add(comunicazione.Studente.Email);
                 }
+                else
+                {
+                    destinatariEmail.Add("generation@brovia.it");
+                }
 
             }
             else if (ruolo == "Studente")
@@ -336,6 +337,10 @@ namespace Comunicazioni.Controllers
                 {
                     destinatariEmail.Add(comunicazione.Docente.Email);
                 }
+                else
+                {
+                    destinatariEmail.Add("generation@brovia.it");
+                }
             }
 
             // Invia email se ci sono destinatari
@@ -343,10 +348,10 @@ namespace Comunicazioni.Controllers
             {
                 SmtpClient smtpClient = new SmtpClient("mail.brovia.it", 25);
                 smtpClient.Credentials = new System.Net.NetworkCredential("generation@brovia.it", "G3n3rat!on");
-                smtpClient.EnableSsl = false;
+                smtpClient.EnableSsl = true;
 
                 MailMessage mail = new MailMessage();
-                mail.From = new MailAddress("generation@brovia.it", "Sistema Comunicazioni");
+                mail.From = new MailAddress("generation@brovia.it", "Comunicazione UniGen");
 
                 foreach (var email in destinatariEmail.Distinct())
                 {
@@ -354,7 +359,36 @@ namespace Comunicazioni.Controllers
                 }
 
                 mail.Subject = "Nuova comunicazione";
-                mail.Body = comunicazione.Testo;
+                
+                if (ruolo == "D")
+                {
+                    comunicazione.Docente = await dbContext.Docenti
+                              .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+
+                    mail.Body = @$"In data {comunicazione.DataOraComunicazione}  
+hai ricevuto una comunicazione da {comunicazione.Docente?.Nome} {comunicazione.Docente?.Cognome}. 
+
+{comunicazione.Testo}";
+                }
+                else if (ruolo == "S")
+                {
+                    comunicazione.Studente = await dbContext.Studenti
+                              .FirstOrDefaultAsync(d => d.K_Studente == comunicazione.K_Soggetto);
+
+                    mail.Body = @$"In data {comunicazione.DataOraComunicazione}  
+hai ricevuto una comunicazione da {comunicazione.Studente?.Nome} {comunicazione.Studente?.Cognome}. 
+
+{comunicazione.Testo}";
+                }
+                else
+                {
+                    mail.Body = @$"In data {comunicazione.DataOraComunicazione}  
+hai ricevuto una comunicazione dall'Amministrazione. 
+
+{comunicazione.Testo}";
+                }
+
+
 
                 try
                 {
@@ -366,8 +400,13 @@ namespace Comunicazioni.Controllers
                 }
             }
 
+
+            //---------------------------------------------------//
+
+
+
             return RedirectToAction("List", "Comunicazioni");
-        }
+		}
 
         [HttpPost]
         public async Task<IActionResult> AddRisposta(Comunicazione viewModel)
@@ -405,8 +444,6 @@ namespace Comunicazioni.Controllers
                 Testo = viewModel.Testo,
                 K_Soggetto = chiaveUtente,
             };
-
-
 
             if (ruolo == "O")
             {
