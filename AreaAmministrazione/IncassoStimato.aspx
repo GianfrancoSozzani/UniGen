@@ -1,11 +1,11 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="IncassoPerCorso.aspx.cs" Inherits="_Default" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="IncassoStimato.aspx.cs" Inherits="_Default" %>
 
 <%@ Register Assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <h1 class="ms-5 mb-5">Incassi Annuali</h1>
+    <h1 class="ms-5 mb-5">Stima Incassi Annuali</h1>
 
     <div class="row align-items-center">
         <!-- Colonna per il grafico (a sinistra) -->
@@ -24,30 +24,17 @@
 
 
         <!-- Sezione a destra -->
-        <div class="col-md-6 d-flex justify-content-center">
-            <div class="border p-5 rounded shadow w-75">
-                <div class="row justify-content-center mb-4">
-                    <div class="col-4">
-                        <h5 class="mb-4">Seleziona Anno</h5>
-                        <asp:DropDownList
-                            ID="ddlAnno"
-                            runat="server"
-                            CssClass="form-control py-1 px-2"
-                            AutoPostBack="true"
-                            OnSelectedIndexChanged="ddlAnno_SelectedIndexChanged">
-                        </asp:DropDownList>
-                    </div>
-                    <div class="col-8">
-                                        <h5 class="mb-4">Seleziona Facoltà</h5>
-                        <asp:DropDownList
-                            ID="ddlFacolta"
-                            runat="server"
-                            CssClass="form-control py-1 px-2"
-                            AutoPostBack="true"
-                            OnSelectedIndexChanged="ddlFacolta_SelectedIndexChanged">
-                        </asp:DropDownList>
-                    </div>
-                </div>
+        <div class="col-md-6">
+            <div class="border p-5 rounded shadow mb-4">
+                <h5 class="text-center mb-4">Seleziona Facoltà</h5>
+                <asp:DropDownList
+                    ID="ddlFacolta"
+                    runat="server"
+                    CssClass="form-control form-control-sm mb-3"
+                    AutoPostBack="true"
+                    OnSelectedIndexChanged="ddlFacolta_SelectedIndexChanged">
+                </asp:DropDownList>
+
 
                 <div class="text-center">
                     <asp:Button
@@ -58,7 +45,7 @@
                         OnClick="btnRiepilogo_Click"
                         Style="box-shadow: 0px 4px 12px rgba(0,0,0,0.2); border-radius: 8px;" />
                 </div>
-                <div class="text-center mt-4">
+                <div class="mt-4">
                     <asp:Repeater ID="rptIncassiFacolta" runat="server">
                         <HeaderTemplate>
                             <table class="table table-bordered table-striped table-hover">
@@ -66,6 +53,7 @@
                                     <tr>
                                         <th><%# (facolta == Guid.Empty ? "Facoltà" : "Corso") %></th>
                                         <th>Incasso</th>
+                                        <th>Stima</th>
                                         <th>Iscritti</th>
                                     </tr>
                                 </thead>
@@ -75,19 +63,21 @@
                         <ItemTemplate>
                             <tr>
                                 <td><%# Eval(facolta == Guid.Empty ? "Facolta" : "Corso") %></td>
-                                <td><%# String.Format("{0:C}", Eval("Importo")) %></td>
+                                <td><%# String.Format("{0:C}", Eval("Incasso")) %></td>
+                                <td><%# String.Format("{0:C}", Eval("Stima")) %></td>
                                 <td><%# Eval("Iscritti") %></td>
                             </tr>
                         </ItemTemplate>
 
                         <FooterTemplate>
                             </tbody>
-    </table>
+                </table>
                         </FooterTemplate>
                     </asp:Repeater>
                 </div>
             </div>
         </div>
+
     </div>
 </asp:Content>
 

@@ -17,9 +17,9 @@
         <div class="form-inline mb-3">
             <label class="mr-2" for="txtRicercaMatricola">Ricerca Matricola</label>
             <asp:TextBox ID="txtRicercaMatricola" runat="server" CssClass="form-control mr-2" TextMode="Number"></asp:TextBox>
-            <button id="btnRicerca" runat="server" class="btn btn-primary" OnClick="btnRicerca_Click">
+            <asp:LinkButton ID="btnRicerca" runat="server" CssClass="btn btn-primary" OnClick="btnRicerca_Click" Style="box-shadow: 0px 4px 12px #21212115;">
                 <i class="bi bi-search"></i>
-            </button>
+            </asp:LinkButton>
             <span style="margin-left: 1em;">
                 <asp:Label ID="lblErrore" runat="server" CssClass="text-danger mt-3" Text="" Visible="False"></asp:Label>
             </span>
@@ -27,7 +27,7 @@
 
         <h3>Elenco Studenti</h3>
         <asp:Repeater ID="rptStudenti" runat="server" OnItemCommand="rptStudenti_ItemCommand">
-            <headertemplate>
+            <HeaderTemplate>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -39,8 +39,8 @@
                         </tr>
                     </thead>
                     <tbody>
-            </headertemplate>
-            <itemtemplate>
+            </HeaderTemplate>
+            <ItemTemplate>
                 <tr>
                     <td><%# Eval("Matricola") %></td>
                     <td><%# Eval("Cognome") %></td>
@@ -59,12 +59,12 @@
                             Style="box-shadow: 0px 4px 12px #21212115;" CssClass="btn btn-danger btn-sm" />
                     </td>
                 </tr>
-            </itemtemplate>
-            <footertemplate>
+            </ItemTemplate>
+            <FooterTemplate>
                 </tbody>
                 </table>
            
-            </footertemplate>
+            </FooterTemplate>
         </asp:Repeater>
 
 
