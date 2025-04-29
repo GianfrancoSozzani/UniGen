@@ -18,16 +18,39 @@ namespace AreaStudente.Controllers
             this.dbContext = dbContext; // Inizializzo il contesto del database 
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Show(Guid id) // L'ID dello studente da visualizzare
+        public IActionResult LoginRedirect()
         {
-            // Trova lo studente includendo potenzialmente dati correlati se servissero
-            // In questo caso, per il ViewModel fornito, non serve caricare il Corso,
-            // ma lo lascio commentato come esempio se volessi il nome del corso in futuro.
+            // Leggi parametri dalla query string e salvali in sessione
+            var usr = Request.Query["usr"];
+            var guidid = Request.Query["guidid"];
+            var tipo = Request.Query["tipo"];
+
+            if (!string.IsNullOrEmpty(usr) && !string.IsNullOrEmpty(guidid) && !string.IsNullOrEmpty(tipo))
+            {
+                HttpContext.Session.SetString("usr", usr);
+                HttpContext.Session.SetString("guidid", guidid);
+                HttpContext.Session.SetString("tipo", tipo);
+            }
+            else
+            {
+                return BadRequest("Parametri mancanti o invalidi.");
+            }
+
+            // Reindirizza all'area studente dopo aver settato la sessione
+            return RedirectToAction("Show", "Studenti");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Show() // L'ID dello studente da visualizzare
+        {
+            var guididStr = HttpContext.Session.GetString("guidid");
+            if (!Guid.TryParse(guididStr, out Guid guidid))
+            {
+                return RedirectToAction("LoginRedirect");
+            }
+
             var studente = await dbContext.Studenti
-                                          // Sostituisci con il tuo DbSet<Studente>
-                                          // .Include(s => s.Corso) // Esempio: Decommenta se hai una navigation property 'Corso' in Studente e vuoi il nome
-                                          .FirstOrDefaultAsync(s => s.K_Studente == id);
+                .FirstOrDefaultAsync(s => s.K_Studente == guidid);
             if (studente == null)
             {
                 ViewBag.ErrorMessage = $"Nessun dato studente da visualizzare.Assicurati di aver specificato un ID valido.";
@@ -100,9 +123,15 @@ namespace AreaStudente.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ModificaProfilo(Guid id)
+        public async Task<IActionResult> ModificaProfilo()
         {
-            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == id);
+            var guididStr = HttpContext.Session.GetString("guidid");
+            if (!Guid.TryParse(guididStr, out Guid guidid))
+            {
+                return RedirectToAction("LoginRedirect");
+            }
+
+            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == guidid);
 
             if (studente == null)
             {
@@ -132,6 +161,12 @@ namespace AreaStudente.Controllers
         [HttpPost]
         public async Task<IActionResult> ModificaProfilo(ModificaStudenteViewModel model, string PasswordNew, string PasswordConfirm)
         {
+            var guididStr = HttpContext.Session.GetString("guidid");
+            if (!Guid.TryParse(guididStr, out Guid guidid) || guidid != model.K_Studente)
+            {
+                return RedirectToAction("LoginRedirect");
+            }
+
             var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == model.K_Studente);
 
             if (studente == null)
