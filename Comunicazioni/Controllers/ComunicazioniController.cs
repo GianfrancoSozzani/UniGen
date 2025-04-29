@@ -342,7 +342,7 @@ namespace Comunicazioni.Controllers
             {
                 SmtpClient smtpClient = new SmtpClient("mail.brovia.it", 25);
                 smtpClient.Credentials = new System.Net.NetworkCredential("generation@brovia.it", "G3n3rat!on");
-                smtpClient.EnableSsl = false;
+                smtpClient.EnableSsl = true;
 
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress("generation@brovia.it", "Comunicazione UniGen");
@@ -353,6 +353,7 @@ namespace Comunicazioni.Controllers
                 }
 
                 mail.Subject = "Nuova comunicazione";
+                
                 if (ruolo == "D")
                 {
                     comunicazione.Docente = await dbContext.Docenti
