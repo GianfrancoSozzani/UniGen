@@ -67,10 +67,15 @@ public partial class _Default : System.Web.UI.Page
 
     protected void DisabilitaDocente(Guid K_Docente)
     {
-       DOCENTI d = new DOCENTI();
-       d.K_Docente = K_Docente;
-       d.Disabilita();
-       rpDocenti.DataBind();
+        DOCENTI d = new DOCENTI();
+        d.K_Docente = K_Docente;
+        d.Disabilita();
+        rpDocenti.DataBind();
     }
-   
+
+    protected void btnNuovaPagina_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("InserimentoDocente.aspx");
+    }
+
 }
