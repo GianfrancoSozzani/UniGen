@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http; // Importante per la sessione
 
-namespace AreaPubblica.Controllers
+namespace Comunicazioni.Controllers
 {
     public class LoginController : Controller
     {
