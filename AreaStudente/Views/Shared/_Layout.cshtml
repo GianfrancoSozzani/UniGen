@@ -74,10 +74,8 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" asp-area="" asp-controller="Studenti" asp-action="Show">Il mio Profilo</a>
+                                <a class="nav-link active" aria-current="page" href="/Studenti/Show/@ViewData["studente_id"]">Il mio Profilo</a>
                             </li>
-
-
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Gestione Profilo
@@ -85,7 +83,7 @@
                                 <ul class="dropdown-menu">
 
                                     <li class="dropdown">
-                                        <a class="dropdown-item" asp-area="" asp-controller="" asp-action="">
+                                        <a class="dropdown-item" href="/Studenti/ModificaProfilo/@ViewData["studente_id"]">
                                             Modifica Dati
                                         </a>
                                     </li>
