@@ -153,11 +153,7 @@ namespace AreaStudente.Controllers
                 Indirizzo = studente.Indirizzo,
                 CAP = studente.CAP,
                 Citta = studente.Citta,
-                Provincia = studente.Provincia,
-                DataNascita = studente.DataNascita,
-
-
-
+                Provincia = studente.Provincia,               
                 ImmagineProfilo = studente.ImmagineProfilo
             };
 
@@ -170,15 +166,7 @@ namespace AreaStudente.Controllers
         public async Task<IActionResult> ModificaProfilo(ModificaStudenteViewModel model, string PasswordNew, string PasswordConfirm, Guid id)
         {
             ViewData["studente_id"] = id;
-            var guididStr = HttpContext.Session.GetString("guidid");
-            if (!Guid.TryParse(guididStr, out Guid guidid) || guidid != model.K_Studente)
-            {
-                return RedirectToAction("LoginRedirect");
-            }
-
             var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == model.K_Studente);
-
-
 
             if (studente == null)
                 return NotFound();
@@ -214,11 +202,7 @@ namespace AreaStudente.Controllers
             //logica password
             bool AlmenoUnoCompilato = !string.IsNullOrEmpty(model.PWD) || !string.IsNullOrEmpty(PasswordNew) || !string.IsNullOrEmpty(PasswordConfirm);
             bool tuttiCompilati = !string.IsNullOrEmpty(model.PWD) && !string.IsNullOrEmpty(PasswordNew) && !string.IsNullOrEmpty(PasswordConfirm);
-
-
-           
-
-
+        
 
             if (AlmenoUnoCompilato)
             {

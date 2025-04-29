@@ -45,7 +45,7 @@ namespace AreaPubblica.Controllers
                 //HttpContext.Session.SetString("Ruolo", "S");
 
                 //return RedirectToAction("AREA LAVORO STUDENTE (IMMATRICOLATO)", "Home");
-                return Redirect("https://localhost:7050/Studenti/Show/"+studente.K_Studente.ToString().ToUpper());
+                return Redirect("http://localhost:5201/Studenti/Show/"+studente.K_Studente.ToString().ToUpper());
 
             }
 
