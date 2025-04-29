@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace AreaStudente.Controllers
 {
+    [Area("AreaStudente")]
     public class StudentiController : Controller
     {
 
@@ -158,8 +159,8 @@ namespace AreaStudente.Controllers
             }
 
             //logica password
-            bool AlmenoUnoCompilato = !string.IsNullOrEmpty(model.Password) || !string.IsNullOrEmpty(PasswordNew) || !string.IsNullOrEmpty(PasswordConfirm);
-            bool tuttiCompilati = !string.IsNullOrEmpty(model.Password) && !string.IsNullOrEmpty(PasswordNew) && !string.IsNullOrEmpty(PasswordConfirm);
+            bool AlmenoUnoCompilato = !string.IsNullOrEmpty(model.PWD) || !string.IsNullOrEmpty(PasswordNew) || !string.IsNullOrEmpty(PasswordConfirm);
+            bool tuttiCompilati = !string.IsNullOrEmpty(model.PWD) && !string.IsNullOrEmpty(PasswordNew) && !string.IsNullOrEmpty(PasswordConfirm);
 
             if (AlmenoUnoCompilato)
             {
@@ -172,7 +173,7 @@ namespace AreaStudente.Controllers
                 }
 
                 // 2. Password vecchia errata
-                if (model.Password != studente.Password)
+                if (model.PWD != studente.PWD)
                 {
                     TempData["PopupErrore"] = "La password vecchia inserita non risulta essere corretta.";
                     TempData["ApriModalePassword"] = true;
@@ -191,7 +192,7 @@ namespace AreaStudente.Controllers
                 TempData["PopupErrore"] = null;
                 TempData["ApriModalePassword"] = true;
                 TempData["PopupSuccesso"] = "Password aggiornata con successo.";
-                studente.Password = PasswordNew;
+                studente.PWD = PasswordNew;
             }
 
 

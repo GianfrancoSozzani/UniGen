@@ -34,7 +34,7 @@ namespace AreaPubblica.Controllers
             // Controllo login Studente
             var studente = await dbContext.Studenti
                 .Where(s => s.Email == viewModel.username && s.PWD == viewModel.PWD)
-                .Select(s => new { s.K_Studente, s.Email, s.Matricola}) // Carico solo K_Studente ed Email e Matricola
+                .Select(s => new { s.K_Studente, s.Email, s.Matricola }) // Carico solo K_Studente ed Email e Matricola
                 .FirstOrDefaultAsync();
 
             if (studente != null)
@@ -47,9 +47,12 @@ namespace AreaPubblica.Controllers
                 if (studente.Matricola == null)
                 {
                     //return RedirectToAction("AREA STUDENTE (NON IMMATRICOLATO)", "Home");
+                    //return Redirect("/AreaStudente/Views/Studenti/ModificaProfilo");
+                    return RedirectToAction("ModificaProfilo", "Studenti", new { area = "AreaStudente" });
                 }
 
                 //return RedirectToAction("AREA LAVORO STUDENTE (IMMATRICOLATO)", "Home");
+                return RedirectToAction("ModificaProfilo", "Studenti", new { area = "AreaStudente" });
             }
 
             // Controllo login Docente
