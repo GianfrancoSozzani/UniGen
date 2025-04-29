@@ -1,6 +1,6 @@
 ﻿using Comunicazioni.Data;
 using Comunicazioni.Models.Entities;
-namespace AreaPubblica.Models
+namespace Comunicazioni.Models
 {
     public class LoginViewModel
     {
