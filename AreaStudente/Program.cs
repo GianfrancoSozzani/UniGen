@@ -50,7 +50,7 @@ namespace AreaStudente
 
             app.MapControllerRoute(
             name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
+            pattern: "{controller=Studenti}/{action=Show}/{id?}");
 
             app.Run();
 
