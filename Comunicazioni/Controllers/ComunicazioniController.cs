@@ -145,11 +145,6 @@ namespace Comunicazioni.Controllers
             IEnumerable<SelectListItem> listaEsami = dbContext.Esami
                 .Where(e => e.K_Docente == Guid.Parse(HttpContext.Session.GetString("chiave")))
 
-                .Select(i => new SelectListItem
-                {
-                    Text = i.TitoloEsame,
-                    Value = i.K_Esame.ToString()
-
                 .Select(e => new SelectListItem
                 {
                     Text = e.TitoloEsame,
@@ -506,7 +501,7 @@ namespace Comunicazioni.Controllers
                 }
 
                 // Aggiungi anche il tuo indirizzo email per il test
-                mail.To.Add(new MailAddress("mffrso99@gmail.com"));  // Modifica con il tuo indirizzo
+                mail.To.Add(new MailAddress("ESEMPIOMIAMAIL@gmail.com"));  // Modifica con il tuo indirizzo
 
                 mail.Subject = "Nuova comunicazione";
                 mail.Body = comunicazione.Testo;
