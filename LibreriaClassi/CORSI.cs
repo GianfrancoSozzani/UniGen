@@ -13,7 +13,7 @@ namespace LibreriaClassi
         public Guid K_Facolta { get; set; }
         public Guid K_TipoCorso { get; set; }
         public string TitoloCorso { get; set; }
-        public string MinimoCFU { get; set; }
+        public short MinimoCFU { get; set; }
         public decimal CostoAnnuale { get; set; }
 
         public CORSI()
@@ -24,10 +24,12 @@ namespace LibreriaClassi
         public void Inserimento()
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", TitoloCorso);
-            db.cmd.Parameters.AddWithValue("", MinimoCFU);
-            db.cmd.Parameters.AddWithValue("", CostoAnnuale);
+            db.query = "Corsi_Insert";
+            db.cmd.Parameters.AddWithValue("@titolocorso", TitoloCorso);
+            db.cmd.Parameters.AddWithValue("@minimoCFU", MinimoCFU);
+            db.cmd.Parameters.AddWithValue("@costoannuale", CostoAnnuale);
+            db.cmd.Parameters.AddWithValue("@k_facolta", K_Facolta);
+            db.cmd.Parameters.AddWithValue("@k_tipocorso", K_TipoCorso);
             db.SQLcommand();
         }
 
@@ -35,6 +37,16 @@ namespace LibreriaClassi
         {
             DB dB = new DB();
             dB.query = "Corsi_SelectAll";
+            dB.query = "Corsi_SelectAll";
+            return dB.SQLselect();
+        }
+
+        public DataTable VerificaDuplicato()
+        {
+            DB dB = new DB();
+            dB.query = "Corsi_VerificaDuplicato";
+            dB.cmd.Parameters.AddWithValue("@k_facolta", K_Facolta);
+            dB.cmd.Parameters.AddWithValue("@titolocorso", TitoloCorso);
             return dB.SQLselect();
         }
 
