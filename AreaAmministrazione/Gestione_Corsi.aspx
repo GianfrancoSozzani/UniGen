@@ -19,12 +19,12 @@
                 <asp:Label ID="Label3" runat="server" Text="Tipo Corso"></asp:Label>
                 <asp:DropDownList ID="ddlTipoCorso" runat="server"></asp:DropDownList>
                 <asp:Label ID="Label4" runat="server" Text="Corso"></asp:Label>
-                <asp:TextBox ID="txtTitoloCorso" runat="server"></asp:TextBox>
+                <asp:TextBox ID="txtCorso" runat="server"></asp:TextBox>
                 <asp:Label ID="Label5" runat="server" Text="MinimoCFU"></asp:Label>
                 <asp:TextBox ID="txtMinimoCFU" runat="server"></asp:TextBox>
                 <asp:Label ID="Label6" runat="server" Text="CostoAnnuale"></asp:Label>
                 <asp:TextBox ID="txtCostoAnnuale" runat="server"></asp:TextBox>
-                <asp:Button CssClass="btn btn-primary btn-sm" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click"/>
+                <asp:Button CssClass="btn btn-primary btn-sm" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
             </div>
         </div>
 
@@ -35,8 +35,8 @@
                         <thead>
                             <tr>
                                 <th>Facoltà</th>
-                                <th>Corsi</th>
                                 <th>Tipo corso</th>
+                                <th>Corsi</th>
                                 <th>Minimo CFU</th>
                                 <th>Costi annuali</th>
                                 <th>Azioni</th>
@@ -48,12 +48,18 @@
                 <ItemTemplate>
                     <tr>
                         <td><%# Eval("TitoloFacolta") %></td>
-                        <td><%# Eval("TitoloCorso") %></td>
                         <td><%# Eval("Tipo") %></td>
+                        <td><%# Eval("TitoloCorso") %></td>
                         <td><%# Eval("MinimoCFU") %></td>
                         <td><%# Eval("CostoAnnuale") %></td>
                         <td>
-                            <%--<a href="#" class="btn btn-sm btn-primary" onclick="apriModal('<%# Eval("K_Facolta") %>', '<%# Eval("TitoloFacolta") %>')">Modifica</a>--%>
+                            <a href="#" class="btn btn-sm btn-primary" onclick="apriModal(
+                                '<%# Eval("K_Corso") %>',
+                                '<%# Eval("K_Facolta") %>',
+                                '<%# Eval("K_TipoCorso") %>',
+                                '<%# Eval("TitoloCorso") %>',
+                                '<%# Eval("MinimoCFU") %>',
+                                '<%# Eval("CostoAnnuale") %>',)">Modifica</a>
                         </td>
                     </tr>
                 </ItemTemplate>
@@ -67,7 +73,7 @@
     </div>
 
     <%--Modal--%>
-    <%--<div class="modal fade" id="modalModificaCorso" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalModificaCorso" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
 
@@ -80,19 +86,39 @@
                     <asp:HiddenField ID="hiddenIdCorso" runat="server" />
 
                     <div class="mb-3">
-                        <label for="txtTitoloFacolta" class="form-label fw-bold">Nome Facoltà</label>
-                        <asp:TextBox ID="txtTitoloFacolta" runat="server" CssClass="form-control"></asp:TextBox>
+                        <label for="txtTitoloFacolta" class="form-label fw-bold">Facoltà</label>
+                        <asp:DropDownList ID="ddlTitoloFacolta" CssClass="form-select" runat="server"></asp:DropDownList>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="txtTitoloTipo" class="form-label fw-bold">Tipo corso</label>
+                        <asp:DropDownList ID="ddlTitoloTipo" CssClass="form-select" runat="server"></asp:DropDownList>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="txtTitoloCorso" class="form-label fw-bold">Corso</label>
+                        <asp:TextBox ID="txtTitoloCorso" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="txtTitoloMinimoCFU" class="form-label fw-bold">MinimoCFU</label>
+                        <asp:TextBox ID="txtTitoloMinimoCFU" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="txtTitoloCostoAnnuale" class="form-label fw-bold">CostoAnnuale</label>
+                        <asp:TextBox ID="txtTitoloCostoAnnuale" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <asp:Button ID="btnSalvaModifica" runat="server" Text="Salva Modifiche" CssClass="btn btn-primary" />
+                    <asp:Button ID="btnSalvaModifica" runat="server" Text="Salva Modifiche" CssClass="btn btn-primary" OnClick="btnSalvaModifica_Click"/>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
                 </div>
 
             </div>
         </div>
-    </div>--%>
+    </div>
 
 
     <%--Script per nascondere l'icona e rendere visibili gli elementi per l'inserimento--%>
@@ -115,14 +141,18 @@
     </script>
 
     <%--Script per il modal--%>
-    <%--<script>
-        function apriModal(id, titolo) {
-            document.getElementById('<%= hiddenIdFacolta.ClientID %>').value = id;
-            document.getElementById('<%= txtTitoloFacolta.ClientID %>').value = titolo;
+    <script>
+        function apriModal(kCorso, kFacolta, kTipoCorso, titolo, cfu, costo) {
+            document.getElementById('<%= hiddenIdCorso.ClientID %>').value = kCorso;
+            document.getElementById('<%= ddlTitoloFacolta.ClientID %>').value = kFacolta;
+            document.getElementById('<%= ddlTitoloTipo.ClientID %>').value = kTipoCorso;
+            document.getElementById('<%= txtTitoloCorso.ClientID %>').value = titolo;
+            document.getElementById('<%= txtTitoloMinimoCFU.ClientID %>').value = cfu;
+            document.getElementById('<%= txtTitoloCostoAnnuale.ClientID %>').value = costo;
 
-            var myModal = new bootstrap.Modal(document.getElementById('modalModificaFacolta'));
+            var myModal = new bootstrap.Modal(document.getElementById('modalModificaCorso'));
             myModal.show();
         }
-    </script>--%>
+    </script>
 </asp:Content>
 
