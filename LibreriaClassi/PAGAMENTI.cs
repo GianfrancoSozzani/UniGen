@@ -86,5 +86,13 @@ namespace LibreriaClassi
             db.query = "Pagamenti_SelectGroupByAnno";
             return db.SQLselect();
         }
+
+        public DataTable IncassiGroupByFacolta()
+        {
+            DB db = new DB();
+            db.cmd.Parameters.AddWithValue("@anno", Anno);
+            db.query = "Pagamenti_SelectGroupByFacolta";
+            return db.SQLselect();
+        }
     }
 }

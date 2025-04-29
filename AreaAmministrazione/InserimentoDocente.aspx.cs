@@ -43,7 +43,13 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
         byte[] imgData = fuFotoProfilo.FileBytes;
-        string Tipo = txtTipo.Text.Trim();
+        if (!fuFotoProfilo.HasFile)
+        {
+            Response.Write("Inserire una foto profilo valida.");
+            return;
+        }
+        string Tipo = fuFotoProfilo.PostedFile.ContentType;
+        txtTipo.Text = Tipo;
         string Abilitato = CheckBoxAbilitato.Checked ? "S" : "N"; 
         if (String.IsNullOrEmpty(Cognome) ||
             String.IsNullOrEmpty(Nome) ||

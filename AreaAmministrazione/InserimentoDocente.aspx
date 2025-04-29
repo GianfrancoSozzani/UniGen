@@ -77,11 +77,11 @@
         <!-- Immagine Profilo e Tipo -->
         <div class="row g-3 mb-5" style="box-shadow: 0px 4px 12px #21212115">
             <div class="col-md-6 d-flex align-items-center">
-                <asp:Label ID="Label10" runat="server" Text="Immagine Profilo:" CssClass="form-label w-25"></asp:Label>
-                <asp:FileUpload ID="fuFotoProfilo" runat="server" CssClass="form-control w-75" />
+                <asp:Label ID="Label10" runat="server" Text="Immagine Profilo" CssClass="form-label w-25"></asp:Label>
+                <asp:FileUpload ID="fuFotoProfilo" runat="server" CssClass="form-control w-75" OnChange="recuperaTipoFoto(this)" />
             </div>
             <div class="col-md-6 d-flex align-items-center">
-                <asp:Label ID="Label11" runat="server" Text="Tipo:" CssClass="form-label w-25"></asp:Label>
+                <asp:Label ID="Label11" runat="server" Text="Tipo" CssClass="form-label w-25"></asp:Label>
                 <asp:TextBox ID="txtTipo" runat="server" CssClass="form-control w-75"></asp:TextBox>
             </div>
         </div>
@@ -89,14 +89,25 @@
         <!-- Abilitato e Salva -->
         <div class="row g-3 mb-5" style="box-shadow: 0px 4px 12px #21212115">
             <div class="col-md-6 d-flex align-items-center">
-                <asp:Label ID="Label12" runat="server" Text="Abilitato:" CssClass="form-label w-25"></asp:Label>
+                <asp:Label ID="Label12" runat="server" Text="Abilitato" CssClass="form-label w-25"></asp:Label>
                 <asp:CheckBox ID="CheckBoxAbilitato" runat="server" CssClass="form-check-input" />
             </div>
             <div class="col-md-6 text-center">
-                <asp:Button ID="btnSalva" runat="server" Text="Salva" CssClass="btn btn-primary" OnClick="btnSalva_Click" />
+                <asp:Button ID="btnSalva" runat="server" Text="Salva" CssClass="btn btn-primary" OnClick="btnSalva_Click"/>
             </div>
         </div>
 
     </div>
+
+    <script type="text/javascript">
+    function recuperaTipoFoto(input) {
+        if (input.files && input.files.length > 0) {
+            const file = input.files[0];
+            const mimeType = file.type
+            document.getElementById('<%= txtTipo.ClientID %>').value = mimeType;
+        }
+    }
+    </script>
+
 </asp:Content>
 
