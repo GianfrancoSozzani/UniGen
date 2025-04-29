@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace AreaStudente.Controllers
 {
+    
     public class StudentiController : Controller
     {
+
 
 
         private readonly ApplicationDbContext dbContext; // Sto staziando il contesto del database
@@ -19,6 +21,8 @@ namespace AreaStudente.Controllers
         }
 
         public IActionResult LoginRedirect()
+
+
         {
             // Leggi parametri dalla query string e salvali in sessione
             var usr = Request.Query["usr"];
@@ -122,6 +126,7 @@ namespace AreaStudente.Controllers
             return View(dashboardViewModel);
         }
 
+
         [HttpGet]
         public async Task<IActionResult> ModificaProfilo()
         {
@@ -150,6 +155,7 @@ namespace AreaStudente.Controllers
                 CAP = studente.CAP,
                 Citta = studente.Citta,
                 Provincia = studente.Provincia,
+
                 ImmagineProfilo = studente.ImmagineProfilo
             };
 
@@ -168,6 +174,8 @@ namespace AreaStudente.Controllers
             }
 
             var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == model.K_Studente);
+
+
 
             if (studente == null)
                 return NotFound();
@@ -193,8 +201,10 @@ namespace AreaStudente.Controllers
             }
 
             //logica password
-            bool AlmenoUnoCompilato = !string.IsNullOrEmpty(model.Password) || !string.IsNullOrEmpty(PasswordNew) || !string.IsNullOrEmpty(PasswordConfirm);
-            bool tuttiCompilati = !string.IsNullOrEmpty(model.Password) && !string.IsNullOrEmpty(PasswordNew) && !string.IsNullOrEmpty(PasswordConfirm);
+
+            bool AlmenoUnoCompilato = !string.IsNullOrEmpty(model.PWD) || !string.IsNullOrEmpty(PasswordNew) || !string.IsNullOrEmpty(PasswordConfirm);
+            bool tuttiCompilati = !string.IsNullOrEmpty(model.PWD) && !string.IsNullOrEmpty(PasswordNew) && !string.IsNullOrEmpty(PasswordConfirm);
+
 
             if (AlmenoUnoCompilato)
             {
@@ -202,13 +212,20 @@ namespace AreaStudente.Controllers
                 if (!tuttiCompilati)
                 {
                     TempData["PopupErrore"] = "Per cambiare la password, devi compilare tutti e tre i campi.";
+
+                    TempData["ApriModalePassword"] = true;
+
                     return RedirectToAction("ModificaProfilo");
                 }
 
                 // 2. Password vecchia errata
-                if (model.Password != studente.Password)
+
+
+                if (model.PWD != studente.PWD)
                 {
                     TempData["PopupErrore"] = "La password vecchia inserita non risulta essere corretta.";
+                    TempData["ApriModalePassword"] = true;
+
                     return RedirectToAction("ModificaProfilo");
                 }
 
@@ -216,15 +233,21 @@ namespace AreaStudente.Controllers
                 if (PasswordNew != PasswordConfirm)
                 {
                     TempData["PopupErrore"] = "La nuova password e la conferma non coincidono.";
+                    TempData["ApriModalePassword"] = true;
                     return RedirectToAction("ModificaProfilo");
                 }
 
                 // 4. Tutto corretto, aggiorna
+                TempData["PopupErrore"] = null;
+                TempData["ApriModalePassword"] = true;
                 TempData["PopupSuccesso"] = "Password aggiornata con successo.";
-                studente.Password = PasswordNew;
+                studente.PWD = PasswordNew;
             }
 
+
             await dbContext.SaveChangesAsync();
+            TempData["DisplaySuccessMsg"] = true;
+            TempData["PopupSuccesso"] = "I dati sono stati salvati correttamente.";
             return RedirectToAction("ModificaProfilo", "Studenti");
         }
 
@@ -247,10 +270,13 @@ namespace AreaStudente.Controllers
 
         }
 
+
     }
+
+
+
 }
 
 
-
-
+ 
 
