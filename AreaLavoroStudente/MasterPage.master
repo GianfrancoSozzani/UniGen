@@ -15,13 +15,31 @@
             background-color: #12304F;
         }
 
-            .navbar-custom .nav-link,
-            .navbar-custom .navbar-brand {
-                color: white !important;
-            }
+        .navbar-custom .nav-link,
+        .navbar-custom .navbar-brand {
+            color: white !important;
+        }
 
         .dropdown-menu > li:hover > .dropdown-submenu {
             display: block;
+        }
+
+        .navbar-nav.navbar-right {
+            margin-left: auto; /* Spinge a destra gli elementi della navbar */
+        }
+
+        /* Margini tra i bottoni */
+        .navbar-nav .nav-item {
+            margin-left: 15px; /* Aggiungi margine tra i vari bottoni */
+        }
+
+        .navbar-nav .nav-item .btn-light {
+            margin-top: 5px; /* Spazio tra i bottoni */
+        }
+
+        /* Aggiungi un margine tra l'icona e il nome dello studente */
+        .navbar-nav .nav-item .btn-light i {
+            margin-right: 10px; /* Aggiungi uno spazio tra l'icona e il testo */
         }
     </style>
 
@@ -80,31 +98,23 @@
                                 </li>
                             </ul>
 
+                            <ul class="navbar-nav navbar-right">
+                                <li class="nav-item">
+                                    <a class="btn btn-light btn-sm disabled me-2"><i class="bi bi-person-circle"></i><asp:Label ID="lblStudente" runat="server"></asp:Label></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-light btn-sm">Logout</a>
+                                </li>
+                            </ul>
 
-                            <div class="d-flex ms-auto">
-                                <div class="dropdown">
-                                    <button class="btn btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="bi bi-person-circle me-2"></i>
-                                        <asp:Label ID="lblStudente" runat="server"></asp:Label></button>
-
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Logout</a></li>
-
-                                    </ul>
-                                </div>
-
-
-
-                            </div>
                         </div>
+                    </div>
                 </nav>
             </div>
         </header>
 
         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
         </asp:ContentPlaceHolder>
-
-
 
         <footer>
             <div class="bg-dark text-white h-100">
