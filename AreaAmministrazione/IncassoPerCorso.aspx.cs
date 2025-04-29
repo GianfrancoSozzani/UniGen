@@ -123,6 +123,23 @@ public partial class _Default : System.Web.UI.Page
             }
             dt = pag.IncassiPerCorso(facolta);
         }
+        decimal totaleImporto = 0;
+        int totaleIscritti = 0;
+
+        foreach (DataRow row in dt.Rows)
+        {
+            totaleImporto += row.Field<decimal>("Importo");
+            totaleIscritti += row.Field<int>("Iscritti");
+        }
+
+        // Aggiungi riga totale
+        DataRow totaleRow = dt.NewRow();
+        totaleRow["Importo"] = totaleImporto;
+        totaleRow["Iscritti"] = totaleIscritti;
+        totaleRow[facolta == Guid.Empty ? "Facolta" : "Corso"] = "TOTALE";
+
+        dt.Rows.InsertAt(totaleRow, 0); // Inserisce in cima
+
         rptIncassiFacolta.DataSource = dt;
         rptIncassiFacolta.DataBind();
     }
