@@ -1,50 +1,138 @@
 ﻿using AreaStudente.Data;
 using AreaStudente.Models;
-using AreaStudente.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
+
 
 namespace AreaStudente.Controllers
 {
     public class StudentiController : Controller
     {
-        private readonly ApplicationDbContext dbContext;
 
+
+        private readonly ApplicationDbContext dbContext; // Sto staziando il contesto del database
         public StudentiController(ApplicationDbContext dbContext)
         {
-            this.dbContext = dbContext;
+            this.dbContext = dbContext; // Inizializzo il contesto del database 
         }
 
         [HttpGet]
-        public async Task<IActionResult> ModificaProfilo()
+        public async Task<IActionResult> Show(Guid id) // L'ID dello studente da visualizzare
         {
-            // Simulo l'ID, solo per test (poi userò la sessione)
-            var studenteId = new Guid("0CDDDB26-14FE-4937-91A8-ED9014654CA3");
-            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == studenteId);
-
+            // Trova lo studente includendo potenzialmente dati correlati se servissero
+            // In questo caso, per il ViewModel fornito, non serve caricare il Corso,
+            // ma lo lascio commentato come esempio se volessi il nome del corso in futuro.
+            var studente = await dbContext.Studenti
+                                          // Sostituisci con il tuo DbSet<Studente>
+                                          // .Include(s => s.Corso) // Esempio: Decommenta se hai una navigation property 'Corso' in Studente e vuoi il nome
+                                          .FirstOrDefaultAsync(s => s.K_Studente == id);
             if (studente == null)
-                return NotFound();
-
-            var model = new ModificaStudenteViewModel
             {
+                ViewBag.ErrorMessage = $"Nessun dato studente da visualizzare.Assicurati di aver specificato un ID valido.";
+
+                // Torni comunque alla view "Show" passando un model vuoto
+                return View(new StudenteDashboardViewModel
+                {
+                    Studente = new ShowStudenteViewModel(),
+                    Comunicazioni = new List<ComunicazioneViewModel>()
+                });
+            }
+
+            // Mappa dall'entità Studente (dal DB) a ShowStudenteViewModel
+            // Dentro l'action Show() nel StudentiController.cs, dopo aver recuperato 'studente'
+
+            var viewModel = new ShowStudenteViewModel
+            {
+                K_Studente = studente.K_Studente,
                 Email = studente.Email,
-                Nome = studente.Nome,
                 Cognome = studente.Cognome,
+                Nome = studente.Nome,
+                DataNascita = studente.DataNascita,
                 Indirizzo = studente.Indirizzo,
                 CAP = studente.CAP,
                 Citta = studente.Citta,
                 Provincia = studente.Provincia,
-                DataNascita = studente.DataNascita
+                ImmagineProfilo = studente.ImmagineProfilo,
+                Tipo = studente.Tipo,
+                Matricola = studente.Matricola,
+                DataImmatricolazione = studente.DataImmatricolazione,
+                K_Corso = studente.K_Corso,
+                Abilitato = studente.Abilitato
+
+
+
+                // Opzione 3: Se la stringa nel DB ha valori specifici come "ATTIVO", "SOSPESO" etc.
+                //            e vuoi mapparli a "Sì"/"No" o altro. Esempio:
+                // Abilitato = studente.Abilitato?.ToUpper() switch
+                // {
+                //     "ATTIVO" => "Sì",
+                //     "TRUE" => "Sì",
+                //     "1" => "Sì",
+                //     null => "Non specificato",
+                //     _ => "No" // Tutti gli altri casi ("SOSPESO", "FALSE", "0", etc.)
+                // },
             };
-            //In questo caso il nome della view viene dedotto dall'action del controller (che ha lo stesso nome).
+
+            var comunicazioni = await dbContext.Comunicazioni
+                .Where(c => c.K_Studente == studente.K_Studente)
+                .Select(c => new ComunicazioneViewModel
+                {
+                    K_Comunicazione = c.K_Comunicazione,
+                    Codice_Comunicazione = c.Codice_Comunicazione,
+                    DataOraComunicazione = c.DataOraComunicazione,
+                    Soggetto = c.Soggetto,
+                    K_Soggetto = c.K_Soggetto,
+                    Testo = c.Testo,
+                    K_Studente = c.K_Studente
+                })
+                .ToListAsync();
+
+
+            var dashboardViewModel = new StudenteDashboardViewModel
+            {
+                Studente = viewModel,
+                Comunicazioni = comunicazioni
+            };
+
+            return View(dashboardViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ModificaProfilo(Guid id)
+        {
+            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == id);
+
+            if (studente == null)
+            {
+                TempData["PopupErrore"] = "Studente non trovato.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            var model = new ModificaStudenteViewModel
+            {
+                K_Studente = studente.K_Studente,
+                Nome = studente.Nome,
+                Cognome = studente.Cognome,
+                Email = studente.Email,
+                DataNascita = studente.DataNascita,
+                Indirizzo = studente.Indirizzo,
+                CAP = studente.CAP,
+                Citta = studente.Citta,
+                Provincia = studente.Provincia,
+                ImmagineProfilo = studente.ImmagineProfilo
+            };
+
             return View(model);
         }
+
+
 
         [HttpPost]
         public async Task<IActionResult> ModificaProfilo(ModificaStudenteViewModel model, string PasswordNew, string PasswordConfirm)
         {
-            var studenteId = new Guid("0CDDDB26-14FE-4937-91A8-ED9014654CA3");
-            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == studenteId);
+            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == model.K_Studente);
 
             if (studente == null)
                 return NotFound();
@@ -124,10 +212,10 @@ namespace AreaStudente.Controllers
 
         }
 
-
     }
-
-
-    
 }
+
+
+
+
 
