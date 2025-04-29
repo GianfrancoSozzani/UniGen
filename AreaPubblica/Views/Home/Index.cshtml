@@ -2,12 +2,15 @@
 	ViewData["Title"] = "Home Page";
 }
 <style>
+
+	/* velatura sul carousel */
+
 	.bottom-overlay {
 		position: absolute;
 		bottom: 0;
 		left: 0;
 		width: 100%;
-		height: 70%; /* Puoi aumentare o diminuire */
+		height: 80%; /* Puoi aumentare o diminuire */
 		background: linear-gradient( to top, rgba(0, 0, 0, 1) 0%, /* più scuro alla base */
 		rgba(0, 0, 0, 0) 100% /* completamente trasparente sopra */
 		);
@@ -20,15 +23,19 @@
 		}
 
 
+		 /* testo velatura */
+
 	#testoVelatura > h1 {
 		font-size: 6.5rem;
 		font-weight: 600;
 		opacity: 0.9;
 	}
 
+
+	/* carousel full screen */
 	.carousel-inner img {
 		object-fit: cover;
-		height: 85vh;
+		height: 95vh;
 		width: 100%;
 	}
 
@@ -40,17 +47,17 @@
 @* carousel con scritta *@
 
 <header>
-	<div class="">
+	<div class="mt-2">
 
 		<div id="carouselExampleIndicators" class="carousel slide position-relative fullscreen-carousel " data-bs-ride="carousel">
 
 
 			<div class="carousel-inner">
 				<div class="carousel-item active">
-					<img src="~/Sources/SrudendessaInPiedi.gif" class="d-block w-100" alt="GIF 1">
+					<img src="~/Sources/StudendeConCappello.gif" class="d-block w-100" alt="GIF 1">
 				</div>
 				<div class="carousel-item">
-					<img src="~/Sources/StudendeConCappello.gif" class="d-block w-100 " alt="GIF 2">
+					<img src="~/Sources/SrudendessaInPiedi.gif" class="d-block w-100 " alt="GIF 2">
 				</div>
 				<div class="carousel-item">
 					<img src="~/Sources/StudendtiGiosi.gif" class="d-block w-100" alt="GIF 3">
@@ -70,11 +77,14 @@
 			<div class="bottom-overlay d-flex flex-column justify-content-end align-items-center text-center ">
 				<div id="testoVelatura" class="mb-5">
 
-				<h1 class="text-light fw-bold ">UniGen</h1>
-				<p class="text-light fs-1 fst-italic" style="font-family: serif">La conoscenza rende liberi</p>
-				@* <p class="text-light opacity-75 mb-2 fs-6">Scopri chi siamo</p> *@
-				<a href="#next-section" class="btn btn-outline text-light opacity-75 mb-4" onclick="scrollToSection()">∨</a>
-			
+					<h1 class="text-light fw-bold ">UniGen</h1>
+					<p class="text-light fs-1 fst-italic mb-1" style="font-family: serif">La conoscenza rende liberi</p>
+					@* <p class="text-light opacity-75 mb-2 fs-6">Scopri chi siamo</p> *@
+
+
+					@* bottone *@
+					<a href="#next-section" class="btn btn-outline text-light opacity-75 mb-5" onclick="scrollToSection()">∨</a>
+
 				</div>
 			</div>
 
@@ -87,19 +97,15 @@
 @* main della pagina *@
 
 <main>
-	<div class="container">
-
-
+	<div class="container mt-5">
 		<div id="target-section">
-			<!-- Contenuto della sezione -->
+			
 
-			<h1></h1>
+			<h1 class=" alert-dark text-center mb-5 ">Offerta Formativa</h1>
 
+			@* qattro card con immagini e testo *@
 
-			<div class="d-flex flex-row justify-content-around mt-5">
-
-
-				@* 4 card *@
+			<div class="d-flex flex-row justify-content-around">
 
 
 				<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
@@ -112,9 +118,9 @@
 
 
 				<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
-					<img src="~/Sources/corsostudiUNIGEN.png" class="card-img-top" alt="...">
+					<img src="~/Sources/corsidilaureaUNIGEN.png" class="card-img-top" alt="...">
 					<div class="card-body">
-						<p class="fw-bold">Corsi di Studio</p>
+						<p class="fw-bold">Corsi di Laurea</p>
 						<p class="card-text">Scopri l’offerta formativa completa: corsi triennali, magistrali e a ciclo unico, pensati per accompagnarti nel tuo percorso universitario.</p>
 					</div>
 				</div>
@@ -124,7 +130,7 @@
 				<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
 					<img src="~/Sources/calendarioUNIGENpng.png" class="card-img-top" alt="...">
 					<div class="card-body">
-						<p class="fw-bold">Calendario</p>
+						<p class="fw-bold">Programma</p>
 						<p class="card-text">Consulta le date importanti dell’anno universitario: inizio lezioni, sessioni d’esame, scadenze e periodi di vacanza.</p>
 					</div>
 				</div>
@@ -132,10 +138,10 @@
 
 
 				<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
-					<img src="~/Sources/faqUNIGEN.png" class="card-img-top" alt="...">
+					<img src="~/Sources/pianodistudioUNIGEN.png" class="card-img-top" alt="...">
 					<div class="card-body">
-						<p class="fw-bold">FAQ</p>
-						<p class="card-text">Hai dubbi? Trova rapidamente le risposte alle domande più frequenti su immatricolazioni, tasse, esami e molto altro.</p>
+						<p class="fw-bold">Piano Di Studi</p>
+						<p class="card-text">Esplora il piano di studi del tuo corso! Consulta gli insegnamenti, i crediti formativi e l'organizzazione del tuo percorso accademico in modo semplice e intuitivo.</p>
 					</div>
 				</div>
 			</div>
@@ -191,6 +197,8 @@
 	</div>
 </main>
 
+
+@* script per bottone *@
 
 <script>
 	function scrollToSection() {
