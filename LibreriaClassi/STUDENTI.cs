@@ -75,6 +75,21 @@ namespace LibreriaClassi
             return db.SQLselect();
         }
 
+        public DataTable SelezionaAnno()
+        {
+            DB db = new DB();
+            db.query = "Studenti_CountAnni";
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaAnnoSingolo(string anno)
+        {
+            DB db = new DB();
+            db.query = "Studenti_CountAnnoSingolo";
+            db.cmd.Parameters.AddWithValue("@Anno", anno);
+            return db.SQLselect();
+        }
+
         public DataTable AttivaStudenteList()
         {
             DB db = new DB();
