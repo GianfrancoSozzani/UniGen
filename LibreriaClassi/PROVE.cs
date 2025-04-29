@@ -21,37 +21,37 @@ namespace LibreriaClassi
         public string Tipologia { get; set; }
 
 
-        public void Inserimento()
-        {
-            DB dB = new DB();
-            dB.query = "PROVE_Inserimento";
-            dB.cmd.Parameters.AddWithValue("@K_Appello", K_Appello);
-            dB.cmd.Parameters.AddWithValue("@Link", Link);
-            dB.cmd.Parameters.AddWithValue("@Tipologia", Tipologia);
-            dB.SQLcommand(); 
-        }
-        public void Modifica()
-        {
-            DB dB = new DB();
-            dB.query = "PROVE_Modifica";
-            dB.cmd.Parameters.AddWithValue("@K_Prova", K_Prova);
-            dB.cmd.Parameters.AddWithValue("@K_Appello", K_Appello);
-            dB.cmd.Parameters.AddWithValue("@Link", Link);
-            dB.cmd.Parameters.AddWithValue("@Tipologia", Tipologia);
-            dB.SQLcommand();
-        }
-        public DataTable SelezionaTutto()
-        {
-            DB dB = new DB();
-            dB.query = "PROVE_SelezionaTutto";
-            return dB.SQLselect();
-        }
-        public DataTable SelezionaChiave()
-        {
-            DB dB = new DB();
-            dB.query = "PROVE_SelezionaChiave";
-            dB.cmd.Parameters.AddWithValue("@K_Prova", K_Prova);
-            return dB.SQLselect();
-        }
+        //public void Inserimento()             //Gestito tramite MVC nell'area docenti
+        //{
+        //    DB dB = new DB();
+        //    dB.query = "PROVE_Inserimento";
+        //    dB.cmd.Parameters.AddWithValue("@K_Appello", K_Appello);
+        //    dB.cmd.Parameters.AddWithValue("@Link", Link);
+        //    dB.cmd.Parameters.AddWithValue("@Tipologia", Tipologia);
+        //    dB.SQLcommand(); 
+        //}
+        //public void Modifica()
+        //{
+        //    DB dB = new DB();
+        //    dB.query = "PROVE_Modifica";
+        //    dB.cmd.Parameters.AddWithValue("@K_Prova", K_Prova);
+        //    dB.cmd.Parameters.AddWithValue("@K_Appello", K_Appello);
+        //    dB.cmd.Parameters.AddWithValue("@Link", Link);
+        //    dB.cmd.Parameters.AddWithValue("@Tipologia", Tipologia);
+        //    dB.SQLcommand();
+        //}
+        //public DataTable SelezionaTutto()
+        //{
+        //    DB dB = new DB();
+        //    dB.query = "PROVE_SelezionaTutto";
+        //    return dB.SQLselect();
+        //}
+        //public DataTable SelezionaChiave()
+        //{
+        //    DB dB = new DB();
+        //    dB.query = "PROVE_SelezionaChiave";
+        //    dB.cmd.Parameters.AddWithValue("@K_Prova", K_Prova);
+        //    return dB.SQLselect();
+        //}
     }
 }
