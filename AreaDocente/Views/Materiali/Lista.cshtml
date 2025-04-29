@@ -1,0 +1,32 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<AreaDocente.Models.Entities.MVCMateriali>
+
+<h1>Elenco Materiale Disponibile</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            @*  <th>Id</th> *@
+            <th>Titolo</th>
+            <th>Materiale</th>
+            <th>Tipo</th>
+            <th>Esame</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var mat in Model)
+        {
+            <tr>
+                @* <td>@stu.Id</td> *@
+                <td>@mat.Titolo</td>
+                <td>@mat.Materiale</td>
+                <td>@mat.Tipo</td>
+                <td>@mat.K_Esame</td>
+            </tr>
+
+        }
+    </tbody>
+</table>

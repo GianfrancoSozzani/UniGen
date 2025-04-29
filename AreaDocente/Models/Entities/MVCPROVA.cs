@@ -14,13 +14,13 @@ namespace AreaDocente.Models.Entities
         public MVCAPPELLO Appello { get; set; }
         public string Link { get; set; }
 
-        [ForeignKey("Link")]
-        [ValidateNever]
-        public MVCTest_DC Test_DC { get; set; }
+        //[ForeignKey("Link")]
+        //[ValidateNever]
+        //public MVCTest_DC Test_DC { get; set; }
 
-        [ForeignKey("Link")]
-        [ValidateNever]
-        public MVCTest_DA Test_DA { get; set; }
+        //[ForeignKey("Link")]
+        //[ValidateNever]
+        //public MVCTest_DA Test_DA { get; set; }
 
         public string Tipologia { get; set; }
 
