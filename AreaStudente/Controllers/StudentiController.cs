@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AreaStudente.Controllers
 {
-    [Area("AreaStudente")]
+    
     public class StudentiController : Controller
     {
 

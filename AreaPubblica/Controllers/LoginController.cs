@@ -47,12 +47,13 @@ namespace AreaPubblica.Controllers
                 if (studente.Matricola == null)
                 {
                     //return RedirectToAction("AREA STUDENTE (NON IMMATRICOLATO)", "Home");
-                    //return Redirect("/AreaStudente/Views/Studenti/ModificaProfilo");
-                    return RedirectToAction("ModificaProfilo", "Studenti", new { area = "AreaStudente" });
+                    return Redirect("http://localhost:5201/Studenti/ModificaProfilo");
+
                 }
 
                 //return RedirectToAction("AREA LAVORO STUDENTE (IMMATRICOLATO)", "Home");
-                return RedirectToAction("ModificaProfilo", "Studenti", new { area = "AreaStudente" });
+                return Redirect("http://localhost:5201/Studenti/ModificaProfilo");
+
             }
 
             // Controllo login Docente
