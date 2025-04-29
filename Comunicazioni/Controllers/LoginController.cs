@@ -44,12 +44,12 @@ namespace AreaPubblica.Controllers
                 HttpContext.Session.SetString("Email", studente.Email);
                 HttpContext.Session.SetString("Ruolo", "S");
 
-                if (studente.Matricola == null)
-                {
-                    //return RedirectToAction("AREA STUDENTE (NON IMMATRICOLATO)", "Home");
-                }
+                //if (studente.Matricola == null)
+                //{
+                //    //return RedirectToAction("AREA STUDENTE (NON IMMATRICOLATO)", "Home");
+                //}
 
-                //return RedirectToAction("AREA LAVORO STUDENTE (IMMATRICOLATO)", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
             // Controllo login Docente
@@ -63,11 +63,11 @@ namespace AreaPubblica.Controllers
                 HttpContext.Session.SetString("K_Docente", docente.K_Docente.ToString());
                 HttpContext.Session.SetString("Email", docente.Email);
                 HttpContext.Session.SetString("Ruolo", "D");
-                if (docente.Abilitato == "No")
-                {
-                    //return RedirectToAction("AREA DOCENTE (NON ABILITATO)", "Home");
-                }
-                //return RedirectToAction("AREA DOCENTE (ABILITATO)", "Home");
+                //if (docente.Abilitato == "No")
+                //{
+                //    //return RedirectToAction("AREA DOCENTE (NON ABILITATO)", "Home");
+                //}
+                return RedirectToAction("Index", "Home");
             }
 
             var operatore = await dbContext.Operatori
@@ -83,6 +83,7 @@ namespace AreaPubblica.Controllers
                 HttpContext.Session.SetString("Ruolo", "O");
 
                 //return RedirectToAction("AREA AMMINISTRAZIONE", "Home");
+                return RedirectToAction("Index", "Home");
             }
 
             // Nessun utente trovato

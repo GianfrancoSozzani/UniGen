@@ -194,7 +194,7 @@ namespace Comunicazioni.Controllers
             }
             else if (ruolo == "S")
             {
-                var Idstudente = Guid.Parse(HttpContext.Session.GetString("chiave"));
+                var Idstudente = Guid.Parse(HttpContext.Session.GetString("K_Studente"));
                 var pianiDiStudio = dbContext.PianiStudioPersonali
                 .Where(ps => ps.K_Studente == Idstudente)
                 .Select(ps => ps.K_Esame);
