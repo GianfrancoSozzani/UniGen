@@ -56,7 +56,7 @@ namespace AreaDocente.Controllers
 
             await dbContext.SaveChangesAsync();
 
-            return View();
+            return RedirectToAction("Lista", "Materiali");
         }
         [HttpGet]
         public async Task<IActionResult> Lista()
@@ -72,6 +72,32 @@ namespace AreaDocente.Controllers
 
             return View(materiali);
         }
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid chiave)
+        {
+            var materiale = await dbContext.materiali.FindAsync(chiave);
+            PopolaEsame();
+            return View(materiale);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(MVCMateriali viewModel, IFormFile file)
+        {
+            var materiale = await dbContext.materiali.FindAsync(viewModel.K_Materiale);
+            if (materiale is not null) 
+            {
+                materiale.Titolo = viewModel.Titolo;
 
+                using (var ms = new MemoryStream())
+                {
+                    await file.CopyToAsync(ms);
+                    materiale.Materiale = ms.ToArray();
+                }
+                materiale.Tipo = viewModel.Tipo;
+                materiale.K_Esame = viewModel.K_Esame;
+                await dbContext.SaveChangesAsync();
+                return RedirectToAction("Lista", "Materiali");
+            }
+            return View(materiale);
+        }
     }
 }
