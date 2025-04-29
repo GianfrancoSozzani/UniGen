@@ -319,6 +319,23 @@ namespace Comunicazioni.Controllers
             if (ruolo == "Operatore")
             {
                 nuovaRisposta.Soggetto = "A";
+
+
+                if (ruolo == "Operatore")
+                {
+                    nuovaRisposta.Soggetto = "A";
+
+                    // Mantiene il destinatario originale della conversazione
+                    if (ultimaComunicazione.K_Studente != null)
+                    {
+                        nuovaRisposta.K_Studente = ultimaComunicazione.K_Studente;
+                    }
+                    else if (ultimaComunicazione.K_Docente != null)
+                    {
+                        nuovaRisposta.K_Docente = ultimaComunicazione.K_Docente;
+                    }
+                }
+
             }
             else if (ruolo == "Docente")
             {
