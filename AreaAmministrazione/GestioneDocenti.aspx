@@ -24,14 +24,22 @@
                 <button id="btnCerca" runat="server" class="btn btn-primary" onclick="btnCerca_ServerClick">
                     <i class="bi bi-search"></i>
                 </button>
+            </div>
+        </div>
 
+        <div class="row mt-3 mb-5">
+            <div class="col-auto d-flex align-items-center">
+                <h4>Inserisci nuovo docente - </h4>
+            </div>
+            <div class="col-auto">
+                <asp:Button ID="btnNuovaPagina" runat="server" CssClass="btn btn-primary" Text="+" OnClick="btnNuovaPagina_Click" />
             </div>
         </div>
 
         <div class="mt-5">
             <asp:Repeater ID="rpDocenti" runat="server">
                 <HeaderTemplate>
-                    <div class="container mt-5">
+                    <div class="mt-5">
                         <table class="table table-striped shadow">
                             <thead>
                                 <tr>
