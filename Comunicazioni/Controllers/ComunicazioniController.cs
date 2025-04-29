@@ -28,86 +28,225 @@ namespace Comunicazioni.Controllers
         public async Task<IActionResult> List()
         {
             string ruolo = HttpContext.Session.GetString("ruolo");
+            List<IGrouping<Guid, Comunicazione>> comunicazioni;
 
             if (ruolo == "Studente")
             {
-                //prendo gli esami del piano di studi dello studente
-                var pianoDiStudi = await dbContext.PianiStudioPersonali
-                    .Where(p => p.K_Studente == Guid.Parse(HttpContext.Session.GetString("chiave")))
-                    .Select(p => p.K_Esame)
-                    .Distinct()
-                    .ToListAsync();
-                //prendo le comunicazioni relative agli esami del piano di studi e quelle dell'Amministrazione
-                var comunicazioni = await dbContext.Comunicazioni
-                    .Include(c => c.Studente)
-                    .Include(c => c.Docente)
-                    .Include(c => c.Esami)
-                    .Where(c => pianoDiStudi.Contains(c.K_Esame) || c.K_Esame == null)
+                var studente_chiave = Guid.Parse(HttpContext.Session.GetString("chiave"));
+
+                comunicazioni = await dbContext.Comunicazioni
+                    .Where(c => c.K_Studente == studente_chiave || c.K_Soggetto == studente_chiave)
                     .OrderBy(c => c.DataOraComunicazione)
                     .GroupBy(c => c.Codice_Comunicazione)
                     .ToListAsync();
 
+                foreach (var gruppo in comunicazioni)
+                {
+                    foreach (var comunicazione in gruppo)
+                    {
+                        // Carica il mittente (se è uno studente)
+                        if (comunicazione.K_Soggetto.HasValue)
+                        {
+                            comunicazione.Studente = await dbContext.Studenti
+                                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
+                        }
+                        // Carica il mittente (se è un docente) - Potrebbe essere necessario un controllo aggiuntivo se K_Soggetto può essere sia studente che docente
+                        if (comunicazione.K_Soggetto.HasValue && comunicazione.Studente == null)
+                        {
+                            comunicazione.Docente = await dbContext.Docenti
+                                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+                        }
+                    }
+                }
+
                 return View(comunicazioni);
             }
+            // ... Logica simile per il ruolo "Docente" e "Altro" ...
             else if (ruolo == "Docente")
             {
-                //prendo gli esami del docente
-                var Esami = await dbContext.Esami
-                   .Where(p => p.K_Docente == Guid.Parse(HttpContext.Session.GetString("chiave")))
-                   .Select(p => p.K_Esame)
-                   .Distinct()
-                   .ToListAsync();
-                //prendo le comunicazioni relative agli esami del docente (quelle scritte da lui quindi e le risposte sotto)
-                //+ prendo le comunicazioni dell'Amministrazione
-                var comunicazioni = await dbContext.Comunicazioni
-                    .Include(c => c.Studente)
-                    .Include(c => c.Docente)
-                    .Include(c => c.Esami)
-                    .Where(c => c.K_Esame.HasValue && Esami.Contains(c.K_Esame.Value) || c.K_Esame == null)
+                var docente_chiave = Guid.Parse(HttpContext.Session.GetString("chiave"));
+
+                comunicazioni = await dbContext.Comunicazioni
+                    .Where(c => c.K_Docente == docente_chiave || c.K_Soggetto == docente_chiave)
                     .OrderBy(c => c.DataOraComunicazione)
                     .GroupBy(c => c.Codice_Comunicazione)
                     .ToListAsync();
+
+                foreach (var gruppo in comunicazioni)
+                {
+                    foreach (var comunicazione in gruppo)
+                    {
+                        // Carica il mittente (se è un docente)
+                        if (comunicazione.K_Soggetto.HasValue)
+                        {
+                            comunicazione.Docente = await dbContext.Docenti
+                                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+                        }
+                        // Carica il mittente (se è uno studente) 
+                        if (comunicazione.K_Soggetto.HasValue && comunicazione.Docente == null)
+                        {
+                            comunicazione.Studente = await dbContext.Studenti
+                                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
+                        }
+                    }
+                }
 
                 return View(comunicazioni);
             }
             else
             {
-                //se è un operatore dell'Amministrzione prendo tutte le comunicazioni
-                var comunicazioni = await dbContext.Comunicazioni
+
+                // Recupera i Codice_Comunicazione dei messaggi inviati dall'amministrazione
+                var codiciComunicazioneAmministrazione = await dbContext.Comunicazioni
+                    .Where(c => c.K_Studente == null && c.K_Docente == null)
+                    .Select(c => c.Codice_Comunicazione)
+                    .Distinct()
+                    .ToListAsync();
+
+                // Recupera tutte le comunicazioni che hanno un Codice_Comunicazione appartenente alle comunicazioni amministrative
+                comunicazioni = await dbContext.Comunicazioni
                     .Include(c => c.Studente)
                     .Include(c => c.Docente)
-                    .Include(c => c.Esami)
+                    .Where(c => codiciComunicazioneAmministrazione.Contains(c.Codice_Comunicazione)) // Qui prendiamo sia le comunicazioni amministrative che le risposte
                     .OrderBy(c => c.DataOraComunicazione)
                     .GroupBy(c => c.Codice_Comunicazione)
                     .ToListAsync();
 
+                foreach (var gruppo in comunicazioni)
+                {
+                    foreach (var comunicazione in gruppo)
+                    {
+                        // Carica il mittente (se è un docente)
+                        if (comunicazione.K_Soggetto.HasValue)
+                        {
+                            comunicazione.Docente = await dbContext.Docenti
+                                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+                        }
+                        // Carica il mittente (se è uno studente) 
+                        if (comunicazione.K_Soggetto.HasValue && comunicazione.Docente == null)
+                        {
+                            comunicazione.Studente = await dbContext.Studenti
+                                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
+                        }
+                    }
+                }
+
                 return View(comunicazioni);
+
             }
+
         }
+
         //----------------------------------------------//
         //ADD-------------------------------------------//
         //----------------------------------------------//
-        public void PopolaEsami()
+        public void PopolaEsami(Guid? IDEsame)
         {
             IEnumerable<SelectListItem> listaEsami = dbContext.Esami
                 .Where(e => e.K_Docente == Guid.Parse(HttpContext.Session.GetString("chiave")))
+
                 .Select(i => new SelectListItem
                 {
                     Text = i.TitoloEsame,
                     Value = i.K_Esame.ToString()
+
+                .Select(e => new SelectListItem
+                {
+                    Text = e.TitoloEsame,
+                    Value = e.K_Esame.ToString(),
+                    Selected = (IDEsame.HasValue && e.K_Esame == IDEsame.Value)
+
                 });
             ViewBag.EsamiList = listaEsami;
         }
 
+        public void PopolaStudenti(Guid? K_Esame)
+        {
+            string ruolo = HttpContext.Session.GetString("ruolo");
+            if (ruolo == "Operatore")
+            {
+                IEnumerable<SelectListItem> listaStudenti = dbContext.Studenti
+                    .Select(i => new SelectListItem
+                    {
+                        Text = i.Nome + " " + i.Cognome,
+                        Value = i.K_Studente.ToString()
+                    });
+                ViewBag.StudentiList = listaStudenti;
+            }
+            else if (ruolo == "Docente" && K_Esame.HasValue)
+            {
+                var pianiDiStudio = dbContext.PianiStudioPersonali
+                .Where(ps => ps.K_Esame == K_Esame.Value)
+                .Select(ps => ps.K_Studente); // Ottieni solo gli ID degli studenti
+
+                // Recupera gli studenti che hanno un K_Studente presente nei piani di studio trovati
+                IEnumerable<SelectListItem> listaStudenti = dbContext.Studenti
+                    .Where(s => pianiDiStudio.Contains(s.K_Studente))
+                    .Select(s => new SelectListItem
+                    {
+                        Text = s.Nome + " " + s.Cognome,
+                        Value = s.K_Studente.ToString()
+                    });
+                ViewBag.StudentiList = listaStudenti;
+            }
+        }
+
+        public void PopolaDocenti()
+        {
+            string ruolo = HttpContext.Session.GetString("ruolo");
+            if (ruolo == "Operatore")
+            {
+                IEnumerable<SelectListItem> listaDocenti = dbContext.Docenti
+                    .Select(i => new SelectListItem
+                    {
+                        Text = i.Nome + " " + i.Cognome,
+                        Value = i.K_Docente.ToString()
+                    });
+                ViewBag.DocentiList = listaDocenti;
+            }
+            else if (ruolo == "Studente")
+            {
+                var Idstudente = Guid.Parse(HttpContext.Session.GetString("chiave"));
+                var pianiDiStudio = dbContext.PianiStudioPersonali
+                .Where(ps => ps.K_Studente == Idstudente)
+                .Select(ps => ps.K_Esame);
+
+                var listaDocenti = dbContext.Esami
+                       .Where(e => pianiDiStudio.Contains(e.K_Esame))
+                       .Select(e => e.Docente)
+                       .Distinct()
+                       .Select(docente => new SelectListItem
+                       {
+                           Text = docente.Nome + " " + docente.Cognome,
+                           Value = docente.K_Docente.ToString()
+                       }).ToList();  // Converti in lista
+
+                ViewBag.DocentiList = listaDocenti;
+            }
+        }
+
+
         [HttpGet] //visualizzo i dati
         public IActionResult Add()
         {
-            PopolaEsami();
+            PopolaEsami(null);
+            PopolaStudenti(null);
+            PopolaDocenti();
             return View();
         }
+
+        [HttpPost]
+        public IActionResult AddStudente(Guid? K_Esame) // Riceve l'ID dell'esame selezionato
+        {
+            PopolaEsami(null);
+            PopolaStudenti(K_Esame);
+            return View("Add");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Add(AddComunicazioneViewModel viewModel)
         {
+
             string ruolo = HttpContext.Session.GetString("ruolo");
 
             var comunicazione = new Comunicazione
@@ -116,31 +255,47 @@ namespace Comunicazioni.Controllers
                 DataOraComunicazione = DateTime.Now,
                 Testo = viewModel.Testo,
                 K_Soggetto = Guid.Parse(HttpContext.Session.GetString("chiave")),
-                K_Esame = viewModel.K_Esame
+                K_Studente = viewModel.K_Studente,
+                K_Docente = viewModel.K_Docente
             };
 
             if (ruolo == "Operatore")
             {
                 comunicazione.Soggetto = "A";
-                //aggiunta necessaria: di defaULT Guid? = 00000000-0000-0000-0000-0000-0000-0000, quindi non risultava null,
+                //aggiunta necessaria: di default Guid? = 00000000-0000-0000-0000-0000-0000-0000, quindi non risultava null,
                 // e il meccanismo di list si inceppava
-                comunicazione.K_Esame = null;
+
+                if (comunicazione.K_Studente != null)
+                {
+                    comunicazione.K_Docente = null;
+                }
+                else if (comunicazione.K_Docente != null)
+                {
+                    comunicazione.K_Studente = null;
+                }
             }
             else if (ruolo == "Docente")
             {
+                comunicazione.K_Docente = null;
                 comunicazione.Soggetto = "D";
-                comunicazione.K_Docente = Guid.Parse(HttpContext.Session.GetString("chiave"));
+                if (viewModel.K_Studente == null || viewModel.K_Studente.ToString() == "Amministrazione")  // Se "Amministrazione"
+                {
+                    comunicazione.K_Studente = null;  // Non associato a uno studente
+                }
             }
             else if (ruolo == "Studente")
             {
+                comunicazione.K_Studente = null;
                 comunicazione.Soggetto = "S";
-                comunicazione.K_Studente = Guid.Parse(HttpContext.Session.GetString("chiave"));
+                if (viewModel.K_Docente == null || viewModel.K_Docente.ToString() == "Amministrazione")  // Se "Amministrazione"
+                {
+                    comunicazione.K_Docente = null;  // Non associato a uno studente
+                }
             }
 
             //collegamento tra comunicazioni e studente-docente
             comunicazione.Studente = dbContext.Studenti.FirstOrDefault(s => s.K_Studente == comunicazione.K_Studente); //una join
             comunicazione.Docente = dbContext.Docenti.FirstOrDefault(d => d.K_Docente == comunicazione.K_Docente); //una join
-            comunicazione.Esami = dbContext.Esami.FirstOrDefault(e => e.K_Esame == comunicazione.K_Esame);
 
             await dbContext.Comunicazioni.AddAsync(comunicazione);
             await dbContext.SaveChangesAsync();
@@ -369,48 +524,61 @@ namespace Comunicazioni.Controllers
 
 
             return RedirectToAction("List", "Comunicazioni");
+
         }
 
 
 
 
+
+        [HttpPost]
+        [HttpPost]
+
         public async Task<IActionResult> AddRisposta(Comunicazione viewModel)
         {
-            //meccanismo per aggiungere una risposta a una comunicazione
             string ruolo = HttpContext.Session.GetString("ruolo");
+            Guid chiaveUtente = Guid.Parse(HttpContext.Session.GetString("chiave"));
 
-            var comunicazione = new Comunicazione
+            var ultimaComunicazione = dbContext.Comunicazioni
+                .Where(c => c.Codice_Comunicazione == viewModel.Codice_Comunicazione)
+                .OrderByDescending(c => c.DataOraComunicazione)
+                .FirstOrDefault();
+
+            if (ultimaComunicazione == null)
+            {
+                return BadRequest("Comunicazione non trovata.");
+            }
+
+            var nuovaRisposta = new Comunicazione
             {
                 Codice_Comunicazione = viewModel.Codice_Comunicazione,
                 DataOraComunicazione = DateTime.Now,
                 Testo = viewModel.Testo,
-                K_Soggetto = Guid.Parse(HttpContext.Session.GetString("chiave")),
-                K_Esame = viewModel.K_Esame
+                K_Soggetto = chiaveUtente,
             };
 
             if (ruolo == "Operatore")
             {
-                comunicazione.Soggetto = "A";
-                comunicazione.K_Esame = null;
+                nuovaRisposta.Soggetto = "A";
             }
             else if (ruolo == "Docente")
             {
-                comunicazione.Soggetto = "D";
-                comunicazione.K_Docente = Guid.Parse(HttpContext.Session.GetString("chiave"));
+                nuovaRisposta.Soggetto = "D";
+                nuovaRisposta.K_Studente = ultimaComunicazione.K_Studente;
             }
             else if (ruolo == "Studente")
             {
-                comunicazione.Soggetto = "S";
-                comunicazione.K_Studente = Guid.Parse(HttpContext.Session.GetString("chiave"));
+                nuovaRisposta.Soggetto = "S";
+                nuovaRisposta.K_Docente = ultimaComunicazione.K_Docente;
             }
 
-            //collegamento tra comunicazioni e studente-docente
-            comunicazione.Studente = dbContext.Studenti.FirstOrDefault(s => s.K_Studente == comunicazione.K_Studente); //una join
-            comunicazione.Docente = dbContext.Docenti.FirstOrDefault(d => d.K_Docente == comunicazione.K_Docente); //una join
-            comunicazione.Esami = dbContext.Esami.FirstOrDefault(e => e.K_Esame == comunicazione.K_Esame);
+            // Assegna chi riceverà la risposta
+            nuovaRisposta.Docente = dbContext.Docenti.FirstOrDefault(d => d.K_Docente == nuovaRisposta.K_Docente);
+            nuovaRisposta.Studente = dbContext.Studenti.FirstOrDefault(s => s.K_Studente == nuovaRisposta.K_Studente);
 
-            await dbContext.Comunicazioni.AddAsync(comunicazione);
+            await dbContext.Comunicazioni.AddAsync(nuovaRisposta);
             await dbContext.SaveChangesAsync();
+
             return RedirectToAction("List", "Comunicazioni");
         }
 
@@ -418,3 +586,4 @@ namespace Comunicazioni.Controllers
 
     }
 }
+

@@ -11,7 +11,7 @@ namespace Comunicazioni.Models.Entities
         public Guid Codice_Comunicazione { get; set; }
         public DateTime DataOraComunicazione { get; set; }
         public string? Soggetto { get; set; }
-        public Guid K_Soggetto { get; set; }
+        public Guid? K_Soggetto { get; set; }
         public string? Testo { get; set; }
         public Guid? K_Studente { get; set; }
         [ForeignKey("K_Studente")]
@@ -21,9 +21,5 @@ namespace Comunicazioni.Models.Entities
         [ForeignKey("K_Docente")]
         [ValidateNever]
         public Docente? Docente{ get; set; }
-        public Guid? K_Esame { get; set; }
-        [ForeignKey("K_Esame")]
-        [ValidateNever]
-        public Esame? Esami { get; set; }
     }
 }
