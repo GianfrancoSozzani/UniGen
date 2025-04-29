@@ -1,99 +1,79 @@
 ﻿@model AreaPubblica.Models.RegisterViewModel
-<div style="height:5vh;">
-	&nbsp;
-</div>
+
+
+<h2>Registrazione Studente</h2>
 <div class="container">
-	<h2>Registrazione Studente</h2>
+	
 
-	<form method="post">
+	<form asp-action="Register" method="post" enctype="multipart/form-data">
+		<div asp-validation-summary="All" class="text-danger"></div>
 
-		<!-- Sezione Account -->
-		<fieldset>
-			<legend>Dati Account</legend>
-
-			<div class="form-group">
-				<label>Email</label>
-				<input asp-for="Email" class="form-control" maxlength="50" />
-			</div>
-
-			<div class="form-group">
-				<label>Password</label>
-				<input asp-for="Password" type="password" class="form-control" maxlength="50" />
-			</div>
-		</fieldset>
-
-		<hr />
-
-		<!-- Sezione Dati Anagrafici -->
-		<fieldset>
-			<legend>Dati Anagrafici</legend>
-
-			<div class="form-group">
-				<label>Nome</label>
-				<input asp-for="Nome" class="form-control" maxlength="50" />
-			</div>
-
-			<div class="form-group">
-				<label>Cognome</label>
-				<input asp-for="Cognome" class="form-control" maxlength="50" />
-			</div>
-
-			<div class="form-group">
-				<label>Data di Nascita</label>
-				<input asp-for="DataNascita" type="date" class="form-control" />
-			</div>
-		</fieldset>
-
-		<hr />
-
-		<!-- Sezione Residenza -->
-		<fieldset>
-			<legend>Residenza</legend>
-
-			<div class="form-group">
-				<label>Indirizzo</label>
-				<input asp-for="Indirizzo" class="form-control" maxlength="50" />
-			</div>
-
-			<div class="form-group">
-				<label>CAP</label>
-				<input asp-for="CAP" class="form-control" maxlength="5" />
-			</div>
-
-			<div class="form-group">
-				<label>Città</label>
-				<input asp-for="Citta" class="form-control" maxlength="50" />
-			</div>
-
-			<div class="form-group">
-				<label>Provincia</label>
-				<input asp-for="Provincia" class="form-control" maxlength="2" />
-			</div>
-		</fieldset>
-
-		<hr />
-
-		<!-- Sezione Altri Dati -->
-		<fieldset>
-			<legend>Altri Dati</legend>
-
-			<div class="form-group">
-				<label>Immagine Profilo</label>
-				<input asp-for="ImmagineProfilo" type="file" name="uploadFile" class="form-control" />
-			</div>
-
-			<div class="form-group">
-				<label>Tipo</label>
-				<input asp-for="Tipo" class="form-control" maxlength="50" />
-			</div>
-		</fieldset>
-
-		<hr />
-
-		<button type="submit" class="btn btn-primary">Registrati</button>
-		<div style="height:5vh;">
-			&nbsp;
+		<div class="form-group">
+			<label asp-for="Nome"></label>
+			<input asp-for="Nome" class="form-control" />
+			<span asp-validation-for="Nome" class="text-danger"></span>
 		</div>
 
+		<div class="form-group">
+			<label asp-for="Cognome"></label>
+			<input asp-for="Cognome" class="form-control" />
+			<span asp-validation-for="Cognome" class="text-danger"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="Email"></label>
+			<input asp-for="Email" class="form-control" />
+			<span asp-validation-for="Email" class="text-danger"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="Password"></label>
+			<input asp-for="Password" class="form-control" type="password" />
+			<span asp-validation-for="Password" class="text-danger"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="DataNascita">Data di Nascita</label>
+			<input asp-for="DataNascita" class="form-control" type="date" />
+			<span asp-validation-for="DataNascita" class="text-danger"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="Indirizzo"></label>
+			<input asp-for="Indirizzo" class="form-control" />
+			<span asp-validation-for="Indirizzo" class="text-danger"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="CAP"></label>
+			<input asp-for="CAP" class="form-control" />
+			<span asp-validation-for="CAP" class="text-danger"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="Citta"></label>
+			<input asp-for="Citta" class="form-control" />
+			<span asp-validation-for="Citta" class="text-danger"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="Provincia"></label>
+			<input asp-for="Provincia" class="form-control" />
+			<span asp-validation-for="Provincia" class="text-danger"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="ImmagineFile"></label>
+			<input asp-for="ImmagineFile" class="form-control" type="file" />
+			<span asp-validation-for="ImmagineFile" class="text-danger"></span>
+		</div>
+
+		<button type="submit" class="btn btn-primary">Registrati</button>
 	</form>
+
+	@section Scripts {
+		@{
+			await Html.RenderPartialAsync("_ValidationScriptsPartial");
+		}
+	}
 </div>
