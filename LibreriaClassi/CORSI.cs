@@ -49,6 +49,16 @@ namespace LibreriaClassi
             return dB.SQLselect();
         }
 
+        public DataTable VerificaDuplicatoModifica()
+        {
+            DB dB = new DB();
+            dB.query = "Corsi_VerificaDuplicatoModifica";
+            dB.cmd.Parameters.AddWithValue("@k_corso", K_Corso);
+            dB.cmd.Parameters.AddWithValue("@k_facolta", K_Facolta);
+            dB.cmd.Parameters.AddWithValue("@titolocorso", TitoloCorso);
+            return dB.SQLselect();
+        }
+
         public DataTable SelezionaChiaveCorso()
         {
             DB db = new DB();
@@ -60,11 +70,13 @@ namespace LibreriaClassi
         public void Modifica()
         {
             DB dB = new DB();
-            dB.query = "";
-            dB.cmd.Parameters.AddWithValue("", K_Corso);
-            dB.cmd.Parameters.AddWithValue("", TitoloCorso);
-            dB.cmd.Parameters.AddWithValue("", MinimoCFU);
-            dB.cmd.Parameters.AddWithValue("", CostoAnnuale);
+            dB.query = "Corsi_Update";
+            dB.cmd.Parameters.AddWithValue("@k_corso", K_Corso);
+            dB.cmd.Parameters.AddWithValue("@titolocorso", TitoloCorso);
+            dB.cmd.Parameters.AddWithValue("@k_facolta", K_Facolta);
+            dB.cmd.Parameters.AddWithValue("@k_tipocorso", K_TipoCorso);
+            dB.cmd.Parameters.AddWithValue("@minimoCFU", MinimoCFU);
+            dB.cmd.Parameters.AddWithValue("@costoannuale", CostoAnnuale);
             dB.SQLcommand();
         }
         //---------------AGGIUNTE PER HOME AMMINISTRAZIONE
