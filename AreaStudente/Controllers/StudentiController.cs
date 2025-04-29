@@ -5,23 +5,52 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 
 namespace AreaStudente.Controllers
 {
+    
     public class StudentiController : Controller
     {
 
-        private readonly ApplicationDbContext dbContext;
 
+
+        private readonly ApplicationDbContext dbContext; // Sto staziando il contesto del database
         public StudentiController(ApplicationDbContext dbContext)
         {
-            this.dbContext = dbContext;
+            this.dbContext = dbContext; // Inizializzo il contesto del database 
         }
+
+        //public IActionResult LoginRedirect()
+
+
+        //{
+        //    // Leggi parametri dalla query string e salvali in sessione
+        //    var usr = Request.Query["usr"];
+        //    var guidid = Request.Query["guidid"];
+        //    var tipo = Request.Query["tipo"];
+
+        //    if (!string.IsNullOrEmpty(usr) && !string.IsNullOrEmpty(guidid) && !string.IsNullOrEmpty(tipo))
+        //    {
+        //        HttpContext.Session.SetString("usr", usr);
+        //        HttpContext.Session.SetString("guidid", guidid);
+        //        HttpContext.Session.SetString("tipo", tipo);
+        //    }
+        //    else
+        //    {
+        //        return BadRequest("Parametri mancanti o invalidi.");
+        //    }
+
+        //    // Reindirizza all'area studente dopo aver settato la sessione
+        //    return RedirectToAction("Show", "Studenti");
+        //}
 
         [HttpGet]
         public async Task<IActionResult> Show(Guid id) // L'ID dello studente da visualizzare
         {
+            ViewData["studente_id"] = id;
+            HttpContext.Session.SetString("studente_id", id.ToString());
             // Trova lo studente includendo potenzialmente dati correlati se servissero
             // In questo caso, per il ViewModel fornito, non serve caricare il Corso,
             // ma lo lascio commentato come esempio se volessi il nome del corso in futuro.
@@ -102,36 +131,54 @@ namespace AreaStudente.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> ModificaProfilo()
+        public async Task<IActionResult> ModificaProfilo(Guid id)
         {
-            // Simulo l'ID, solo per test (poi userò la sessione)
-            var studenteId = new Guid("0CDDDB26-14FE-4937-91A8-ED9014654CA3");
-            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == studenteId);
+            ViewData["studente_id"] = id;
+            var studente = await dbContext.Studenti
+                 .FirstOrDefaultAsync(s => s.K_Studente == id);
 
             if (studente == null)
-                return NotFound();
+            {
+                TempData["PopupErrore"] = "Studente non trovato.";
+                return RedirectToAction("Index", "Home");
+            }
 
             var model = new ModificaStudenteViewModel
             {
-                Email = studente.Email,
+                K_Studente = studente.K_Studente,
                 Nome = studente.Nome,
                 Cognome = studente.Cognome,
+                Email = studente.Email,
+                DataNascita = studente.DataNascita,
                 Indirizzo = studente.Indirizzo,
                 CAP = studente.CAP,
                 Citta = studente.Citta,
                 Provincia = studente.Provincia,
                 DataNascita = studente.DataNascita,
+
+
+
                 ImmagineProfilo = studente.ImmagineProfilo
             };
-            //In questo caso il nome della view viene dedotto dall'action del controller (che ha lo stesso nome).
+
             return View(model);
         }
 
+
+
         [HttpPost]
-        public async Task<IActionResult> ModificaProfilo(ModificaStudenteViewModel model, string PasswordNew, string PasswordConfirm)
+        public async Task<IActionResult> ModificaProfilo(ModificaStudenteViewModel model, string PasswordNew, string PasswordConfirm, Guid id)
         {
-            var studenteId = new Guid("0CDDDB26-14FE-4937-91A8-ED9014654CA3");
-            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == studenteId);
+            ViewData["studente_id"] = id;
+            var guididStr = HttpContext.Session.GetString("guidid");
+            if (!Guid.TryParse(guididStr, out Guid guidid) || guidid != model.K_Studente)
+            {
+                return RedirectToAction("LoginRedirect");
+            }
+
+            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == model.K_Studente);
+
+
 
             if (studente == null)
                 return NotFound();
@@ -168,21 +215,31 @@ namespace AreaStudente.Controllers
             bool AlmenoUnoCompilato = !string.IsNullOrEmpty(model.PWD) || !string.IsNullOrEmpty(PasswordNew) || !string.IsNullOrEmpty(PasswordConfirm);
             bool tuttiCompilati = !string.IsNullOrEmpty(model.PWD) && !string.IsNullOrEmpty(PasswordNew) && !string.IsNullOrEmpty(PasswordConfirm);
 
+
+           
+
+
+
             if (AlmenoUnoCompilato)
             {
                 // 1. Manca almeno un campo
                 if (!tuttiCompilati)
                 {
                     TempData["PopupErrore"] = "Per cambiare la password, devi compilare tutti e tre i campi.";
+
                     TempData["ApriModalePassword"] = true;
+
                     return RedirectToAction("ModificaProfilo");
                 }
 
                 // 2. Password vecchia errata
+
+
                 if (model.PWD != studente.PWD)
                 {
                     TempData["PopupErrore"] = "La password vecchia inserita non risulta essere corretta.";
                     TempData["ApriModalePassword"] = true;
+
                     return RedirectToAction("ModificaProfilo");
                 }
 
@@ -208,24 +265,6 @@ namespace AreaStudente.Controllers
             return RedirectToAction("ModificaProfilo", "Studenti");
         }
 
-        public IActionResult Recupera()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Recupera(RecuperaViewModel model, string Email)
-        {
-            var mail = await dbContext.Studenti.FirstOrDefaultAsync(s => s.Email == model.Email);
-            if (mail == null)
-            {
-                TempData["PopupErrore"] = "Questa mail non risulta essere registrata";
-                return RedirectToAction("Recupera");
-            }
-            TempData["PopupSuccesso"] = "Controlla la tua Mail, ti abbiamo inviato un link per recuperare la Password";
-            return RedirectToAction("Recupera", "Studenti");
-
-        }
 
 
     }
@@ -235,4 +274,5 @@ namespace AreaStudente.Controllers
 }
 
 
-                
+ 
+

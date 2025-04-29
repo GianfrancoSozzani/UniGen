@@ -39,7 +39,8 @@
 	</div>
 	<div class="container mt--7">
 		<form class="row" method="post" id="modifica-form" enctype="multipart/form-data">
-			<div class="col-12 col-xl-8 mb-4 bg-white border border-1 border-black shadow rounded-5 p-4">
+			<input type="hidden" asp-for="K_Studente" />
+			<div class="col-12 col-xl-8 bg-white border border-1 border-black shadow rounded-5 p-4">
 				<h3 class="text-center">Modifica Profilo</h3>
 
 				<h4 class="heading-small text-muted">USER</h4>
@@ -63,10 +64,8 @@
 							<div class="modal-body">
 								<div class="mb-2 ">
 
-
 									<label class="form-label form-control-label">Inserisci la Vecchia Password</label>
 									<input type="password" asp-for="PWD" class="form-control form-control-alternative" />
-
 								</div>
 								<div class="mb-2 ">
 									<label class="form-label form-control-label">Nuova Password</label>

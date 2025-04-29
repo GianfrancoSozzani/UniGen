@@ -4,7 +4,8 @@ namespace AreaStudente.Models
 {
     public class ModificaStudenteViewModel
     {
-        
+        [Key]
+        public Guid K_Studente { get; set; }
         public string? Email { get; set; }
         public string? PWD { get; set; }
         public string? Cognome { get; set; }
