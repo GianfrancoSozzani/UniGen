@@ -60,7 +60,7 @@
                     <tr>
                         <td><%# Eval("Cognome") %></td>
                         <td><%# Eval("Nome") %></td>
-                        <td><%# Eval("DataNascita") %></td>
+                        <td><%# Eval("DataNascita","{0:dd/M/yyyy}") %></td>
                         <td>
                             <%# Eval("Abilitato").ToString() == "S" ? "Abilitato" : "Disabilitato" %>
                         </td>
