@@ -19,7 +19,7 @@ public partial class _Default : System.Web.UI.Page
     protected void PopolaList()
     {
         STUDENTI s = new STUDENTI();
-        rptStudenti.DataSource = s.AttivaStudenteList();
+        rptStudenti.DataSource = s.SelezionaTutto();
         rptStudenti.DataBind();
     }
     protected void btnRicerca_Click(object sender, EventArgs e)
