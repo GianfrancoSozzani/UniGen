@@ -14,9 +14,6 @@ public partial class _Default : System.Web.UI.Page
 
     }
 
-
-
-
     protected void btnSalva_Click(object sender, EventArgs e)
     {
         string Email = txtEmail.Text.Trim();
