@@ -117,28 +117,28 @@
         </asp:ContentPlaceHolder>
 
         <footer>
-            <div class="bg-dark text-white h-100">
-                <div class="container d-flex justify-content-between align-items-end flex-wrap stick-bottom">
-                    <div>
-                        <img src="https://italy.generation.org/wp-content/uploads/2019/05/Generation_Italy_logo_WHITE.svg" alt="Logo UNIGen" class="img-fluid my-3" width="150px">
-                        <p class="fs-4 ms-4 mb-0">Università UNIGen</p>
-                        <p class="fs-6">Milano, Milano, MI 20100, IT</p>
-                    </div>
-                    <div>
-                        <p class="fs-6">© 2024 Generation: You Employed, Inc.</p>
-                    </div>
-                    <div>
-                        <p class="fs-5 mb-1">Chi Siamo</p>
-                        <ul class="list-unstyled ms-3">
-                            <li><a href="#" class="text-white">Contatti</a></li>
-                            <li><a href="#" class="text-white">Come Funziona</a></li>
-                            <li><a href="#" class="text-white">FAQ</a></li>
-                            <li><a href="#" class="text-white">Privacy</a></li>
-                        </ul>
-                    </div>
+        <div class="bg-dark text-white position-sticky">
+            <div class="container d-flex justify-content-between align-items-end flex-wrap">
+                <div>
+                    <img src="https://italy.generation.org/wp-content/uploads/2019/05/Generation_Italy_logo_WHITE.svg" alt="Logo UNIGen" class="img-fluid my-3" width="150px">
+                    <p class="fs-4">Università UNIGen</p>
+                    <p class="fs-6">Milano, MI 20100, IT</p>
+                </div>
+                <div>
+                    <p class="fs-6">© 2024 Generation: You Employed, Inc.</p>
+                </div>
+                <div>
+                    <p class="fs-5 mb-1">Chi Siamo</p>
+                    <ul class="list-unstyled ms-3">
+                        <li><a href="#" class="text-white">Contatti</a></li>
+                        <li><a href="#" class="text-white">Come Funziona</a></li>
+                        <li><a href="#" class="text-white">FAQ</a></li>
+                        <li><a href="#" class="text-white">Privacy</a></li>
+                    </ul>
                 </div>
             </div>
-        </footer>
+        </div>
+    </footer>
     </form>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
