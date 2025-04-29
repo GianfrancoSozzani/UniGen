@@ -66,11 +66,11 @@
             <!-- CAP, Provincia -->
             <div class="col-md-6 d-flex align-items-center ">
                 <asp:Label ID="Label7" runat="server" Text="CAP" CssClass="form-label w-25 mb-3"></asp:Label>
-                <asp:TextBox ID="txtCAP" runat="server" CssClass="form-control w-75 mb-3"></asp:TextBox>
+                <asp:TextBox ID="txtCAP" runat="server" CssClass="form-control w-75 mb-3" MaxLength="5"></asp:TextBox>
             </div>
             <div class="col-md-6 d-flex align-items-center ">
                 <asp:Label ID="Label9" runat="server" Text="Provincia" CssClass="form-label w-25 mb-3"></asp:Label>
-                <asp:TextBox ID="txtProvincia" runat="server" CssClass="form-control w-75 mb-3"></asp:TextBox>
+                <asp:TextBox ID="txtProvincia" runat="server" CssClass="form-control w-75 mb-3" MaxLength="2"></asp:TextBox>
             </div>
         </div>
 
@@ -82,7 +82,7 @@
             </div>
             <div class="col-md-6 d-flex align-items-center ">
                 <asp:Label ID="Label11" runat="server" Text="Tipo" CssClass="form-label w-25 mb-3"></asp:Label>
-                <asp:TextBox ID="txtTipo" runat="server" CssClass="form-control w-75 mb-3"></asp:TextBox>
+                <asp:TextBox ID="txtTipo" runat="server" CssClass="form-control w-75 mb-3" Enabled="False"></asp:TextBox>
             </div>
         </div>
 
