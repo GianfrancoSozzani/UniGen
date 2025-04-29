@@ -22,7 +22,7 @@ namespace AreaPubblica.Models
         public string? Provincia { get; set; }
         public byte[]? ImmagineProfilo { get; set; }
         public string? Tipo { get; set; }
-        public int? Matricola { get; set; }
+        //public int? Matricola { get; set; }
     }
 
 }
