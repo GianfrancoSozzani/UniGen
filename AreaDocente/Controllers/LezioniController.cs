@@ -26,6 +26,7 @@ namespace AreaDocente.Controllers
         }
 
         //ADD
+        [HttpGet]
         public IActionResult Add()
         {
             return View();
