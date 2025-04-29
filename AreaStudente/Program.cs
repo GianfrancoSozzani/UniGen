@@ -1,5 +1,10 @@
+
+
 using AreaStudente.Data;
 using Microsoft.EntityFrameworkCore;
+
+
+
 
 namespace AreaStudente
 {
@@ -11,25 +16,27 @@ namespace AreaStudente
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("UniGenConn")));
 
-            // Configura la gestione della sessione
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+
+            options.UseSqlServer(builder.Configuration.GetConnectionString("UniGenConn")));
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromHours(24); // Timeout di sessione
-                options.Cookie.HttpOnly = true; // Impedisce l'accesso ai cookie via JavaScript
-                options.Cookie.IsEssential = true; // Cookie essenziale per la sessione
+                options.IdleTimeout = TimeSpan.FromHours(24);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
             });
 
             var app = builder.Build();
+            app.UseSession();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseHsts(); // Strict Transport Security
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
 
             app.UseHttpsRedirection();
@@ -39,15 +46,14 @@ namespace AreaStudente
 
             app.UseAuthorization();
 
-            // Mappa la route predefinita
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Studenti}/{action=Show}/{id?}");
 
-            // Abilita la sessione
-            app.UseSession();
+            app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Studenti}/{action=Show}/{id?}");
 
             app.Run();
+
+           
         }
     }
 }
