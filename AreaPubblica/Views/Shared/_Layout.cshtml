@@ -24,7 +24,7 @@
     </style>
 
 </head>
-<body>
+<body class="m-0">
     <div class="bg-black pb-1">
         <div class="container d-flex flex-column">
             <div class="d-flex justify-content-end mb-2 mt-1">
@@ -87,19 +87,19 @@
                                 </ul>
 
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Contatti</a>
+                                <a class="nav-link active" asp-area="" asp-controller="Contatti" asp-action="Contatti">Come Funziona</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Come Funziona</a>
+                                <a class="nav-link active" asp-area="" asp-controller="ComeFunziona" asp-action="Index">Come Funziona</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">FAQ</a>
+                                <a class="nav-link active" asp-area="" asp-controller="FAQ" asp-action="Index">FAQ</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Privacy</a>
+                                <a class="nav-link active" asp-area="" asp-controller="Privacy" asp-action="Index">Privacy</a>
                             </li>
                         </ul>
                     </div>
@@ -119,7 +119,7 @@
             <div class="container d-flex justify-content-between align-items-end flex-wrap">
                 <div>
                     <img src="https://italy.generation.org/wp-content/uploads/2019/05/Generation_Italy_logo_WHITE.svg" alt="Logo UNIGen" class="img-fluid my-3" width="150px">
-                    <p class="fs-4 ms-4 mb-0">Università UNIGen</p>
+                    <p class="fs-4  mb-0">Università UNIGen</p>
                     <p class="fs-6">Milano, Milano, MI 20100, IT</p>
                 </div>
                 <div>
@@ -128,10 +128,18 @@
                 <div>
                     <p class="fs-5 mb-1">Chi Siamo</p>
                     <ul class="list-unstyled ms-3">
-                        <li><a href="#" class="text-white">Contatti</a></li>
-                        <li><a href="#" class="text-white">Come Funziona</a></li>
-                        <li><a href="#" class="text-white">FAQ</a></li>
-                        <li><a href="#" class="text-white">Privacy</a></li>
+                        <li>
+                            <a class="text-white" asp-area="" asp-controller="Contatti" asp-action="Index">Conattti</a>
+                        </li>
+                        <li>
+                            <a class="text-white" asp-area="" asp-controller="ComeFunziona" asp-action="Index">Come Funziona</a>
+                        </li>
+                        <li>
+                            <a class="text-white" asp-area="" asp-controller="FAQ" asp-action="Index">FAQ</a>
+                        </li>
+                        <li>
+                            <a class="text-white" asp-area="" asp-controller="Privacy" asp-action="Index">Privacy</a>
+                        </li>
                     </ul>
                 </div>
             </div>
