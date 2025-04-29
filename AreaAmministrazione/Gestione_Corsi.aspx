@@ -34,9 +34,9 @@
                     <table class="table table-striped shadow">
                         <thead>
                             <tr>
+                                <th>Corsi</th>
                                 <th>Facoltà</th>
                                 <th>Tipo corso</th>
-                                <th>Corsi</th>
                                 <th>Minimo CFU</th>
                                 <th>Costi annuali</th>
                                 <th>Azioni</th>
@@ -47,9 +47,9 @@
 
                 <ItemTemplate>
                     <tr>
+                        <td><%# Eval("TitoloCorso") %></td>
                         <td><%# Eval("TitoloFacolta") %></td>
                         <td><%# Eval("Tipo") %></td>
-                        <td><%# Eval("TitoloCorso") %></td>
                         <td><%# Eval("MinimoCFU") %></td>
                         <td><%# Eval("CostoAnnuale") %></td>
                         <td>
@@ -86,18 +86,18 @@
                     <asp:HiddenField ID="hiddenIdCorso" runat="server" />
 
                     <div class="mb-3">
-                        <label for="txtTitoloFacolta" class="form-label fw-bold">Facoltà</label>
+                        <label for="txtTitoloCorso" class="form-label fw-bold">Corso</label>
+                        <asp:TextBox ID="txtTitoloCorso" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ddlTitoloFacolta" class="form-label fw-bold">Facoltà</label>
                         <asp:DropDownList ID="ddlTitoloFacolta" CssClass="form-select" runat="server"></asp:DropDownList>
                     </div>
 
                     <div class="mb-3">
-                        <label for="txtTitoloTipo" class="form-label fw-bold">Tipo corso</label>
+                        <label for="ddlTitoloTipo" class="form-label fw-bold">Tipo corso</label>
                         <asp:DropDownList ID="ddlTitoloTipo" CssClass="form-select" runat="server"></asp:DropDownList>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="txtTitoloCorso" class="form-label fw-bold">Corso</label>
-                        <asp:TextBox ID="txtTitoloCorso" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
 
                     <div class="mb-3">
