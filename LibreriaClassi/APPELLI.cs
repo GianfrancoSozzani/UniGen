@@ -60,5 +60,5 @@ namespace LibreriaClassi
     //        dB.cmd.Parameters.AddWithValue("@K_Appello", K_Appello);
     //        return dB.SQLselect();
     //    }
-    //}
+    }
 }
