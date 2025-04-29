@@ -3,6 +3,7 @@ using AreaDocente.Models;
 using AreaDocente.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace AreaDocente.Controllers
 {
@@ -14,12 +15,29 @@ namespace AreaDocente.Controllers
         {
             this.dbContext = dbContext;
         }
+        public void PopolaEsame()
+        {
+            IEnumerable<SelectListItem> ListaEsame = dbContext.esami.Select(i => new SelectListItem
+            {
+                Text = i.TitoloEsame,
+                Value = i.K_Esame.ToString()
+            });
+            ViewBag.EsameList = ListaEsame;
+        }
+        [HttpGet]
+        public ActionResult Add()
+        {
+            PopolaEsame();
+            return View();
+        }
+
         [HttpPost]
         public async Task<ActionResult> Add(AddMaterialiViewModel viewModel)
         {
             var materiali = new MVCMateriali
             {
                 Titolo = viewModel.Titolo.ToString(),
+                K_Esame = viewModel.K_Esame,
             };
             if (viewModel.materiale != null && viewModel.materiale.Length > 0)
             {
@@ -40,18 +58,20 @@ namespace AreaDocente.Controllers
 
             return View();
         }
-        //public void PopolaEsame()
-        //{
-        //    IEnumerable<SelectListItem> ListaEsame = dbContext.Facolta.Select(i => new SelectListItem
-        //    {
-        //        Text = i.descrizione,
-        //        Value = i.IdFacolta.ToString()
-        //    });
-        //    ViewBag.FacoltaList = ListaEsame;
-        //}
-        public ActionResult Add()
+        [HttpGet]
+        public async Task<IActionResult> Lista()
         {
-            return View();
+            //var materiali = await dbContext.materiali.ToListAsync();
+            //foreach(var item in materiali)
+            //{
+            //     item.esame = dbContext.esami.FirstOrDefault(e => e.K_Esame == (int)item.K_Esame);
+            //}
+            var materiali =  dbContext.materiali
+           .Include(m => m.esame)
+           .ToList();
+
+            return View(materiali);
         }
+
     }
 }
