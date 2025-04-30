@@ -58,7 +58,7 @@ namespace Comunicazioni.Controllers
                 return View(comunicazioni);
             }
             // ... Logica simile per il ruolo "Docente" e "Altro" ...
-            else if (ruolo == "da")
+            else if (ruolo == "d")
             {
                 var docente_chiave = Guid.Parse(HttpContext.Session.GetString("cod"));
 
@@ -152,7 +152,7 @@ namespace Comunicazioni.Controllers
         public void PopolaStudenti(Guid? K_Esame)
         {
             string ruolo = HttpContext.Session.GetString("r");
-            if (ruolo == "o")
+            if (ruolo == "a")
             {
                 IEnumerable<SelectListItem> listaStudenti = dbContext.Studenti
                     .Select(i => new SelectListItem
@@ -183,7 +183,7 @@ namespace Comunicazioni.Controllers
         public void PopolaDocenti()
         {
             string ruolo = HttpContext.Session.GetString("r");
-            if (ruolo == "o")
+            if (ruolo == "a")
             {
                 IEnumerable<SelectListItem> listaDocenti = dbContext.Docenti
                     .Select(i => new SelectListItem
@@ -248,7 +248,7 @@ namespace Comunicazioni.Controllers
                 K_Docente = viewModel.K_Docente
             };
 
-            if (ruolo == "o")
+            if (ruolo == "a")
             {
                 comunicazione.K_Soggetto = Guid.Parse(HttpContext.Session.GetString("cod"));
                 comunicazione.Soggetto = "A";
@@ -298,7 +298,7 @@ namespace Comunicazioni.Controllers
             List<string> destinatariEmail = new List<string>();
 
             // Determina i destinatari in base al ruolo e ai campi K_Studente/K_Docente
-            if (ruolo == "o")
+            if (ruolo == "a")
             {
                 // L'operatore potrebbe inviare a uno studente o a un docente specifico
                 if (comunicazione.K_Studente.HasValue && comunicazione.Studente?.Email != null)
@@ -355,7 +355,7 @@ namespace Comunicazioni.Controllers
 
                 mail.Subject = "Nuova comunicazione";
                 
-                if (ruolo == "da")
+                if (ruolo == "d")
                 {
                     comunicazione.Docente = await dbContext.Docenti
                               .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
@@ -441,7 +441,7 @@ hai ricevuto una comunicazione dall'Amministrazione.
 
 
 
-            if (ruolo == "o")
+            if (ruolo == "a")
             {
                 nuovaRisposta.Soggetto = "A";
 
@@ -457,7 +457,7 @@ hai ricevuto una comunicazione dall'Amministrazione.
             }
 
 
-            else if (ruolo == "da")
+            else if (ruolo == "d")
             {
                 nuovaRisposta.Soggetto = "D";
                 nuovaRisposta.K_Studente = ultimaComunicazione.K_Studente;
