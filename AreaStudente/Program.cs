@@ -1,5 +1,10 @@
+
+
 using AreaStudente.Data;
 using Microsoft.EntityFrameworkCore;
+
+
+
 
 namespace AreaStudente
 {
@@ -11,6 +16,17 @@ namespace AreaStudente
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("UniGenConn")));
+
+            // Configura la gestione della sessione
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromHours(24); // Timeout di sessione
+                options.Cookie.HttpOnly = true; // Impedisce l'accesso ai cookie via JavaScript
+                options.Cookie.IsEssential = true; // Cookie essenziale per la sessione
+            });
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("UniGen_Prova_Conn")));
@@ -25,13 +41,13 @@ namespace AreaStudente
             });
 
             var app = builder.Build();
+            app.UseSession();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.UseHsts(); // Strict Transport Security
             }
 
             app.UseHttpsRedirection();
@@ -41,11 +57,20 @@ namespace AreaStudente
 
             app.UseAuthorization();
 
+            // Mappa la route predefinita
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Studenti}/{action=Show}/{id?}");
+
+            // Abilita la sessione
+            app.UseSession();
+
 
             app.Run();
+
+
+           
+
         }
     }
 }
