@@ -292,13 +292,13 @@ namespace Comunicazioni.Controllers
             await dbContext.Comunicazioni.AddAsync(comunicazione);
             await dbContext.SaveChangesAsync();
 
-
+//------------------------------------------------------------------------------------------//
             //EMAIL
 
             List<string> destinatariEmail = new List<string>();
 
             // Determina i destinatari in base al ruolo e ai campi K_Studente/K_Docente
-            if (ruolo == "Operatore")
+            if (ruolo == "O")
             {
                 // L'operatore potrebbe inviare a uno studente o a un docente specifico
                 if (comunicazione.K_Studente.HasValue && comunicazione.Studente?.Email != null)
@@ -311,7 +311,7 @@ namespace Comunicazioni.Controllers
                 }
 
             }
-            else if (ruolo == "Docente")
+            else if (ruolo == "D")
             {
                 // Il docente potrebbe inviare a uno studente specifico
                 if (comunicazione.K_Studente.HasValue && comunicazione.Studente?.Email != null)
@@ -324,7 +324,7 @@ namespace Comunicazioni.Controllers
                 }
 
             }
-            else if (ruolo == "Studente")
+            else if (ruolo == "S")
             {
                 // Lo studente potrebbe inviare a un docente specifico
                 if (comunicazione.K_Docente.HasValue && comunicazione.Docente?.Email != null)
@@ -340,9 +340,10 @@ namespace Comunicazioni.Controllers
             // Invia email se ci sono destinatari
             if (destinatariEmail.Any())
             {
-                SmtpClient smtpClient = new SmtpClient("mail.brovia.it", 25);
+                SmtpClient smtpClient = new SmtpClient("mail.brovia.it", 587);
+                //smtpClient.UseDefaultCredentials = false;
                 smtpClient.Credentials = new System.Net.NetworkCredential("generation@brovia.it", "G3n3rat!on");
-                smtpClient.EnableSsl = true;
+                smtpClient.EnableSsl = false;
 
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress("generation@brovia.it", "Comunicazione UniGen");
@@ -381,8 +382,6 @@ hai ricevuto una comunicazione dall'Amministrazione.
 
 {comunicazione.Testo}";
                 }
-
-
 
                 try
                 {
