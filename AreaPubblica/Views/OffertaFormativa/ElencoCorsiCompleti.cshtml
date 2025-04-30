@@ -1,0 +1,57 @@
+﻿@{
+    var corsi = (IEnumerable<dynamic>)ViewBag.Corsi;
+
+    var tipoGruppi = corsi
+        .GroupBy(c => c.TipoCorso)
+        .OrderBy(g => g.Key);
+}
+
+<div class="container mb-5" style="padding-top: 120px;">
+    <h1 class="mb-4">Corsi di Laurea per Tipo e Facoltà</h1>
+
+    <div class="accordion" id="accordionTipo">
+        @foreach (var tipo in tipoGruppi)
+        {
+            var tipoId = "tipo_" + tipo.Key.Replace(" ", "").ToLowerInvariant();
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-@tipoId">
+                    <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#@tipoId"
+                            aria-expanded="false"
+                            aria-controls="@tipoId">
+                        <strong>@tipo.Key</strong>
+                    </button>
+                </h2>
+                <div id="@tipoId" class="accordion-collapse collapse"
+                     aria-labelledby="heading-@tipoId"
+                     data-bs-parent="#accordionTipo">
+                    <div class="accordion-body">
+                        @{
+                            var facoltaGruppi = tipo
+                            .GroupBy(f => f.NomeFacolta)
+                            .OrderBy(f => f.Key);
+                        }
+
+                        @foreach (var facolta in facoltaGruppi)
+                        {
+                            <div class="mb-3">
+                                <h5>@facolta.Key</h5>
+                                <ul class="list-group">
+                                    @foreach (var corso in facolta)
+                                    {
+                                        <li class="list-group-item">
+                                            <strong>Corso:</strong> @corso.TitoloCorso <br />
+                                            <strong>Durata:</strong> @corso.Durata
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

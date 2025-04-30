@@ -16,7 +16,7 @@ namespace AreaPubblica.Data
         public DbSet<Corso> Corsi { get; set; }
         public DbSet<Docente> Docenti { get; set; }
         public DbSet<Facolta> Facolta { get; set; }
-        public DbSet<TipoCorso> TipoCorsi { get; set; }
+        public DbSet<TipoCorso> TipiCorsi { get; set; }
 
 
 
