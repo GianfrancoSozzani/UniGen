@@ -62,6 +62,7 @@
                 <a href="AbilitaStudente.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-person-check-fill me-2"></i>Gestione Studente</a>
                 <a href="Gestione_Facolta.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-mortarboard-fill me-2"></i>Gestione Facoltà</a>
                 <a href="Gestione_Corsi.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-clipboard2 me-2"></i>Gestione Corsi</a>
+                <a href="Gestione_Esami.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-clipboard2 me-2"></i>Gestione Esami</a>
                 <a href="Gestione_PianoStudi.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-book me-2"></i>Gestione Piano Studi</a>
                 <a href="GestioneDocenti.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-people-fill me-2"></i>Gestione Docenti</a>
 
@@ -81,7 +82,7 @@
                         <i class="bi bi-bar-chart-line-fill me-2"></i>Statistiche Studenti
                     </a>
                     <div class="collapse" id="submenuStatistiche">
-                        <a class="submenu-item" href="StudentiLaureatiPerAnno.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-people-fill me-2"></i>Studenti laureati per anno</a>
+                        <a class="submenu-item" href="StudentiPerCorso.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-people-fill me-2"></i>Studenti iscritti per corso</a>
                         <a class="submenu-item" href="IscrittiStudAnno.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-receipt me-2"></i>Studenti iscritti per anno</a>
                     </div>
                 </div>

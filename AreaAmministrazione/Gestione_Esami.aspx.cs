@@ -58,8 +58,8 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
-        // Controllo che non permette l'uso di numeri o caratteri speciali
-        if (!System.Text.RegularExpressions.Regex.IsMatch(titoloEsame, @"^[a-zA-Z\s]+$"))
+        // Controllo che non permette l'uso caratteri speciali
+        if (!System.Text.RegularExpressions.Regex.IsMatch(titoloEsame, @"^[a-zA-Z0-9\s]+$"))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Inserisci solo lettere per l\\'esame')", true);
             return;
@@ -108,8 +108,8 @@ public partial class _Default : System.Web.UI.Page
             return;
         }
 
-        // Controllo che non permette l'uso di numeri o caratteri speciali
-        if (!System.Text.RegularExpressions.Regex.IsMatch(nuovoTitoloEsame, @"^[a-zA-Z\s]+$"))
+        // Controllo che non permette l'uso di caratteri speciali
+        if (!System.Text.RegularExpressions.Regex.IsMatch(nuovoTitoloEsame, @"^[a-zA-Z0-9\s]+$"))
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Inserisci solo lettere per l\\'esame')", true); // I due \\ servono per impedire la chiusura prematura della stringa dell'alert
             return;
