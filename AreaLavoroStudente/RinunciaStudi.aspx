@@ -53,7 +53,7 @@
                     Confermando, il tuo profilo verrà <strong>disabilitato</strong> e non potrai più accedere ai servizi didattici online.
                 </p>
 
-                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#rinunciaModal">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#rinunciaModal">
                     Conferma
                 </button>
 
