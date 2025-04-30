@@ -56,10 +56,10 @@ namespace AreaDocente.Controllers
 
             await dbContext.SaveChangesAsync();
 
-            return RedirectToAction("Lista", "Materiali");
+            return RedirectToAction("List", "Materiali");
         }
         [HttpGet]
-        public async Task<IActionResult> Lista()
+        public async Task<IActionResult> List()
         {
             var materiali = await dbContext.materiali.ToListAsync();
             foreach (var item in materiali)
@@ -107,7 +107,21 @@ namespace AreaDocente.Controllers
                 materiale.K_Esame = viewModel.K_Esame;
                 await dbContext.SaveChangesAsync();
             }
-            return RedirectToAction("Lista", "Materiali");
+            return RedirectToAction("List", "Materiali");
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(MVCMateriali viewModel)
+        {
+            var materiale = await dbContext.materiali
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.K_Materiale == viewModel.K_Materiale);
+
+            if (materiale is not null)
+            {
+                dbContext.materiali.Remove(materiale);
+                await dbContext.SaveChangesAsync();
+            }
+            return RedirectToAction("List", "Materiali");
         }
     }
 }
