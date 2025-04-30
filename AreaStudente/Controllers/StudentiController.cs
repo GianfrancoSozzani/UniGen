@@ -76,6 +76,7 @@ namespace AreaStudente.Controllers
             ViewData["matricola"] = studente.Matricola;
             HttpContext.Session.SetString("cod", studente.K_Studente.ToString().ToUpper());
             HttpContext.Session.SetString("r", "s");
+
             // Mappa dall'entità Studente (dal DB) a ShowStudenteViewModel
             // Dentro l'action Show() nel StudentiController.cs, dopo aver recuperato 'studente'
 

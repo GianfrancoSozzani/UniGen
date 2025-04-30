@@ -24,38 +24,104 @@ namespace LibreriaClassi
 
         }
 
-        public void Inserimento()
+        public void Inserimento()           //Inserimento nuovo libretto
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", VotoEsame);
-            db.cmd.Parameters.AddWithValue("", Esito);
+            db.query = "Libretti_Insert";
+            //db.cmd.Parameters.AddWithValue("@voto", VotoEsame);
+            //db.cmd.Parameters.AddWithValue("@esito", Esito);
+            db.cmd.Parameters.AddWithValue("@k_studente", K_Studente);
+            db.cmd.Parameters.AddWithValue("@k_appello", K_Appello);
             db.SQLcommand();
         }
 
-        public DataTable SelezionaTutto()
+        public DataTable SelezionaTutto()       //Libretti SelectAll
         {
             DB dB = new DB();
             dB.query = "Libretti_SelectAll";
             return dB.SQLselect();
         }
 
-        public DataTable SelezionaChiaveLibretti()
+        public DataTable SelezionaChiaveLibretti()      //Seleziona tramite chiave
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", K_Libretto);
+            db.query = "Libretti_FindByChiave";
+            db.cmd.Parameters.AddWithValue("@chiave", K_Libretto);
             return db.SQLselect();
         }
 
-        public void Modifica()
+        public void Modifica()          //Modfiica di un libretto
         {
             DB dB = new DB();
-            dB.query = "";
-            dB.cmd.Parameters.AddWithValue("", K_Libretto);
-            dB.cmd.Parameters.AddWithValue("", VotoEsame);
-            dB.cmd.Parameters.AddWithValue("", Esito);
+            dB.query = "Libretti_Update";
+            dB.cmd.Parameters.AddWithValue("@chiave", K_Libretto);
+            dB.cmd.Parameters.AddWithValue("@voto", VotoEsame);
+            dB.cmd.Parameters.AddWithValue("@k_appello", K_Appello);
+            dB.cmd.Parameters.AddWithValue("@esito", Esito);
+            dB.cmd.Parameters.AddWithValue("@k_studente", K_Studente);
             dB.SQLcommand();
         }
+
+        public DataTable SelezionaCognomeNome(string Cognome, string Nome)      //Seleziona tramite Cognome e Nome
+        {
+            DB db = new DB();
+            db.query = "Libretti_FindByCognomeNome";
+            db.cmd.Parameters.AddWithValue("@Cognome", Cognome);
+            db.cmd.Parameters.AddWithValue("@Nome", Nome);
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaMatricola(int Matricola)      //Seleziona tramite matricola
+        {
+            DB db = new DB();
+            db.query = "Libretti_FindByMatricola";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+     
+        public DataTable SelezionaEsami(int Matricola)
+        {
+            DB db = new DB();
+            db.query = "Libretti_MediaVotiByMatricola";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
