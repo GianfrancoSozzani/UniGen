@@ -30,7 +30,7 @@ namespace LibreriaClassi
         public DataTable SelezionaTutto()
         {
             DB dB = new DB();
-            dB.query = "";
+            dB.query = "Corsi_SelectTipo";
             return dB.SQLselect();
         }
 

@@ -13,7 +13,7 @@ namespace LibreriaClassi
         public Guid K_Facolta { get; set; }
         public Guid K_TipoCorso { get; set; }
         public string TitoloCorso { get; set; }
-        public string MinimoCFU { get; set; }
+        public short MinimoCFU { get; set; }
         public decimal CostoAnnuale { get; set; }
 
         public CORSI()
@@ -26,9 +26,10 @@ namespace LibreriaClassi
             DB db = new DB();
             db.query = "Corsi_Insert";
             db.cmd.Parameters.AddWithValue("@titolocorso", TitoloCorso);
-            db.cmd.Parameters.AddWithValue("@minimocfu", MinimoCFU);
+            db.cmd.Parameters.AddWithValue("@minimoCFU", MinimoCFU);
             db.cmd.Parameters.AddWithValue("@costoannuale", CostoAnnuale);
             db.cmd.Parameters.AddWithValue("@k_facolta", K_Facolta);
+            db.cmd.Parameters.AddWithValue("@k_tipocorso", K_TipoCorso);
             db.SQLcommand();
         }
 
@@ -39,19 +40,30 @@ namespace LibreriaClassi
             return dB.SQLselect();
         }
 
+        public DataTable VerificaDuplicato()
+        {
+            DB dB = new DB();
+            dB.query = "Corsi_VerificaDuplicato";
+            dB.cmd.Parameters.AddWithValue("@k_facolta", K_Facolta);
+            dB.cmd.Parameters.AddWithValue("@titolocorso", TitoloCorso);
+            return dB.SQLselect();
+        }
+
+        public DataTable VerificaDuplicatoModifica()
+        {
+            DB dB = new DB();
+            dB.query = "Corsi_VerificaDuplicatoModifica";
+            dB.cmd.Parameters.AddWithValue("@k_corso", K_Corso);
+            dB.cmd.Parameters.AddWithValue("@k_facolta", K_Facolta);
+            dB.cmd.Parameters.AddWithValue("@titolocorso", TitoloCorso);
+            return dB.SQLselect();
+        }
+
         public DataTable SelezionaChiaveCorso()
         {
             DB db = new DB();
-            db.query = "Corsi_SelectKey";
-            db.cmd.Parameters.AddWithValue("@chiave", K_Corso);
-            return db.SQLselect();
-        }
-
-        public DataTable SelezionaChiaveFacolta()
-        {
-            DB db = new DB();
-            db.query = "Corsi_FindByFacolta";
-            db.cmd.Parameters.AddWithValue("@chiave", K_Facolta);
+            db.query = "";
+            db.cmd.Parameters.AddWithValue("", K_Corso);
             return db.SQLselect();
         }
 
@@ -59,9 +71,11 @@ namespace LibreriaClassi
         {
             DB dB = new DB();
             dB.query = "Corsi_Update";
-            dB.cmd.Parameters.AddWithValue("@chiave", K_Corso);
+            dB.cmd.Parameters.AddWithValue("@k_corso", K_Corso);
             dB.cmd.Parameters.AddWithValue("@titolocorso", TitoloCorso);
-            dB.cmd.Parameters.AddWithValue("@minimocfu", MinimoCFU);
+            dB.cmd.Parameters.AddWithValue("@k_facolta", K_Facolta);
+            dB.cmd.Parameters.AddWithValue("@k_tipocorso", K_TipoCorso);
+            dB.cmd.Parameters.AddWithValue("@minimoCFU", MinimoCFU);
             dB.cmd.Parameters.AddWithValue("@costoannuale", CostoAnnuale);
             dB.SQLcommand();
         }
@@ -72,7 +86,7 @@ namespace LibreriaClassi
             db.query = "Corsi_CountCorsi";
             return db.SQLselect();
         }
-      
+
         public DataTable TassaMediaAnnuale()
         {
             DB db = new DB();
