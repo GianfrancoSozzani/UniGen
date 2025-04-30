@@ -16,9 +16,11 @@ public partial class Default2 : System.Web.UI.Page
         {
             //Simulazione della session
             Session["Matricola"] = 1;
+            Session["K_Studente"] = "6b787310-8260-4517-a2f4-b7132de47c2e";
 
             CaricaFacoltaECorso();
             CaricaVideolezioni();
+            CaricaDispense();
         }
     }
 
@@ -53,6 +55,11 @@ public partial class Default2 : System.Web.UI.Page
             lblCorso.Text = "Corso non trovato";
         }
     }
+    private System.Web.SessionState.HttpSessionState GetSession()
+    {
+        return Session;
+    }
+
     private void CaricaVideolezioni()
     {
         if (Session["Matricola"] == null)
@@ -61,9 +68,9 @@ public partial class Default2 : System.Web.UI.Page
             return;
         }
 
-        int matricola = Convert.ToInt32(Session["Matricola"]);
         LEZIONI lezioni = new LEZIONI();
-        DataTable dt = lezioni.SelezionaPerMatricola(matricola);
+        Guid K_Studente = new Guid((string)Session["K_Studente"]);
+        DataTable dt = lezioni.SelezionaPerMatricola(K_Studente);
 
         if (dt.Rows.Count > 0)
         {
@@ -78,6 +85,92 @@ public partial class Default2 : System.Web.UI.Page
             rptVideolezioni.DataBind();
         }
     }
+    private void CaricaDispense()
+    {
+        if (Session["Matricola"] == null)
+        {
+            Response.Redirect("Login.aspx");
+            return;
+        }
+
+
+        MATERIALI lezioni = new MATERIALI();
+        Guid K_Studente = new Guid((string)Session["K_Studente"]);
+        DataTable dt = lezioni.DispensaPerMatricola(K_Studente);
+
+        if (dt.Rows.Count > 0)
+        {
+            rptDispense.DataSource = dt;
+            rptDispense.DataBind();
+        }
+        else
+        {
+            lblMessaggio.Visible = true;
+            lblMessaggio.Text = "Non ci sono dispense disponibili per il tuo corso.";
+            rptDispense.DataSource = null;
+            rptDispense.DataBind();
+        }
+    }
+
+    //public string x;
+
+    //protected void btnScarica_Click(object sender, EventArgs e)
+    //{
+    //    string SalvaK_Materiale= e.CommandArgument.ToString();
+    //    MATERIALI m = new MATERIALI();
+    //    DataTable dt = m.GetDispense();
+
+    //    if (dt != null && dt.Rows.Count > 0)
+    //    {
+
+    //        byte[] fileData = (byte[])dt.Rows[0]["Materiale"];
+    //        string fileName = dt.Rows[0]["Titolo"].ToString();
+
+    //        if (fileData != null)
+    //        {
+    //            Response.Clear();
+    //            Response.ContentType = "application/pdf";
+    //            Response.AddHeader("Content-Disposition", "attachment; filename=" + fileName);
+    //            Response.BinaryWrite(fileData);
+    //            Response.End();
+    //        }
+    //    }
+    //    else
+    //    {
+    //        lblMessaggio.Visible = true;
+    //        lblMessaggio.Text = "Il materiale richiesto non è disponibile.";
+    //    }
+    //}
+    protected void btnScarica_Command(object sender, CommandEventArgs e)
+    {
+        string SalvaK_Materiale = e.CommandArgument.ToString();
+        MATERIALI m = new MATERIALI();
+        DataTable dt = m.GetDispense(); // <-- supponendo che il metodo accetti l'ID
+
+        if (dt != null && dt.Rows.Count > 0)
+        {
+            byte[] fileData = (byte[])dt.Rows[0]["Materiale"];
+            string fileName = dt.Rows[0]["Titolo"].ToString();
+
+            if (fileData != null)
+            {
+                Response.Clear();
+                Response.ContentType = "application/pdf";
+                Response.AddHeader("Content-Disposition", "attachment; filename=" + fileName);
+                Response.BinaryWrite(fileData);
+                Response.End();
+            }
+        }
+        else
+        {
+            lblMessaggio.Visible = true;
+            lblMessaggio.Text = "Il materiale richiesto non è disponibile.";
+        }
+    }
+
+
+   
 }
-  
+
+
 

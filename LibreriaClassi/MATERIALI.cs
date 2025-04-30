@@ -93,5 +93,20 @@ namespace LibreriaClassi
             return dB.SQLselect();
         }
 
+        public DataTable GetDispense()
+        {
+            DB dB = new DB();
+            dB.query = "Dispense_GetDispense";
+            dB.cmd.Parameters.AddWithValue("@K_Materiale", K_Materiale);
+            return dB.SQLselect();
+        }
+        public DataTable DispensaPerMatricola(Guid K_Studente)
+        {
+            DB db = new DB();
+            db.query = "Dispense_FindByMatricola";
+            db.cmd.Parameters.AddWithValue("@K_Studente", K_Studente);
+            return db.SQLselect();
+        }
+
     }
 }

@@ -36,16 +36,33 @@
         <div class="row mt-4">
             <div class="col-12">
                 <h4 class="mb-3">Dispense</h4>
+                <%-- <asp:Repeater ID="rptDispense" runat="server">
+                    <ItemTemplate>
+                        <div class="card mb-2">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0"><%# Eval("Titolo") %></h5>
+                                <asp:Button ID="btnScarica" runat="server" Text="Download" OnCommand="btnScarica_Command" <%# Eval("K_Materiale") %> />
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                </asp:Repeater>--%>
                 <asp:Repeater ID="rptDispense" runat="server">
                     <ItemTemplate>
                         <div class="card mb-2">
                             <div class="card-body d-flex justify-content-between align-items-center">
                                 <h5 class="card-title mb-0"><%# Eval("Titolo") %></h5>
-                                <a href='<%# "DownloadMateriale.aspx?id=" + Eval("K_Materiale") %>' class="btn btn-secondary">Scarica dispensa</a>
+                                <asp:Button
+                                    ID="btnScarica"
+                                    runat="server"
+                                    Text="Download"
+                                    CommandName="Scarica"
+                                    CommandArgument='<%# Eval("K_Materiale") %>'
+                                    OnCommand="btnScarica_Command" />
                             </div>
                         </div>
                     </ItemTemplate>
                 </asp:Repeater>
+
             </div>
         </div>
     </div>
