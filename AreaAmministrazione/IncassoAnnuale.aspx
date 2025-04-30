@@ -32,7 +32,7 @@
                     <asp:DropDownList
                         ID="ddlAnno"
                         runat="server"
-                        CssClass="form-control w-25 d-inline-block py-1 px-2"
+                        CssClass="form-control w-25 d-inline-block py-1 px-1"
                         AutoPostBack="true"
                         OnSelectedIndexChanged="ddlAnno_SelectedIndexChanged">
                     </asp:DropDownList>

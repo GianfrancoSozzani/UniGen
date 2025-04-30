@@ -14,12 +14,12 @@
             </div>
 
             <div id="insert" runat="server" style="display: none;">
+                <asp:Label ID="Label4" runat="server" Text="Corso"></asp:Label>
+                <asp:TextBox ID="txtCorso" runat="server"></asp:TextBox>
                 <asp:Label ID="Label1" runat="server" Text="Facoltà"></asp:Label>
                 <asp:DropDownList ID="ddlFacolta" runat="server"></asp:DropDownList>
                 <asp:Label ID="Label3" runat="server" Text="Tipo Corso"></asp:Label>
                 <asp:DropDownList ID="ddlTipoCorso" runat="server"></asp:DropDownList>
-                <asp:Label ID="Label4" runat="server" Text="Corso"></asp:Label>
-                <asp:TextBox ID="txtCorso" runat="server"></asp:TextBox>
                 <asp:Label ID="Label5" runat="server" Text="MinimoCFU"></asp:Label>
                 <asp:TextBox ID="txtMinimoCFU" runat="server"></asp:TextBox>
                 <asp:Label ID="Label6" runat="server" Text="CostoAnnuale"></asp:Label>
