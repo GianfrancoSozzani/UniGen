@@ -15,7 +15,7 @@ namespace LibreriaClassi
 
         public FACOLTA()
         {
-             
+
         }
 
         public void Inserimento()
@@ -24,6 +24,14 @@ namespace LibreriaClassi
             db.query = "Facolta_Insert";
             db.cmd.Parameters.AddWithValue("@titolofacolta", TitoloFacolta);
             db.SQLcommand();
+        }
+
+        public DataTable VerificaDuplicato()
+        {
+            DB dB = new DB();
+            dB.query = "Facolta_VerificaDuplicato";
+            dB.cmd.Parameters.AddWithValue("@TitoloFacolta", TitoloFacolta);
+            return dB.SQLselect();
         }
 
         public DataTable SelezionaTutto()
@@ -41,12 +49,20 @@ namespace LibreriaClassi
             return db.SQLselect();
         }
 
+        public DataTable SelezionaPerNome()
+        {
+            DB db = new DB();
+            db.query = "Facolta_FindByNome";
+            db.cmd.Parameters.AddWithValue("@Nome", TitoloFacolta);
+            return db.SQLselect();
+        }
+
         public void Modifica()
         {
             DB dB = new DB();
             dB.query = "Facolta_Update";
             dB.cmd.Parameters.AddWithValue("@chiave", K_Facolta);
-            dB.cmd.Parameters.AddWithValue("@titolofacolta", TitoloFacolta);
+            dB.cmd.Parameters.AddWithValue("TitoloFacolta", TitoloFacolta);
             dB.SQLcommand();
         }
     }
