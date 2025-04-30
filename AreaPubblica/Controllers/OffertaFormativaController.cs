@@ -1,4 +1,5 @@
 ﻿using System.Dynamic;
+using System.Reflection.Metadata.Ecma335;
 using AreaPubblica.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -42,6 +43,10 @@ namespace AreaPubblica.Controllers
 
             ViewBag.FacoltaCorsiEsami = dati;
 
+            return View();
+        }
+        public IActionResult Programma()
+        { 
             return View();
         }
         
