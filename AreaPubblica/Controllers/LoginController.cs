@@ -46,8 +46,12 @@ namespace AreaPubblica.Controllers
 
 
                 //return RedirectToAction("AREA LAVORO STUDENTE (IMMATRICOLATO)", "Home");
-                HttpContext.Session.SetString("studente_id", studente.K_Studente.ToString().ToUpper());
-                return Redirect("https://localhost:7050/Studenti/Show/"+studente.K_Studente.ToString().ToUpper());
+
+                // HttpContext.Session.SetString("studente_id", studente.K_Studente.ToString().ToUpper());
+                // return Redirect("https://localhost:7050/Studenti/Show/"+studente.K_Studente.ToString().ToUpper());
+
+                return Redirect("http://localhost:5201/Studenti/Show/"+studente.K_Studente.ToString().ToUpper());
+
 
 
             }

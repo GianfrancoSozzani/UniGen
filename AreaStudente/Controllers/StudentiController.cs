@@ -3,6 +3,7 @@ using AreaStudente.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
@@ -154,8 +155,7 @@ namespace AreaStudente.Controllers
                 Indirizzo = studente.Indirizzo,
                 CAP = studente.CAP,
                 Citta = studente.Citta,
-                Provincia = studente.Provincia,
-
+                Provincia = studente.Provincia,               
                 ImmagineProfilo = studente.ImmagineProfilo
             };
 
@@ -169,8 +169,6 @@ namespace AreaStudente.Controllers
         {
             ViewData["studente_id"] = id;
             var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == model.K_Studente);
-
-
 
             if (studente == null)
                 return NotFound();
@@ -186,20 +184,27 @@ namespace AreaStudente.Controllers
 
             if (model.ImmagineProfiloFile != null && model.ImmagineProfiloFile.Length > 0)
             {
+                var tipo = model.ImmagineProfiloFile.ContentType.ToLower();
+                if (tipo != "image/jpeg" && tipo != "image/jpg" && tipo != "image/png")
+                {
+                    TempData["AlertMessage"] = "Formato non valido. Sono accettati solo JPG, JPEG e PNG.";
+                    return RedirectToAction("ModificaProfilo");
+                }
+
                 using (var memoryStream = new MemoryStream())
                 {
                     await model.ImmagineProfiloFile.CopyToAsync(memoryStream);
                     studente.ImmagineProfilo = memoryStream.ToArray();
-                    studente.Tipo = model.ImmagineProfiloFile.ContentType;
+                    studente.Tipo = tipo;
                 }
+
                 TempData["PopupSuccesso"] = "Immagine aggiornata con successo.";
             }
 
             //logica password
-
             bool AlmenoUnoCompilato = !string.IsNullOrEmpty(model.PWD) || !string.IsNullOrEmpty(PasswordNew) || !string.IsNullOrEmpty(PasswordConfirm);
             bool tuttiCompilati = !string.IsNullOrEmpty(model.PWD) && !string.IsNullOrEmpty(PasswordNew) && !string.IsNullOrEmpty(PasswordConfirm);
-
+        
 
             if (AlmenoUnoCompilato)
             {
