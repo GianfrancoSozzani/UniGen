@@ -18,6 +18,7 @@ public partial class Default2 : System.Web.UI.Page
             Session["Matricola"] = 1;
 
             CaricaFacoltaECorso();
+            CaricaVideolezioni();
         }
     }
 
@@ -52,5 +53,31 @@ public partial class Default2 : System.Web.UI.Page
             lblCorso.Text = "Corso non trovato";
         }
     }
-  
+    private void CaricaVideolezioni()
+    {
+        if (Session["Matricola"] == null)
+        {
+            Response.Redirect("Login.aspx");
+            return;
+        }
+
+        int matricola = Convert.ToInt32(Session["Matricola"]);
+        LEZIONI lezioni = new LEZIONI();
+        DataTable dt = lezioni.SelezionaPerMatricola(matricola);
+
+        if (dt.Rows.Count > 0)
+        {
+            rptVideolezioni.DataSource = dt;
+            rptVideolezioni.DataBind();
+        }
+        else
+        {
+            lblMessaggio.Visible = true;
+            lblMessaggio.Text = "Non ci sono videolezioni disponibili per il tuo corso.";
+            rptVideolezioni.DataSource = null;
+            rptVideolezioni.DataBind();
+        }
+    }
 }
+  
+

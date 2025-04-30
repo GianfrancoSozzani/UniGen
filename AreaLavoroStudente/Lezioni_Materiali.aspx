@@ -22,11 +22,14 @@
                         <div class="card mb-2">
                             <div class="card-body">
                                 <h5 class="card-title"><%# Eval("Titolo") %></h5>
-                                <a href='<%# Eval("Url") %>' target="_blank" class="btn btn-primary">Guarda lezione</a>
+                                <a href='<%# ResolveUrl(Eval("Video").ToString()) %>' target="_blank" class="btn btn-primary">Guarda lezione</a>
                             </div>
                         </div>
                     </ItemTemplate>
                 </asp:Repeater>
+
+                <!--Messaggio da visualizzare se non ci sono lezioni -->
+                <asp:Label ID="lblMessaggio" runat="server" CssClass="text-danger fs-5" Visible="false"></asp:Label>
             </div>
         </div>
 
