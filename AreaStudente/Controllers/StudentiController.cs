@@ -74,7 +74,7 @@ namespace AreaStudente.Controllers
 
             ViewData["studente_id"] = studente.K_Studente;
             ViewData["matricola"] = studente.Matricola;
-            HttpContext.Session.SetString("studente_id", studente.K_Studente.ToString().ToUpper());
+            HttpContext.Session.SetString("cod", studente.K_Studente.ToString().ToUpper());
             HttpContext.Session.SetString("r", "s");
             // Mappa dall'entità Studente (dal DB) a ShowStudenteViewModel
             // Dentro l'action Show() nel StudentiController.cs, dopo aver recuperato 'studente'
@@ -168,7 +168,7 @@ namespace AreaStudente.Controllers
         public async Task<IActionResult> AddRisposta(Guid id, Comunicazione viewModel)
         {
 
-            ViewData["studente_id"] = HttpContext.Session.GetString("studente_id");
+            ViewData["studente_id"] = HttpContext.Session.GetString("cod");
 
             string ruolo = HttpContext.Session.GetString("r");
 
@@ -289,7 +289,7 @@ namespace AreaStudente.Controllers
                 }
             }
            
-            return RedirectToAction("Show", "Studenti", new { id = HttpContext.Session.GetString("studente_id") });
+            return RedirectToAction("Show", "Studenti", new { id = HttpContext.Session.GetString("cod") });
         }
 
 
