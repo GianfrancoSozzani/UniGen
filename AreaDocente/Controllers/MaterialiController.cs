@@ -56,7 +56,7 @@ namespace AreaDocente.Controllers
 
             await dbContext.SaveChangesAsync();
 
-            return RedirectToAction("List");
+            return RedirectToAction("List", "Materiali");
         }
         [HttpGet]
         public async Task<IActionResult> List()
@@ -90,13 +90,13 @@ namespace AreaDocente.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditMaterialiViewModel viewModel)
         {
+            viewModel.Tipo = viewModel.MaterialeDA.ContentType;
             var materiale = await dbContext.materiali.FindAsync(viewModel.K_Materiale);
             if (materiale is not null)
             {
                 materiale.Titolo = viewModel.Titolo;
                 if (viewModel.MaterialeDA != null && viewModel.MaterialeDA.Length > 0)
                 {
-                    viewModel.Tipo = viewModel.MaterialeDA.ContentType;
                     using (var ms = new MemoryStream())
                     {
                         await viewModel.MaterialeDA.CopyToAsync(ms);
@@ -107,21 +107,21 @@ namespace AreaDocente.Controllers
                 materiale.K_Esame = viewModel.K_Esame;
                 await dbContext.SaveChangesAsync();
             }
-            return RedirectToAction("List");
+            return RedirectToAction("List", "Materiali");
         }
-
         [HttpPost]
         public async Task<IActionResult> Delete(MVCMateriali viewModel)
         {
-            var mat = await dbContext.materiali
+            var materiale = await dbContext.materiali
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.K_Materiale == viewModel.K_Materiale);
-            if (mat is not null)
+                .FirstOrDefaultAsync(m => m.K_Materiale == viewModel.K_Materiale);
+
+            if (materiale is not null)
             {
-                dbContext.materiali.Remove(viewModel);
+                dbContext.materiali.Remove(materiale);
                 await dbContext.SaveChangesAsync();
             }
-            return RedirectToAction("List");
+            return RedirectToAction("List", "Materiali");
         }
     }
 }
