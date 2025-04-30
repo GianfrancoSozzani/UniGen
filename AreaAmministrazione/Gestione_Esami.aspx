@@ -14,10 +14,10 @@
             </div>
 
             <div id="insert" runat="server" style="display: none;">
-                <asp:Label ID="Label1" runat="server" Text="Docente"></asp:Label>
-                <asp:DropDownList ID="ddlDocente" runat="server"></asp:DropDownList>
                 <asp:Label ID="Label3" runat="server" Text="Esame"></asp:Label>
                 <asp:TextBox ID="txtEsami" runat="server"></asp:TextBox>
+                <asp:Label ID="Label1" runat="server" Text="Docente"></asp:Label>
+                <asp:DropDownList ID="ddlDocente" runat="server"></asp:DropDownList>
                 <asp:Label ID="Label5" runat="server" Text="CFU"></asp:Label>
                 <asp:TextBox ID="txtCFU" runat="server"></asp:TextBox>
                 <asp:Button CssClass="btn btn-primary btn-sm" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
@@ -76,17 +76,17 @@
                     <asp:HiddenField ID="hiddenIdEsame" runat="server" />
 
                     <div class="mb-3">
-                        <label for="ddlTitoloEsame" class="form-label fw-bold">Docente</label>
-                        <asp:DropDownList ID="ddlTitoloDocente" CssClass="form-select" runat="server"></asp:DropDownList>
-                    </div>
-
-                    <div class="mb-3">
                         <label for="txtTitoloEsame" class="form-label fw-bold">Esame</label>
                         <asp:TextBox ID="txtTitoloEsame" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
 
                     <div class="mb-3">
-                        <label for="txtTitoloCFU" class="form-label fw-bold">Corso</label>
+                        <label for="ddlTitoloEsame" class="form-label fw-bold">Docente</label>
+                        <asp:DropDownList ID="ddlTitoloDocente" CssClass="form-select" runat="server"></asp:DropDownList>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="txtTitoloCFU" class="form-label fw-bold">CFU</label>
                         <asp:TextBox ID="txtTitoloCFU" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
                 </div>
