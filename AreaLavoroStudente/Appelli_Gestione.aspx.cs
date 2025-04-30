@@ -32,7 +32,7 @@ public partial class _Default : System.Web.UI.Page
     }
 
 
-
+    //mostra identificativo studente 
     public void CaricaAA(int matricola)
     {
         matricola = 123556;
@@ -51,14 +51,17 @@ public partial class _Default : System.Web.UI.Page
             lblFacolta.Text = facolta;
         }
     }
-
+   
+    //mostrami le prenotazioni fatte in base alla matricola
     private void CaricaAppelli(int matricola)
     {
         LIBRETTI m = new LIBRETTI();
+        m.Matricola = matricola;
         rptAppelli.DataSource = m.ListaPrenotazioni();
         rptAppelli.DataBind();
     }
 
+    //elimina la prenotazione
     protected void btnEliminaPrenotazione_Click(object sender, EventArgs e)
     {
 

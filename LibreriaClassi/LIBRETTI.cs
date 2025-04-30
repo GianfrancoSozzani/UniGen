@@ -87,7 +87,6 @@ namespace LibreriaClassi
             db.query = "Prenotazione_Insert";
             db.cmd.Parameters.AddWithValue("@k_studente", K_Studente);
             db.cmd.Parameters.AddWithValue("@k_appello", K_Appello);
-            db.cmd.Parameters.AddWithValue("@esito", Esito);
             db.SQLcommand();
         }
 
@@ -115,7 +114,7 @@ namespace LibreriaClassi
         {
             DB db = new DB();
             db.query = "Prenotazione_Duplicati";
-            db.cmd.Parameters.AddWithValue("@matricola", Matricola);
+            db.cmd.Parameters.AddWithValue("@k_studente", K_Studente); //abbiamo cambiato matricola con studente 
             db.cmd.Parameters.AddWithValue("@k_appello", K_Appello);
             return db.SQLselect();
         }

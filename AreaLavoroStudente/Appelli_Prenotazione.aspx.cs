@@ -14,6 +14,7 @@ using LibreriaClassi;
 public partial class _Default : System.Web.UI.Page
 {
     public int matricola;
+    public Guid K_Studente;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -68,7 +69,7 @@ public partial class _Default : System.Web.UI.Page
     {
         // Recupera gli identificativi fissi (da sostituire poi con quelli della sessione utente)
         int matricola = int.Parse("123556"); 
-        //Guid K_Libretto = Guid.Parse("C12E1195-736F-4AE5-AD43-13BFE0532190");
+        
         string Esito = "Prenotato"; // Stato da inserire nel database
 
         int countPrenotati = 0; // Contatore degli appelli prenotati con successo
@@ -90,8 +91,9 @@ public partial class _Default : System.Web.UI.Page
 
                 LIBRETTI m = new LIBRETTI();
                 m.Matricola = matricola;
+                m.K_Studente = K_Studente;
                 m.K_Appello = K_Appello;
-                m.Esito= Esito;
+
 
                 if (m.ControlloDoppioni().Rows.Count == 1)
                 {
