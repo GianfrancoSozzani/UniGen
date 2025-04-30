@@ -50,7 +50,7 @@
                 </tbody>
             </table>
 
-            <asp:Button ID="btnEliminaPrenotazione" runat="server" Text="Elimina" CssClass="btn btn-primary mt-3" OnClick="btnEliminaPrenotazione_Click" />
+            <asp:Button ID="btnEliminaPrenotazione" runat="server" Text="Elimina" CssClass="btn btn-danger mt-3" OnClick="btnEliminaPrenotazione_Click" />
 
             <asp:Label ID="lblMessaggio" runat="server" CssClass="mt-3 alert d-none"></asp:Label>
         </div>
