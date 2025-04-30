@@ -64,7 +64,7 @@
                     <asp:HiddenField ID="hiddenIdFacolta" runat="server" />
 
                     <div class="mb-3">
-                        <label for="txtTitoloFacolta" class="form-label fw-bold">Nome Facoltà</label>
+                        <label for="txtTitoloFacolta" class="form-label fw-bold">Facoltà</label>
                         <asp:TextBox ID="txtTitoloFacolta" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
                 </div>
