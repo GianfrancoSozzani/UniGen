@@ -15,7 +15,7 @@ public partial class _Default : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            string matricola = "353794A3-1CF8-45F6-87F5-4F35A447F425"; // prendi dal login/sessione
+            string matricola = "123556"; // prendi dal login/sessione
             CaricaAppelli(matricola);
 
         }
