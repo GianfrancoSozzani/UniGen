@@ -83,7 +83,7 @@
                                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Lezioni</a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="#">Accesso lezioni</a></li>
-                                        <li><a class="dropdown-item" href="#">Materiale lezioni</a></li>
+                                        <li><a class="dropdown-item" href="Lezioni_Materiali.aspx">Materiale lezioni</a></li>
                                     </ul>
                                 </li>
                                 <li id="liAppelli" runat="server" class="nav-item dropdown">
