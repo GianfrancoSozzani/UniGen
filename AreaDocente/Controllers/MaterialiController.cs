@@ -109,5 +109,19 @@ namespace AreaDocente.Controllers
             }
             return RedirectToAction("List");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(MVCMateriali viewModel)
+        {
+            var mat = await dbContext.materiali
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.K_Materiale == viewModel.K_Materiale);
+            if (mat is not null)
+            {
+                dbContext.materiali.Remove(viewModel);
+                await dbContext.SaveChangesAsync();
+            }
+            return RedirectToAction("List");
+        }
     }
 }
