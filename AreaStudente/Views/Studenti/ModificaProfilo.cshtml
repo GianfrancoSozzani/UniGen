@@ -1,6 +1,6 @@
 ﻿@model AreaStudente.Models.ModificaStudenteViewModel
 
-@if (TempData["PopupErrore"] != null)
+@* @if (TempData["PopupErrore"] != null)
 {
 	<script>
 		alert("@TempData["PopupErrore"]");
@@ -11,7 +11,7 @@
 	<script>
 		alert('@TempData["PopupSuccesso"]');
 	</script>
-}
+} *@
 
 <div class="main-container">
 	<!-- Header -->
@@ -32,8 +32,6 @@
 		</div>
 	</div>
 	<div class="container mt--7">
-
-
 		<form class="row" method="post" id="modifica-form" enctype="multipart/form-data">
 			<input type="hidden" asp-for="K_Studente" />
 			<div class="col-12 col-xl-8 bg-white border border-1 border-black shadow rounded-5 p-4">
@@ -46,33 +44,53 @@
 						<input type="email" asp-for="Email" class="form-control form-control-alternative" readonly />
 					</div>
 					<div class="col-12 col-lg-3 mb-2 mb-lg-0">
-						<a type="button" class="btn btn-primary fs-6" data-bs-toggle="collapse" data-bs-target="#modifica-password-collapse" aria-expanded="false" aria-controls="modifica-password-collapse">Modifica Password</a>
-					</div>
-				</div>
-				<div class="collapse mt-4" id="modifica-password-collapse">
-					<div class="bg-white border border-1 border-black shadow rounded-5 p-4">
-						<h3 class="text-center">Modifica Password</h3>
-
-						<div class="mb-2 ">
-							<label class="form-label form-control-label">Inserisci la Vecchia Password:</label>
-							<input type="password" asp-for="Password" class="form-control form-control-alternative" />
-						</div>
-						<div class="mb-2 ">
-							<label class="form-label form-control-label">Nuova Password:</label>
-							<input type="password" name="PasswordNew" class="form-control form-control-alternative" />
-						</div>
-						<div class="mb-4">
-							<label class="form-label form-control-label">Conferma Nuova Password:</label>
-							<input type="password" name="PasswordConfirm" class="form-control form-control-alternative" />
-						</div>
-
-						<div class="text-center">
-							<button type="submit" class="btn btn-primary">Salva</button>
-						</div>
-
+						<a type="button" class="btn btn-primary fs-6" data-bs-toggle="modal" data-bs-target="#modifica-password-modal" aria-expanded="false" aria-controls="modifica-password-collapse">Modifica Password</a>
 					</div>
 				</div>
 
+				<div class="modal fade" id="modifica-password-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5" id="exampleModalLabel">Modifica Password</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div class="mb-2 ">
+									<label class="form-label form-control-label">Inserisci la Vecchia Password:</label>
+									<input type="password" asp-for="PWD" class="form-control form-control-alternative" />
+								</div>
+								<div class="mb-2 ">
+									<label class="form-label form-control-label">Nuova Password:</label>
+									<input type="password" name="PasswordNew" class="form-control form-control-alternative" />
+								</div>
+								<div class="mb-4">
+									<label class="form-label form-control-label">Conferma Nuova Password:</label>
+									<input type="password" name="PasswordConfirm" class="form-control form-control-alternative" />
+								</div>
+
+								@if (TempData["PopupErrore"] != null)
+								{
+									<div class="bg-warning text-black p-2">
+										@TempData["PopupErrore"]
+									</div>
+								}
+
+								@if (TempData["PopupSuccesso"] != null)
+								{
+									<div class="bg-success p-2">
+										@TempData["PopupSuccesso"]
+									</div>
+								}
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+								<button type="submit" class="btn btn-primary">Salva</button>
+							</div>
+						</div>
+					</div>
+				</div>
 				<hr class="my-4">
 
 				<h4 class="heading-small text-muted">Dati Anagrafici</h4>
@@ -120,51 +138,71 @@
 				</div>
 			</div>
 
+		
+				<div class="col-12 col-xl-3 mt-5 mt-lg-0 px-0 px-lg-2">
+					<div class="bg-white border border-1 border-black shadow rounded-5 p-4 position-relative">
 
-			<div class="col-12 col-xl-4">
-				<div class="bg-white border border-1 border-black shadow rounded-5 p-4 position-relative">
+						@{
+							bool hasImage = Model?.ImmagineProfilo != null && Model.ImmagineProfilo.Length > 0;
+							string imgSrc = null;
 
-					@{
-						bool hasImage = Model?.ImmagineProfilo != null && Model.ImmagineProfilo.Length > 0;
-						string imgSrc = null;
-
-						if (hasImage)
-						{
-							var base64 = Convert.ToBase64String(Model.ImmagineProfilo);
-							imgSrc = $"data:image/jpeg;base64,{base64}";
+							if (hasImage)
+							{
+								var base64 = Convert.ToBase64String(Model.ImmagineProfilo);
+								imgSrc = $"data:image/jpeg;base64,{base64}";
+							}
 						}
-					}
 
-					<div id="img-container" class="position-absolute top-0 start-50 translate-middle mb-5 d-flex justify-content-center align-items-center"
-						 style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background-color: #f0f0f0; font-size: 4rem; color: #6c757d;">
-						@if (hasImage)
-						{
-							<img src="@imgSrc" alt="Immagine Profilo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
-						}
-						else
-						{
-							<i class="bi bi-person-circle rounded"></i>
-						}
+						<div id="img-container" class="position-absolute top-0 start-50 translate-middle mb-5 d-flex justify-content-center align-items-center"
+							 style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background-color: #f0f0f0; font-size: 4rem;">
+							@if (hasImage)
+							{
+								<img src="@imgSrc" alt="Immagine Profilo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
+							}
+							else
+							{
+								<!-- Imposta le dimensioni dell'icona per essere uguali all'immagine -->
+								<i class="bi bi-person-circle rounded img-icon text-black bg-white" style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; font-size: 6rem; border-radius: 50%;"></i>
+							}
+						</div>
+						<h4 class="text-center mt-5">
+							<!-- Mostra il nome solo se il modello non è null/vuoto -->
+							@(Model?.Nome ?? "Studente") @(Model?.Cognome ?? "Cognome")
+						</h4>
+						<p class="text-center">Università UniGen</p>
+						<hr class="my-4">
+						<h5 class="text-center">Modifica Immagine Profilo</h5>
+						<p class="text-center">Qualora volessi aggiornare il tuo profilo, carica una nuova immagine scegliendo un file dal tuo dispositivo.</p>
+
+						<div class="input-group mt-5">
+							<input type="file" class="form-control" asp-for="ImmagineProfiloFile" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
+							<button type="submit" class="btn btn-outline-secondary">Salva</button>
+						</div>
+
 					</div>
-					<h4 class="text-center mt-5">
-						<!-- Mostra il nome solo se il modello non è null/vuoto -->
-						@(Model?.Nome ?? "Studente") @(Model?.Cognome ?? "Cognome")
-					</h4>
-					<p class="text-center">Università UniGen</p>
-					<hr class="my-4">
-					<h5 class="text-center">Modifica Immagine Profilo</h5>
-					<p class="text-center">Qualora volessi aggiornare il tuo profilo, carica una nuova immagine scegliendo un file dal tuo dispositivo.</p>
-
-					<div class="input-group mt-5">
-						<input type="file" class="form-control" asp-for="ImmagineProfiloFile" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
-						<button type="submit" class="btn btn-outline-secondary">Salva</button>
-					</div>
-
-
-				</div>
-			</div>
+				</div>			
 		</form>
 	</div>
 </div>
 
+<script>
 
+
+	document.addEventListener('DOMContentLoaded', function () {
+		const apriModaleFlag = '@TempData["ApriModalePassword"]' === 'True';
+		const salvataggioSuccessoMsg = '@TempData["DisplaySuccessMsg"]' === 'True';
+
+		if (apriModaleFlag) {
+			const modaleEl = document.getElementById('modifica-password-modal');
+			if (modaleEl) {
+				const modal = new bootstrap.Modal(modaleEl);
+				modal.show();
+			}
+		}
+
+		if(salvataggioSuccessoMsg){
+		alert('@TempData["PopupSuccesso"]');
+
+		}
+	});
+</script>

@@ -44,15 +44,11 @@ namespace AreaPubblica.Controllers
                 //HttpContext.Session.SetString("Email", studente.Email);
                 //HttpContext.Session.SetString("Ruolo", "S");
 
-                if (studente.Matricola == null)
-                {
-                    //return RedirectToAction("AREA STUDENTE (NON IMMATRICOLATO)", "Home");
-                    return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + studente.K_Studente.ToString() + "&&usr=" + studente.Email + "&&r=s");
-
-                }
 
                 //return RedirectToAction("AREA LAVORO STUDENTE (IMMATRICOLATO)", "Home");
-                return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + studente.K_Studente.ToString() + "&&usr=" + studente.Email + "&&r=s");
+                HttpContext.Session.SetString("studente_id", studente.K_Studente.ToString().ToUpper());
+                return Redirect("https://localhost:7050/Studenti/Show/"+studente.K_Studente.ToString().ToUpper());
+
 
             }
 
@@ -87,7 +83,10 @@ namespace AreaPubblica.Controllers
                 //HttpContext.Session.SetString("K_Operatore", operatore.K_Operatore.ToString());
                 //HttpContext.Session.SetString("USR", operatore.USR);
                 //HttpContext.Session.SetString("Ruolo", "O");
+
+
                 return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + operatore.K_Operatore.ToString() + "&&usr=" + operatore.USR + "&&r=o");
+
                 //return RedirectToAction("AREA AMMINISTRAZIONE", "Home");
             }
 

@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+
+
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -9,11 +11,10 @@ namespace AreaStudente.Models.Entities
         [Key]
         public Guid K_Studente { get; set; }
 
-
         public string? Email { get; set; }
 
+        public string? PWD { get; set; }
 
-        public string? Password { get; set; }
         public string? Cognome { get; set; }
         public string? Nome { get; set; }
         public DateTime? DataNascita { get; set; }
@@ -21,7 +22,6 @@ namespace AreaStudente.Models.Entities
         public string? CAP { get; set; }
         public string? Citta { get; set; }
         public string? Provincia { get; set; }
-
         public byte[]? ImmagineProfilo { get; set; }
         public string? Tipo { get; set; } 
         public int? Matricola { get; set; }
@@ -30,8 +30,6 @@ namespace AreaStudente.Models.Entities
 
         [ForeignKey("K_Corso")]
         public Guid? K_Corso { get; set; }
-
-
 
 
     }

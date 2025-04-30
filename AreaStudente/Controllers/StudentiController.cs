@@ -4,12 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 
 namespace AreaStudente.Controllers
 {
+    
     public class StudentiController : Controller
     {
+
 
 
         private readonly ApplicationDbContext dbContext; // Sto staziando il contesto del database
@@ -18,9 +21,34 @@ namespace AreaStudente.Controllers
             this.dbContext = dbContext; // Inizializzo il contesto del database 
         }
 
+        //public IActionResult LoginRedirect()
+
+
+        //{
+        //    // Leggi parametri dalla query string e salvali in sessione
+        //    var usr = Request.Query["usr"];
+        //    var guidid = Request.Query["guidid"];
+        //    var tipo = Request.Query["tipo"];
+
+        //    if (!string.IsNullOrEmpty(usr) && !string.IsNullOrEmpty(guidid) && !string.IsNullOrEmpty(tipo))
+        //    {
+        //        HttpContext.Session.SetString("usr", usr);
+        //        HttpContext.Session.SetString("guidid", guidid);
+        //        HttpContext.Session.SetString("tipo", tipo);
+        //    }
+        //    else
+        //    {
+        //        return BadRequest("Parametri mancanti o invalidi.");
+        //    }
+
+        //    // Reindirizza all'area studente dopo aver settato la sessione
+        //    return RedirectToAction("Show", "Studenti");
+        //}
+
         [HttpGet]
         public async Task<IActionResult> Show(Guid id) // L'ID dello studente da visualizzare
         {
+ 
             // Trova lo studente includendo potenzialmente dati correlati se servissero
             // In questo caso, per il ViewModel fornito, non serve caricare il Corso,
             // ma lo lascio commentato come esempio se volessi il nome del corso in futuro.
@@ -40,6 +68,9 @@ namespace AreaStudente.Controllers
                 });
             }
 
+            ViewData["studente_id"] = studente.K_Studente;
+            ViewData["matricola"] = studente.Matricola;
+            HttpContext.Session.SetString("studente_id", studente.K_Studente.ToString().ToUpper());
             // Mappa dall'entità Studente (dal DB) a ShowStudenteViewModel
             // Dentro l'action Show() nel StudentiController.cs, dopo aver recuperato 'studente'
 
@@ -99,10 +130,13 @@ namespace AreaStudente.Controllers
             return View(dashboardViewModel);
         }
 
+
         [HttpGet]
         public async Task<IActionResult> ModificaProfilo(Guid id)
         {
-            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == id);
+            ViewData["studente_id"] = id;
+            var studente = await dbContext.Studenti
+                 .FirstOrDefaultAsync(s => s.K_Studente == id);
 
             if (studente == null)
             {
@@ -121,6 +155,7 @@ namespace AreaStudente.Controllers
                 CAP = studente.CAP,
                 Citta = studente.Citta,
                 Provincia = studente.Provincia,
+
                 ImmagineProfilo = studente.ImmagineProfilo
             };
 
@@ -130,9 +165,12 @@ namespace AreaStudente.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> ModificaProfilo(ModificaStudenteViewModel model, string PasswordNew, string PasswordConfirm)
+        public async Task<IActionResult> ModificaProfilo(ModificaStudenteViewModel model, string PasswordNew, string PasswordConfirm, Guid id)
         {
+            ViewData["studente_id"] = id;
             var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == model.K_Studente);
+
+
 
             if (studente == null)
                 return NotFound();
@@ -158,8 +196,10 @@ namespace AreaStudente.Controllers
             }
 
             //logica password
-            bool AlmenoUnoCompilato = !string.IsNullOrEmpty(model.Password) || !string.IsNullOrEmpty(PasswordNew) || !string.IsNullOrEmpty(PasswordConfirm);
-            bool tuttiCompilati = !string.IsNullOrEmpty(model.Password) && !string.IsNullOrEmpty(PasswordNew) && !string.IsNullOrEmpty(PasswordConfirm);
+
+            bool AlmenoUnoCompilato = !string.IsNullOrEmpty(model.PWD) || !string.IsNullOrEmpty(PasswordNew) || !string.IsNullOrEmpty(PasswordConfirm);
+            bool tuttiCompilati = !string.IsNullOrEmpty(model.PWD) && !string.IsNullOrEmpty(PasswordNew) && !string.IsNullOrEmpty(PasswordConfirm);
+
 
             if (AlmenoUnoCompilato)
             {
@@ -167,13 +207,20 @@ namespace AreaStudente.Controllers
                 if (!tuttiCompilati)
                 {
                     TempData["PopupErrore"] = "Per cambiare la password, devi compilare tutti e tre i campi.";
+
+                    TempData["ApriModalePassword"] = true;
+
                     return RedirectToAction("ModificaProfilo");
                 }
 
                 // 2. Password vecchia errata
-                if (model.Password != studente.Password)
+
+
+                if (model.PWD != studente.PWD)
                 {
                     TempData["PopupErrore"] = "La password vecchia inserita non risulta essere corretta.";
+                    TempData["ApriModalePassword"] = true;
+
                     return RedirectToAction("ModificaProfilo");
                 }
 
@@ -181,41 +228,32 @@ namespace AreaStudente.Controllers
                 if (PasswordNew != PasswordConfirm)
                 {
                     TempData["PopupErrore"] = "La nuova password e la conferma non coincidono.";
+                    TempData["ApriModalePassword"] = true;
                     return RedirectToAction("ModificaProfilo");
                 }
 
                 // 4. Tutto corretto, aggiorna
+                TempData["PopupErrore"] = null;
+                TempData["ApriModalePassword"] = true;
                 TempData["PopupSuccesso"] = "Password aggiornata con successo.";
-                studente.Password = PasswordNew;
+                studente.PWD = PasswordNew;
             }
 
+
             await dbContext.SaveChangesAsync();
+            TempData["DisplaySuccessMsg"] = true;
+            TempData["PopupSuccesso"] = "I dati sono stati salvati correttamente.";
             return RedirectToAction("ModificaProfilo", "Studenti");
         }
 
-        public IActionResult Recupera()
-        {
-            return View();
-        }
 
-        [HttpPost]
-        public async Task<IActionResult> Recupera(RecuperaViewModel model, string Email)
-        {
-            var mail = await dbContext.Studenti.FirstOrDefaultAsync(s => s.Email == model.Email);
-            if (mail == null)
-            {
-                TempData["PopupErrore"] = "Questa mail non risulta essere registrata";
-                return RedirectToAction("Recupera");
-            }
-            TempData["PopupSuccesso"] = "Controlla la tua Mail, ti abbiamo inviato un link per recuperare la Password";
-            return RedirectToAction("Recupera", "Studenti");
-
-        }
 
     }
+
+
+
 }
 
 
-
-
+ 
 
