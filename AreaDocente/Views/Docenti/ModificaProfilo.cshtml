@@ -37,13 +37,13 @@
 			</div>
 		</div>
 	</div> *@
-<div class="container mt-5">
+<div class="container my-5">
 	<form class="row" method="post" id="modifica-form" enctype="multipart/form-data">
 		<div style="height: 4vh;">
 			&nbsp;
 		</div>
 		<input type="hidden" asp-for="K_Docente" />
-		<div class="col-12  mb-5 mb-xl-0 col-xl-8 bg-white border border-1 border-black shadow rounded-5 p-4">
+		<div class="col-12  mb-5 mb-xl-0 col-xl-8 bg-white border border-1 border-white shadow rounded-5 p-4">
 			<h3 class="text-center mb-2">Modifica Profilo</h3>
 			<p class="text-black px-1">
 				In quest'area personale puoi aggiornare i tuoi dati anagrafici e di contatto, modificare la password e personalizzare la tua immagine di profilo.
@@ -168,7 +168,7 @@
 		</div>
 
 		<div class="col-12 col-xl-4 px-0 px-lg-2 mt-5 mt-xl-0">
-			<div class="bg-white border border-1 border-black shadow rounded-5 p-4 position-relative">
+			<div class="bg-white border border-1 border-white shadow rounded-5 p-4 position-relative">
 
 				@{
 					bool hasImage = Model?.ImmagineProfilo != null && Model.ImmagineProfilo.Length > 0;
