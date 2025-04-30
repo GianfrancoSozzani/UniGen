@@ -90,13 +90,13 @@ namespace AreaDocente.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditMaterialiViewModel viewModel)
         {
-            viewModel.Tipo = viewModel.MaterialeDA.ContentType;
             var materiale = await dbContext.materiali.FindAsync(viewModel.K_Materiale);
             if (materiale is not null)
             {
                 materiale.Titolo = viewModel.Titolo;
                 if (viewModel.MaterialeDA != null && viewModel.MaterialeDA.Length > 0)
                 {
+                    viewModel.Tipo = viewModel.MaterialeDA.ContentType;
                     using (var ms = new MemoryStream())
                     {
                         await viewModel.MaterialeDA.CopyToAsync(ms);
