@@ -16,5 +16,7 @@ namespace AreaDocente.Data
         public DbSet<MVCPROVA> prove { get; set; }
         public DbSet<MVCTest_DA> test_DA { get; set; }
         public DbSet<MVCTest_DC> test_DC { get; set; }
+        public DbSet<MVCLezioni> lezioni { get; set; }
+
     }
 }

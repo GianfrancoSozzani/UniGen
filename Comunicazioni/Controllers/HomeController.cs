@@ -15,6 +15,15 @@ namespace Comunicazioni.Controllers
 
         public IActionResult Index()
         {
+            
+            string ruolo = HttpContext.Session.GetString("Ruolo");
+
+            // Se "ruolo" è null o vuoto, l'utente non è autenticato
+            if (String.IsNullOrEmpty(ruolo))
+            {
+                // Reindirizza alla pagina di login
+                return RedirectToAction("Login", "Login");
+            }
             return View();
         }
 
