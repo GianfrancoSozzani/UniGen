@@ -59,7 +59,7 @@ namespace AreaDocente.Controllers
             }
             if (viewModel.K_Esame == Guid.Empty)
             {
-                TempData["ErrorMessage"] = "Selezionare l'esame!";
+                TempData["ErrorMessage"] = "Selezionare esame!";
                 return View(viewModel);
             }
 
@@ -67,7 +67,7 @@ namespace AreaDocente.Controllers
             {
                 Titolo = viewModel.Titolo.ToString(),
                 Video = viewModel.Video.ToString(),
-                K_Esame = (Guid)viewModel.K_Esame
+                K_Esame = viewModel.K_Esame
             };
             await dbContext.lezioni.AddAsync(lez);
             await dbContext.SaveChangesAsync();
