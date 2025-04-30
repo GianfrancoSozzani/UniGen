@@ -6,9 +6,9 @@ namespace AreaStudente.Controllers
 {
     public class FaqController : Controller
     {
-        public IActionResult Faq(Guid id)
+        public IActionResult Faq()
         {
-            ViewData["studente_id"] = id;
+            ViewData["studente_id"] = HttpContext.Session.GetString("studente_id");
             var studenteIdStr = HttpContext.Session.GetString("studente_id");
             if (Guid.TryParse(studenteIdStr, out Guid studenteId))
             {

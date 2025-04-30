@@ -48,8 +48,7 @@ namespace AreaStudente.Controllers
         [HttpGet]
         public async Task<IActionResult> Show(Guid id) // L'ID dello studente da visualizzare
         {
-            ViewData["studente_id"] = id;
-            HttpContext.Session.SetString("studente_id", id.ToString());
+ 
             // Trova lo studente includendo potenzialmente dati correlati se servissero
             // In questo caso, per il ViewModel fornito, non serve caricare il Corso,
             // ma lo lascio commentato come esempio se volessi il nome del corso in futuro.
@@ -69,6 +68,9 @@ namespace AreaStudente.Controllers
                 });
             }
 
+            ViewData["studente_id"] = studente.K_Studente;
+            ViewData["matricola"] = studente.Matricola;
+            HttpContext.Session.SetString("studente_id", studente.K_Studente.ToString().ToUpper());
             // Mappa dall'entità Studente (dal DB) a ShowStudenteViewModel
             // Dentro l'action Show() nel StudentiController.cs, dopo aver recuperato 'studente'
 
@@ -166,12 +168,6 @@ namespace AreaStudente.Controllers
         public async Task<IActionResult> ModificaProfilo(ModificaStudenteViewModel model, string PasswordNew, string PasswordConfirm, Guid id)
         {
             ViewData["studente_id"] = id;
-            var guididStr = HttpContext.Session.GetString("guidid");
-            if (!Guid.TryParse(guididStr, out Guid guidid) || guidid != model.K_Studente)
-            {
-                return RedirectToAction("LoginRedirect");
-            }
-
             var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == model.K_Studente);
 
 
