@@ -34,22 +34,26 @@ namespace AreaPubblica.Controllers
             // Controllo login Studente
             var studente = await dbContext.Studenti
                 .Where(s => s.Email == viewModel.username && s.PWD == viewModel.PWD)
-                .Select(s => new { s.K_Studente, s.Email, s.Matricola}) // Carico solo K_Studente ed Email e Matricola
+                .Select(s => new { s.K_Studente, s.Email, s.Matricola }) // Carico solo K_Studente ed Email e Matricola
                 .FirstOrDefaultAsync();
 
             if (studente != null)
             {
                 // Salvo solo ciò che serve
-                HttpContext.Session.SetString("K_Studente", studente.K_Studente.ToString());
-                HttpContext.Session.SetString("Email", studente.Email);
-                HttpContext.Session.SetString("Ruolo", "S");
+                //HttpContext.Session.SetString("K_Studente", studente.K_Studente.ToString());
+                //HttpContext.Session.SetString("Email", studente.Email);
+                //HttpContext.Session.SetString("Ruolo", "S");
 
                 if (studente.Matricola == null)
                 {
                     //return RedirectToAction("AREA STUDENTE (NON IMMATRICOLATO)", "Home");
+                    return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + studente.K_Studente.ToString() + "&&usr=" + studente.Email + "&&r=s");
+
                 }
 
                 //return RedirectToAction("AREA LAVORO STUDENTE (IMMATRICOLATO)", "Home");
+                return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + studente.K_Studente.ToString() + "&&usr=" + studente.Email + "&&r=s");
+
             }
 
             // Controllo login Docente
@@ -60,13 +64,15 @@ namespace AreaPubblica.Controllers
 
             if (docente != null)
             {
-                HttpContext.Session.SetString("K_Docente", docente.K_Docente.ToString());
-                HttpContext.Session.SetString("Email", docente.Email);
-                HttpContext.Session.SetString("Ruolo", "D");
+                //HttpContext.Session.SetString("K_Docente", docente.K_Docente.ToString());
+                //HttpContext.Session.SetString("Email", docente.Email);
+                //HttpContext.Session.SetString("Ruolo", "D");
                 if (docente.Abilitato == "N")
                 {
+                    return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=dn");
                     //return RedirectToAction("AREA DOCENTE (NON ABILITATO)", "Home");
                 }
+                return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=da");
                 //return RedirectToAction("AREA DOCENTE (ABILITATO)", "Home");
             }
 
@@ -78,10 +84,10 @@ namespace AreaPubblica.Controllers
             if (operatore != null)
             {
                 // Salvo solo ciò che serve
-                HttpContext.Session.SetString("K_Operatore", operatore.K_Operatore.ToString());
-                HttpContext.Session.SetString("USR", operatore.USR);
-                HttpContext.Session.SetString("Ruolo", "O");
-
+                //HttpContext.Session.SetString("K_Operatore", operatore.K_Operatore.ToString());
+                //HttpContext.Session.SetString("USR", operatore.USR);
+                //HttpContext.Session.SetString("Ruolo", "O");
+                return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + operatore.K_Operatore.ToString() + "&&usr=" + operatore.USR + "&&r=o");
                 //return RedirectToAction("AREA AMMINISTRAZIONE", "Home");
             }
 
@@ -96,7 +102,6 @@ namespace AreaPubblica.Controllers
         {
             return View();
         }
-        [HttpPost]
 
 
         [HttpPost]
@@ -107,18 +112,24 @@ namespace AreaPubblica.Controllers
                 return View(viewModel);
             }
 
-            // Recupera un corso esistente
-            var corso = await dbContext.Corsi.FirstOrDefaultAsync();
+            // Elaborazione immagine profilo
+            if (viewModel.ImmagineFile != null)
+            {
+                using var ms = new MemoryStream();
+                await viewModel.ImmagineFile.CopyToAsync(ms);
+                viewModel.ImmagineProfilo = ms.ToArray();
+                viewModel.Tipo = Path.GetExtension(viewModel.ImmagineFile.FileName).ToLowerInvariant();
+            }
+
+            var corso = await dbContext.Corsi.FirstOrDefaultAsync(); // solo per k_corso
             if (corso == null)
             {
                 ModelState.AddModelError("", "Nessun corso disponibile.");
                 return View(viewModel);
             }
 
-            // Ora puoi creare lo studente associato al corso
             var studente = new Studente
             {
-                K_Studente = Guid.NewGuid(),
                 Nome = viewModel.Nome?.Trim(),
                 Cognome = viewModel.Cognome?.Trim(),
                 Email = viewModel.Email?.Trim(),
@@ -130,16 +141,15 @@ namespace AreaPubblica.Controllers
                 Provincia = viewModel.Provincia,
                 ImmagineProfilo = viewModel.ImmagineProfilo,
                 Tipo = viewModel.Tipo,
-                Matricola = viewModel.Matricola,
-                Abilitato = "Sì",
-                DataImmatricolazione = DateTime.Now,
-                K_Corso = corso.K_Corso // 👈 Associazione corretta
+                Abilitato = "No",
+                DataImmatricolazione = null,
+                K_Corso = corso.K_Corso
             };
 
             await dbContext.Studenti.AddAsync(studente);
             await dbContext.SaveChangesAsync();
 
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction("Index", "FAQ");
         }
     }
 }
