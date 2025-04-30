@@ -38,8 +38,10 @@ namespace AreaPubblica.Controllers
                 .FirstOrDefaultAsync();
 
 
-            if(studente != null)
-{
+
+            if (studente != null)
+            {
+
                 // Salvo solo ciò che serve
                 //HttpContext.Session.SetString("K_Studente", studente.K_Studente.ToString());
                 //HttpContext.Session.SetString("Email", studente.Email);
