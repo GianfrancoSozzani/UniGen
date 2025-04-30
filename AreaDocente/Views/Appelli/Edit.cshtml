@@ -1,0 +1,108 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model AreaDocente.Models.Entities.MVCAPPELLO
+
+
+<div class="container mt-5">
+
+    <h1>Modifica Lezione</h1>
+
+    @if (Model is null)
+    {
+        <div class="alert alert-warning text-center" role="alert">
+            Nessun record trovato con questo ID.
+        </div>
+    }
+    else
+    {
+        <div class="card p-4 shadow-sm">
+            <form method="post">
+
+                <input type="hidden" asp-for="K_Appello" />
+
+                <div class="mt-3">
+                    <label class="form-label">Esame di appartenenza</label>
+                    <select asp-for="K_Esame" asp-items="@ViewBag.EsamiDDL" class="form-select">
+                        <option disabled selected>== Selezionare un esame ==</option>
+                    </select>
+                </div>
+
+                <div class="mt-3">
+                    <label class="form-label">Data Appello</label>
+                    <input type="date" class="form-control" id="DataAppello" asp-for="DataAppello" name="DataAppello" />
+                </div>
+
+                <div class="mt-3">
+                    <label class="form-label">Data Verbalizzazione</label>
+                    <input type="date" class="form-control" id="DataVerbalizzazione" asp-for="DataVerbalizzazione" name="DataVerbalizzazione" />
+                </div>
+
+                <div class="mt-3">
+                    <label class="form-label">Tipo appello</label>
+                    <select asp-for="Tipo" class="form-select" id="TipoAppello">
+                        <option disabled selected>== Selezionare il tipo dell'appello ==</option>
+                        <option value="Or">Orale</option>
+                        <option value="Sc">Scritto</option>
+                        <option value="La">Laurea</option>
+                    </select>
+                </div>
+
+                <div class="mt-3">
+                    <label class="form-label">Link appello</label>
+                    <input type="text" class="form-control" asp-for="Link" />
+                </div>
+
+                <div class="mt-3" id="DataOraleDiv" style="display: none;">
+                    <label class="form-label">Data Orale</label>
+                    <input type="datetime-local" class="form-control" id="DataOrale" asp-for="DataOrale" name="DataOrale" />
+                </div>
+
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-primary">Salva</button>
+                </div>
+
+            </form>
+        </div>
+    }
+
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Operazione non riuscita',
+                    text: '@TempData["ErrorMessage"]'
+                });
+            </script>
+        }
+
+        <script>
+            // Gestisce la visibilità dei campi Link e Data Orale in base al tipo selezionato
+            document.getElementById("TipoAppello").addEventListener("change", function () {
+                var tipoSelezionato = this.value;
+
+                // Se "Orale", mostra i campi Link e Data Orale
+                if (tipoSelezionato === "Or") {
+                    document.getElementById("DataOraleDiv").style.display = "block";
+                }
+                // Altrimenti nascondi
+                else {
+                    document.getElementById("DataOraleDiv").style.display = "none";
+                }
+            });
+
+            // Esegui subito il controllo quando la pagina è caricata, per il caso in cui il valore sia già impostato su "Orale"
+            window.addEventListener("load", function () {
+                var tipoSelezionato = document.getElementById("TipoAppello").value;
+                if (tipoSelezionato === "Or") {
+                    document.getElementById("DataOraleDiv").style.display = "block";
+                }
+            });
+        </script>
+    }
+
+</div>

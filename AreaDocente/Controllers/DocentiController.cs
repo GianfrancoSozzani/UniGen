@@ -18,7 +18,7 @@ namespace AreaDocente.Controllers
         public async Task<IActionResult> ModificaProfilo()
         {
             // Simulo l'ID, solo per test (poi userò la sessione)
-            var docenteId = new Guid("370CE828-DD9D-46C2-9312-0DCAE28F1B13");
+            var docenteId = new Guid(HttpContext.Session.GetString("cod"));
             var docente = await dbContext.docenti.FirstOrDefaultAsync(d => d.K_Docente == docenteId);
 
             if (docente == null)
@@ -43,7 +43,7 @@ namespace AreaDocente.Controllers
         [HttpPost]
         public async Task<IActionResult> ModificaProfilo(ModificaDocenteViewModel model, string PasswordNew, string PasswordConfirm)
         {
-            var docenteId = new Guid("370CE828-DD9D-46C2-9312-0DCAE28F1B13");
+            var docenteId = new Guid(HttpContext.Session.GetString("cod"));
             var docente = await dbContext.docenti.FirstOrDefaultAsync(d => d.K_Docente == docenteId);
 
             if (docente == null)
