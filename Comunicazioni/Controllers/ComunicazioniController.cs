@@ -23,12 +23,12 @@ namespace Comunicazioni.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            string ruolo = HttpContext.Session.GetString("Ruolo");
+            string ruolo = HttpContext.Session.GetString("r");
             List<IGrouping<Guid, Comunicazione>> comunicazioni;
 
-            if (ruolo == "S")
+            if (ruolo == "s")
             {
-                var studente_chiave = Guid.Parse(HttpContext.Session.GetString("K_Studente"));
+                var studente_chiave = Guid.Parse(HttpContext.Session.GetString("cod"));
 
                 comunicazioni = await dbContext.Comunicazioni
                     .Where(c => c.K_Studente == studente_chiave || c.K_Soggetto == studente_chiave)
@@ -58,9 +58,9 @@ namespace Comunicazioni.Controllers
                 return View(comunicazioni);
             }
             // ... Logica simile per il ruolo "Docente" e "Altro" ...
-            else if (ruolo == "D")
+            else if (ruolo == "da")
             {
-                var docente_chiave = Guid.Parse(HttpContext.Session.GetString("K_Docente"));
+                var docente_chiave = Guid.Parse(HttpContext.Session.GetString("cod"));
 
                 comunicazioni = await dbContext.Comunicazioni
                     .Where(c => c.K_Docente == docente_chiave || c.K_Soggetto == docente_chiave)
@@ -139,7 +139,7 @@ namespace Comunicazioni.Controllers
         public void PopolaEsami(Guid? IDEsame)
         {
             IEnumerable<SelectListItem> listaEsami = dbContext.Esami
-                .Where(e => e.K_Docente == Guid.Parse(HttpContext.Session.GetString("K_Docente")))
+                .Where(e => e.K_Docente == Guid.Parse(HttpContext.Session.GetString("cod")))
                 .Select(e => new SelectListItem
                 {
                     Text = e.TitoloEsame,
@@ -151,8 +151,8 @@ namespace Comunicazioni.Controllers
 
         public void PopolaStudenti(Guid? K_Esame)
         {
-            string ruolo = HttpContext.Session.GetString("Ruolo");
-            if (ruolo == "O")
+            string ruolo = HttpContext.Session.GetString("r");
+            if (ruolo == "o")
             {
                 IEnumerable<SelectListItem> listaStudenti = dbContext.Studenti
                     .Select(i => new SelectListItem
@@ -162,7 +162,7 @@ namespace Comunicazioni.Controllers
                     });
                 ViewBag.StudentiList = listaStudenti;
             }
-            else if (ruolo == "D" && K_Esame.HasValue)
+            else if (ruolo == "d" && K_Esame.HasValue)
             {
                 var pianiDiStudio = dbContext.PianiStudioPersonali
                 .Where(ps => ps.K_Esame == K_Esame.Value)
@@ -182,8 +182,8 @@ namespace Comunicazioni.Controllers
 
         public void PopolaDocenti()
         {
-            string ruolo = HttpContext.Session.GetString("Ruolo");
-            if (ruolo == "O")
+            string ruolo = HttpContext.Session.GetString("r");
+            if (ruolo == "o")
             {
                 IEnumerable<SelectListItem> listaDocenti = dbContext.Docenti
                     .Select(i => new SelectListItem
@@ -193,9 +193,9 @@ namespace Comunicazioni.Controllers
                     });
                 ViewBag.DocentiList = listaDocenti;
             }
-            else if (ruolo == "S")
+            else if (ruolo == "s")
             {
-                var Idstudente = Guid.Parse(HttpContext.Session.GetString("K_Studente"));
+                var Idstudente = Guid.Parse(HttpContext.Session.GetString("cod"));
                 var pianiDiStudio = dbContext.PianiStudioPersonali
                 .Where(ps => ps.K_Studente == Idstudente)
                 .Select(ps => ps.K_Esame);
@@ -237,7 +237,7 @@ namespace Comunicazioni.Controllers
         public async Task<IActionResult> Add(AddComunicazioneViewModel viewModel)
         {
 
-            string ruolo = HttpContext.Session.GetString("Ruolo");
+            string ruolo = HttpContext.Session.GetString("r");
 
             var comunicazione = new Comunicazione
             {
@@ -248,9 +248,9 @@ namespace Comunicazioni.Controllers
                 K_Docente = viewModel.K_Docente
             };
 
-            if (ruolo == "O")
+            if (ruolo == "o")
             {
-                comunicazione.K_Soggetto = Guid.Parse(HttpContext.Session.GetString("K_Operatore"));
+                comunicazione.K_Soggetto = Guid.Parse(HttpContext.Session.GetString("cod"));
                 comunicazione.Soggetto = "A";
                 //aggiunta necessaria: di default Guid? = 00000000-0000-0000-0000-0000-0000-0000, quindi non risultava null,
                 // e il meccanismo di list si inceppava
@@ -264,9 +264,9 @@ namespace Comunicazioni.Controllers
                     comunicazione.K_Studente = null;
                 }
             }
-            else if (ruolo == "D")
+            else if (ruolo == "d")
             {
-                comunicazione.K_Soggetto = Guid.Parse(HttpContext.Session.GetString("K_Docente"));
+                comunicazione.K_Soggetto = Guid.Parse(HttpContext.Session.GetString("cod"));
                 comunicazione.K_Docente = null;
                 comunicazione.Soggetto = "D";
                 if (viewModel.K_Studente == null || viewModel.K_Studente.ToString() == "Amministrazione")  // Se "Amministrazione"
@@ -274,9 +274,9 @@ namespace Comunicazioni.Controllers
                     comunicazione.K_Studente = null;  // Non associato a uno studente
                 }
             }
-            else if (ruolo == "S")
+            else if (ruolo == "s")
             {
-                comunicazione.K_Soggetto = Guid.Parse(HttpContext.Session.GetString("K_Studente"));
+                comunicazione.K_Soggetto = Guid.Parse(HttpContext.Session.GetString("cod"));
                 comunicazione.K_Studente = null;
                 comunicazione.Soggetto = "S";
                 if (viewModel.K_Docente == null || viewModel.K_Docente.ToString() == "Amministrazione")  // Se "Amministrazione"
@@ -298,7 +298,7 @@ namespace Comunicazioni.Controllers
             List<string> destinatariEmail = new List<string>();
 
             // Determina i destinatari in base al ruolo e ai campi K_Studente/K_Docente
-            if (ruolo == "O")
+            if (ruolo == "o")
             {
                 // L'operatore potrebbe inviare a uno studente o a un docente specifico
                 if (comunicazione.K_Studente.HasValue && comunicazione.Studente?.Email != null)
@@ -311,7 +311,7 @@ namespace Comunicazioni.Controllers
                 }
 
             }
-            else if (ruolo == "D")
+            else if (ruolo == "d")
             {
                 // Il docente potrebbe inviare a uno studente specifico
                 if (comunicazione.K_Studente.HasValue && comunicazione.Studente?.Email != null)
@@ -324,7 +324,7 @@ namespace Comunicazioni.Controllers
                 }
 
             }
-            else if (ruolo == "S")
+            else if (ruolo == "s")
             {
                 // Lo studente potrebbe inviare a un docente specifico
                 if (comunicazione.K_Docente.HasValue && comunicazione.Docente?.Email != null)
@@ -355,7 +355,7 @@ namespace Comunicazioni.Controllers
 
                 mail.Subject = "Nuova comunicazione";
                 
-                if (ruolo == "D")
+                if (ruolo == "da")
                 {
                     comunicazione.Docente = await dbContext.Docenti
                               .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
@@ -365,7 +365,7 @@ hai ricevuto una comunicazione da {comunicazione.Docente?.Nome} {comunicazione.D
 
 {comunicazione.Testo}";
                 }
-                else if (ruolo == "S")
+                else if (ruolo == "s")
                 {
                     comunicazione.Studente = await dbContext.Studenti
                               .FirstOrDefaultAsync(d => d.K_Studente == comunicazione.K_Soggetto);
@@ -405,20 +405,20 @@ hai ricevuto una comunicazione dall'Amministrazione.
         [HttpPost]
         public async Task<IActionResult> AddRisposta(Comunicazione viewModel)
         {
-            string ruolo = HttpContext.Session.GetString("Ruolo");
+            string ruolo = HttpContext.Session.GetString("r");
             Guid chiaveUtente;
 
-            if (ruolo == "S")
+            if (ruolo == "s")
             {
-                chiaveUtente = Guid.Parse(HttpContext.Session.GetString("K_Studente"));
+                chiaveUtente = Guid.Parse(HttpContext.Session.GetString("cod"));
             }
-            else if (ruolo == "D")
+            else if (ruolo == "d")
             {
-                chiaveUtente = Guid.Parse(HttpContext.Session.GetString("K_Docente"));
+                chiaveUtente = Guid.Parse(HttpContext.Session.GetString("cod"));
             }
             else
             {
-                chiaveUtente = Guid.Parse(HttpContext.Session.GetString("K_Operatore"));
+                chiaveUtente = Guid.Parse(HttpContext.Session.GetString("cod"));
             }
 
             var ultimaComunicazione = dbContext.Comunicazioni
@@ -441,7 +441,7 @@ hai ricevuto una comunicazione dall'Amministrazione.
 
 
 
-            if (ruolo == "O")
+            if (ruolo == "o")
             {
                 nuovaRisposta.Soggetto = "A";
 
@@ -457,12 +457,12 @@ hai ricevuto una comunicazione dall'Amministrazione.
             }
 
 
-            else if (ruolo == "D")
+            else if (ruolo == "da")
             {
                 nuovaRisposta.Soggetto = "D";
                 nuovaRisposta.K_Studente = ultimaComunicazione.K_Studente;
             }
-            else if (ruolo == "S")
+            else if (ruolo == "s")
             {
                 nuovaRisposta.Soggetto = "S";
                 nuovaRisposta.K_Docente = ultimaComunicazione.K_Docente;
@@ -481,7 +481,7 @@ hai ricevuto una comunicazione dall'Amministrazione.
             /// LOGICA EMAIL: invio dell'email per la risposta
             List<string> destinatariEmail = new List<string>();
 
-            if (ruolo == "D")
+            if (ruolo == "d")
             {
                 // Se il ruolo è docente, invia allo studente
                 if (nuovaRisposta.K_Studente.HasValue && nuovaRisposta.Studente?.Email != null)
@@ -493,7 +493,7 @@ hai ricevuto una comunicazione dall'Amministrazione.
                     destinatariEmail.Add("generation@brovia.it"); // Default admin email
                 }
             }
-            else if (ruolo == "S")
+            else if (ruolo == "s")
             {
                 // Se il ruolo è studente, invia al docente
                 if (nuovaRisposta.K_Docente.HasValue && nuovaRisposta.Docente?.Email != null)
