@@ -157,6 +157,10 @@ namespace AreaStudente.Controllers
                 Citta = studente.Citta,
                 Provincia = studente.Provincia,               
                 ImmagineProfilo = studente.ImmagineProfilo
+                Matricola = studente.Matricola,
+                DataImmatricolazione = studente.DataImmatricolazione,
+                Corso = studente.Corso,
+                Abilitato = studente.Abilitato
             };
 
             return View(model);
