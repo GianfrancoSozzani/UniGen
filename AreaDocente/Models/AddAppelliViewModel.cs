@@ -1,16 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AreaDocente.Models.Entities;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AreaDocente.Models.Entities
+namespace AreaDocente.Models
 {
-    public class MVCAPPELLO
+    public class AddAppelliViewModel
     {
-        [Key]
-        public Guid K_Appello { get; set; }
         public Guid? K_Esame { get; set; }
-
-        [ForeignKey("K_Esame")]
-        public MVCEsame? Esame { get; set; }
         public DateTime? DataAppello { get; set; }
         public DateTime? DataVerbalizzazione { get; set; }
         public string? Tipo { get; set; }

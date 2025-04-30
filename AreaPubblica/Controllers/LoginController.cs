@@ -90,7 +90,6 @@ namespace AreaPubblica.Controllers
                     //return RedirectToAction("AREA DOCENTE (NON ABILITATO)", "Home");
                 }
                 return Redirect("https://localhost:7245/?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=d");
-                //return RedirectToAction("AREA DOCENTE (ABILITATO)", "Home");
             }
 
             var operatore = await dbContext.Operatori
