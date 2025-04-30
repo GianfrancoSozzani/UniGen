@@ -56,7 +56,7 @@ namespace AreaDocente.Controllers
 
             await dbContext.SaveChangesAsync();
 
-            return RedirectToAction("Lista", "Materiali");
+            return RedirectToAction("List");
         }
         [HttpGet]
         public async Task<IActionResult> List()
@@ -107,7 +107,7 @@ namespace AreaDocente.Controllers
                 materiale.K_Esame = viewModel.K_Esame;
                 await dbContext.SaveChangesAsync();
             }
-            return RedirectToAction("Lista", "Materiali");
+            return RedirectToAction("List");
         }
     }
 }

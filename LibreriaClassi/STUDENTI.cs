@@ -82,10 +82,25 @@ namespace LibreriaClassi
             return db.SQLselect();
         }
 
+        public DataTable SelezionaPerCorso()
+        {
+            DB db = new DB();
+            db.query = "Studenti_PerCorsi";
+            return db.SQLselect();
+        }
+
         public DataTable SelezionaAnnoSingolo(string anno)
         {
             DB db = new DB();
             db.query = "Studenti_CountAnnoSingolo";
+            db.cmd.Parameters.AddWithValue("@Anno", anno);
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaPerCorsoAnnoSingolo(string anno)
+        {
+            DB db = new DB();
+            db.query = "Studenti_PerCorsiAnnoSingolo";
             db.cmd.Parameters.AddWithValue("@Anno", anno);
             return db.SQLselect();
         }

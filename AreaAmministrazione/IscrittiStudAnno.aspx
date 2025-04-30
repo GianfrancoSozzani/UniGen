@@ -4,13 +4,13 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-     <h1 class="ms-5 mb-5">Iscritti Studenti per anno</h1>
+     <h1 class="ms-5 mb-5">Studenti Iscritti per Anno</h1>
 
  <div class="row align-items-center">
      <!-- Colonna per il grafico (a sinistra) -->
      <div class="col-md-6 d-flex justify-content-center mb-4 mb-md-0">
          <div class="p-3 bg-white rounded shadow" style="border-radius: 12px;">
-             <asp:Chart ID="Chart1" runat="server" Width="500px" Height="500px">
+             <asp:Chart ID="Chart1" runat="server" Width="500px" Height="380px">
                  <ChartAreas>
                      <asp:ChartArea Name="ChartArea1" />
                  </ChartAreas>
@@ -30,7 +30,7 @@
                  <asp:DropDownList
                      ID="ddlAnno"
                      runat="server"
-                     CssClass="form-control w-25 d-inline-block py-1 px-2"
+                     CssClass="form-control w-25 d-inline-block py-1 px-1"
                      AutoPostBack="true"
                      OnSelectedIndexChanged="ddlAnno_SelectedIndexChanged">
                  </asp:DropDownList>
