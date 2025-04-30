@@ -15,7 +15,7 @@
 
             <div id="insert" runat="server" style="display: none;">
                 <asp:TextBox ID="txtFacolta" runat="server"></asp:TextBox>
-                <asp:Button ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
+                <asp:Button CssClass="btn btn-primary btn-sm" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
             </div>
         </div>
 
@@ -64,7 +64,7 @@
                     <asp:HiddenField ID="hiddenIdFacolta" runat="server" />
 
                     <div class="mb-3">
-                        <label for="txtTitoloFacolta" class="form-label fw-bold">Nome Facoltà</label>
+                        <label for="txtTitoloFacolta" class="form-label fw-bold">Facoltà</label>
                         <asp:TextBox ID="txtTitoloFacolta" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
                 </div>
