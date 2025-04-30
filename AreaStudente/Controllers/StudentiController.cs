@@ -74,6 +74,7 @@ namespace AreaStudente.Controllers
 
             ViewData["studente_id"] = studente.K_Studente;
             ViewData["matricola"] = studente.Matricola;
+            HttpContext.Session.SetString("mat", studente.Matricola.ToString().ToUpper());
             HttpContext.Session.SetString("cod", studente.K_Studente.ToString().ToUpper());
             HttpContext.Session.SetString("r", "s");
 
