@@ -50,7 +50,9 @@ namespace AreaStudente.Controllers
         //}
 
         [HttpGet]
+
         public async Task<IActionResult> Show(Guid id, Comunicazione c) // L'ID dello studente da visualizzare
+
         {
 
             // Trova lo studente includendo potenzialmente dati correlati se servissero
@@ -59,7 +61,7 @@ namespace AreaStudente.Controllers
             var studente = await dbContext.Studenti
                                           // Sostituisci con il tuo DbSet<Studente>
                                           // .Include(s => s.Corso) // Esempio: Decommenta se hai una navigation property 'Corso' in Studente e vuoi il nome
-                                          .FirstOrDefaultAsync(s => s.K_Studente == id);
+                                          .FirstOrDefaultAsync(s => s.K_Studente == cod);
             if (studente == null)
             {
                 ViewBag.ErrorMessage = $"Nessun dato studente da visualizzare.Assicurati di aver specificato un ID valido.";
@@ -74,9 +76,7 @@ namespace AreaStudente.Controllers
 
             ViewData["studente_id"] = studente.K_Studente;
             ViewData["matricola"] = studente.Matricola;
-            HttpContext.Session.SetString("mat", studente.Matricola.ToString().ToUpper());
-            HttpContext.Session.SetString("cod", studente.K_Studente.ToString().ToUpper());
-            HttpContext.Session.SetString("r", "s");
+            HttpContext.Session.SetString("cod", studente.K_Studente.ToString());
 
             // Mappa dall'entità Studente (dal DB) a ShowStudenteViewModel
             // Dentro l'action Show() nel StudentiController.cs, dopo aver recuperato 'studente'
@@ -296,11 +296,11 @@ namespace AreaStudente.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> ModificaProfilo(Guid id)
+        public async Task<IActionResult> ModificaProfilo(Guid cod)
         {
-            ViewData["studente_id"] = id;
+            ViewData["studente_id"] = cod;
             var studente = await dbContext.Studenti
-                 .FirstOrDefaultAsync(s => s.K_Studente == id);
+                 .FirstOrDefaultAsync(s => s.K_Studente == cod);
 
             if (studente == null)
             {
