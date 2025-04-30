@@ -197,7 +197,40 @@
 					<!-- Mostra il nome solo se il modello non è null/vuoto -->
 					@(Model?.Nome ?? "Studente") @(Model?.Cognome ?? "Cognome")
 				</h4>
-				<p class="text-center">Università UniGen</p>
+				<p class="text-center">@Model?.Email</p>
+				<p class="fs-3 text-center">Riepilogo Profilo</p>	
+				<hr class="my-4">
+				<h6 class="heading-small text-muted mb-4 text-center">Informazioni di Immatricolazione</h6>
+				<div class="pl-lg-4">
+					<div class="row g-3">
+						<div class="col-md-6">
+							<div class="form-group focused">
+								<label class="form-control-label" for="input-matriculation-number">Matricola</label>
+								<input id="input-matriculation-number" class="form-control form-control-alternative" placeholder="Numero Matricola" value="@(Model?.Matricola?.ToString() ?? "N/A")" type="text" readonly>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group focused">
+								<label class="form-control-label" for="input-date-matriculation">Data di Immatricolazione</label>
+								<input id="input-date-matriculation" class="form-control form-control-alternative" placeholder="Data di Immatricolazione" value="@(Model?.DataImmatricolazione?.ToString("dd/MM/yyyy") ?? "N/A")" type="text" readonly>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group focused">
+								<label class="form-control-label" for="input-enabled">Corso</label>
+								<input id="input-enabled" class="form-control form-control-alternative" value="@(Model?.Corso?.TitoloCorso?? "N/A")" type="text" readonly>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group focused">
+								<label class="form-control-label" for="input-course">Facoltà</label>
+								<input id="input-course" class="form-control form-control-alternative" value="@(Model?.Corso?.Facolta?.TitoloFacolta?? "N/A")" type="text" readonly>
+							</div>
+						</div>
+					</div>
+				</div>
 				<hr class="my-4">
 				<h5 class="text-center">Modifica Immagine Profilo</h5>
 				<p class="text-center">Qualora volessi aggiornare il tuo profilo, carica una nuova immagine scegliendo un file dal tuo dispositivo.</p> <p class="text-center"><strong>Formati supportati:</strong> JPEG, JPG, PNG. </p>

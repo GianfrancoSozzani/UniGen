@@ -26,5 +26,9 @@ namespace AreaStudente.Data
         // public DbSet<Student> Students { get; set; }
         public DbSet<Comunicazione> Comunicazioni { get; set; } // Example DbSet for the Comunicazione entity
 
+        public DbSet<Corso> Corsi { get; set; }
+
+        public DbSet<Facolta> Facolta { get; set; }
+
     }
 }

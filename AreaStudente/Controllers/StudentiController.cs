@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace AreaStudente.Controllers
 {
-    
+
     public class StudentiController : Controller
     {
 
@@ -49,7 +49,7 @@ namespace AreaStudente.Controllers
         [HttpGet]
         public async Task<IActionResult> Show(Guid id) // L'ID dello studente da visualizzare
         {
- 
+
             // Trova lo studente includendo potenzialmente dati correlati se servissero
             // In questo caso, per il ViewModel fornito, non serve caricare il Corso,
             // ma lo lascio commentato come esempio se volessi il nome del corso in futuro.
@@ -137,6 +137,8 @@ namespace AreaStudente.Controllers
         {
             ViewData["studente_id"] = id;
             var studente = await dbContext.Studenti
+                 .Include(s => s.Corso)
+                 .ThenInclude(c => c.Facolta)
                  .FirstOrDefaultAsync(s => s.K_Studente == id);
 
             if (studente == null)
@@ -155,8 +157,12 @@ namespace AreaStudente.Controllers
                 Indirizzo = studente.Indirizzo,
                 CAP = studente.CAP,
                 Citta = studente.Citta,
-                Provincia = studente.Provincia,               
-                ImmagineProfilo = studente.ImmagineProfilo
+                Provincia = studente.Provincia,
+                ImmagineProfilo = studente.ImmagineProfilo,
+                Matricola = studente.Matricola,
+                DataImmatricolazione = studente.DataImmatricolazione,
+                Corso = studente.Corso,
+                //= studente.Abilitato
             };
 
             return View(model);
@@ -204,7 +210,7 @@ namespace AreaStudente.Controllers
             //logica password
             bool AlmenoUnoCompilato = !string.IsNullOrEmpty(model.PWD) || !string.IsNullOrEmpty(PasswordNew) || !string.IsNullOrEmpty(PasswordConfirm);
             bool tuttiCompilati = !string.IsNullOrEmpty(model.PWD) && !string.IsNullOrEmpty(PasswordNew) && !string.IsNullOrEmpty(PasswordConfirm);
-        
+
 
             if (AlmenoUnoCompilato)
             {
@@ -260,5 +266,5 @@ namespace AreaStudente.Controllers
 }
 
 
- 
+
 
