@@ -19,18 +19,6 @@ namespace AreaStudente
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("UniGenConn")));
 
-            // Configura la gestione della sessione
-            builder.Services.AddDistributedMemoryCache();
-            builder.Services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromHours(24); // Timeout di sessione
-                options.Cookie.HttpOnly = true; // Impedisce l'accesso ai cookie via JavaScript
-                options.Cookie.IsEssential = true; // Cookie essenziale per la sessione
-            });
-
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("UniGen_Prova_Conn")));
-
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>
             {

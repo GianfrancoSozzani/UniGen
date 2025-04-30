@@ -3,8 +3,14 @@
 *@
 @{
 }
+@model AreaStudente.Models.AddImmatricolazioneViewModel
 
-<div class="input-group">
-    <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-    <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Button</button>
-</div>
+<form asp-action="Add" enctype="multipart/form-data" method="post">
+    <div class="container">
+        <div class="input-group">
+            <input type="file" asp-for="DocumentoFormFile" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+            <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04">Button</button>
+        </div>
+    </div>
+</form>
+
