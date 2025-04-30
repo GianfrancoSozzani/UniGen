@@ -160,7 +160,7 @@ namespace AreaStudente.Controllers
                 Matricola = studente.Matricola,
                 DataImmatricolazione = studente.DataImmatricolazione,
                 Corso = studente.Corso,
-                Abilitato = studente.Abilitato
+                 //= studente.Abilitato
             };
 
             return View(model);
