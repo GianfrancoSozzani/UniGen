@@ -19,7 +19,7 @@
                     @* <td class="th">@lezioni.K_Lezione</td> *@
                     <td>@Html.DisplayFor(Model => lezioni.Esame.TitoloEsame)</td>
                     <td>@lezioni.Titolo</td>
-                    <td><a href="@lezioni.Video">Link</a></td>
+                    <td><a target="_blank" href="@lezioni.Video">Link</a></td>
                     <td>
                         <a class="btn btn-primary" asp-controller="Lezioni" asp-action="Edit" asp-route-id="@lezioni.K_Lezione">Modifica</a>
                     </td>
