@@ -1,7 +1,11 @@
-﻿namespace AreaDocente.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AreaDocente.Models
 {
     public class ModificaDocenteViewModel
     {
+        [Key]
+        public Guid K_Docente { get; set; }
         public string Nome { get; set; }
         public string Cognome { get; set; }
         public string Email { get; set; }
