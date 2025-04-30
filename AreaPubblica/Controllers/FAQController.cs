@@ -2,11 +2,11 @@
 
 namespace AreaPubblica.Controllers
 {
-    public class FaqController : Controller
+    public class FAQController : Controller
     {
-        public IActionResult Faq()
+        public IActionResult Index()
         {
-            return View("Faq", "Faq");
+            return View();
         }
     }
 }
