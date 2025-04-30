@@ -18,8 +18,8 @@ namespace LibreriaClassi
 
         public DB()
         {
-            conn.ConnectionString = "Data source=DESKTOP-CDPDGNF\\SQLEXPRESS;Initial Catalog=GENERATION2;Integrated Security=true;";
-            //conn.ConnectionString = "Data source=MSSQLSERVER2019\\SQLEXPRESS;Initial Catalog=GENERATION;Integrated Security=true;";
+            //conn.ConnectionString = "Data source=LAPTOP-83HKI4IS\\SQLEXPRESS;Initial Catalog=GENERATION;Integrated Security=true;"; 
+            conn.ConnectionString = "Data source=5.134.124.100\\MSSQLSERVER2019;Initial Catalog=GENERATION;User ID=generation;Password=G3n3rat!on;";
             cmd.Connection = conn;
             cmd.CommandType = CommandType.StoredProcedure;
         }
