@@ -31,6 +31,12 @@ namespace AreaDocente.Controllers
         {
             return View();
         }
+        
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return Redirect("https://localhost:7272");
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
