@@ -1,6 +1,7 @@
 ﻿using System.Dynamic;
 using System.Reflection.Metadata.Ecma335;
 using AreaPubblica.Data;
+using AreaPubblica.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,10 +19,38 @@ namespace AreaPubblica.Controllers
         {
             return View();
         }
+
+
+
+
+        public IActionResult ElencoCorsiCompleti()
+        {
+            var dati = (
+                from corso in dbContext.Corsi
+                join facolta in dbContext.Facolta on corso.K_Facolta equals facolta.K_Facolta
+                join tipo in dbContext.TipiCorsi on corso.K_TipoCorso equals tipo.K_TipoCorso
+                select new
+                {
+                    TitoloCorso = corso.TitoloCorso,
+                    NomeFacolta = facolta.TitoloFacolta,
+                    TipoCorso = tipo.Tipo,
+                    Durata = tipo.Durata
+                }
+            ).ToList();
+
+            ViewBag.Corsi = dati;
+
+            return View();
+        }
+
+
+
+
+
         public IActionResult ElencoDocenti()
         {
             var docenti = dbContext.Docenti.ToList();
-            return View(docenti);                     // Passa la lista alla View
+            return View(docenti);
         }
         public IActionResult ElencoDocentiConEsami()
         {
