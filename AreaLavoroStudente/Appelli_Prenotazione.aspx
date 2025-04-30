@@ -51,7 +51,11 @@
                 </tbody>
             </table>
 
-            <asp:Button ID="btnPrenotaSelezionati" runat="server" Text="Prenota Selezionati" CssClass="btn btn-primary mt-3" CommandName="Abilita" CommandArgument='<%# Eval("K_Studente") %>' OnCommand="btnPrenotaSelezionati_Command" />
+            <%--<asp:Button ID="btnPrenotaSelezionati" runat="server" Text="Prenota Selezionati" CssClass="btn btn-primary mt-3" CommandName="Abilita" CommandArgument='<%# Eval("K_Studente") %>' OnCommand="btnPrenotaSelezionati_Command" />--%>
+                        <asp:Button ID="btnPrenotaSelezionati" runat="server" Text="Prenota"
+                            CommandName="prenota"
+                            CommandArgument='<%# Eval("K_Studente") %>'
+                            OnClick="btnPrenotaSelezionati_Click" />
             <asp:Label ID="lblMessaggio" runat="server" CssClass="mt-3 alert d-none"></asp:Label>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>

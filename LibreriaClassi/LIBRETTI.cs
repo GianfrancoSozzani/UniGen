@@ -110,7 +110,7 @@ namespace LibreriaClassi
         }
 
         //controllo prenotazioni doppioni
-        public DataTable ControlloDoppioni(Guid K_Studente)
+        public DataTable ControlloDoppioni()
         {
             DB db = new DB();
             db.query = "Prenotazione_Duplicati";
