@@ -51,7 +51,7 @@ namespace AreaStudente.Controllers
 
         [HttpGet]
 
-        public async Task<IActionResult> Show(Guid id, Comunicazione c) // L'ID dello studente da visualizzare
+        public async Task<IActionResult> Show(Guid cod, Comunicazione c) // L'ID dello studente da visualizzare
 
         {
 
