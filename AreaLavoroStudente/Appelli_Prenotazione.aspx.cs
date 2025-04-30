@@ -13,7 +13,7 @@ using LibreriaClassi;
 
 public partial class _Default : System.Web.UI.Page
 {
-
+    public int matricola;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -21,21 +21,47 @@ public partial class _Default : System.Web.UI.Page
         // Carica gli appelli solo al primo caricamento della pagina(non su PostBack, ad esempio dopo un click)
         if (!IsPostBack)
         {
-             //verrà sostituita con la session 
+            //if (Session["matricola"] == null || !int.TryParse(Session["matricola"].ToString(), out matricola) || matricola == 0)
+            //{
+            //    Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Utente non loggato');", true);
+            //    Response.Redirect("~/Login.aspx");
+            //  
+            //}
+
+            matricola = 123556;//verrà sostituita con la session 
+            CaricaAA(matricola);
             CaricaAppelli();
 
         }
     }
 
+    public void CaricaAA(int matricola)
+    {
+        matricola = 123556;
+        STUDENTI studente = new STUDENTI();
+        studente.Matricola = matricola;
+        DataTable dt = studente.SelezionaAnnoAccademico();
+
+        if (dt.Rows.Count == 1)
+        {
+            string annoAccademico = dt.Rows[0]["AnnoAccademico"].ToString();
+            string corso = dt.Rows[0]["TitoloCorso"].ToString();
+            string facolta = dt.Rows[0]["TitoloFacolta"].ToString();
+
+            lblAnno.Text = "Anno Accademico " + annoAccademico;
+            lblCorso.Text = corso;
+            lblFacolta.Text = facolta;
+        }
+    }
+
     protected void CaricaAppelli()
     {
-        int matricola = int.Parse("123556"); //da sostituire con la session
+        matricola = 123556; //da sostituire con la session
         APPELLI m = new APPELLI();
         rptAppelli.DataSource = m.ListaAppelli( matricola);
         rptAppelli.DataBind();
        
     }
-
 
 
     protected void btnPrenotaSelezionati_Click(object sender, EventArgs e)

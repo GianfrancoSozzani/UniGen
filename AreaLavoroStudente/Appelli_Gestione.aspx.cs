@@ -11,18 +11,48 @@ using LibreriaClassi;
 
 public partial class _Default : System.Web.UI.Page
 {
+    public int matricola;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            string matricola = "123556"; // prendi dal login/sessione
+            //if (Session["matricola"] == null || !int.TryParse(Session["matricola"].ToString(), out matricola) || matricola == 0)
+            //{
+            //    Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Utente non loggato');", true);
+            //    Response.Redirect("~/Login.aspx");
+            //  
+            //}
+
+            matricola = 123556; // prendi dal login/sessione
+            CaricaAA(matricola);
             CaricaAppelli(matricola);
 
         }
         
     }
 
-    private void CaricaAppelli(string matricola)
+
+
+    public void CaricaAA(int matricola)
+    {
+        matricola = 123556;
+        STUDENTI studente = new STUDENTI();
+        studente.Matricola = matricola;
+        DataTable dt = studente.SelezionaAnnoAccademico();
+
+        if (dt.Rows.Count == 1)
+        {
+            string annoAccademico = dt.Rows[0]["AnnoAccademico"].ToString();
+            string corso = dt.Rows[0]["TitoloCorso"].ToString();
+            string facolta = dt.Rows[0]["TitoloFacolta"].ToString();
+
+            lblAnno.Text = "Anno Accademico " + annoAccademico;
+            lblCorso.Text = corso;
+            lblFacolta.Text = facolta;
+        }
+    }
+
+    private void CaricaAppelli(int matricola)
     {
         LIBRETTI m = new LIBRETTI();
         rptAppelli.DataSource = m.ListaPrenotazioni();
@@ -79,8 +109,8 @@ public partial class _Default : System.Web.UI.Page
 
         if (eliminato)
         {
-            string matricola = "353794A3-1CF8-45F6-87F5-4F35A447F425"; // recupera da sessione se disponibile
-            CaricaAppelli(matricola);
+            matricola = 123556; // recupera da sessione se disponibile
+            CaricaAppelli( matricola);
 
             lblMessaggio.Text = "Prenotazione eliminata con successo.";
             lblMessaggio.CssClass = "alert alert-success mt-3";

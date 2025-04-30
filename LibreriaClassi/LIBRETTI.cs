@@ -72,7 +72,7 @@ namespace LibreriaClassi
             return db.SQLselect();
         }
 
-        public DataTable SelezionaMatricola(Guid Matricola)      //Seleziona tramite matricola
+        public DataTable SelezionaMatricola(int Matricola)      //Seleziona tramite matricola
         {
             DB db = new DB();
             db.query = "Libretti_FindByMatricola";
