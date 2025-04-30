@@ -56,7 +56,7 @@
             </div>
 
             <%--CFU E MEDIA --%>
-            <div class="col-12 col-lg-4">
+            <div class="col-12 col-lg-4 mt-5">
                 <div class="card">
                     <div class="card-body">
                         <h2 class="fw-bold mb-1">Statistiche carriera</h2>

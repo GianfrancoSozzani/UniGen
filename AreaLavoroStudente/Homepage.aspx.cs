@@ -9,7 +9,7 @@ using LibreriaClassi;
 
 public partial class _Default : System.Web.UI.Page
 {
-    public int matricolaTest;
+    public int matricola;
     protected void Page_Load(object sender, EventArgs e)
     {
         //if (Session["Matricola"] != null)
@@ -27,28 +27,29 @@ public partial class _Default : System.Web.UI.Page
         if (!IsPostBack)
         {
 
-            string abilitazione = "N";
+            string abilitazione = "S";
                 /*Session["Abilitazione"]?.ToString();*/ 
             if (abilitazione == "N")
-            { divLezioni.Visible = (abilitazione == "admin");
-            divComunicazioni.Visible = (abilitazione == "admin");
-            divAppelli.Visible = (abilitazione == "admin");
+            { divLezioni.Visible = (abilitazione == "abilitato");
+            divComunicazioni.Visible = (abilitazione == "abilitato");
+            divAppelli.Visible = (abilitazione == "abilitato");
 
             }
 
-            // Nasconde la card se non sei admin
+
+
            
         }
 
-        CaricaAA(matricolaTest);
+        CaricaAA(matricola);
 
     }
 
-public void CaricaAA(int matricolaTest)
+public void CaricaAA(int matricola)
 {
-    matricolaTest = 1;
+    matricola= 123562;
     STUDENTI studente = new STUDENTI();
-    studente.Matricola = matricolaTest;
+    studente.Matricola = matricola;
     DataTable dt = studente.SelezionaAnnoAccademico();
 
     if (dt.Rows.Count == 1)

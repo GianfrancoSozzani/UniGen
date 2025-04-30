@@ -34,23 +34,27 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+
+      <!--TITOLO-->
     <div class="container my-5">
-    <div class="mt-1" style="margin-top: -50px !important;">
-     <div class="d-flex text-start gap-2 my-3 flex-wrap  fs-6">
-    <asp:Label ID="lblAnno" runat="server"></asp:Label>
-    <span>-</span>
-    <asp:Label ID="lblCorso" runat="server"></asp:Label>
-    <span>-</span>
-    <asp:Label ID="lblFacolta" runat="server"></asp:Label>
-</div>
-    </div>
+        <div class="mt-1" style="margin-top: -50px !important;">
+            <div class="d-flex text-start gap-2 my-3 flex-wrap  fs-6">
+                <asp:Label ID="lblAnno" runat="server"></asp:Label>
+                <span>-</span>
+                <asp:Label ID="lblCorso" runat="server"></asp:Label>
+                <span>-</span>
+                <asp:Label ID="lblFacolta" runat="server"></asp:Label>
+            </div>
+        </div>
+
+        <!--TITOLO-->
         <div class="mb-1">
             <h2 class="text-start">Pannello studente</h2>
         </div>
 
         <div class="d-flex flex-wrap-cards justify-content-center gap-3">
             <!-- LEZIONI/MATERIALI (solo abilitati)-->
-             <!-- da collegare a pagina lezioni e materiali-->
+            <!-- da collegare a pagina lezioni e materiali-->
             <div id="divLezioni" runat="server" class="card shadow-sm card-small">
                 <img src="resources/1.png" class="card-img-top" alt="Lezioni e materiali">
                 <div class="card-body d-flex flex-column">
@@ -88,7 +92,7 @@
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">La tua carriera</h5>
                     <p class="card-text">Visualizza gli esami verbalizzati, la tua media e i CFU conseguiti.</p>
-                    <a href="#" class="btn btn-primary mt-auto">Vai</a>
+                    <a href="AvanzamentoVoti.aspx" class="btn btn-primary mt-auto">Vai</a>
                 </div>
             </div>
 
