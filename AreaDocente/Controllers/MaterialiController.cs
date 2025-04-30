@@ -24,6 +24,7 @@ namespace AreaDocente.Controllers
             });
             ViewBag.EsameList = ListaEsame;
         }
+
         [HttpGet]
         public ActionResult Add()
         {
@@ -123,5 +124,43 @@ namespace AreaDocente.Controllers
             }
             return RedirectToAction("List");
         }
+
+        private string EstensioneDaContentType(string contentType)
+        {
+            return contentType switch
+            {
+                "application/pdf" => ".pdf",
+                "image/jpeg" => ".jpg",
+                "image/png" => ".png",
+                "image/gif" => ".gif",
+                "application/msword" => ".doc",
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => ".docx",
+                "application/vnd.ms-excel" => ".xls",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => ".xlsx",
+                "text/plain" => ".txt",
+                "application/zip" => ".zip",
+                _ => "" // fallback se il tipo non è riconosciuto
+            };
+        }
+
+        public async Task<IActionResult> Download(Guid id)
+        {
+            var materiale = await dbContext.materiali.FindAsync(id);
+            if (materiale == null || materiale.Materiale == null)
+                return NotFound();
+
+            materiale.Titolo = materiale.Titolo + EstensioneDaContentType(materiale.Tipo);
+            return File(materiale.Materiale, materiale.Tipo, materiale.Titolo);
+        }
+        
+        public async Task<IActionResult> View(Guid id)
+        {
+            var materiale = await dbContext.materiali.FindAsync(id);
+            if (materiale == null || materiale.Materiale == null)
+                return NotFound();
+
+            return File(materiale.Materiale, materiale.Tipo);
+        }
+
     }
 }
