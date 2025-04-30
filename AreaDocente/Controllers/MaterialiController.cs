@@ -66,38 +66,48 @@ namespace AreaDocente.Controllers
             {
                 item.esame = await dbContext.esami.FirstOrDefaultAsync(e => e.K_Esame == item.K_Esame);
             }
-            // var materiali =  dbContext.materiali
-            //.Include(m => m.esame)
-            //.ToList();
+
 
             return View(materiali);
         }
+
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid chiave)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            var materiale = await dbContext.materiali.FindAsync(chiave);
+            var materiale = await dbContext.materiali.FindAsync(id);
+            var mat = new EditMaterialiViewModel
+            {
+                K_Materiale = materiale.K_Materiale,
+                Titolo = materiale.Titolo,
+                K_Esame = materiale.K_Esame,
+                Materiale = materiale.Materiale,
+                Tipo = materiale.Tipo
+            };
             PopolaEsame();
-            return View(materiale);
+            return View(mat);
         }
+
         [HttpPost]
-        public async Task<IActionResult> Edit(MVCMateriali viewModel, IFormFile file)
+        public async Task<IActionResult> Edit(EditMaterialiViewModel viewModel)
         {
+            viewModel.Tipo = viewModel.MaterialeDA.ContentType;
             var materiale = await dbContext.materiali.FindAsync(viewModel.K_Materiale);
-            if (materiale is not null) 
+            if (materiale is not null)
             {
                 materiale.Titolo = viewModel.Titolo;
-
-                using (var ms = new MemoryStream())
+                if (viewModel.MaterialeDA != null && viewModel.MaterialeDA.Length > 0)
                 {
-                    await file.CopyToAsync(ms);
-                    materiale.Materiale = ms.ToArray();
+                    using (var ms = new MemoryStream())
+                    {
+                        await viewModel.MaterialeDA.CopyToAsync(ms);
+                        materiale.Materiale = ms.ToArray();
+                        materiale.Tipo = viewModel.Tipo;
+                    }
                 }
-                materiale.Tipo = viewModel.Tipo;
                 materiale.K_Esame = viewModel.K_Esame;
                 await dbContext.SaveChangesAsync();
-                return RedirectToAction("Lista", "Materiali");
             }
-            return View(materiale);
+            return RedirectToAction("Lista", "Materiali");
         }
     }
 }
