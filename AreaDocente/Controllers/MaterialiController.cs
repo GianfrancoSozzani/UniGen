@@ -70,25 +70,36 @@ namespace AreaDocente.Controllers
 
             return View(materiali);
         }
+
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid chiave)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            var materiale = await dbContext.materiali.FindAsync(chiave);
+            var materiale = await dbContext.materiali.FindAsync(id);
+            var mat = new EditMaterialiViewModel
+            {
+                K_Materiale = materiale.K_Materiale,
+                Titolo = materiale.Titolo,
+                K_Esame = materiale.K_Esame,
+                Materiale = materiale.Materiale,
+                Tipo = materiale.Tipo
+            };
             PopolaEsame();
-            return View(materiale);
+            return View(mat);
         }
+
         [HttpPost]
-        public async Task<IActionResult> Edit(MVCMateriali viewModel, IFormFile file)
+        public async Task<IActionResult> Edit(EditMaterialiViewModel viewModel)
         {
+            viewModel.Tipo = viewModel.MaterialeDA.ContentType;
             var materiale = await dbContext.materiali.FindAsync(viewModel.K_Materiale);
             if (materiale is not null)
             {
                 materiale.Titolo = viewModel.Titolo;
-                if (file != null && file.Length > 0)
+                if (viewModel.MaterialeDA != null && viewModel.MaterialeDA.Length > 0)
                 {
                     using (var ms = new MemoryStream())
                     {
-                        await file.CopyToAsync(ms);
+                        await viewModel.MaterialeDA.CopyToAsync(ms);
                         materiale.Materiale = ms.ToArray();
                         materiale.Tipo = viewModel.Tipo;
                     }
