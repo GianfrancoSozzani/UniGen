@@ -5,6 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using AreaStudente.Models.Entities;
+using System.Data;
+using System.Net.Mail;
+using System.Net.Http;
 
 
 namespace AreaStudente.Controllers
@@ -71,6 +75,7 @@ namespace AreaStudente.Controllers
             ViewData["studente_id"] = studente.K_Studente;
             ViewData["matricola"] = studente.Matricola;
             HttpContext.Session.SetString("studente_id", studente.K_Studente.ToString().ToUpper());
+            HttpContext.Session.SetString("r", "s");
             // Mappa dall'entità Studente (dal DB) a ShowStudenteViewModel
             // Dentro l'action Show() nel StudentiController.cs, dopo aver recuperato 'studente'
 
@@ -157,6 +162,134 @@ namespace AreaStudente.Controllers
             };
 
             return View(dashboardViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddRisposta(Guid id, Comunicazione viewModel)
+        {
+
+            ViewData["studente_id"] = HttpContext.Session.GetString("studente_id");
+
+            string ruolo = HttpContext.Session.GetString("r");
+
+
+                 var ultimaComunicazione = dbContext.Comunicazioni
+                .Where(c => c.Codice_Comunicazione == viewModel.Codice_Comunicazione)
+                .OrderByDescending(c => c.DataOraComunicazione)
+                .FirstOrDefault();
+
+            if (ultimaComunicazione == null)
+            {
+                return BadRequest("Comunicazione non trovata.");
+            }
+
+            var nuovaRisposta = new Comunicazione
+            {
+                Codice_Comunicazione = viewModel.Codice_Comunicazione,
+                DataOraComunicazione = DateTime.Now,
+                Testo = viewModel.Testo,
+                K_Soggetto = id,
+            };
+
+            if (ruolo == "o")
+            {
+                nuovaRisposta.Soggetto = "A";
+
+                // Mantiene il destinatario originale della conversazione
+                if (ultimaComunicazione.K_Studente != null)
+                {
+                    nuovaRisposta.K_Studente = ultimaComunicazione.K_Studente;
+                }
+                else if (ultimaComunicazione.K_Docente != null)
+                {
+                    nuovaRisposta.K_Docente = ultimaComunicazione.K_Docente;
+                }
+            }
+
+
+            else if (ruolo == "da")
+            {
+                nuovaRisposta.Soggetto = "D";
+                nuovaRisposta.K_Studente = ultimaComunicazione.K_Studente;
+            }
+            else if (ruolo == "s")
+            {
+                nuovaRisposta.Soggetto = "S";
+                nuovaRisposta.K_Docente = ultimaComunicazione.K_Docente;
+            }
+
+            // Assegna chi riceverà la risposta
+            nuovaRisposta.Docente = dbContext.Docenti.FirstOrDefault(d => d.K_Docente == nuovaRisposta.K_Docente);
+            nuovaRisposta.Studente = dbContext.Studenti.FirstOrDefault(s => s.K_Studente == nuovaRisposta.K_Studente);
+
+            await dbContext.Comunicazioni.AddAsync(nuovaRisposta);
+            await dbContext.SaveChangesAsync();
+
+            /// LOGICA EMAIL: invio dell'email per la risposta
+            List<string> destinatariEmail = new List<string>();
+
+            if (ruolo == "da")
+            {
+                // Se il ruolo è docente, invia allo studente
+                if (nuovaRisposta.K_Studente.HasValue && nuovaRisposta.Studente?.Email != null)
+                {
+                    destinatariEmail.Add(nuovaRisposta.Studente.Email);
+                }
+                else
+                {
+                    destinatariEmail.Add("generation@brovia.it"); // Default admin email
+                }
+            }
+            else if (ruolo == "s")
+            {
+                // Se il ruolo è studente, invia al docente
+                if (nuovaRisposta.K_Docente.HasValue && nuovaRisposta.Docente?.Email != null)
+                {
+                    destinatariEmail.Add(nuovaRisposta.Docente.Email);
+                }
+                else
+                {
+                    destinatariEmail.Add("generation@brovia.it"); // Default admin email
+                }
+            }
+            else
+            {
+                // Se il ruolo è amministratore o altro, invia a tutti
+                destinatariEmail.Add("generation@brovia.it");
+            }
+
+            // Invia email se ci sono destinatari
+            if (destinatariEmail.Any())
+            {
+                SmtpClient smtpClient = new SmtpClient("mail.brovia.it", 587);
+                smtpClient.Credentials = new System.Net.NetworkCredential("generation@brovia.it", "G3n3rat!on");
+                smtpClient.EnableSsl = true;
+
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress("generation@brovia.it", "Comunicazione UniGen");
+
+                foreach (var email in destinatariEmail.Distinct())
+                {
+                    mail.To.Add(new MailAddress(email));
+                }
+
+                mail.Subject = "Nuova risposta alla tua comunicazione";
+                mail.Body = @$"In data {nuovaRisposta.DataOraComunicazione}  
+                hai ricevuto una risposta a una comunicazione precedente. 
+
+                {nuovaRisposta.Testo}"; // Testo della nuova risposta
+
+                try
+                {
+                    smtpClient.Send(mail);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Errore invio email: " + ex.Message);
+                }
+            }
+           
+            return RedirectToAction("Show", "Studenti", new { id = HttpContext.Session.GetString("studente_id") });
         }
 
 
