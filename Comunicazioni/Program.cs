@@ -13,7 +13,7 @@ namespace Comunicazioni
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("MyConn")));
+            options.UseSqlServer(builder.Configuration.GetConnectionString("UniGenConn")));
 
             builder.Services.AddDistributedMemoryCache(); // Per memorizzare la sessione in memoria
             builder.Services.AddSession(options =>
