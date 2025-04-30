@@ -1,41 +1,41 @@
 ﻿@model List<AreaDocente.Models.Entities.MVCLezioni>
 
-<style>
-    .th {
-        display: none;
-    }
-</style>
+<div class="container">
+    <h1>Elenco Lezioni</h1>
 
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Elenco Lezioni</h1>
-
-    <table class="table table-striped table-bordered">
-        <thead class="table-dark">
+    <table class="table">
+        <thead>
             <tr>
-                <th class="th">K</th>
-                <th>Esami</th>
-                <th>Lezioni</th>
+                @* <th class="th">K</th> *@
+                <th>Esame</th>
+                <th>Titolo lezione</th>
                 <th>Video</th>
-                <th>Azioni</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var lezioni in Model)
             {
                 <tr>
-                    <td class="th">@lezioni.K_Lezione</td>
+                    @* <td class="th">@lezioni.K_Lezione</td> *@
                     <td>@Html.DisplayFor(Model => lezioni.Esame.TitoloEsame)</td>
                     <td>@lezioni.Titolo</td>
-                    <td>@lezioni.Video</td>
+                    <td><a href="@lezioni.Video">Link</a></td>
                     <td>
                         <a class="btn btn-primary" asp-controller="Lezioni" asp-action="Edit" asp-route-id="@lezioni.K_Lezione">Modifica</a>
                     </td>
                 </tr>
             }
         </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Lezioni" asp-action="Add">Inserire del nuovo materiale</a>
+                </td>
+            </tr>
+        </tfoot>
     </table>
 
-    @section Scripts {
+    @* @section Scripts {
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         @if (TempData["AlertMessage"] != null)
@@ -48,5 +48,5 @@
                 });
             </script>
         }
-    }
+    } *@
 </div>

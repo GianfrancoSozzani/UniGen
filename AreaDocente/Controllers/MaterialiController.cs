@@ -59,7 +59,7 @@ namespace AreaDocente.Controllers
             return RedirectToAction("Lista", "Materiali");
         }
         [HttpGet]
-        public async Task<IActionResult> Lista()
+        public async Task<IActionResult> List()
         {
             var materiali = await dbContext.materiali.ToListAsync();
             foreach (var item in materiali)
