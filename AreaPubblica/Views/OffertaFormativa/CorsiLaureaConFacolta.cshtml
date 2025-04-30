@@ -3,28 +3,33 @@
 *@
 
 @model List<AreaPubblica.Models.Entities.Corso>
+
 @{
+	ViewData["Title"] = "Corsi con Facoltà";
 	var dati = ViewBag.Dati as List<dynamic>;
 }
+<div style="height: 10vh;">&nbsp;</div>
+<div class="container">
 
-<h1>Elenco Corsi di Laurea</h1>
 
-<table>
+
+
+<h2 class="mt-5">Corsi di Laurea con Facoltà</h2>
+<table class="table table-striped">
 	<thead>
 		<tr>
-			<th>Corso di Laurea</th>
+			<th>Titolo Corso</th>
 			<th>Facoltà</th>
-			<th>Tipo di corso</th>
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var riga in dati)
+		@foreach (var item in dati)
 		{
 			<tr>
-				<td>@riga.NomeCorso</td>
-				<td>@riga.NomeFacolta</td>
-				<td>@riga.TipoCorso</td>
+				<td>@item.TitoloCorso</td>
+				<td>@item.Facolta</td>
 			</tr>
 		}
 	</tbody>
 </table>
+</div>

@@ -19,27 +19,33 @@ namespace AreaPubblica.Controllers
             return View();
         }
 
+
+
+
+
+
+
+
         public IActionResult CorsiLaurea()
         {
             var corsi = dbContext.Corsi.ToList();
             return View(corsi);
         }
 
-        public IActionResult CorsiLaureaConFacoltà()
+        public IActionResult CorsiLaureaConFacolta()
         {
+            
             var corsi = dbContext.Corsi
-                .Join(
-                dbContext.Corsi,
-                corso => corso.K_Corso,
-                facolta => facolta.K_Facolta,
-               
-                (corso, facolta) => new
-                {
-                    TitoloCorso = corso.TitoloCorso,
-                    NomeFacolta = facolta.Facolta
-                   
-                })
-             .ToList();
+        .Join(dbContext.Facolta,
+              corso => corso.K_Facolta,
+              facolta => facolta.K_Facolta,
+              (corso, facolta) => new
+              {
+                  TitoloCorso = corso.TitoloCorso,
+                  NomeFacolta = facolta.TitoloFacolta,
+                  //TipoDiCorso = TipoCorso.
+              })
+        .ToList();
             var risultato = new List<dynamic>();
             foreach (var corso in corsi)
             {
