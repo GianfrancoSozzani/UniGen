@@ -25,6 +25,6 @@ namespace AreaStudente.Data
         // Define your DbSets here, for example:
         // public DbSet<Student> Students { get; set; }
         public DbSet<Comunicazione> Comunicazioni { get; set; } // Example DbSet for the Comunicazione entity
-        public DbSet<Immatricolazione> Immatricolazioni { get; set; }
+
     }
 }
