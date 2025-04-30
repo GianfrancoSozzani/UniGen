@@ -23,42 +23,25 @@ namespace AreaPubblica.Controllers
 
 
 
-
-
-
-
-        public IActionResult CorsiLaurea()
+        public IActionResult ElencoCorsiCompleti()
         {
-            var corsi = dbContext.Corsi.ToList();
-            return View(corsi);
-        }
+            var dati = (
+                from corso in dbContext.Corsi
+                join facolta in dbContext.Facolta on corso.K_Facolta equals facolta.K_Facolta
+                join tipo in dbContext.TipiCorsi on corso.K_TipoCorso equals tipo.K_TipoCorso
+                select new
+                {
+                    TitoloCorso = corso.TitoloCorso,
+                    NomeFacolta = facolta.TitoloFacolta,
+                    TipoCorso = tipo.Tipo,
+                    Durata = tipo.Durata
+                }
+            ).ToList();
 
-        public IActionResult CorsiLaureaConFacolta()
-        {
-            
-            var corsi = dbContext.Corsi
-        .Join(dbContext.Facolta,
-              corso => corso.K_Facolta,
-              facolta => facolta.K_Facolta,
-              (corso, facolta) => new
-              {
-                  TitoloCorso = corso.TitoloCorso,
-                  NomeFacolta = facolta.TitoloFacolta,
-                  //TipoDiCorso = TipoCorso.
-              })
-        .ToList();
-            var risultato = new List<dynamic>();
-            foreach (var corso in corsi)
-            {
-                dynamic expando = new ExpandoObject();
-                expando.TitoloCorso = corso.TitoloCorso;
-                expando.Facolta = corso.NomeFacolta;
-                risultato.Add(expando);
-            }
-            ViewBag.Dati = risultato;
+            ViewBag.Corsi = dati;
+
             return View();
         }
-
 
 
 
