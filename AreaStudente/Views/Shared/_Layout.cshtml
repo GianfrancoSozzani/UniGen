@@ -54,7 +54,7 @@
                     <div class="d-flex gap-2 me-3">
                         @if (@ViewData["matricola"] != null)
                         {
-                            <a href = "#" class="btn btn-sm text-white" style="background-color: #12304F;">Area Lavoro</a>
+                            <a href="http://Lezioni_Materiali.aspx"+studente.K_Studente.ToString().ToUpper()+studente.K_Matricola.ToString()" class="btn btn-sm text-white" style="background-color: #12304F;">Area Lavoro</a>
                         } else
                         {
                             <p>disattivato</p>

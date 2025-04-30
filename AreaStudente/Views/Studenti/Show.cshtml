@@ -122,22 +122,86 @@
 							<h1>LE TUE COMUNICAZIONI</h1>
 							<hr class="my-4">
 							@if (Model.Comunicazioni != null && Model.Comunicazioni.Count > 0)
-							{
-								<ul class="list-group">
-									@foreach (var comunicazione in Model.Comunicazioni)
-									{
-										<li class="list-group-item">
-											<h5>@comunicazione.Soggetto</h5>
-											<p>@comunicazione.Testo</p>
-											<small class="text-muted">@comunicazione.DataOraComunicazione?.ToString("dd/MM/yyyy HH:mm")</small>
-										</li>
-									}
-								</ul>
-							}
-							else
-							{
-								<p>Non hai comunicazioni.</p>
-							}
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ruolo Mittente</th>
+                <th>Comunicazione</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var gruppo in Model.Comunicazioni.GroupBy(c => c.Codice_Comunicazione)
+                                        .OrderByDescending(g => g.Max(c => c.DataOraComunicazione)))
+            {
+                <tr>
+                    <td>@gruppo.First().Soggetto</td>
+                    <td>
+                        <div class="accordion" id="accordion_@gruppo.Key">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@gruppo.Key" aria-expanded="true" aria-controls="collapse_@gruppo.Key">
+                                        Comunicazione numero: @gruppo.Key
+                                    </button>
+                                </h2>
+                                <div id="collapse_@gruppo.Key" class="accordion-collapse collapse show" data-bs-parent="#accordion_@gruppo.Key">
+                                    <div class="accordion-body">
+                                        <ul class="list-unstyled">
+                                            @foreach (var comunicazione in gruppo.OrderBy(c => c.DataOraComunicazione))
+                                            {
+                                                <li class="d-flex justify-content-between mb-4">
+                                                    <div class="card w-100">
+                                                        <div class="card-header d-flex justify-content-between p-3">
+                                                            <div class="d-flex justify-content-between align-items-baseline">
+                                                                <p class="fw-bold mb-0">
+                                                                    @if (comunicazione.Studente != null && comunicazione.K_Soggetto == comunicazione.Studente.K_Studente)
+                                                                    {
+                                                                        <span class="text-primary">@($"{comunicazione.Studente.Nome} {comunicazione.Studente.Cognome} - {comunicazione.Soggetto}")</span>
+                                                                    }
+                                                                    else if (comunicazione.Docente != null && comunicazione.K_Soggetto == comunicazione.Docente.K_Docente)
+                                                                    {
+                                                                        <span class="text-danger">@($"{comunicazione.Docente.Nome} {comunicazione.Docente.Cognome} - {comunicazione.Soggetto}")</span>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <span class="text-success">Amministrazione</span>
+                                                                    }
+                                                                </p>
+                                                                <span class="px-2"></span>
+                                                                <p class="text-muted small mb-0"><i class="far fa-clock"></i> @comunicazione.DataOraComunicazione?.ToString("dd/MM/yyyy HH:mm")</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <p class="mb-0">@comunicazione.Testo</p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                            <li class="bg-white">
+                                                <form method="post" asp-action="AddRisposta">
+                                                    <input type="hidden" name="Codice_Comunicazione" value="@gruppo.Key" />
+                                                    <div class="form-outline">
+                                                        <textarea class="form-control bg-body-tertiary" id="textArea_@gruppo.Key" rows="4" name="Testo"></textarea>
+                                                        <label class="form-label" for="textArea_@gruppo.Key">Messaggio</label>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-info btn-rounded float-end mt-2">Invia</button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Non hai comunicazioni.</p>
+}
 						</div>
 					</div>
 				</div>

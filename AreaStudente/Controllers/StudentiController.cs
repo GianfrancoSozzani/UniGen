@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace AreaStudente.Controllers
 {
-    
+
     public class StudentiController : Controller
     {
 
@@ -46,9 +46,9 @@ namespace AreaStudente.Controllers
         //}
 
         [HttpGet]
-        public async Task<IActionResult> Show(Guid id) // L'ID dello studente da visualizzare
+        public async Task<IActionResult> Show(Guid id, Comunicazione c) // L'ID dello studente da visualizzare
         {
- 
+
             // Trova lo studente includendo potenzialmente dati correlati se servissero
             // In questo caso, per il ViewModel fornito, non serve caricare il Corso,
             // ma lo lascio commentato come esempio se volessi il nome del corso in futuro.
@@ -107,7 +107,7 @@ namespace AreaStudente.Controllers
             };
 
             var comunicazioni = await dbContext.Comunicazioni
-                .Where(c => c.K_Studente == studente.K_Studente)
+                .Where(c => c.K_Studente == studente.K_Studente || c.K_Soggetto == studente.K_Studente)
                 .Select(c => new ComunicazioneViewModel
                 {
                     K_Comunicazione = c.K_Comunicazione,
@@ -118,7 +118,36 @@ namespace AreaStudente.Controllers
                     Testo = c.Testo,
                     K_Studente = c.K_Studente
                 })
+                .OrderBy(c => c.DataOraComunicazione)
                 .ToListAsync();
+
+            var comunicazioniGruppo = comunicazioni
+            .GroupBy(c => c.Codice_Comunicazione)
+            .ToList();
+
+            foreach (var gruppo in comunicazioniGruppo)
+            {
+                foreach (var comunicazione in gruppo)
+                {
+                    if (comunicazione.K_Soggetto.HasValue)
+                    {
+                        var studentesogg = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
+                        if (studentesogg != null)
+                        {
+                            comunicazione.Studente = studentesogg;
+                        }
+                        else
+                        {
+                            var docente = await dbContext.Docenti.FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+                            if (docente != null)
+                            {
+                                comunicazione.Docente = docente;
+                            }
+                        }
+                    }
+                }
+            }
+
 
 
             var dashboardViewModel = new StudenteDashboardViewModel
@@ -255,5 +284,5 @@ namespace AreaStudente.Controllers
 }
 
 
- 
+
 
