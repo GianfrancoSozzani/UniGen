@@ -8,7 +8,7 @@ namespace AreaDocente.Models
         public Guid? K_Esame { get; set; }
         public DateTime? DataAppello { get; set; }
         public DateTime? DataVerbalizzazione { get; set; }
-        public char? Tipo { get; set; }
+        public string? Tipo { get; set; }
         public string? Link { get; set; }
         public DateTime? DataOrale { get; set; }
     }

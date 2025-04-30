@@ -18,12 +18,14 @@ namespace AreaDocente.Controllers
         }
         public void PopolaEsame()
         {
-            IEnumerable<SelectListItem> ListaEsame = dbContext.esami.Select(i => new SelectListItem
-            {
-                Text = i.TitoloEsame,
-                Value = i.K_Esame.ToString()
-            });
-            ViewBag.EsameList = ListaEsame;
+            IEnumerable<SelectListItem> ListaEsami = dbContext.esami
+                .Where(e => e.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
+                .Select(e => new SelectListItem
+                {
+                    Text = e.TitoloEsame,
+                    Value = e.K_Esame.ToString()
+                });
+            ViewBag.EsameList = ListaEsami;
         }
 
         [HttpGet]
@@ -86,12 +88,10 @@ namespace AreaDocente.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            var materiali = await dbContext.materiali.ToListAsync();
-            foreach (var item in materiali)
-            {
-                item.esame = await dbContext.esami.FirstOrDefaultAsync(e => e.K_Esame == item.K_Esame);
-            }
-
+            var materiali = await dbContext.materiali
+                .Include(a => a.esame)
+                .Where(a => a.esame.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
+                .ToListAsync();
 
             return View(materiali);
         }

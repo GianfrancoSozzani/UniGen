@@ -19,6 +19,8 @@
         <div class="card p-4 shadow-sm">
             <form method="post">
 
+                <input type="hidden" asp-for="K_Appello" />
+
                 <div class="mt-3">
                     <label class="form-label">Esame di appartenenza</label>
                     <select asp-for="K_Esame" asp-items="@ViewBag.EsamiDDL" class="form-select">
@@ -40,20 +42,20 @@
                     <label class="form-label">Tipo appello</label>
                     <select asp-for="Tipo" class="form-select" id="TipoAppello">
                         <option disabled selected>== Selezionare il tipo dell'appello ==</option>
-                        <option value="O">Orale</option>
-                        <option value="S">Scritto</option>
-                        <option value="L">Laurea</option>
+                        <option value="Or">Orale</option>
+                        <option value="Sc">Scritto</option>
+                        <option value="La">Laurea</option>
                     </select>
                 </div>
 
-                <div class="mt-3" id="LinkDiv" style="display: none;">
+                <div class="mt-3">
                     <label class="form-label">Link appello</label>
                     <input type="text" class="form-control" asp-for="Link" />
                 </div>
 
                 <div class="mt-3" id="DataOraleDiv" style="display: none;">
                     <label class="form-label">Data Orale</label>
-                    <input type="date" class="form-control" id="DataOrale" asp-for="DataOrale" name="DataOrale" />
+                    <input type="datetime-local" class="form-control" id="DataOrale" asp-for="DataOrale" name="DataOrale" />
                 </div>
 
                 <div class="mt-3">
@@ -84,23 +86,20 @@
                 var tipoSelezionato = this.value;
 
                 // Se "Orale", mostra i campi Link e Data Orale
-                if (tipoSelezionato === "O") {
+                if (tipoSelezionato === "Or") {
                     document.getElementById("DataOraleDiv").style.display = "block";
-                    document.getElementById("LinkDiv").style.display = "block";
                 }
                 // Altrimenti nascondi
                 else {
                     document.getElementById("DataOraleDiv").style.display = "none";
-                    document.getElementById("LinkDiv").style.display = "none";
                 }
             });
 
             // Esegui subito il controllo quando la pagina è caricata, per il caso in cui il valore sia già impostato su "Orale"
             window.addEventListener("load", function () {
                 var tipoSelezionato = document.getElementById("TipoAppello").value;
-                if (tipoSelezionato === "O") {
+                if (tipoSelezionato === "Or") {
                     document.getElementById("DataOraleDiv").style.display = "block";
-                    document.getElementById("LinkDiv").style.display = "block";
                 }
             });
         </script>

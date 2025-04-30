@@ -21,22 +21,30 @@ namespace AreaDocente.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            var appelli = await dbContext.appelli.ToListAsync();
-            foreach (var riga in appelli)
-            {
-                riga.Esame = dbContext.esami.FirstOrDefault(u => u.K_Esame == riga.K_Esame);
-            }
+            //var appelli = await dbContext.appelli.ToListAsync();
+            //foreach (var riga in appelli)
+            //{
+            //    riga.Esame = dbContext.esami.FirstOrDefault(u => u.K_Esame == riga.K_Esame);
+            //}
+
+            var appelli = await dbContext.appelli
+                .Include(a => a.Esame)
+                .Where(a => a.Esame.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
+                .ToListAsync();
+
             return View(appelli);
         }
 
         //POPOLO DDL ESAMI
         public void PopoloDDL()
         {
-            IEnumerable<SelectListItem> ListaEsami = dbContext.esami.Select(e => new SelectListItem
-            {
-                Text = e.TitoloEsame,
-                Value = e.K_Esame.ToString()
-            });
+            IEnumerable<SelectListItem> ListaEsami = dbContext.esami
+                .Where(e => e.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
+                .Select(e => new SelectListItem
+                {
+                    Text = e.TitoloEsame,
+                    Value = e.K_Esame.ToString()
+                });
             ViewBag.EsamiDDL = ListaEsami;
         }
 
@@ -76,12 +84,12 @@ namespace AreaDocente.Controllers
 
             var appello = new MVCAPPELLO
             {
-                DataAppello = (DateTime)viewModel.DataAppello,
-                DataVerbalizzazione = (DateTime)viewModel.DataVerbalizzazione,
-                Tipo = (char)viewModel.Tipo,
+                DataAppello = viewModel.DataAppello,
+                DataVerbalizzazione = viewModel.DataVerbalizzazione,
+                Tipo = viewModel.Tipo,
                 Link = viewModel.Link,
-                DataOrale = (DateTime)viewModel.DataOrale,
-                K_Esame = (Guid)viewModel.K_Esame
+                DataOrale = viewModel.DataOrale,
+                K_Esame = viewModel.K_Esame
             };
             await dbContext.appelli.AddAsync(appello);
             await dbContext.SaveChangesAsync();
@@ -98,22 +106,27 @@ namespace AreaDocente.Controllers
             return View(appello);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(MVCLezioni viewModel)
+        public async Task<IActionResult> Edit(MVCAPPELLO viewModel)
         {
             //CONTROLLI FORMALI
-            if (viewModel.Titolo == null)
+            if (viewModel.DataAppello == null)
             {
-                TempData["ErrorMessage"] = "Inserire un titolo!";
+                TempData["ErrorMessage"] = "Inserire la data dell'appello!";
                 return View(viewModel);
             }
-            if (viewModel.Video == null)
+            if (viewModel.Tipo == null)
             {
-                TempData["ErrorMessage"] = "Inserire un video!";
+                TempData["ErrorMessage"] = "Inserire il tipo dell'appello!";
                 return View(viewModel);
             }
-            if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
+            if (viewModel.Link == null)
             {
-                TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
+                TempData["ErrorMessage"] = "Inserire il link dell'appello!";
+                return View(viewModel);
+            }
+            if (viewModel.Tipo == "Or" && viewModel.DataOrale == null)
+            {
+                TempData["ErrorMessage"] = "Inserire la data dell'rale!";
                 return View(viewModel);
             }
             if (viewModel.K_Esame == Guid.Empty)
@@ -122,15 +135,23 @@ namespace AreaDocente.Controllers
                 return View(viewModel);
             }
 
-            var lez = await dbContext.lezioni.FindAsync(viewModel.K_Lezione);
-            if (lez is not null)
+            var appello = await dbContext.appelli.FindAsync(viewModel.K_Appello);
+            if (appello is not null)
             {
-                lez.Titolo = viewModel.Titolo;
-                lez.Video = viewModel.Video;
-                lez.K_Esame = viewModel.K_Esame;
+                appello.DataAppello = viewModel.DataAppello;
+                appello.Tipo = viewModel.Tipo;
+
+                if (appello.Tipo == "Or")
+                    appello.DataOrale = viewModel.DataOrale;
+
+                if (viewModel.DataVerbalizzazione != null)
+                    appello.DataVerbalizzazione = viewModel.DataVerbalizzazione;
+
+                appello.Link = viewModel.Link;
+                appello.K_Esame = viewModel.K_Esame;
                 await dbContext.SaveChangesAsync();
             }
-            return RedirectToAction("List", "Lezioni");
+            return RedirectToAction("List");
         }
     }
 }
