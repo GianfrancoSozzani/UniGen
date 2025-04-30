@@ -1,0 +1,58 @@
+﻿@model List<AreaDocente.Models.Entities.MVCAPPELLO>
+
+<div class="container my-5">
+    <h1>Elenco Appelli</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                @* <th class="th">K</th> *@
+                <th>Esame</th>
+                <th>Data Appello</th>
+                <th>Data Verbalizzazione</th>
+                <th>Tipo</th>
+                <th>Link</th>
+                <th>Data Orale</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var appello in Model)
+            {
+                <tr>
+                    @* <td class="th">@lezioni.K_Lezione</td> *@
+                    <td>@Html.DisplayFor(Model => appello.Esame.TitoloEsame)</td>
+                    <td>@appello.DataAppello?.ToString("dd/MM/yyyy")</td>
+                    <td>@appello.DataVerbalizzazione?.ToString("dd/MM/yyyy")</td>
+                    <td>@appello.Tipo</td>
+                    <td><a target="_blank" href="@appello.Link">Link</a></td>
+                    <td>@appello.DataOrale?.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <a class="btn btn-primary" asp-controller="Appelli" asp-action="Edit" asp-route-id="@appello.K_Appello">Modifica</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Appelli" asp-action="Add">Inserire un nuovo appello</a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    @* @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        @if (TempData["AlertMessage"] != null)
+        {
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Operazione riuscita',
+                    text: '@TempData["AlertMessage"]'
+                });
+            </script>
+        }
+    } *@
+</div>

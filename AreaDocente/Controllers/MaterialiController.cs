@@ -4,6 +4,7 @@ using AreaDocente.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace AreaDocente.Controllers
 {
@@ -35,6 +36,29 @@ namespace AreaDocente.Controllers
         [HttpPost]
         public async Task<ActionResult> Add(AddMaterialiViewModel viewModel)
         {
+            PopolaEsame();
+            //CONTROLLI FORMALI
+            if (viewModel.Titolo == null)
+            {
+                TempData["ErrorMessage"] = "Titolo mancante!";
+                return View(viewModel);
+            }
+            if (viewModel.materiale == null || viewModel.materiale.Length == 0)
+            {
+                TempData["ErrorMessage"] = "Materiale mancante!";
+                return View(viewModel);
+            }
+            if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
+            {
+                TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
+                return View(viewModel);
+            }
+            if (viewModel.K_Esame == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "Selezionare l'esame!";
+                return View(viewModel);
+            }
+
             var materiali = new MVCMateriali
             {
                 Titolo = viewModel.Titolo.ToString(),
@@ -91,6 +115,23 @@ namespace AreaDocente.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditMaterialiViewModel viewModel)
         {
+            //CONTROLLI FORMALI
+            if (viewModel.Titolo == null)
+            {
+                TempData["ErrorMessage"] = "Inserire un titolo!";
+                return View(viewModel);
+            }
+            if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
+            {
+                TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
+                return View(viewModel);
+            }
+            if (viewModel.K_Esame == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "Selezionare l'esame!";
+                return View(viewModel);
+            }
+
             var materiale = await dbContext.materiali.FindAsync(viewModel.K_Materiale);
             if (materiale is not null)
             {
@@ -152,7 +193,7 @@ namespace AreaDocente.Controllers
             materiale.Titolo = materiale.Titolo + EstensioneDaContentType(materiale.Tipo);
             return File(materiale.Materiale, materiale.Tipo, materiale.Titolo);
         }
-        
+
         public async Task<IActionResult> View(Guid id)
         {
             var materiale = await dbContext.materiali.FindAsync(id);

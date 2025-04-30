@@ -37,6 +37,7 @@ namespace AreaDocente.Controllers
             PopoloDDL();
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Add(AddLezioniViewModel viewModel)
         {
@@ -72,7 +73,7 @@ namespace AreaDocente.Controllers
             await dbContext.lezioni.AddAsync(lez);
             await dbContext.SaveChangesAsync();
 
-            return RedirectToAction("List", "Lezioni");
+            return RedirectToAction("List");
         }
 
         //POPOLO DDL ESAMI
@@ -127,7 +128,7 @@ namespace AreaDocente.Controllers
                 lez.K_Esame = viewModel.K_Esame;
                 await dbContext.SaveChangesAsync();
             }
-            return RedirectToAction("List", "Lezioni");
+            return RedirectToAction("List");
         }
 
         //DELETE
@@ -142,7 +143,7 @@ namespace AreaDocente.Controllers
                 dbContext.lezioni.Remove(viewModel);
                 await dbContext.SaveChangesAsync();
             }
-            return RedirectToAction("List", "Lezioni");
+            return RedirectToAction("List");
         }
     }
 }
