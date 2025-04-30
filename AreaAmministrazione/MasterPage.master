@@ -82,7 +82,7 @@
                         <i class="bi bi-bar-chart-line-fill me-2"></i>Statistiche Studenti
                     </a>
                     <div class="collapse" id="submenuStatistiche">
-                        <a class="submenu-item" href="StudentiLaureatiPerAnno.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-people-fill me-2"></i>Studenti laureati per anno</a>
+                        <a class="submenu-item" href="StudentiPerCorso.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-people-fill me-2"></i>Studenti iscritti per corso</a>
                         <a class="submenu-item" href="IscrittiStudAnno.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-receipt me-2"></i>Studenti iscritti per anno</a>
                     </div>
                 </div>
