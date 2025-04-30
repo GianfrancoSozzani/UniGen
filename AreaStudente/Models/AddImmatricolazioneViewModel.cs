@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace AreaStudente.Models
 {
@@ -12,8 +13,9 @@ namespace AreaStudente.Models
         public byte[]? Documento { get; set; }
         public IFormFile? DocumentoFormFile { get; set; }
         public string? Tipo { get; set; }
-        [ForeignKey("K_Studente")]
         public Guid? K_Studente { get; set; }
-        //[ValidateNever]
+        [ForeignKey("K_Studente")]
+        [ValidateNever]
+        public string? Cognome { get; set; }
     }
 }
