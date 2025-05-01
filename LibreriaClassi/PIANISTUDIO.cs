@@ -30,9 +30,11 @@ namespace LibreriaClassi
         public void Inserimento()
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", AnnoAccademico);
-            db.cmd.Parameters.AddWithValue("", Obbligatorio);
+            db.query = "PianiStudio_Insert";
+            db.cmd.Parameters.AddWithValue("@k_corso", K_Corso);
+            db.cmd.Parameters.AddWithValue("@k_esame", K_Esame);
+            db.cmd.Parameters.AddWithValue("@annoaccademico", AnnoAccademico);
+            db.cmd.Parameters.AddWithValue("@obbligatorio", Obbligatorio);
             db.SQLcommand();
         }
 
@@ -46,18 +48,36 @@ namespace LibreriaClassi
         public DataTable SelezionaChiavePianoStudio()
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", K_PianoStudio);
+            db.query = "PianiStudio_FindByKey";
+            db.cmd.Parameters.AddWithValue("@chiave", K_PianoStudio);
+            return db.SQLselect();
+        }
+        public DataTable SelezionaCorsoPianoStudio()
+        {
+            DB db = new DB();
+            db.query = "PianiStudio_FindByCorso";
+            db.cmd.Parameters.AddWithValue("@corso", K_Corso);
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaCorsoAnnoPianoStudio()
+        {
+            DB db = new DB();
+            db.query = "PianiStudio_FindByCorsoAnno";
+            db.cmd.Parameters.AddWithValue("@corso", K_Corso);
+            db.cmd.Parameters.AddWithValue("@annoaccademico", AnnoAccademico);
             return db.SQLselect();
         }
 
         public void Modifica()
         {
             DB dB = new DB();
-            dB.query = "";
-            dB.cmd.Parameters.AddWithValue("", K_PianoStudio);
-            dB.cmd.Parameters.AddWithValue("", AnnoAccademico);
-            dB.cmd.Parameters.AddWithValue("", Obbligatorio);
+            dB.query = "PianiStudio_Update";
+            dB.cmd.Parameters.AddWithValue("@K_PianoStudio", K_PianoStudio);
+            dB.cmd.Parameters.AddWithValue("@Annoaccademico", AnnoAccademico);
+            dB.cmd.Parameters.AddWithValue("@Obbligatorio", Obbligatorio);
+            dB.cmd.Parameters.AddWithValue("@K_Corso", Obbligatorio);
+            dB.cmd.Parameters.AddWithValue("@K_Esame", Obbligatorio);
             dB.SQLcommand();
         }
     }

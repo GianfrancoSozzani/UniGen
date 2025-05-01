@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using AreaStudente.Models.Entities;
 
 namespace AreaStudente.Models
 {
@@ -11,6 +12,10 @@ namespace AreaStudente.Models
         public string? Soggetto { get; set; }
         public Guid? K_Soggetto { get; set; }
         public string? Testo { get; set; }
-        public Guid K_Studente { get; set; }
+        public Guid? K_Studente { get; set; }
+        public Studente? Studente { get; set; }
+        public Guid? K_Docente { get; set; }
+        public Docente? Docente { get; set; }
+
     }
 }
