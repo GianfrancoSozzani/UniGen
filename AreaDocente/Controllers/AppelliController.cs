@@ -1,9 +1,8 @@
 ﻿using AreaDocente.Data;
-using AreaDocente.Models.Entities;
 using AreaDocente.Models;
+using AreaDocente.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
 
 namespace AreaDocente.Controllers
@@ -149,6 +148,20 @@ namespace AreaDocente.Controllers
 
                 appello.Link = viewModel.Link;
                 appello.K_Esame = viewModel.K_Esame;
+                await dbContext.SaveChangesAsync();
+            }
+            return RedirectToAction("List");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(MVCAPPELLO viewModel)
+        {
+            var appello = await dbContext.appelli
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.K_Appello == viewModel.K_Appello);
+            if (appello is not null)
+            {
+                dbContext.appelli.Remove(viewModel);
                 await dbContext.SaveChangesAsync();
             }
             return RedirectToAction("List");
