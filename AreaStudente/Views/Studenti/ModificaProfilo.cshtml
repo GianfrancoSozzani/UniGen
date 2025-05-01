@@ -126,15 +126,15 @@
 			<div class="row mb-0 mb-lg-3">
 				<div class="col-12 col-lg-4 mb-2 mb-lg-0">
 					<label class="form-label form-control-label">Cognome</label>
-					<input type="text" asp-for="Cognome" class="form-control form-control-alternative" required />
+					<input type="text" asp-for="Cognome" class="form-control form-control-alternative text-capitalize" required />
 				</div>
 				<div class="col-12 col-lg-4 mb-2">
 					<label class="form-label form-control-label">Nome</label>
-					<input type="text" asp-for="Nome" class="form-control form-control-alternative" required />
+					<input type="text" asp-for="Nome" class="form-control form-control-alternative text-capitalize" required />
 				</div>
 				<div class="col-12 col-lg-4 mb-2">
 					<label class="form-label form-control-label">Data di Nascita</label>
-					<input type="date" asp-for="DataNascita" class="form-control form-control-alternative" required />
+					<input type="date" asp-for="DataNascita" class="form-control form-control-alternative" id="dataNascita" required />
 				</div>
 			</div>
 
@@ -198,7 +198,7 @@
 					@(Model?.Nome ?? "Studente") @(Model?.Cognome ?? "Cognome")
 				</h4>
 				<p class="text-center">@Model?.Email</p>
-				<p class="fs-3 text-center">Riepilogo Profilo</p>	
+				<p class="fs-3 text-center";">Riepilogo Profilo</p>
 				<hr class="my-4">
 				<h6 class="heading-small text-muted mb-4 text-center">Informazioni di Immatricolazione</h6>
 				<div class="pl-lg-4">
@@ -249,21 +249,30 @@
 <script>
 
 
-	document.addEventListener('DOMContentLoaded', function () {
-		const apriModaleFlag = '@TempData["ApriModalePassword"]' === 'True';
-		const salvataggioSuccessoMsg = '@TempData["DisplaySuccessMsg"]' === 'True';
+		document.addEventListener('DOMContentLoaded', function () {
+			const apriModaleFlag = '@TempData["ApriModalePassword"]' === 'True';
+			const salvataggioSuccessoMsg = '@TempData["DisplaySuccessMsg"]' === 'True';
 
-		if (apriModaleFlag) {
-			const modaleEl = document.getElementById('modifica-password-modal');
-			if (modaleEl) {
-				const modal = new bootstrap.Modal(modaleEl);
-				modal.show();
+			if (apriModaleFlag) {
+				const modaleEl = document.getElementById('modifica-password-modal');
+				if (modaleEl) {
+					const modal = new bootstrap.Modal(modaleEl);
+					modal.show();
+				}
 			}
-		}
 
-		if(salvataggioSuccessoMsg){
-		alert('@TempData["PopupSuccesso"]');
+			if(salvataggioSuccessoMsg){
+			alert('@TempData["PopupSuccesso"]');
 
-		}
-	});
+			}
+		});
+
+		var today = new Date();
+	    today.setDate(today.getDate() - 1);
+		var day = String(today.getDate()).padStart(2, '0');
+		var month = String(today.getMonth() + 1).padStart(2, '0');
+		var year = today.getFullYear();
+		var maxDate = year + '-' + month + '-' + day;
+		document.getElementById('dataNascita').setAttribute('max', maxDate);
 </script>
+

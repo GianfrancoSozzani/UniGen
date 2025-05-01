@@ -168,9 +168,8 @@ namespace AreaStudente.Controllers
             return View(model);
         }
 
-
-
         [HttpPost]
+
         public async Task<IActionResult> ModificaProfilo(ModificaStudenteViewModel model, string PasswordNew, string PasswordConfirm, Guid id)
         {
             ViewData["studente_id"] = id;
@@ -180,12 +179,12 @@ namespace AreaStudente.Controllers
                 return NotFound();
 
             // Aggiorna i dati anagrafici
-            studente.Nome = model.Nome;
-            studente.Cognome = model.Cognome;
+            studente.Nome = CapitalizeWords(model.Nome);
+            studente.Cognome = CapitalizeWords(model.Cognome);
             studente.Indirizzo = model.Indirizzo;
             studente.CAP = model.CAP;
             studente.Citta = model.Citta;
-            studente.Provincia = model.Provincia;
+            studente.Provincia = model.Provincia.ToUpper();
             studente.DataNascita = model.DataNascita;
 
             if (model.ImmagineProfiloFile != null && model.ImmagineProfiloFile.Length > 0)
@@ -257,6 +256,16 @@ namespace AreaStudente.Controllers
             return RedirectToAction("ModificaProfilo", "Studenti");
         }
 
+        private string CapitalizeWords(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return input;
+
+            return string.Join(" ",
+                input.Trim().ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                     .Select(word => char.ToUpper(word[0]) + word.Substring(1))
+            );
+        }
 
 
     }
