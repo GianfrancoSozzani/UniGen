@@ -336,7 +336,7 @@ namespace AreaStudente.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> ModificaProfilo(ModificaStudenteViewModel model, string PasswordNew, string PasswordConfirm, Guid id)
+        public async Task<IActionResult> ModificaProfilo(ModificaStudenteViewModel model, string PasswordNew, string PasswordConfirm, Guid cod)
 
         {
             ViewData["studente_id"] = cod;

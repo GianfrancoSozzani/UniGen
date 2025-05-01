@@ -29,9 +29,9 @@ namespace AreaStudente.Data
         //public DbSet<Operatore> Operatori { get; set; }
         //public DbSet<PianoStudioPersonale> PianiStudioPersonali { get; set; }
 
-        public DbSet<Corso> Corsi { get; set; }
+        
 
-        public DbSet<Facolta> Facolta { get; set; }
+        
 
     }
 }
