@@ -1,71 +1,55 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@model List<AreaPubblica.Models.Entities.Docente>
+﻿@model List<AreaPubblica.Models.Entities.Docente>
 
 @{
-	var dati = ViewBag.Dati as List<dynamic>;
+    var facoltaGruppi = ((IEnumerable<dynamic>)ViewBag.FacoltaCorsiEsami)
+                        .GroupBy(x => x.Facolta);
 }
-<div class="container" style="padding-top: 70px;">
 
-	<h2>Docenti ed Esami</h2>
+<div class="container mb-5" style="padding-top: 120px;">
+   <h1 class="mb-2">Esami e Docenti</h1>
+    <div class="accordion" id="accordionFacolta">
+        @foreach (var facolta in facoltaGruppi)
+        {
+            string facoltaId = "facolta_" + facolta.Key.Replace(" ", "").ToLowerInvariant();
 
-	<table class="table table-bordered">
-		<thead>
-			<tr>
-				<th>Docente</th>
-				<th>Esame</th>
-				<th>Azioni</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var riga in dati)
-			{
-				<tr>
-					<td>@riga.Nome @riga.Cognome</td>
-					<td>@riga.TitoloEsame</td>
-					<td>
-						<button class="btn btn-info btn-sm info-button"
-								data-nome="@riga.Nome"
-								data-cognome="@riga.Cognome"
-								data-titolo="@riga.TitoloEsame"
-								data-descrizione="QUesto esame ha queste caratteristiche e si studia su questi libri. @riga.TitoloEsame">
-							Info
-						</button>
-					</td>
-				</tr>
-			}
-		</tbody>
-	</table>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-@facoltaId">
+                    <button class="accordion-button collapsed" type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#@facoltaId"
+                            aria-expanded="false"
+                            aria-controls="@facoltaId">
+                        <strong>@facolta.Key</strong>
+                    </button>
+                </h2>
+                <div id="@facoltaId" class="accordion-collapse collapse"
+                     aria-labelledby="heading-@facoltaId"
+                     data-bs-parent="#accordionFacolta">
+                    <div class="accordion-body">
+                        @{
+                            var docenti = facolta
+                            .GroupBy(x => new { x.NomeDocente, x.CognomeDocente })
+                            .OrderBy(d => d.Key.CognomeDocente);
+                        }
+
+                        @foreach (var docente in docenti)
+                        {
+                            <div class="mb-3">
+                                <h5>@docente.Key.NomeDocente @docente.Key.CognomeDocente</h5>
+                                <ul class="list-group">
+                                    @foreach (var esame in docente)
+                                    {
+                                        <li class="list-group-item">
+                                            <strong>Esame:</strong> @esame.Esame <br />
+                                            <strong>Corso:</strong> @esame.Corso
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
-
-
-	<div id="esame-info" style="display:none; margin-top: 20px; padding: 15px; border: 1px solid #12304F; background-color: #f9f9f9;">
-		<h4>Dettagli Esame</h4>
-		<p><strong>Docente:</strong> <span id="info-docente"></span></p>
-		<p><strong>Esame:</strong> <span id="info-esame"></span></p>
-		<p><strong>Descrizione:</strong> <span id="info-descrizione"></span></p>
-	</div>
-
-@section Scripts {
-	<script>
-		document.addEventListener("DOMContentLoaded", function () {
-			const buttons = document.querySelectorAll(".info-button");
-			const infoDiv = document.getElementById("esame-info");
-			const spanDocente = document.getElementById("info-docente");
-			const spanEsame = document.getElementById("info-esame");
-			const spanDescrizione = document.getElementById("info-descrizione");
-
-			buttons.forEach(button => {
-				button.addEventListener("click", function () {
-					spanDocente.textContent = this.dataset.nome + " " + this.dataset.cognome;
-					spanEsame.textContent = this.dataset.titolo;
-					spanDescrizione.textContent = this.dataset.descrizione;
-
-					infoDiv.style.display = "block";
-					infoDiv.scrollIntoView({ behavior: "smooth" });
-				});
-			});
-		});
-	</script>
-}

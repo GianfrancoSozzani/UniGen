@@ -158,6 +158,14 @@ namespace LibreriaClassi
             dB.SQLcommand();
         }
 
+        public DataTable SelezionaAnnoAccademico()
+        {
+            DB db = new DB();
+            db.query = "Studenti_SelectAnnoAccademico";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+
 
     }
 }

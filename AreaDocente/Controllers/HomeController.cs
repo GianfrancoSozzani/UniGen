@@ -1,6 +1,6 @@
-using System.Diagnostics;
 using AreaDocente.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace AreaDocente.Controllers
 {
@@ -20,9 +20,12 @@ namespace AreaDocente.Controllers
             string? usr = HttpContext.Request.Query["usr"];
             string? r = HttpContext.Request.Query["r"];
 
-            HttpContext.Session.SetString("cod", cod);
-            HttpContext.Session.SetString("usr", usr);
-            HttpContext.Session.SetString("r", r);
+            if (cod != null && usr != null && r != null)
+            {
+                HttpContext.Session.SetString("cod", cod);
+                HttpContext.Session.SetString("usr", usr);
+                HttpContext.Session.SetString("r", r);
+            }
 
             return View();
         }
@@ -31,7 +34,7 @@ namespace AreaDocente.Controllers
         {
             return View();
         }
-        
+
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
