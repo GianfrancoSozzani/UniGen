@@ -167,10 +167,11 @@ namespace AreaStudente.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddRisposta(Guid id, Comunicazione viewModel)
+        public async Task<IActionResult> AddRisposta(Comunicazione viewModel)
         {
 
             ViewData["studente_id"] = HttpContext.Session.GetString("cod");
+            Guid studente_id = new Guid(HttpContext.Session.GetString("cod"));
 
             string ruolo = HttpContext.Session.GetString("r");
 
@@ -190,10 +191,10 @@ namespace AreaStudente.Controllers
                 Codice_Comunicazione = viewModel.Codice_Comunicazione,
                 DataOraComunicazione = DateTime.Now,
                 Testo = viewModel.Testo,
-                K_Soggetto = id,
+                K_Soggetto = studente_id,
             };
 
-            if (ruolo == "o")
+            if (ruolo == "a")
             {
                 nuovaRisposta.Soggetto = "A";
 
@@ -209,7 +210,7 @@ namespace AreaStudente.Controllers
             }
 
 
-            else if (ruolo == "da")
+            else if (ruolo == "d")
             {
                 nuovaRisposta.Soggetto = "D";
                 nuovaRisposta.K_Studente = ultimaComunicazione.K_Studente;
@@ -230,7 +231,7 @@ namespace AreaStudente.Controllers
             /// LOGICA EMAIL: invio dell'email per la risposta
             List<string> destinatariEmail = new List<string>();
 
-            if (ruolo == "da")
+            if (ruolo == "d")
             {
                 // Se il ruolo è docente, invia allo studente
                 if (nuovaRisposta.K_Studente.HasValue && nuovaRisposta.Studente?.Email != null)
@@ -291,7 +292,7 @@ namespace AreaStudente.Controllers
                 }
             }
            
-            return RedirectToAction("Show", "Studenti", new { id = HttpContext.Session.GetString("cod") });
+            return RedirectToAction("Show", "Studenti", new { cod = HttpContext.Session.GetString("cod") });
         }
 
 
@@ -329,9 +330,9 @@ namespace AreaStudente.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> ModificaProfilo(ModificaStudenteViewModel model, string PasswordNew, string PasswordConfirm, Guid id)
+        public async Task<IActionResult> ModificaProfilo(ModificaStudenteViewModel model, string PasswordNew, string PasswordConfirm, Guid cod)
         {
-            ViewData["studente_id"] = id;
+            ViewData["studente_id"] = cod;
             var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == model.K_Studente);
 
 

@@ -54,7 +54,7 @@
                     <div class="d-flex gap-2 me-3">
                         @if (@ViewData["matricola"] != null)
                         {
-                            <a href="https://localhost:7050/Lezioni_Materiali.aspx?cod=" +studente.K_Studente.ToString()+"&&usr="+studente.Email+"&&=s"+&&mat="@ViewData["matricola"] class="btn btn-sm text-white" style="background-color: #12304F;">Area Lavoro</a>
+                            <a class="btn btn-sm text-white" style="background-color: #12304F;" href="@($"http://localhost:54399/Homepage.aspx?cod={Model.Studente.K_Studente}&usr={Model.Studente.Email}&mat={Model.Studente.Matricola}&ab={Model.Studente.Abilitato}")">Area Lavoro</a>
                         } else
                         {
                             <p>disattivato</p>
