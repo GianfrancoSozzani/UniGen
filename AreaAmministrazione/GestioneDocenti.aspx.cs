@@ -75,7 +75,7 @@ public partial class _Default : System.Web.UI.Page
 
     protected void btnNuovaPagina_Click(object sender, EventArgs e)
     {
-        Response.Redirect("InserimentoDocente.aspx");
+        Response.Redirect("InserimentoDocente.aspx?usr=" + Request.QueryString["usr"]);
     }
 
 }

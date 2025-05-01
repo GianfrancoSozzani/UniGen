@@ -69,6 +69,13 @@ namespace LibreriaClassi
             return dB.SQLselect();
         }
 
+        public DataTable SelezionaNomeCompleto()
+        {
+            DB dB = new DB();
+            dB.query = "Docenti_SelectNomeCompleto";
+            return dB.SQLselect();
+        }
+
         public DataTable SelezionaPerCognomeNome()
         {
             DB dB = new DB();

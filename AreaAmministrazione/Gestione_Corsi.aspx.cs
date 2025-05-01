@@ -150,7 +150,7 @@ public partial class _Default : System.Web.UI.Page
         // Controllo che non permette l'uso di numeri o caratteri speciali
         if (!System.Text.RegularExpressions.Regex.IsMatch(nuovoTitoloCorso, @"^[a-zA-Z\s]+$"))
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Inserire solo lettere')", true);
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Inserire solo lettere per il corso')", true);
             return;
         }
 
