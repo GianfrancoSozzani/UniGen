@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -21,23 +22,16 @@ namespace LibreriaClassi
         /// </summary>
         public char Obbligatorio { get; set; }
 
-
+        [ForeignKey ("K_Facolta")]
+        public Guid K_Facolta { get; set; }
+        [ForeignKey("K_TipoCorso")]
+        public Guid K_TipoCorso { get; set; }
+       
         public PIANISTUDIO()
         {
 
         }
 
-        public void Inserimento() //AGGIUNTA
-        {
-            DB db = new DB();
-            db.query = "PianiStudio_Insert";
-            //db.cmd.Parameters.AddWithValue("K_PianiStudio", Guid.NewGuid());
-            db.cmd.Parameters.AddWithValue("K_Corso", K_Corso);
-            db.cmd.Parameters.AddWithValue("K_Esame", K_Esame);
-            db.cmd.Parameters.AddWithValue("AnnoAccademico", AnnoAccademico);
-            db.cmd.Parameters.AddWithValue("Obbligatorio", Obbligatorio);
-            db.SQLcommand();
-        }
 
         public DataTable SelezionaTutto()
         {
@@ -64,35 +58,56 @@ namespace LibreriaClassi
             dB.SQLcommand();
         }
         
-        public DataTable MostraLista() //AGGIUNTA
+        public DataTable ElencoEsamiInseriti(Guid kFacolta, Guid kCorso, string tipoCorso, string annoAccademico) 
         {
-            DB dB = new DB();
-            dB.query = "PianiStudio_List";
-            return dB.SQLselect();
+            DB db = new DB();
+            db.query = "PianiStudio_SelectEsamiByFiltro";
+            db.cmd.Parameters.AddWithValue("@K_PianoStudio", K_PianoStudio);
+            db.cmd.Parameters.AddWithValue("@K_Facolta", kFacolta);
+            db.cmd.Parameters.AddWithValue("@K_Corso", kCorso);
+            db.cmd.Parameters.AddWithValue("@TipoCorso", tipoCorso);
+            db.cmd.Parameters.AddWithValue("@AnnoAccademico", annoAccademico);
+            return db.SQLselect();
         }
-        public DataTable MostraEsami(string idPiano) //AGGIUNTA
+        public void CancellaEsameDalPiano() 
         {
-            DB dB = new DB();
-            dB.query = "PianiStudio_MostraEsami";
-            return dB.SQLselect();
+            DB db = new DB();
+            db.query = "PianiStudio_DeleteEsame";
+            db.cmd.Parameters.AddWithValue("@K_PianoStudio", K_PianoStudio);
+            db.SQLcommand();
         }
-        public DataTable Controllo() //AGGIUNTA
+        public void AggiungiEsami() 
+        {
+            DB db = new DB();
+            db.query = "PianiStudio_Insert";
+            //db.cmd.Parameters.AddWithValue("K_PianiStudio", Guid.NewGuid());
+            db.cmd.Parameters.AddWithValue("K_Corso", K_Corso);
+            db.cmd.Parameters.AddWithValue("K_Esame", K_Esame);
+            db.cmd.Parameters.AddWithValue("AnnoAccademico", AnnoAccademico);
+            db.cmd.Parameters.AddWithValue("Obbligatorio", Obbligatorio);
+            db.SQLcommand();
+        }
+
+        public DataTable CercaEsame(string termine) 
+        {
+            DB database = new DB();
+            database.query = "PianiStudio_SearchByEsame";
+            database.cmd.Parameters.AddWithValue("@termine", termine);
+            return database.SQLselect();
+
+        }
+        public DataTable ControlloEsami() 
         {
             DB database = new DB();
             database.query = "PianiStudio_Controllo";
-            database.cmd.Parameters.AddWithValue("@K_Corso", K_Corso );
+            database.cmd.Parameters.AddWithValue("@K_Facolta", this.K_Facolta);
+            database.cmd.Parameters.AddWithValue("@K_Corso", this.K_Corso );
             database.cmd.Parameters.AddWithValue("@K_Esame", K_Esame);
-            database.cmd.Parameters.AddWithValue("@AnnoAccademico", AnnoAccademico);
+            database.cmd.Parameters.AddWithValue("@K_TipoCorso", this.K_TipoCorso);
+            database.cmd.Parameters.AddWithValue("@AnnoAccademico", this.AnnoAccademico);
             return database.SQLselect();
 
         }
 
-        public DataTable ElencoEsamiPianoStudio() //AGGIUNTA
-        {
-            DB db = new DB();
-            db.query = "PianiStudio_ElencoEsami";
-            db.cmd.Parameters.AddWithValue("@K_PianoStudio", K_PianoStudio);
-            return db.SQLselect();
-        }
     }
 }

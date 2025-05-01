@@ -94,6 +94,7 @@ namespace LibreriaClassi
             db.query = "Corsi_TassaMediaAnn";
             return db.SQLselect();
         }
+        
 
     }
 }

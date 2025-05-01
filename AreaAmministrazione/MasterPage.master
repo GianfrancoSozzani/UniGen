@@ -59,22 +59,12 @@
                 </div>
                 <h5 class="text-center">Menu</h5>
                 <a href="Home.aspx"><i class="bi bi-house-door-fill me-2"></i>Dashboard</a>
-                <a href="#"><i class="bi bi-person-check-fill me-2"></i>Gestione studente</a>
+                <a href="AbilitaStudente.aspx"><i class="bi bi-person-check-fill me-2"></i>Gestione studente</a>
                 <a href="Gestione_Facolta.aspx"><i class="bi bi-mortarboard-fill me-2"></i>Gestione facoltà</a>
                 <a href="#"><i class="bi bi-clipboard2 me-2"></i>Gestione corsi</a>
-                 <div class="dropdown-sidebar">
-     <a class="dropdown-toggle" data-bs-toggle="collapse" data-bs-target="#submenuVisualizza" role="button" aria-expanded="false" aria-controls="submenuVisualizza">
-         <i class="bi bi-wallet2 me-2"></i>Gestione Piano Studi
-     </a>
-     <div class="collapse" id="submenuVisualizza">
-         <a class="submenu-item" href="Gestione_PianoStudi.aspx"><i class="bi bi-cash-stack me-2"></i>Inserisci Piani Studio</a>
-         <a class="submenu-item" href="Visualizzazione_PianoStudi.aspx"><i class="bi bi-receipt me-2"></i>Visualizza e modifica Piani Studio</a>
-        
-     </div>
- </div>
- <a href="#"><i class="bi bi-people-fill me-2"></i>Gestione Docenti</a>
+                <a href="Gestione_PianoStudi.aspx"><i class="bi bi-mortarboard-fill me-2"></i>Gestione Piani Studio</a>
 
-                <a href="#"><i class="bi bi-people-fill me-2"></i>Gestione Docenti</a>
+                <a href="GestioneDocenti.aspx"><i class="bi bi-people-fill me-2"></i>Gestione Docenti</a>
 
                 <div class="dropdown-sidebar">
                     <a class="dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenuEconomica" role="button" aria-expanded="false" aria-controls="submenuEconomica">

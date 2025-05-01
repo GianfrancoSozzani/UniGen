@@ -64,6 +64,12 @@ namespace LibreriaClassi
             dB.cmd.Parameters.AddWithValue("", K_Esame);
             return dB.SQLselect();
         }
+        public DataTable SelezionaEsami() 
+        {
+            DB dB = new DB();
+            dB.query = "Esami_SelectEsami";
+            return dB.SQLselect();
+        }
 
 
     }
