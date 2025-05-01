@@ -8,8 +8,8 @@ namespace AreaStudente.Controllers
     {
         public IActionResult Faq()
         {
-            ViewData["studente_id"] = HttpContext.Session.GetString("studente_id");
-            var studenteIdStr = HttpContext.Session.GetString("studente_id");
+            var studenteIdStr = HttpContext.Session.GetString("cod");
+            ViewData["studente_id"] = studenteIdStr;
             if (Guid.TryParse(studenteIdStr, out Guid studenteId))
             {
                 ViewBag.StudenteId = studenteId;

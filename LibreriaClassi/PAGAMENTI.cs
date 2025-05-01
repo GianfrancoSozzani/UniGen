@@ -63,5 +63,60 @@ namespace LibreriaClassi
             dB.cmd.Parameters.AddWithValue("", Importo);
             dB.SQLcommand();
         }
+
+        //---------------AGGIUNTA PER HOME AMMINISTRAZIONE
+        public DataTable IncassoAnnoCorrente()
+        {
+            DB db = new DB();
+            db.query = "Pagamenti_IncassoAnnoCorrente";
+            return db.SQLselect();
+        }
+
+        public DataTable IncassiPerAnno()
+        {
+            DB db = new DB();
+            db.cmd.Parameters.AddWithValue("@anno", Anno);
+            db.query = "Pagamenti_SelectIncassoAnnuale";
+            return db.SQLselect();
+        }
+
+        public DataTable IncassiGroupByAnno()
+        {
+            DB db = new DB();
+            db.query = "Pagamenti_SelectGroupByAnno";
+            return db.SQLselect();
+        }
+
+        public DataTable IncassiGroupByFacolta()
+        {
+            DB db = new DB();
+            db.cmd.Parameters.AddWithValue("@anno", Anno);
+            db.query = "Pagamenti_SelectGroupByFacolta";
+            return db.SQLselect();
+        }
+
+        public DataTable IncassiPerCorso(Guid Facolta)
+        {
+            DB db = new DB();
+            db.cmd.Parameters.AddWithValue("@anno", Anno);
+            db.cmd.Parameters.AddWithValue("@facolta", Facolta);
+            db.query = "Pagamenti_SelectGroupByCorso";
+            return db.SQLselect();
+        }
+
+        public DataTable IncassiStimatiFacolta()
+        {
+            DB db = new DB();
+            db.query = "Pagamenti_SelectStimatiFacolta";
+            return db.SQLselect();
+        }
+
+        public DataTable IncassiStimatiCorso(Guid Facolta)
+        {
+            DB db = new DB();
+            db.cmd.Parameters.AddWithValue("@facolta", Facolta);
+            db.query = "Pagamenti_SelectStimatiCorso";
+            return db.SQLselect();
+        }
     }
 }
