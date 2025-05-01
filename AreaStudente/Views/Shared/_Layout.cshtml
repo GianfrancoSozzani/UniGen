@@ -55,11 +55,11 @@
                         @if (@ViewData["matricola"] != null)
                         {
 
-                            <a class="btn btn-sm text-white" style="background-color: #12304F;" href="@($"http://localhost:54399/Homepage.aspx?cod={Model.Studente.K_Studente}&usr={Model.Studente.Email}&mat={Model.Studente.Matricola}&ab={Model.Studente.Abilitato}")">Area Lavoro</a>
+                            <a class="btn btn-sm text-white" style="background-color: #12304F;" href="@($"http://localhost:54399/Homepage.aspx?cod={ViewData["studente_id"]}&usr={ViewData["email"]}&mat={ViewData["matricola"]}&ab={ViewData["abilitato"]}")">Area Lavoro</a>
 
                         } else
                         {
-                            <p>disattivato</p>
+                            <a class="btn btn-sm text-white disabled" tabindex="-1" aria-disabled="true" style="background-color: #12304F;" href="@($"http://localhost:54399/Homepage.aspx?cod={ViewData["studente_id"]}&usr={ViewData["email"]}&mat={ViewData["matricola"]}&ab={ViewData["abilitato"]}")">Area Lavoro</a>
                         }
                     </div>
                     <div class="d-flex gap-2 me-3">

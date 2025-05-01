@@ -76,7 +76,9 @@ namespace AreaStudente.Controllers
             }
 
             ViewData["studente_id"] = studente.K_Studente;
+            ViewData["email"] = studente.Email;
             ViewData["matricola"] = studente.Matricola;
+            ViewData["abilitato"] = studente.Abilitato;
             HttpContext.Session.SetString("cod", studente.K_Studente.ToString());
 
             // Mappa dall'entità Studente (dal DB) a ShowStudenteViewModel
@@ -313,6 +315,10 @@ namespace AreaStudente.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+            ViewData["email"] = studente.Email;
+            ViewData["matricola"] = studente.Matricola;
+            ViewData["abilitato"] = studente.Abilitato;
+
             var model = new ModificaStudenteViewModel
             {
                 K_Studente = studente.K_Studente,
@@ -344,6 +350,10 @@ namespace AreaStudente.Controllers
 
             if (studente == null)
                 return NotFound();
+
+            ViewData["email"] = studente.Email;
+            ViewData["matricola"] = studente.Matricola;
+            ViewData["abilitato"] = studente.Abilitato;
 
             // Aggiorna i dati anagrafici
             studente.Nome = model.Nome;
