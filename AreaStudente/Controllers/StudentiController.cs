@@ -62,6 +62,8 @@ namespace AreaStudente.Controllers
             var studente = await dbContext.Studenti
                                           // Sostituisci con il tuo DbSet<Studente>
                                           // .Include(s => s.Corso) // Esempio: Decommenta se hai una navigation property 'Corso' in Studente e vuoi il nome
+                                          .Include(s => s.Corso)
+                                          .ThenInclude(c => c.Facolta)
                                           .FirstOrDefaultAsync(s => s.K_Studente == cod);
             if (studente == null)
             {
@@ -100,7 +102,9 @@ namespace AreaStudente.Controllers
                 Matricola = studente.Matricola,
                 DataImmatricolazione = studente.DataImmatricolazione,
                 K_Corso = studente.K_Corso,
-                Abilitato = studente.Abilitato
+                Abilitato = studente.Abilitato,
+                CorsoTitolo = studente.Corso?.TitoloCorso,
+                FacoltaTitolo = studente.Corso?.Facolta?.TitoloFacolta
 
 
 
@@ -179,10 +183,10 @@ namespace AreaStudente.Controllers
             string ruolo = HttpContext.Session.GetString("r");
 
 
-                 var ultimaComunicazione = dbContext.Comunicazioni
-                .Where(c => c.Codice_Comunicazione == viewModel.Codice_Comunicazione)
-                .OrderByDescending(c => c.DataOraComunicazione)
-                .FirstOrDefault();
+            var ultimaComunicazione = dbContext.Comunicazioni
+           .Where(c => c.Codice_Comunicazione == viewModel.Codice_Comunicazione)
+           .OrderByDescending(c => c.DataOraComunicazione)
+           .FirstOrDefault();
 
             if (ultimaComunicazione == null)
             {
@@ -294,7 +298,7 @@ namespace AreaStudente.Controllers
                     Console.WriteLine("Errore invio email: " + ex.Message);
                 }
             }
-           
+
             return RedirectToAction("Show", "Studenti", new { cod = HttpContext.Session.GetString("cod") });
         }
 
