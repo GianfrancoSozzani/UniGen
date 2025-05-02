@@ -75,16 +75,14 @@ namespace LibreriaClassi
             dB.cmd.Parameters.AddWithValue("@chiave", K_Esame);
             return dB.SQLselect();
         }
-        public DataTable SelezionaPerMatricola(Guid K_Studente)
+        public DataTable SelezionaPerMatricola(Guid K_Studente, Guid K_Esame)
         {
             DB db = new DB();
-            db.query = "Lezioni_FindByMatricola";
+            db.query = "Lezioni_FindByKS";
             db.cmd.Parameters.AddWithValue("@K_Studente", K_Studente);
+            db.cmd.Parameters.AddWithValue("@K_Esame", K_Esame);
             return db.SQLselect();
         }
-       
-
-
 
     }
 }
