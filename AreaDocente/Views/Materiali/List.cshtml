@@ -1,0 +1,38 @@
+﻿@model List<AreaDocente.Models.Entities.MVCMateriali>
+
+<div class="container">
+    <h1>Elenco Materiali</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                @*  <th>Id</th> *@
+                <th>Titolo</th>
+                <th>Materiale</th>
+                <th>Tipo</th>
+                <th>Esame</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var mat in Model)
+            {
+                <tr>
+                    @* <td>@stu.Id</td> *@
+                    <td>@mat.Titolo</td>
+                    <td>@mat.Materiale</td>
+                    <td>@mat.Tipo</td>
+                    <td>@Html.DisplayFor(Model => mat.esame.TitoloEsame)</td>
+                    <td><a class="btn btn-primary" asp-controller="Materiali" asp-action="Edit" asp-route-id="@mat.K_Materiale">Modifica</a></td>
+                </tr>
+
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Materiali" asp-action="Add">Inserire del nuovo materiale</a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

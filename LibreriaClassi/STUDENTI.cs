@@ -32,26 +32,26 @@ namespace LibreriaClassi
 
         }
 
-        //public void Inserimento()             //Gestito tramite API
-        //{
-        //    DB db = new DB();
-        //    db.query = "";
-        //    db.cmd.Parameters.AddWithValue("", Email);
-        //    db.cmd.Parameters.AddWithValue("", PWD);
-        //    db.cmd.Parameters.AddWithValue("", Cognome);
-        //    db.cmd.Parameters.AddWithValue("", Nome);
-        //    db.cmd.Parameters.AddWithValue("", DataNascita);
-        //    db.cmd.Parameters.AddWithValue("", Indirizzo);
-        //    db.cmd.Parameters.AddWithValue("", CAP);
-        //    db.cmd.Parameters.AddWithValue("", Citta);
-        //    db.cmd.Parameters.AddWithValue("", Provincia);
-        //    db.cmd.Parameters.AddWithValue("", ImmagineProfilo);
-        //    db.cmd.Parameters.AddWithValue("", Tipo);
-        //    db.cmd.Parameters.AddWithValue("", Matricola);
-        //    db.cmd.Parameters.AddWithValue("", DataImmatricolazione);
-        //    db.cmd.Parameters.AddWithValue("", Abilitato);
-        //    db.SQLcommand();
-        //}
+        public void Inserimento()
+        {
+            DB db = new DB();
+            db.query = "";
+            db.cmd.Parameters.AddWithValue("", Email);
+            db.cmd.Parameters.AddWithValue("", PWD);
+            db.cmd.Parameters.AddWithValue("", Cognome);
+            db.cmd.Parameters.AddWithValue("", Nome);
+            db.cmd.Parameters.AddWithValue("", DataNascita);
+            db.cmd.Parameters.AddWithValue("", Indirizzo);
+            db.cmd.Parameters.AddWithValue("", CAP);
+            db.cmd.Parameters.AddWithValue("", Citta);
+            db.cmd.Parameters.AddWithValue("", Provincia);
+            db.cmd.Parameters.AddWithValue("", ImmagineProfilo);
+            db.cmd.Parameters.AddWithValue("", Tipo);
+            db.cmd.Parameters.AddWithValue("", Matricola);
+            db.cmd.Parameters.AddWithValue("", DataImmatricolazione);
+            db.cmd.Parameters.AddWithValue("", Abilitato);
+            db.SQLcommand();
+        }
 
         public DataTable SelezionaTutto()
         {
@@ -59,15 +59,15 @@ namespace LibreriaClassi
             dB.query = "Studenti_SelectAll";
             return dB.SQLselect();
         }
-
-        public DataTable SelezionaPerCorso()
+        //---------------AGGIUNTA PER HOME AMMINISTRAZIONE
+        public DataTable StudentiIscritti()
         {
-            DB dB = new DB();
-            dB.query = "Studenti_SelectByCorso";
-            return dB.SQLselect();
+            DB db = new DB();
+            db.query = "Studenti_SelectImmatricolati";
+            return db.SQLselect();
         }
 
-        public DataTable SelezionaPerMatricola()
+        public DataTable SelezionaPerMatricola(int Matricola)
         {
             DB db = new DB();
             db.query = "Studenti_SelectByMatricola";
@@ -75,43 +75,99 @@ namespace LibreriaClassi
             return db.SQLselect();
         }
 
-        public DataTable SelezionaChiaveStudente()
+        public DataTable SelezionaAnno()
         {
             DB db = new DB();
-            db.query = "Studenti_SelectKey";
-            db.cmd.Parameters.AddWithValue("@chiave", K_Studente);
+            db.query = "Studenti_CountAnni";
             return db.SQLselect();
         }
 
-        //public void Modifica()            //Gestito tramite API
-        //{
-        //    DB dB = new DB();
-        //    dB.query = "";
-        //    dB.cmd.Parameters.AddWithValue("", K_Studente);
-        //    dB.cmd.Parameters.AddWithValue("", Email);
-        //    dB.cmd.Parameters.AddWithValue("", PWD);
-        //    dB.cmd.Parameters.AddWithValue("", Cognome);
-        //    dB.cmd.Parameters.AddWithValue("", Nome);
-        //    dB.cmd.Parameters.AddWithValue("", DataNascita);
-        //    dB.cmd.Parameters.AddWithValue("", Indirizzo);
-        //    dB.cmd.Parameters.AddWithValue("", CAP);
-        //    dB.cmd.Parameters.AddWithValue("", Citta);
-        //    dB.cmd.Parameters.AddWithValue("", Provincia);
-        //    dB.cmd.Parameters.AddWithValue("", ImmagineProfilo);
-        //    dB.cmd.Parameters.AddWithValue("", Tipo);
-        //    dB.cmd.Parameters.AddWithValue("", Matricola);
-        //    dB.cmd.Parameters.AddWithValue("", DataImmatricolazione);
-        //    dB.cmd.Parameters.AddWithValue("", Abilitato);
-        //    dB.SQLcommand();
-        //}
+        public DataTable SelezionaPerCorso()
+        {
+            DB db = new DB();
+            db.query = "Studenti_PerCorsi";
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaAnnoSingolo(string anno)
+        {
+            DB db = new DB();
+            db.query = "Studenti_CountAnnoSingolo";
+            db.cmd.Parameters.AddWithValue("@Anno", anno);
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaPerCorsoAnnoSingolo(string anno)
+        {
+            DB db = new DB();
+            db.query = "Studenti_PerCorsiAnnoSingolo";
+            db.cmd.Parameters.AddWithValue("@Anno", anno);
+            return db.SQLselect();
+        }
+
+        public DataTable AttivaStudenteList()
+        {
+            DB db = new DB();
+            db.query = "Studenti_AbilitaList";
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaChiaveStudente()
+        {
+            DB db = new DB();
+            db.query = "";
+            db.cmd.Parameters.AddWithValue("", K_Studente);
+            return db.SQLselect();
+        }
+
+        public DataTable Attiva()
+        {
+            DB db = new DB();
+            db.query = "Studenti_Abilita";
+            db.cmd.Parameters.AddWithValue("@matricola", Matricola);
+            return db.SQLselect();
+        }
+
+        public DataTable Disattiva()
+        {
+            DB db = new DB();
+            db.query = "Studenti_Disabilita";
+            db.cmd.Parameters.AddWithValue("@matricola", Matricola);
+            return db.SQLselect();
+        }
+
+        public void Modifica()
+        {
+            DB dB = new DB();
+            dB.query = "";
+            dB.cmd.Parameters.AddWithValue("", K_Studente);
+            dB.cmd.Parameters.AddWithValue("", Email);
+            dB.cmd.Parameters.AddWithValue("", PWD);
+            dB.cmd.Parameters.AddWithValue("", Cognome);
+            dB.cmd.Parameters.AddWithValue("", Nome);
+            dB.cmd.Parameters.AddWithValue("", DataNascita);
+            dB.cmd.Parameters.AddWithValue("", Indirizzo);
+            dB.cmd.Parameters.AddWithValue("", CAP);
+            dB.cmd.Parameters.AddWithValue("", Citta);
+            dB.cmd.Parameters.AddWithValue("", Provincia);
+            dB.cmd.Parameters.AddWithValue("", ImmagineProfilo);
+            dB.cmd.Parameters.AddWithValue("", Tipo);
+            dB.cmd.Parameters.AddWithValue("", Matricola);
+            dB.cmd.Parameters.AddWithValue("", DataImmatricolazione);
+            dB.cmd.Parameters.AddWithValue("", Abilitato);
+            dB.SQLcommand();
+        }
+
 
         public DataTable SelezionaAnnoAccademico(int Matricola)
+
         {
             DB db = new DB();
             db.query = "Studenti_SelectAnnoAccademico";
             db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
             return db.SQLselect();
         }
+
 
         public DataTable SelezionaDatiRinuncia(int Matricola)
         {
@@ -129,6 +185,7 @@ namespace LibreriaClassi
             db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
             db.SQLcommand();
         }
+
 
     }
 }

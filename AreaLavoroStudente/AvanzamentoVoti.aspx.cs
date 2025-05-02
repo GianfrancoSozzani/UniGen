@@ -7,31 +7,15 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        // TEST: Caricare i dati di esempio
         if (!IsPostBack)
         {
-            int Matricola = 123562; // Sostituisci con la matricola dell'utente effettivo
-            CaricaEsami(Matricola);
-            CaricaMedia(Matricola);
-            CaricaCFU(Matricola);
+            //string Matricola = Request.QueryString["mat"];
+            string Matricola = Session["mat"].ToString();
+            Session["mat"] = Matricola;
+            CaricaEsami(int.Parse(Matricola));
+            CaricaMedia(int.Parse(Matricola));
+            CaricaCFU(int.Parse(Matricola));
         }
-
-        //VERSIONE MATRICOLA DA SESSION
-        //if (Session["Matricola"] != null)
-        //{
-        //    int Matricola = Convert.ToInt32(Session["Matricola"]);
-        //CaricaEsami(Matricola);
-        //CaricaMedia(Matricola);
-        //CaricaCFU(Matricola);
-        //}
-
-        //else
-
-        //{
-        //    // SE LA MATRICOLA NON E' PRESENTE, RIMANDA A LOGIN
-        //    Response.Write("Utente non trovato.");
-        //    Response.Redirect("~/Login.aspx");
-        //}
 
     }
 
