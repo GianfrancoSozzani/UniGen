@@ -36,6 +36,7 @@ public partial class _Default : System.Web.UI.Page
         ddlFacolta.DataTextField = "TitoloFacolta";
         ddlFacolta.DataValueField = "K_Facolta";
         ddlFacolta.DataBind();
+        ddlFacolta.Items.Insert(0, new ListItem("Seleziona una facoltà", ""));
     }
 
     // Popolo la dropdownlist delle facoltà del MODAL
@@ -56,6 +57,7 @@ public partial class _Default : System.Web.UI.Page
         ddlTipoCorso.DataTextField = "Tipo";
         ddlTipoCorso.DataValueField = "K_TipoCorso";
         ddlTipoCorso.DataBind();
+        ddlTipoCorso.Items.Insert(0, new ListItem("Seleziona un corso", ""));
     }
 
     //Popolo la dropdownlist dei tipicorsi del MODAL

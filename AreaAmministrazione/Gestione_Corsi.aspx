@@ -4,45 +4,54 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
+    <style>
+        .mio_width{
+            width: 200px;
+        }
+
+    </style>
+
     <div class="container mt-5">
         <h1>Gestione Corsi</h1>
 
         <div class="mb-4">
-            <div id="icona" class="row g-3 align-items-center justify-content-end">
+            <div id="icona" class="row g-3">
                 <div class="col-auto">
                     <asp:Label ID="Label2" runat="server" Text="Inserisci un nuovo corso" CssClass="fw-bold fs-5"></asp:Label>
                 </div>
                 <div class="col-auto">
-                    <i class="bi bi-plus-circle btn btn-primary"></i>
+                    <i class="bi bi-plus-circle btn btn-sm btn-primary"></i>
                 </div>
             </div>
 
             <div id="insert" class="d-none" runat="server">
-                <div class="row align-items-center justify-content-end mb-3">
-                    <div class="col-auto d-flex align-items-center column-gap-3">
-                        <asp:Label ID="Label4" runat="server" Text="Corso"></asp:Label>
-                        <asp:TextBox ID="txtCorso" CssClass="form-control" runat="server"></asp:TextBox>
-                    </div>
-                    <div class="col-auto d-flex align-items-center column-gap-3">
+                <div class="row mb-3">
+                    <div class="col-auto">
                         <asp:Label ID="Label1" runat="server" Text="Facoltà"></asp:Label>
-                        <asp:DropDownList ID="ddlFacolta" CssClass="form-select" runat="server"></asp:DropDownList>
+                        <asp:DropDownList ID="ddlFacolta" CssClass="form-select mio_width" runat="server"></asp:DropDownList>
                     </div>
-                    <div class="col-auto d-flex align-items-center column-gap-3">
+                    <div class="col-auto">
                         <asp:Label ID="Label3" runat="server" Text="Tipo&nbsp;Corso"></asp:Label>
-                        <asp:DropDownList ID="ddlTipoCorso" CssClass="form-select" runat="server"></asp:DropDownList>
+                        <asp:DropDownList ID="ddlTipoCorso" CssClass="form-select mio_width" runat="server"></asp:DropDownList>
                     </div>
                 </div>
-                <div class="row align-items-center justify-content-end mb-3">
-                    <div class="col-auto d-flex align-items-center column-gap-3">
+                <div class="row mb-3">
+                    <div class="col-auto">
+                        <asp:Label ID="Label4" runat="server" Text="Corso"></asp:Label>
+                        <asp:TextBox ID="txtCorso" CssClass="form-control mio_width" runat="server"></asp:TextBox>
+                    </div>
+                    <div class="col-auto">
                         <asp:Label ID="Label5" runat="server" Text="MinimoCFU"></asp:Label>
-                        <asp:TextBox ID="txtMinimoCFU" CssClass="form-control" runat="server"></asp:TextBox>
-                    </div>
-                    <div class="col-auto d-flex align-items-center column-gap-3">
-                        <asp:Label ID="Label6" runat="server" Text="CostoAnnuale"></asp:Label>
-                        <asp:TextBox ID="txtCostoAnnuale" CssClass="form-control" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="txtMinimoCFU" CssClass="form-control mio_width" runat="server"></asp:TextBox>
                     </div>
                 </div>
-                <div class="row align-items-center justify-content-end">
+                <div class="row mb-3">
+                    <div class="col-auto">
+                        <asp:Label ID="Label6" runat="server" Text="CostoAnnuale"></asp:Label>
+                        <asp:TextBox ID="txtCostoAnnuale" CssClass="form-control mio_width" runat="server"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-auto">
                         <asp:Button CssClass="btn btn-primary" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
                     </div>
