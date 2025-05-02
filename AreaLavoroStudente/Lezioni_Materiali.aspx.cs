@@ -15,8 +15,8 @@ public partial class Default2 : System.Web.UI.Page
         if (!IsPostBack)
         {
             //Simulazione della session
-            Session["Matricola"] = 1;
-            Session["K_Studente"] = "6b787310-8260-4517-a2f4-b7132de47c2e";
+            Session["Matricola"] = 123562;
+            Session["K_Studente"] = "c1fd577f-3b65-4e08-9ad9-0ddb9cf0230b";
 
             CaricaFacoltaECorso();
             CaricaVideolezioni();
