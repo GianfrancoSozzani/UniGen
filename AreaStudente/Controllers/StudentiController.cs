@@ -78,7 +78,7 @@ namespace AreaStudente.Controllers
             ViewData["studente_id"] = studente.K_Studente;
             ViewData["email"] = studente.Email;
             ViewData["matricola"] = studente.Matricola;
-            ViewData["abilitato"] = studente.Abilitato;
+            ViewData["abilitato"] = studente.Abilitato.Trim();
             HttpContext.Session.SetString("cod", studente.K_Studente.ToString());
 
             // Mappa dall'entità Studente (dal DB) a ShowStudenteViewModel
@@ -317,7 +317,7 @@ namespace AreaStudente.Controllers
 
             ViewData["email"] = studente.Email;
             ViewData["matricola"] = studente.Matricola;
-            ViewData["abilitato"] = studente.Abilitato;
+            ViewData["abilitato"] = studente.Abilitato.Trim();
 
             var model = new ModificaStudenteViewModel
             {
@@ -353,7 +353,7 @@ namespace AreaStudente.Controllers
 
             ViewData["email"] = studente.Email;
             ViewData["matricola"] = studente.Matricola;
-            ViewData["abilitato"] = studente.Abilitato;
+            ViewData["abilitato"] = studente.Abilitato.Trim();
 
             // Aggiorna i dati anagrafici
             studente.Nome = CapitalizeWords(model.Nome);
