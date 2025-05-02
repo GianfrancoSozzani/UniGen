@@ -52,11 +52,13 @@
 								<a class="btn btn-sm text-white" style="background-color: #12304F;" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
 							</div>
 						</div>
-						<p class="fs-4 text-black me-3 text-end">Fatti non foste a viver come bruti</p>
+						<p class="fs-4 fst-italic text-black me-3 text-end">"Fatti non foste a viver come bruti"</p>
 
 					</div>
 				</div>
 			</div>
+
+
 			<nav class="navbar navbar-expand-lg navbar-custom">
 				<div class="container">
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,8 +81,8 @@
 											Piano di studi
 										</a>
 										<ul class="dropdown-menu dropdown-submenu">
-											<li><a class="dropdown-item" asp-controller="OffertaFormativa">Programma</a></li>
-											<li><a class="dropdown-item" asp-controller="OffertaFormativa" asp-action="ElencoDocenti">Esami e docenti</a></li>
+											<li><a class="dropdown-item" asp-controller="OffertaFormativa" asp-action="ElencoCorsiCompleti">Programma</a></li>
+											<li><a class="dropdown-item" asp-controller="OffertaFormativa" asp-action="ElencoDocentiConEsami">Esami e docenti</a></li>
 										</ul>
 									</li>
 								</ul>
@@ -91,8 +93,8 @@
 									Didattica
 								</a>
 								<ul class="dropdown-menu">
-									<li><a class="dropdown-item" asp-controller="Didattica">Calendario Accademico</a></li>
-									<li><a class="dropdown-item" asp-controller="Didattica">Sedute di laurea</a></li>
+									<li><a class="dropdown-item" asp-controller="Didattica" asp-action="Index">Calendario Accademico</a></li>
+									<li><a class="dropdown-item" asp-controller="Didattica" asp-action="Seduta">Sedute di Laurea</a></li>
 								</ul>
 
 							<li class="nav-item">

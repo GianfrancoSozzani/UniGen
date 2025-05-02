@@ -8,5 +8,10 @@ namespace AreaPubblica.Controllers
         {
             return View();
         }
+
+        public IActionResult Seduta()
+        {
+            return View();
+        }
     }
 }
