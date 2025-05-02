@@ -26,7 +26,7 @@
                         <th>Obbligatorio</th>
                         <th>Data Appello</th>
                         <th>Tipo</th>
-                        <th>Link</th>
+                        <th>Link Esame</th>
                     </tr>
                 </thead>
                 <tbody>
