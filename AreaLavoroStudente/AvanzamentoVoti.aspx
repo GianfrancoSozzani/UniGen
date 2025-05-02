@@ -21,6 +21,22 @@
             </div>
         </div>
     </div>
+    
+    
+    <div class="modal fade" id="datiModal" tabindex="-1" aria-labelledby="datiModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="datiModalLabel">Attenzione! Dati non presenti</h5>
+                </div>
+                <div class="modal-footer">
+                    <a href="Homepage.aspx" class="btn btn-primary">Torna alla homepage</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <%-- CONTENUTO PRINCIPALE --%>
     <div class="container mt-2 mb-2">
         <div class="row">
@@ -78,8 +94,10 @@
                                                 <asp:Label ID="lblMedia" CssClass="fs-5" runat="server" Text='<%# Eval("MediaPonderata") %>' />
                                             </ItemTemplate>
                                         </asp:FormView>
+                                        <asp:Label ID="lblMediaVuota" runat="server" CssClass="text-danger" Text="Dati non disponibili" Visible="true" />
                                     </td>
                                 </tr>
+
                                 <tr>
                                     <td class="text-muted">Totale CFU:</td>
                                     <td>
@@ -88,8 +106,12 @@
                                                 <asp:Label ID="lblCFU" CssClass="fs-5" runat="server" Text='<%# Eval("TotaleCFU") %>' />
                                             </ItemTemplate>
                                         </asp:FormView>
+                                        <asp:Label ID="lblCFUVuota" runat="server" CssClass="text-danger" Text="Dati non disponibili" Visible="true" />
+
                                     </td>
                                 </tr>
+
+
                             </tbody>
                         </table>
 
@@ -115,6 +137,17 @@
 
             setTimeout(() => {
                 window.location.href = 'Login.aspx';
+            }, 10000);
+        }
+    </script>
+    
+    <script>
+        function showDatiModal() {
+            const datiModal = new bootstrap.Modal(document.getElementById('datiModal'));
+            datiModal.show();
+
+            setTimeout(() => {
+                window.location.href = 'Homepage.aspx';
             }, 10000);
         }
     </script>

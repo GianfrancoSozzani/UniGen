@@ -16,47 +16,38 @@ using System.Security.Cryptography.X509Certificates;
 
 public partial class MasterPage : System.Web.UI.MasterPage
 {
-    public int matricola;
+    public int Matricola;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
+            //CONTROLLO ABILITAZIONE
 
-            string abilitazione = "S";
-            /*Session["Abilitazione"]?.ToString();*/
-            if (abilitazione == "N")
+            //TEST CON VARIABILI 
+            Matricola = 123562;
+            string Abilitazione = "S";
+
+            //VERSIONE CON SESSION
+            /*Abilitazione = Session["Abilitazione"].ToString();*/
+
+            if (Abilitazione == "N")
             {
-                liAppelli.Visible = (abilitazione == "admin");
-                liMateriali.Visible = (abilitazione == "admin");
-                liComunicazioni.Visible = (abilitazione == "admin");
+                liAppelli.Visible = (Abilitazione == "studimm");
+                liMateriali.Visible = (Abilitazione == "studimm");
+                liComunicazioni.Visible = (Abilitazione == "studimm");
             }
-
-            // Nasconde la card se non sei admin
-
+            CaricaUtente(Matricola);
         }
 
+    }
 
-        //Verifica che la sessione contenga una matricola valida
-        //if (Session["matricola"] == null || !int.TryParse(Session["matricola"].ToString(), out matricola) || matricola == 0)
-        //{
-        //    Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Utente non loggato');", true);
-        //    Response.Redirect("~/Login.aspx");
 
-        //}
-
-        //TEST
-        matricola = 123562;
-
-        if (matricola == 0)
-        {
-            Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Utente non loggato');", true);
-            Response.Redirect("~/Login.aspx");
-            
-        }
-
+    private void CaricaUtente(int Matricola)
+    {
         STUDENTI studente = new STUDENTI();
-        studente.Matricola = matricola;
+        studente.Matricola = Matricola;
         DataTable dt = studente.SelezionaPerMatricola();
+
 
         if (dt.Rows.Count == 1)
         {
@@ -64,6 +55,8 @@ public partial class MasterPage : System.Web.UI.MasterPage
             string cognome = dt.Rows[0]["Cognome"].ToString();
             lblStudente.Text = nome + " " + cognome;
         }
+
+
     }
 }
 

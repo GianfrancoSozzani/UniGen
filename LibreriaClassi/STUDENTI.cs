@@ -158,7 +158,7 @@ namespace LibreriaClassi
             dB.SQLcommand();
         }
 
-        public DataTable SelezionaAnnoAccademico()
+        public DataTable SelezionaAnnoAccademico(int Matricola)
         {
             DB db = new DB();
             db.query = "Studenti_SelectAnnoAccademico";
@@ -166,6 +166,22 @@ namespace LibreriaClassi
             return db.SQLselect();
         }
 
+        public DataTable SelezionaDatiRinuncia(int Matricola)
+        {
+            DB db = new DB();
+            db.query = "Studenti_SelectForRinuncia";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+
+
+    public void Disabilita(int Matricola)
+        {
+            DB db = new DB();
+            db.query = "Studenti_Disabilita";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            db.SQLcommand();
+        }
 
     }
 }

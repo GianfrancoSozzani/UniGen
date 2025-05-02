@@ -78,17 +78,42 @@ namespace LibreriaClassi
             db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
             return db.SQLselect();
         }
-     
-        public DataTable SelezionaEsami(int Matricola)
+
+        public DataTable SelezionaMedia(int Matricola)
         {
             DB db = new DB();
             db.query = "Libretti_MediaVotiByMatricola";
             db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
             return db.SQLselect();
+        }
+
+        public DataTable SelezionaTOTCFU(int Matricola)
+        {
+
+            DB db = new DB();
+            db.query = "Libretti_TotCFUByMatricola";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaEsami(int Matricola)
+        {
+            DB db = new DB();
+            db.query = "Libretti_EsamiByMatricola";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
 
 
         }
+        public DataTable SelezionaCFU(int Matricola)
+        {
+            DB db = new DB();
+            db.query = "Libretti_TotCFUByMatricola";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
 
+
+        }
 
 
 
