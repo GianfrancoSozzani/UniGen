@@ -17,6 +17,7 @@ public partial class Default2 : System.Web.UI.Page
         if (!IsPostBack)
         {
             //Simulazione della session
+
             Session["Matricola"] = 123563;
             Session["K_Studente"] = "382a8129-4725-4723-aecd-963b5e840509";
 
