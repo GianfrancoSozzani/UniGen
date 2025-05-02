@@ -89,6 +89,13 @@ namespace LibreriaClassi
             return db.SQLselect();
         }
 
+        public DataTable SelezionaPerFacolta()
+        {
+            DB db = new DB();
+            db.query = "Studenti_PerFacolta";
+            return db.SQLselect();
+        }
+
         public DataTable SelezionaAnnoSingolo(string anno)
         {
             DB db = new DB();
@@ -101,6 +108,14 @@ namespace LibreriaClassi
         {
             DB db = new DB();
             db.query = "Studenti_PerCorsiAnnoSingolo";
+            db.cmd.Parameters.AddWithValue("@Anno", anno);
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaPerFacoltaAnnoSingolo(string anno)
+        {
+            DB db = new DB();
+            db.query = "Studenti_PerFacoltaAnnoSingolo";
             db.cmd.Parameters.AddWithValue("@Anno", anno);
             return db.SQLselect();
         }

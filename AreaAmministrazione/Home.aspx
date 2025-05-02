@@ -2,8 +2,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <style>
-         
-
         .layout-wrapper {
             display: flex;
             min-height: calc(100vh - 230px); /* Adatta in base all'altezza di header+footer */
@@ -17,29 +15,31 @@
             flex-shrink: 0;
         }
 
-        .sidebar a {
-            display: block;
-            padding: 12px 20px;
-            color: white;
-            text-decoration: none;
-        }
+            .sidebar a {
+                display: block;
+                padding: 12px 20px;
+                color: white;
+                text-decoration: none;
+            }
 
-        .sidebar a:hover {
-            background-color: #0d2236;
-        }
+                .sidebar a:hover {
+                    background-color: #0d2236;
+                }
 
         .main-content {
             flex-grow: 1;
             padding: 20px;
             background-color: #f8f9fa;
         }
-        img{
+
+        img {
             width: -webkit-fill-available;
         }
-        .btn:hover{
-                         box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);
--webkit-box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);
--moz-box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);
+
+        .btn:hover {
+            box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);
+            -webkit-box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);
+            -moz-box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);
         }
     </style>
 </asp:Content>
@@ -137,8 +137,15 @@
             <div class="mt-5 mb-3 ">
                 <h5>Documenti utili</h5>
                 <ul class="list-group">
-                    <li class="list-group-item"><i class="bi bi-file-earmark-pdf me-2 text-danger"></i><a href="resources/Regolamento_Didattico_2025_UniGen.pdf">Regolamento didattico 2025</a></li>
-                    <li class="list-group-item"><i class="bi bi-file-earmark-pdf me-2 text-danger"></i><a href="resources/Linee%20guida%20esami.pdf">Linee guida esami</a></li>
+                    <li class="list-group-item">
+                        <i class="bi bi-file-earmark-pdf me-2 text-danger"></i>
+                        <a href="resources/Regolamento_Didattico_2025_UniGen.pdf" target="_blank">Regolamento didattico 2025</a>
+                    </li>
+                    <li class="list-group-item">
+                        <i class="bi bi-file-earmark-pdf me-2 text-danger"></i>
+                        <a href="resources/Linee%20guida%20esami.pdf" target="_blank">Linee guida esami</a>
+                    </li>
+
                 </ul>
             </div>
 

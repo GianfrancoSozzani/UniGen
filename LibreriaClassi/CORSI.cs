@@ -37,6 +37,7 @@ namespace LibreriaClassi
         {
             DB dB = new DB();
             dB.query = "Corsi_SelectAll";
+            dB.query = "Corsi_SelectAll";
             return dB.SQLselect();
         }
 
@@ -93,6 +94,7 @@ namespace LibreriaClassi
             db.query = "Corsi_TassaMediaAnn";
             return db.SQLselect();
         }
+        
 
     }
 }
