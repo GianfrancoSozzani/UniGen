@@ -22,11 +22,11 @@ namespace AreaDocente.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            var lez = await dbContext.lezioni.ToListAsync();
-            foreach (var riga in lez)
-            {
-                riga.Esame = dbContext.esami.FirstOrDefault(u => u.K_Esame == riga.K_Esame);
-            }
+            var lez = await dbContext.lezioni
+                .Include(a => a.Esame)
+                .Where(a => a.Esame.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
+                .ToListAsync();
+
             return View(lez);
         }
 
@@ -37,6 +37,7 @@ namespace AreaDocente.Controllers
             PopoloDDL();
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Add(AddLezioniViewModel viewModel)
         {
@@ -72,17 +73,19 @@ namespace AreaDocente.Controllers
             await dbContext.lezioni.AddAsync(lez);
             await dbContext.SaveChangesAsync();
 
-            return RedirectToAction("List", "Lezioni");
+            return RedirectToAction("List");
         }
 
         //POPOLO DDL ESAMI
         public void PopoloDDL()
         {
-            IEnumerable<SelectListItem> ListaEsami = dbContext.esami.Select(e => new SelectListItem
-            {
-                Text = e.TitoloEsame,
-                Value = e.K_Esame.ToString()
-            });
+            IEnumerable<SelectListItem> ListaEsami = dbContext.esami
+                .Where(e => e.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
+                .Select(e => new SelectListItem
+                {
+                    Text = e.TitoloEsame,
+                    Value = e.K_Esame.ToString()
+                });
             ViewBag.EsamiDDL = ListaEsami;
         }
 
@@ -127,7 +130,7 @@ namespace AreaDocente.Controllers
                 lez.K_Esame = viewModel.K_Esame;
                 await dbContext.SaveChangesAsync();
             }
-            return RedirectToAction("List", "Lezioni");
+            return RedirectToAction("List");
         }
 
         //DELETE
@@ -142,7 +145,7 @@ namespace AreaDocente.Controllers
                 dbContext.lezioni.Remove(viewModel);
                 await dbContext.SaveChangesAsync();
             }
-            return RedirectToAction("List", "Lezioni");
+            return RedirectToAction("List");
         }
     }
 }

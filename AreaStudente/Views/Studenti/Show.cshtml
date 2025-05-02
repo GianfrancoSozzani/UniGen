@@ -76,13 +76,13 @@
 									<div class="col-md-6">
 										<div class="form-group focused">
 											<label for="input-enabled" class="form-control-label">Corso</label>
-											<input id="input-enabled" class="form-control form-control-alternative" value="@(Model?.Studente?.Corso?.TitoloCorso ?? "N/A")" type="text" readonly />
+											<input id="input-enabled" class="form-control form-control-alternative" value="@(Model?.Studente?.CorsoTitolo ?? "N/A")" type="text" readonly />
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group focused">
 											<label for="input-course" class="form-control-label">Facoltà</label>
-											<input id="input-course" class="form-control form-control-alternative" value="@(Model?.Studente?.Corso?.Facolta?.TitoloFacolta ?? "N/A")" type="text" readonly />
+											<input id="input-course" class="form-control form-control-alternative" value="@(Model?.Studente?.FacoltaTitolo ?? "N/A")" type="text" readonly />
 										</div>
 									</div>
 								</div>

@@ -6,9 +6,9 @@ namespace AreaDocente.Models.Entities
     {
         [Key]
         public Guid K_Test_DA { get; set; }
-        public int Numero_Domanda { get; set; }
-        public string Domanda { get; set; }
-        public string Risposta { get; set; }
-        public Guid Codice_Test { get; set; }
+        public int? Numero_Domanda { get; set; }
+        public string? Domanda { get; set; }
+        public string? Risposta { get; set; }
+        public Guid? Codice_Test { get; set; }
     }
 }

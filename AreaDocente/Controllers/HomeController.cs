@@ -1,6 +1,6 @@
-using System.Diagnostics;
 using AreaDocente.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace AreaDocente.Controllers
 {
@@ -13,14 +13,32 @@ namespace AreaDocente.Controllers
             _logger = logger;
         }
 
+
         public IActionResult Index()
         {
+            string? cod = HttpContext.Request.Query["cod"];
+            string? usr = HttpContext.Request.Query["usr"];
+            string? r = HttpContext.Request.Query["r"];
+
+            if (cod != null && usr != null && r != null)
+            {
+                HttpContext.Session.SetString("cod", cod);
+                HttpContext.Session.SetString("usr", usr);
+                HttpContext.Session.SetString("r", r);
+            }
+
             return View();
         }
 
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return Redirect("https://localhost:7272");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,6 +1,6 @@
 ﻿@model List<AreaDocente.Models.Entities.MVCMateriali>
 
-<div class="container">
+<div class="container my-5">
     <h1>Elenco Materiali</h1>
 
     <table class="table">
@@ -9,7 +9,7 @@
                 @*  <th>Id</th> *@
                 <th>Titolo</th>
                 <th>Materiale</th>
-                <th>Tipo</th>
+                @* <th>Tipo</th> *@
                 <th>Esame</th>
             </tr>
         </thead>
@@ -19,8 +19,8 @@
                 <tr>
                     @* <td>@stu.Id</td> *@
                     <td>@mat.Titolo</td>
-                    <td>@mat.Materiale</td>
-                    <td>@mat.Tipo</td>
+                    <td><a asp-action="View" target="_blank" asp-route-id="@mat.K_Materiale" class="link">Visualizza</a>/<a asp-action="Download" asp-route-id="@mat.K_Materiale" class="link">Scarica</a></td>
+                    @* <td>@mat.Tipo</td> *@
                     <td>@Html.DisplayFor(Model => mat.esame.TitoloEsame)</td>
                     <td><a class="btn btn-primary" asp-controller="Materiali" asp-action="Edit" asp-route-id="@mat.K_Materiale">Modifica</a></td>
                 </tr>
@@ -30,7 +30,7 @@
         <tfoot>
             <tr>
                 <td>
-                    <a class="btn btn-primary" asp-controller="Materiali" asp-action="Add">Inserire del nuovo materiale</a>
+                    <a class="btn btn-primary" asp-controller="Materiali" asp-action="Add">Inserire un nuovo materiale</a>
                 </td>
             </tr>
         </tfoot>
