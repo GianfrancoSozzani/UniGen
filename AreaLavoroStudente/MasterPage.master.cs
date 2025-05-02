@@ -16,7 +16,7 @@ using System.Security.Cryptography.X509Certificates;
 
 public partial class MasterPage : System.Web.UI.MasterPage
 {
-    
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -50,9 +50,9 @@ public partial class MasterPage : System.Web.UI.MasterPage
                 liComunicazioni.Visible = false;
             }
         }
-    
 
-}
+
+    }
 
 
     private void CaricaUtente(int Matricola)
