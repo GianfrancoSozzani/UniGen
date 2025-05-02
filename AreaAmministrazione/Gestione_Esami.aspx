@@ -17,26 +17,20 @@
                 </div>
             </div>
 
-            <div id="insert" class="d-none row g-3 align-items-center justify-content-end" runat="server">
-                <div class="col-auto">
+            <div id="insert" class="d-none row align-items-center justify-content-end" runat="server">
+                <div class="col-auto d-flex align-items-center column-gap-3">
                     <asp:Label ID="Label3" runat="server" Text="Esame"></asp:Label>
-                </div>
-                <div class="col-auto">
                     <asp:TextBox ID="txtEsami" CssClass="form-control" runat="server"></asp:TextBox>
-                </div>
-                <div class="col-auto">
+                </div>                
+                <div class="col-auto d-flex align-items-center column-gap-3">
                     <asp:Label ID="Label1" runat="server" Text="Docente"></asp:Label>
-                </div>
-                <div class="col-auto">
                     <asp:DropDownList ID="ddlDocente" CssClass="form-select" runat="server"></asp:DropDownList>
                 </div>
-                <div class="col-auto">
+                <div class="col-auto d-flex align-items-center column-gap-3">
                     <asp:Label ID="Label5" runat="server" Text="CFU"></asp:Label>
-                </div>
-                <div class="col-auto">
                     <asp:TextBox ID="txtCFU" CssClass="form-control" runat="server"></asp:TextBox>
                 </div>
-                <div class="col-auto">
+                <div class="col-auto ">
                     <asp:Button CssClass="btn btn-primary" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
                 </div>
             </div>
