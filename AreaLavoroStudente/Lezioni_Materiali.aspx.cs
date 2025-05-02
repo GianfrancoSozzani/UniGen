@@ -17,9 +17,12 @@ public partial class Default2 : System.Web.UI.Page
         if (!IsPostBack)
         {
             //Simulazione della session
-
-            Session["Matricola"] = 123563;
-            Session["K_Studente"] = "382a8129-4725-4723-aecd-963b5e840509";
+            string Matricola = Session["mat"].ToString();
+            Session["mat"] = Matricola;
+            string K_Studente = Session["cod"].ToString();
+            Session["cod"]= K_Studente;
+            //Session["Matricola"] = 123563;
+            //Session["K_Studente"] = "382a8129-4725-4723-aecd-963b5e840509";
 
             CaricaDdl();
             CaricaFacoltaECorso();
@@ -32,7 +35,7 @@ public partial class Default2 : System.Web.UI.Page
 
     private void CaricaDdl()
     {
-        Guid K_Studente = new Guid((string)Session["K_Studente"]);
+        Guid K_Studente = new Guid((string)Session["cod"]);
         ESAMI e = new ESAMI();
         ddlCaricaEsami.DataSource = e.SelezionaPsp(K_Studente);
         ddlCaricaEsami.DataValueField = ("K_Esame");
@@ -45,14 +48,14 @@ public partial class Default2 : System.Web.UI.Page
     private void CaricaFacoltaECorso()
     {
         //Recupero matricola da session
-        if (Session["Matricola"] == null)
+        if (Session["mat"] == null)
         {
             // Se non c'è la session reindirizza al login
             Response.Redirect("Login.aspx");
             return;
         }
 
-        int matricola = Convert.ToInt32(Session["Matricola"]);
+        int matricola = Convert.ToInt32(Session["mat"]);
 
 
         DB db = new DB();
@@ -82,14 +85,14 @@ public partial class Default2 : System.Web.UI.Page
 
     private void CaricaVideolezioni()
     {
-        if (Session["Matricola"] == null)
+        if (Session["mat"] == null)
         {
             Response.Redirect("Login.aspx");
             return;
         }
 
         LEZIONI lezioni = new LEZIONI();
-        Guid K_Studente = new Guid((string)Session["K_Studente"]);
+        Guid K_Studente = new Guid((string)Session["cod"]);
         DataTable dt = lezioni.SelezionaPerMatricola(K_Studente, K_Esame);
 
         if (dt.Rows.Count > 0)
@@ -108,14 +111,14 @@ public partial class Default2 : System.Web.UI.Page
 
     private void CaricaDispense()
     {
-        if (Session["Matricola"] == null)
+        if (Session["mat"] == null)
         {
             Response.Redirect("Login.aspx");
             return;
         }
 
         MATERIALI lezioni = new MATERIALI();
-        Guid K_Studente = new Guid((string)Session["K_Studente"]);
+        Guid K_Studente = new Guid((string)Session["cod"]);
 
       
         DataTable dt = lezioni.DispensaPerMatricola(K_Studente, K_Esame);
@@ -150,7 +153,7 @@ public partial class Default2 : System.Web.UI.Page
 
         string SalvaK_Materiale = e.CommandArgument.ToString();
         MATERIALI m = new MATERIALI();
-        Guid K_Studente = new Guid((string)Session["K_Studente"]);
+        Guid K_Studente = new Guid((string)Session["cod"]);
         DataTable dt = m.DispensaPerMatricola(K_Studente, K_Esame);
 
         if (dt != null && dt.Rows.Count > 0)
