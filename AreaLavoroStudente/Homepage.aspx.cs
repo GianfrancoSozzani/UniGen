@@ -18,7 +18,7 @@ public partial class _Default : System.Web.UI.Page
             // RECUPERO PARAMETRI DA QUERYSTRING
             string K_Studente = Request.QueryString["cod"];
             string Matricola = Request.QueryString["mat"];
-            string Abilitazione = Request.QueryString["ab"];
+            string Abilitazione = Request.QueryString["a"];
 
             // CONTROLLO SE I PARAMETRI NON SONO CORRETTI (SESSIONS O PARAMETRI)
             if (string.IsNullOrEmpty(K_Studente) || string.IsNullOrEmpty(Matricola) || string.IsNullOrEmpty(Abilitazione))
@@ -40,7 +40,7 @@ public partial class _Default : System.Web.UI.Page
 
             // SALVA DATI IN SESSION
             Session["mat"] = Matricola;
-            Session["ab"] = Abilitazione;
+            Session["a"] = Abilitazione;
 
             // CARICO SPECIFICHE STUDENTE
             CaricaAA(int.Parse(Matricola));

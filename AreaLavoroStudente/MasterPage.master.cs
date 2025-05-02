@@ -22,16 +22,16 @@ public partial class MasterPage : System.Web.UI.MasterPage
         if (!IsPostBack)
         {
             // Controlliamo se la sessione contiene i dati necessari (matricola e abilitazione)
-            if (Session["mat"] == null || Session["ab"] == null)
+            if (Session["mat"] == null || Session["a"] == null)
             {
                 // Se non ci sono i dati nella sessione, mostriamo l'errore di autenticazione
-                ScriptManager.RegisterStartupScript(GetType(), "authError", "showAuthErrorModal();", true);
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "authError", "showAuthErrorModal();", true);
                 return;
             }
 
             // Recuperiamo i dati dalla sessione
             int Matricola = int.Parse(Session["mat"].ToString());
-            string Abilitazione = Session["ab"].ToString();
+            string Abilitazione = Session["a"].ToString();
 
             // Carichiamo il nome utente (ad esempio nome, cognome)
             CaricaUtente(Matricola);
