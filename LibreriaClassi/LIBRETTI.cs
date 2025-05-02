@@ -118,5 +118,15 @@ namespace LibreriaClassi
             db.cmd.Parameters.AddWithValue("@k_appello", K_Appello);
             return db.SQLselect();
         }
+
+        public DataTable RecuperaKStudenteDaMatricola(int matricola)
+        {
+            DB db = new DB();
+            db.query = "Recupera_KStudente";
+            db.cmd.Parameters.AddWithValue("@matricola", matricola);
+            return db.SQLselect();
+        }
+
+
     }
 }
