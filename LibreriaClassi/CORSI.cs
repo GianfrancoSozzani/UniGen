@@ -47,6 +47,7 @@ namespace LibreriaClassi
             dB.query = "Corsi_VerificaDuplicato";
             dB.cmd.Parameters.AddWithValue("@k_facolta", K_Facolta);
             dB.cmd.Parameters.AddWithValue("@titolocorso", TitoloCorso);
+            dB.cmd.Parameters.AddWithValue("@k_tipocorso", K_TipoCorso);
             return dB.SQLselect();
         }
 
