@@ -170,19 +170,69 @@ namespace AreaDocente.Controllers
         {
             return contentType switch
             {
+                // Documenti
                 "application/pdf" => ".pdf",
-                "image/jpeg" => ".jpg",
-                "image/png" => ".png",
-                "image/gif" => ".gif",
                 "application/msword" => ".doc",
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => ".docx",
                 "application/vnd.ms-excel" => ".xls",
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => ".xlsx",
+                "application/vnd.ms-powerpoint" => ".ppt",
+                "application/vnd.openxmlformats-officedocument.presentationml.presentation" => ".pptx",
                 "text/plain" => ".txt",
+                "text/csv" => ".csv",
+                "application/rtf" => ".rtf",
+                "application/xml" => ".xml",
+                "application/json" => ".json",
+
+                // Immagini
+                "image/jpeg" => ".jpg",
+                "image/png" => ".png",
+                "image/gif" => ".gif",
+                "image/bmp" => ".bmp",
+                "image/tiff" => ".tif",
+                "image/webp" => ".webp",
+                "image/svg+xml" => ".svg",
+                "image/x-icon" => ".ico",
+
+                // Audio
+                "audio/mpeg" => ".mp3",
+                "audio/wav" => ".wav",
+                "audio/ogg" => ".ogg",
+                "audio/webm" => ".weba",
+
+                // Video
+                "video/mp4" => ".mp4",
+                "video/x-msvideo" => ".avi",
+                "video/x-ms-wmv" => ".wmv",
+                "video/webm" => ".webm",
+                "video/quicktime" => ".mov",
+                "video/mpeg" => ".mpeg",
+
+                // Archivi
                 "application/zip" => ".zip",
-                _ => "" // fallback se il tipo non è riconosciuto
+                "application/x-zip-compressed" => ".zip",
+                "application/x-rar-compressed" => ".rar",
+                "application/x-7z-compressed" => ".7z",
+                "application/gzip" => ".gz",
+                "application/x-tar" => ".tar",
+
+                // HTML
+                "text/html" => ".html",
+                "application/xhtml+xml" => ".xhtml",
+
+                // Font
+                "font/woff" => ".woff",
+                "font/woff2" => ".woff2",
+                "application/font-woff" => ".woff",
+                "application/vnd.ms-fontobject" => ".eot",
+                "font/ttf" => ".ttf",
+                "font/otf" => ".otf",
+
+                // Fallback
+                _ => ""
             };
         }
+
 
         public async Task<IActionResult> Download(Guid id)
         {
