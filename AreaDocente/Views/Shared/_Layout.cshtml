@@ -22,19 +22,31 @@
         .dropdown-menu > li:hover > .dropdown-submenu {
             display: block;
         }
+
+        .flex-wrapper {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            justify-content: space-between;
+        }
     </style>
 
 </head>
-<body class="m-0">
+
+<body class="m-0 flex-wrapper">
     <header class="mb-5">
         <div class="fixed-top">
             <nav class="navbar navbar-dark navbar-expand-lg navbar-custom">
                 <div class="container">
+                    <a class="navbar-brand" href="#">
+                        <img src="~/css/resources/logonobg.png" alt="Bootstrap" width="150">
+                    </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
 
                             <li>
                                 <a class="navbar-brand" href="#">
@@ -42,17 +54,21 @@
                                 </a>
                             </li>
 
+
+
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
                                     Account
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#">Modifica account</a></li>
                                     <li><a class="dropdown-item" href="#">Logout</a></li>
+
                                 </ul>
                             </li>
 
@@ -70,6 +86,7 @@
 
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="#">Valutazione degli esami</a>
+
                             </li>
 
                         </ul>
@@ -77,8 +94,6 @@
                             <li class="nav-item">
                                 <a class="btn btn-light btn-sm disabled"><i class="bi bi-person-circle"></i> *Placeholder per il nome docente*</a>
                             </li>
-
-
                         </ul>
                     </div>
                 </div>
@@ -89,6 +104,7 @@
     <div class="container">
         <main role="main" class="pb-3 mt-5">
             <div class="mt-5">&nbsp;</div>
+
             @RenderBody()
         </main>
     </div>
@@ -98,8 +114,8 @@
             <div class="container d-flex justify-content-between align-items-end flex-wrap">
                 <div>
                     <img src="https://italy.generation.org/wp-content/uploads/2019/05/Generation_Italy_logo_WHITE.svg" alt="Logo UNIGen" class="img-fluid my-3" width="150px">
-                    <p class="fs-4 ms-4 mb-0">Università UNIGen</p>
-                    <p class="fs-6">Milano, Milano, MI 20100, IT</p>
+                    <p class="fs-4">Università UNIGen</p>
+                    <p class="fs-6">Milano, MI 20100, IT</p>
                 </div>
                 <div>
                     <p class="fs-6">© 2024 Generation: You Employed, Inc.</p>

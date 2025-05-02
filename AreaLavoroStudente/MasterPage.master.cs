@@ -16,37 +16,50 @@ using System.Security.Cryptography.X509Certificates;
 
 public partial class MasterPage : System.Web.UI.MasterPage
 {
-    public int Matricola;
+    
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            //CONTROLLO ABILITAZIONE
-
-            //TEST CON VARIABILI 
-            Matricola = 123562;
-            string Abilitazione = "S";
-
-            //VERSIONE CON SESSION
-            /*Abilitazione = Session["Abilitazione"].ToString();*/
-
-            if (Abilitazione == "N")
+            // Controlliamo se la sessione contiene i dati necessari (matricola e abilitazione)
+            if (Session["mat"] == null || Session["a"] == null)
             {
-                liAppelli.Visible = (Abilitazione == "studimm");
-                liMateriali.Visible = (Abilitazione == "studimm");
-                liComunicazioni.Visible = (Abilitazione == "studimm");
+                // Se non ci sono i dati nella sessione, mostriamo l'errore di autenticazione
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "authError", "showAuthErrorModal();", true);
+                return;
             }
-            CaricaUtente(Matricola);
-        }
 
-    }
+            // Recuperiamo i dati dalla sessione
+            int Matricola = int.Parse(Session["mat"].ToString());
+            string Abilitazione = Session["a"].ToString();
+
+            // Carichiamo il nome utente (ad esempio nome, cognome)
+            CaricaUtente(Matricola);
+
+            // Impostiamo la visibilità dei menu in base all'abilitazione
+            if (Abilitazione == "S")
+            {
+                liAppelli.Visible = true;
+                liMateriali.Visible = true;
+                liComunicazioni.Visible = true;
+            }
+            else
+            {
+                liAppelli.Visible = false;
+                liMateriali.Visible = false;
+                liComunicazioni.Visible = false;
+            }
+        }
+    
+
+}
 
 
     private void CaricaUtente(int Matricola)
     {
         STUDENTI studente = new STUDENTI();
         studente.Matricola = Matricola;
-        DataTable dt = studente.SelezionaPerMatricola();
+        DataTable dt = studente.SelezionaPerMatricola(Matricola);
 
 
         if (dt.Rows.Count == 1)
@@ -58,6 +71,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
 
     }
+
 }
 
 

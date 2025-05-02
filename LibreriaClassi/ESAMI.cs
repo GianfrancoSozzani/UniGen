@@ -14,26 +14,34 @@ namespace LibreriaClassi
     public class ESAMI
     {
         public Guid K_Esame { get; set; }
-        public Guid K_PianoStudio { get; set; }
         public string TitoloEsame { get; set; }
         public int CFU { get; set; }
         public Guid K_Docente { get; set; }
 
 
-        //public void Inserimento()     //Inserimento tramite API
-        //{
-        //    DB dB = new DB();
-        //    dB.query = "";
-        //    dB.cmd.Parameters.AddWithValue("", TitoloEsame);
-        //    dB.cmd.Parameters.AddWithValue("", CFU);
-        //    dB.cmd.Parameters.AddWithValue("", K_Docente);
-        //    dB.SQLcommand();
-        //}
+        public void Inserimento()
+        {
+            DB dB = new DB();
+            dB.query = "Esami_Insert";
+            dB.cmd.Parameters.AddWithValue("@titoloesame", TitoloEsame);
+            dB.cmd.Parameters.AddWithValue("@k_docente", K_Docente);
+            dB.cmd.Parameters.AddWithValue("@cfu", CFU);
+            dB.SQLcommand();
+        }
 
         public DataTable SelezionaTutto()
         {
             DB dB = new DB();
             dB.query = "Esami_SelectAll";
+            return dB.SQLselect();
+        }
+        public DataTable VerificaDuplicato()
+        {
+            DB dB = new DB();
+            dB.query = "Esami_VerificaDuplicato";
+            dB.cmd.Parameters.AddWithValue("@k_esame", K_Esame);
+            dB.cmd.Parameters.AddWithValue("@k_docente", K_Docente);
+            dB.cmd.Parameters.AddWithValue("@esame", TitoloEsame);
             return dB.SQLselect();
         }
 
@@ -45,29 +53,21 @@ namespace LibreriaClassi
             return dB.SQLselect();
         }
 
-        //public void Modifica()        //Gestione tramite API
-        //{
-        //    DB dB = new DB();
-        //    dB.query = "";
-        //    dB.cmd.Parameters.AddWithValue("", K_Esame);
-        //    dB.cmd.Parameters.AddWithValue("", TitoloEsame);
-        //    dB.cmd.Parameters.AddWithValue("", CFU);
-        //    dB.cmd.Parameters.AddWithValue("", K_Docente);
-        //    dB.SQLcommand();
-        //}
+        public void Modifica()
+        {
+            DB dB = new DB();
+            dB.query = "Esami_Update";
+            dB.cmd.Parameters.AddWithValue("@k_esame", K_Esame);
+            dB.cmd.Parameters.AddWithValue("@esame", TitoloEsame);
+            dB.cmd.Parameters.AddWithValue("@cfu", CFU);
+            dB.cmd.Parameters.AddWithValue("@k_docente", K_Docente);
+            dB.SQLcommand();
+        }
         public DataTable SelezionaChiave()
         {
             DB dB = new DB();
-            dB.query = "Esami_FindByKey";
-            dB.cmd.Parameters.AddWithValue("@chiave", K_Esame);
-            return dB.SQLselect();
-        }
-
-        public DataTable SelezionaPerCorso(string Corso)
-        {
-            DB dB = new DB();
-            dB.query = "Esami_FindByCorso";
-            dB.cmd.Parameters.AddWithValue("@Corso", Corso);
+            dB.query = "";
+            dB.cmd.Parameters.AddWithValue("", K_Esame);
             return dB.SQLselect();
         }
 
