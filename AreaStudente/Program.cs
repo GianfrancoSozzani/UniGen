@@ -46,7 +46,7 @@ namespace AreaStudente
             // Mappa la route predefinita
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Studenti}/{action=Show}/{id?}");
+                pattern: "{controller=Studenti}/{action=Show}");
 
             // Abilita la sessione
             app.UseSession();

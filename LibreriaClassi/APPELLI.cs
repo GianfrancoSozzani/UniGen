@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace LibreriaClassi
 {
     /// <summary>
@@ -61,5 +62,18 @@ namespace LibreriaClassi
         //        return dB.SQLselect();
         //    }
         //}
+
+
+        //lista appelli 
+        public DataTable ListaAppelli(int Matricola)
+        {
+            
+            DB db = new DB();
+            db.query = "Appelli_SelectMat";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+       
+
     }
 }
