@@ -3,13 +3,18 @@ using AreaStudente.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using AreaStudente.Models.Entities;
+using System.Data;
+using System.Net.Mail;
+using System.Net.Http;
 
 
 namespace AreaStudente.Controllers
 {
-    
+
     public class StudentiController : Controller
     {
 
@@ -46,16 +51,18 @@ namespace AreaStudente.Controllers
         //}
 
         [HttpGet]
-        public async Task<IActionResult> Show(Guid id) // L'ID dello studente da visualizzare
+
+        public async Task<IActionResult> Show(Guid cod, Comunicazione c) // L'ID dello studente da visualizzare
+
         {
- 
+
             // Trova lo studente includendo potenzialmente dati correlati se servissero
             // In questo caso, per il ViewModel fornito, non serve caricare il Corso,
             // ma lo lascio commentato come esempio se volessi il nome del corso in futuro.
             var studente = await dbContext.Studenti
                                           // Sostituisci con il tuo DbSet<Studente>
                                           // .Include(s => s.Corso) // Esempio: Decommenta se hai una navigation property 'Corso' in Studente e vuoi il nome
-                                          .FirstOrDefaultAsync(s => s.K_Studente == id);
+                                          .FirstOrDefaultAsync(s => s.K_Studente == cod);
             if (studente == null)
             {
                 ViewBag.ErrorMessage = $"Nessun dato studente da visualizzare.Assicurati di aver specificato un ID valido.";
@@ -69,8 +76,11 @@ namespace AreaStudente.Controllers
             }
 
             ViewData["studente_id"] = studente.K_Studente;
+            ViewData["email"] = studente.Email;
             ViewData["matricola"] = studente.Matricola;
-            HttpContext.Session.SetString("cod", studente.K_Studente.ToString().ToUpper());
+            ViewData["abilitato"] = studente.Abilitato;
+            HttpContext.Session.SetString("cod", studente.K_Studente.ToString());
+
             // Mappa dall'entità Studente (dal DB) a ShowStudenteViewModel
             // Dentro l'action Show() nel StudentiController.cs, dopo aver recuperato 'studente'
 
@@ -107,7 +117,7 @@ namespace AreaStudente.Controllers
             };
 
             var comunicazioni = await dbContext.Comunicazioni
-                .Where(c => c.K_Studente == studente.K_Studente)
+                .Where(c => c.K_Studente == studente.K_Studente || c.K_Soggetto == studente.K_Studente)
                 .Select(c => new ComunicazioneViewModel
                 {
                     K_Comunicazione = c.K_Comunicazione,
@@ -118,7 +128,36 @@ namespace AreaStudente.Controllers
                     Testo = c.Testo,
                     K_Studente = c.K_Studente
                 })
+                .OrderBy(c => c.DataOraComunicazione)
                 .ToListAsync();
+
+            var comunicazioniGruppo = comunicazioni
+            .GroupBy(c => c.Codice_Comunicazione)
+            .ToList();
+
+            foreach (var gruppo in comunicazioniGruppo)
+            {
+                foreach (var comunicazione in gruppo)
+                {
+                    if (comunicazione.K_Soggetto.HasValue)
+                    {
+                        var studentesogg = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
+                        if (studentesogg != null)
+                        {
+                            comunicazione.Studente = studentesogg;
+                        }
+                        else
+                        {
+                            var docente = await dbContext.Docenti.FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+                            if (docente != null)
+                            {
+                                comunicazione.Docente = docente;
+                            }
+                        }
+                    }
+                }
+            }
+
 
 
             var dashboardViewModel = new StudenteDashboardViewModel
@@ -130,19 +169,155 @@ namespace AreaStudente.Controllers
             return View(dashboardViewModel);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddRisposta(Comunicazione viewModel)
+        {
+
+            ViewData["studente_id"] = HttpContext.Session.GetString("cod");
+            Guid studente_id = new Guid(HttpContext.Session.GetString("cod"));
+
+            string ruolo = HttpContext.Session.GetString("r");
+
+
+                 var ultimaComunicazione = dbContext.Comunicazioni
+                .Where(c => c.Codice_Comunicazione == viewModel.Codice_Comunicazione)
+                .OrderByDescending(c => c.DataOraComunicazione)
+                .FirstOrDefault();
+
+            if (ultimaComunicazione == null)
+            {
+                return BadRequest("Comunicazione non trovata.");
+            }
+
+            var nuovaRisposta = new Comunicazione
+            {
+                Codice_Comunicazione = viewModel.Codice_Comunicazione,
+                DataOraComunicazione = DateTime.Now,
+                Testo = viewModel.Testo,
+                K_Soggetto = studente_id,
+            };
+
+            if (ruolo == "a")
+            {
+                nuovaRisposta.Soggetto = "A";
+
+                // Mantiene il destinatario originale della conversazione
+                if (ultimaComunicazione.K_Studente != null)
+                {
+                    nuovaRisposta.K_Studente = ultimaComunicazione.K_Studente;
+                }
+                else if (ultimaComunicazione.K_Docente != null)
+                {
+                    nuovaRisposta.K_Docente = ultimaComunicazione.K_Docente;
+                }
+            }
+
+
+            else if (ruolo == "d")
+            {
+                nuovaRisposta.Soggetto = "D";
+                nuovaRisposta.K_Studente = ultimaComunicazione.K_Studente;
+            }
+            else if (ruolo == "s")
+            {
+                nuovaRisposta.Soggetto = "S";
+                nuovaRisposta.K_Docente = ultimaComunicazione.K_Docente;
+            }
+
+            // Assegna chi riceverà la risposta
+            nuovaRisposta.Docente = dbContext.Docenti.FirstOrDefault(d => d.K_Docente == nuovaRisposta.K_Docente);
+            nuovaRisposta.Studente = dbContext.Studenti.FirstOrDefault(s => s.K_Studente == nuovaRisposta.K_Studente);
+
+            await dbContext.Comunicazioni.AddAsync(nuovaRisposta);
+            await dbContext.SaveChangesAsync();
+
+            /// LOGICA EMAIL: invio dell'email per la risposta
+            List<string> destinatariEmail = new List<string>();
+
+            if (ruolo == "d")
+            {
+                // Se il ruolo è docente, invia allo studente
+                if (nuovaRisposta.K_Studente.HasValue && nuovaRisposta.Studente?.Email != null)
+                {
+                    destinatariEmail.Add(nuovaRisposta.Studente.Email);
+                }
+                else
+                {
+                    destinatariEmail.Add("generation@brovia.it"); // Default admin email
+                }
+            }
+            else if (ruolo == "s")
+            {
+                // Se il ruolo è studente, invia al docente
+                if (nuovaRisposta.K_Docente.HasValue && nuovaRisposta.Docente?.Email != null)
+                {
+                    destinatariEmail.Add(nuovaRisposta.Docente.Email);
+                }
+                else
+                {
+                    destinatariEmail.Add("generation@brovia.it"); // Default admin email
+                }
+            }
+            else
+            {
+                // Se il ruolo è amministratore o altro, invia a tutti
+                destinatariEmail.Add("generation@brovia.it");
+            }
+
+            // Invia email se ci sono destinatari
+            if (destinatariEmail.Any())
+            {
+                SmtpClient smtpClient = new SmtpClient("mail.brovia.it", 587);
+                smtpClient.Credentials = new System.Net.NetworkCredential("generation@brovia.it", "G3n3rat!on");
+                smtpClient.EnableSsl = true;
+
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress("generation@brovia.it", "Comunicazione UniGen");
+
+                foreach (var email in destinatariEmail.Distinct())
+                {
+                    mail.To.Add(new MailAddress(email));
+                }
+
+                mail.Subject = "Nuova risposta alla tua comunicazione";
+                mail.Body = @$"In data {nuovaRisposta.DataOraComunicazione}  
+                hai ricevuto una risposta a una comunicazione precedente. 
+
+                {nuovaRisposta.Testo}"; // Testo della nuova risposta
+
+                try
+                {
+                    smtpClient.Send(mail);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Errore invio email: " + ex.Message);
+                }
+            }
+           
+            return RedirectToAction("Show", "Studenti", new { cod = HttpContext.Session.GetString("cod") });
+        }
+
 
         [HttpGet]
-        public async Task<IActionResult> ModificaProfilo(Guid id)
+        public async Task<IActionResult> ModificaProfilo(Guid cod)
         {
-            ViewData["studente_id"] = id;
+            ViewData["studente_id"] = cod;
             var studente = await dbContext.Studenti
-                 .FirstOrDefaultAsync(s => s.K_Studente == id);
+                 .Include(s => s.Corso)
+                 .ThenInclude(c => c.Facolta)
+                 .FirstOrDefaultAsync(s => s.K_Studente == cod);
+
 
             if (studente == null)
             {
                 TempData["PopupErrore"] = "Studente non trovato.";
                 return RedirectToAction("Index", "Home");
             }
+
+            ViewData["email"] = studente.Email;
+            ViewData["matricola"] = studente.Matricola;
+            ViewData["abilitato"] = studente.Abilitato;
 
             var model = new ModificaStudenteViewModel
             {
@@ -155,48 +330,60 @@ namespace AreaStudente.Controllers
                 CAP = studente.CAP,
                 Citta = studente.Citta,
                 Provincia = studente.Provincia,
-
-                ImmagineProfilo = studente.ImmagineProfilo
+                ImmagineProfilo = studente.ImmagineProfilo,
+                Matricola = studente.Matricola,
+                DataImmatricolazione = studente.DataImmatricolazione,
+                Corso = studente.Corso,
+                //= studente.Abilitato
             };
 
             return View(model);
         }
 
-
-
         [HttpPost]
-        public async Task<IActionResult> ModificaProfilo(ModificaStudenteViewModel model, string PasswordNew, string PasswordConfirm, Guid id)
+
+        public async Task<IActionResult> ModificaProfilo(ModificaStudenteViewModel model, string PasswordNew, string PasswordConfirm, Guid cod)
+
         {
-            ViewData["studente_id"] = id;
+            ViewData["studente_id"] = cod;
             var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == model.K_Studente);
-
-
 
             if (studente == null)
                 return NotFound();
 
+            ViewData["email"] = studente.Email;
+            ViewData["matricola"] = studente.Matricola;
+            ViewData["abilitato"] = studente.Abilitato;
+
             // Aggiorna i dati anagrafici
-            studente.Nome = model.Nome;
-            studente.Cognome = model.Cognome;
+            studente.Nome = CapitalizeWords(model.Nome);
+            studente.Cognome = CapitalizeWords(model.Cognome);
             studente.Indirizzo = model.Indirizzo;
             studente.CAP = model.CAP;
             studente.Citta = model.Citta;
-            studente.Provincia = model.Provincia;
+            studente.Provincia = model.Provincia.ToUpper();
             studente.DataNascita = model.DataNascita;
 
             if (model.ImmagineProfiloFile != null && model.ImmagineProfiloFile.Length > 0)
             {
+                var tipo = model.ImmagineProfiloFile.ContentType.ToLower();
+                if (tipo != "image/jpeg" && tipo != "image/jpg" && tipo != "image/png")
+                {
+                    TempData["AlertMessage"] = "Formato non valido. Sono accettati solo JPG, JPEG e PNG.";
+                    return RedirectToAction("ModificaProfilo");
+                }
+
                 using (var memoryStream = new MemoryStream())
                 {
                     await model.ImmagineProfiloFile.CopyToAsync(memoryStream);
                     studente.ImmagineProfilo = memoryStream.ToArray();
-                    studente.Tipo = model.ImmagineProfiloFile.ContentType;
+                    studente.Tipo = tipo;
                 }
+
                 TempData["PopupSuccesso"] = "Immagine aggiornata con successo.";
             }
 
             //logica password
-
             bool AlmenoUnoCompilato = !string.IsNullOrEmpty(model.PWD) || !string.IsNullOrEmpty(PasswordNew) || !string.IsNullOrEmpty(PasswordConfirm);
             bool tuttiCompilati = !string.IsNullOrEmpty(model.PWD) && !string.IsNullOrEmpty(PasswordNew) && !string.IsNullOrEmpty(PasswordConfirm);
 
@@ -246,6 +433,16 @@ namespace AreaStudente.Controllers
             return RedirectToAction("ModificaProfilo", "Studenti");
         }
 
+        private string CapitalizeWords(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return input;
+
+            return string.Join(" ",
+                input.Trim().ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                     .Select(word => char.ToUpper(word[0]) + word.Substring(1))
+            );
+        }
 
 
     }
@@ -255,5 +452,5 @@ namespace AreaStudente.Controllers
 }
 
 
- 
+
 

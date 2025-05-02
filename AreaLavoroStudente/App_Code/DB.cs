@@ -14,7 +14,7 @@ public class DB
     public string query;
     public DB()
     {
-        conn.ConnectionString = @"Data Source=LAPTOP-83HKI4IS\SQLEXPRESS; Initial Catalog=GENERATION;Integrated Security=true;";
+        conn.ConnectionString = @"DESKTOP-0E2GJI9\SQLEXPRESS; Initial Catalog=GENERATION;Integrated Security=true;";
         cmd.Connection = conn;
         cmd.CommandType = CommandType.Text;
     }
