@@ -1,10 +1,10 @@
-﻿@model List<AreaPubblica.Models.Entities.Facolta>
-
-@{
+﻿@* @model List<AreaPubblica.Models.Entities.Facolta>
+ *@
+@* @{
     ViewData["Title"] = "Offerta Formativa";
     var facoltaCorsi = ViewBag.FacoltaCorsi as List<dynamic>;
 
-    // dizionario 
+    dizionario 
     Dictionary<string, string> descrizioniCorsi = new Dictionary<string, string>
     {
         { "Giurisprudenza", "La Facoltà di Giurisprudenza offre un percorso formativo di eccellenza, volto a fornire agli studenti una solida preparazione giuridica, teorica e pratica." },
@@ -12,7 +12,13 @@
         { "Fisica", "Il percorso formativo offre una preparazione solida e approfondita, preparando gli studenti a carriere nella ricerca, nell’industria tecnologica e nell’innovazione scientifica." },
         { "Ingegneria Informatica", "Un percorso formativo che prepara gli studenti ad affrontare le sfide della digitalizzazione, dell’intelligenza artificiale e della sicurezza informatica." }
     };
+} *@
+@{
+    var facoltaCorsi = ViewBag.FacoltaCorsi as List<dynamic>;
+    var descrizioniCorsi = ViewBag.DescrizioniCorsi as Dictionary<string, string>;
 }
+
+
 
 <div class="container" style="padding-top:100px; padding-bottom:100px;">
     <h1 class="mb-4"style="padding:25px;">Programma dei corsi</h1>

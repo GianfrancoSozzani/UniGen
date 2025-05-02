@@ -1,5 +1,6 @@
 ﻿using System.Dynamic;
 using System.Reflection.Metadata.Ecma335;
+using System.Text.Json;
 using AreaPubblica.Data;
 using AreaPubblica.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -74,6 +75,28 @@ namespace AreaPubblica.Controllers
 
             return View();
         }
+        //public IActionResult Programma()
+        //{
+        //    var dati = (
+        //        from facolta in dbContext.Facolta
+        //        join corso in dbContext.Corsi on facolta.K_Facolta equals corso.K_Facolta
+        //        join piano in dbContext.PianiStudio on corso.K_Corso equals piano.K_Corso
+        //        join esame in dbContext.Esami on piano.K_Esame equals esame.K_Esame
+        //        join docente in dbContext.Docenti on esame.K_Docente equals docente.K_Docente
+        //        select new
+        //        {
+        //            Facolta = facolta.TitoloFacolta,
+        //            Corso = corso.TitoloCorso,
+        //            Esame = esame.TitoloEsame,
+        //            NomeDocente = docente.Nome,
+        //            CognomeDocente = docente.Cognome
+        //        }
+        //    ).ToList<dynamic>(); 
+
+        //    ViewBag.FacoltaCorsi = dati;
+        //    return View();
+        //}
+
         public IActionResult Programma()
         {
             var dati = (
@@ -90,9 +113,15 @@ namespace AreaPubblica.Controllers
                     NomeDocente = docente.Nome,
                     CognomeDocente = docente.Cognome
                 }
-            ).ToList<dynamic>(); 
+            ).ToList<dynamic>();
+
+            // Lettura JSON con descrizioni corsi
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "descrizioniCorsi.json");
+            var json = System.IO.File.ReadAllText(path);
+            var descrizioni = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
 
             ViewBag.FacoltaCorsi = dati;
+            ViewBag.DescrizioniCorsi = descrizioni;
             return View();
         }
 
