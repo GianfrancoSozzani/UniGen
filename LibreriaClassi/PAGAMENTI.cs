@@ -64,12 +64,30 @@ namespace LibreriaClassi
             dB.SQLcommand();
         }
 
-        //lista pagamenti
+        //lista pagamenti per lo studente in base alla matricola 
         public DataTable ListaPagamenti(int Matricola)
         {
             DB db = new DB();
             db.query = "Pagamenti_SelectMat";
             db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+
+        //aggiorna stato pagamenti studente da N a S
+        public void ModificaStatoPagamento()
+        {
+            DB db = new DB();
+            db.query = "Pagamenti_AggiornaStato";
+            db.cmd.Parameters.AddWithValue("@IDPagamento", K_Pagamento);
+            db.SQLcommand();
+        }
+
+        //lista pagamenti effetuati dallo studente in base alla matricola
+        public DataTable ListaPagamentiEffettuati(int matricola)
+        {
+            DB db = new DB();
+            db.query = "PagamentiEffettuati_SelectMat";
+            db.cmd.Parameters.AddWithValue("@Matricola", matricola);
             return db.SQLselect();
         }
     }
