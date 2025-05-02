@@ -10,6 +10,7 @@ using AreaStudente.Models.Entities;
 using System.Data;
 using System.Net.Mail;
 using System.Net.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 namespace AreaStudente.Controllers
@@ -179,10 +180,10 @@ namespace AreaStudente.Controllers
             string ruolo = HttpContext.Session.GetString("r");
 
 
-                 var ultimaComunicazione = dbContext.Comunicazioni
-                .Where(c => c.Codice_Comunicazione == viewModel.Codice_Comunicazione)
-                .OrderByDescending(c => c.DataOraComunicazione)
-                .FirstOrDefault();
+            var ultimaComunicazione = dbContext.Comunicazioni
+           .Where(c => c.Codice_Comunicazione == viewModel.Codice_Comunicazione)
+           .OrderByDescending(c => c.DataOraComunicazione)
+           .FirstOrDefault();
 
             if (ultimaComunicazione == null)
             {
@@ -294,7 +295,7 @@ namespace AreaStudente.Controllers
                     Console.WriteLine("Errore invio email: " + ex.Message);
                 }
             }
-           
+
             return RedirectToAction("Show", "Studenti", new { cod = HttpContext.Session.GetString("cod") });
         }
 
@@ -444,7 +445,67 @@ namespace AreaStudente.Controllers
             );
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Immatricolati(Guid cod)
+        {
+            ViewData["studente_id"] = cod;
+            var studente = await dbContext.Studenti
+                .Include(s => s.Corso)
+                .ThenInclude(c => c.Facolta)
+                .FirstOrDefaultAsync(s => s.K_Studente == cod);
 
+
+            if (studente == null)
+            {
+                TempData["PopupErrore"] = "Studente non trovato.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewData["email"] = studente.Email;
+            ViewData["matricola"] = studente.Matricola;
+            ViewData["abilitato"] = studente.Abilitato;
+
+            var model = new ModificaStudenteViewModel
+            {
+                K_Studente = studente.K_Studente,
+                Nome = studente.Nome,
+                Cognome = studente.Cognome,
+                Email = studente.Email,
+                DataNascita = studente.DataNascita,
+                Indirizzo = studente.Indirizzo,
+                CAP = studente.CAP,
+                Citta = studente.Citta,
+                Provincia = studente.Provincia,
+                ImmagineProfilo = studente.ImmagineProfilo,
+                Matricola = studente.Matricola,
+                DataImmatricolazione = studente.DataImmatricolazione,
+                Corso = studente.Corso,
+                //= studente.Abilitato
+
+            };
+
+            PopolaFacolta();
+            return View(model);
+
+
+
+
+
+
+        }
+
+        public void PopolaFacolta()
+        {
+            IEnumerable<SelectListItem> listaFacolta = dbContext.Facolta
+                .Select(i => new SelectListItem
+                {
+                    Text = i.TitoloFacolta,
+                    Value = i.K_Facolta.ToString()
+                })
+                .ToList();
+
+            ViewBag.FacoltaList = listaFacolta;
+        }
     }
 
 

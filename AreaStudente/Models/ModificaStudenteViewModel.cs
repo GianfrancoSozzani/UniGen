@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using AreaStudente.Models.Entities;
 using LibreriaClassi;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AreaStudente.Models
 {
@@ -27,6 +28,8 @@ namespace AreaStudente.Models
         public int? Matricola { get; set; }
 
         public DateTime? DataImmatricolazione { get; set; }
+        public Guid? K_Facolta { get; set; } // selezione utente
+        public IEnumerable<SelectListItem>? FacoltaList { get; set; } // per la DDL
         public Guid? K_Corso { get; set; }
         [ForeignKey("K_Corso")]
         [ValidateNever]
