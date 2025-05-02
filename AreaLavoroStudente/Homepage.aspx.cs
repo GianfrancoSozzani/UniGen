@@ -38,12 +38,16 @@ public partial class _Default : System.Web.UI.Page
                 return;
             }
 
-
-            // SALVA DATI IN SESSION
+            if ((Session["mat"] == null) || (Session["a"] == null) || (Session["cod"] == null))
+            {
             Session["mat"] = Matricola;
             Session["a"] = Abilitazione;
+            Session["cod"] = K_Studente;
 
+            }
+            // SALVA DATI IN SESSION
         }
+        
 
 
 

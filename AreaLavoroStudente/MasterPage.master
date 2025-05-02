@@ -99,7 +99,7 @@
                                 </li>
 
                                 <li id="liMateriali" runat="server" class="nav-item">
-                                    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">Lezioni</a>
+                                    <a class="nav-link" href="Lezioni_Materiali.aspx" role="button" data-bs-toggle="dropdown">Lezioni</a>
                                 </li>
 
                                 <li id="liAppelli" runat="server" class="nav-item dropdown">

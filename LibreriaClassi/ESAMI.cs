@@ -70,18 +70,12 @@ namespace LibreriaClassi
             dB.cmd.Parameters.AddWithValue("", K_Esame);
             return dB.SQLselect();
         }
-        public DataTable SelezionaEsami() 
+        public DataTable SelezionaPsp(Guid K_Studente)
         {
             DB dB = new DB();
-            dB.query = "Esami_SelectEsami";
+            dB.query = "Esami_GetByPSP";
+            dB.cmd.Parameters.AddWithValue("@K_Studente", K_Studente);
             return dB.SQLselect();
-        }
-        public DataTable SelezionaPerNome()
-        {
-            DB db = new DB();
-            db.query = "Esami_SelectPerNome";
-            db.cmd.Parameters.AddWithValue("@TitoloEsame", TitoloEsame);
-            return db.SQLselect();
         }
 
     }
