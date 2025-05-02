@@ -41,7 +41,7 @@ public partial class Default2 : System.Web.UI.Page
         ddlCaricaEsami.DataValueField = ("K_Esame");
         ddlCaricaEsami.DataTextField = ("TitoloEsame");
         ddlCaricaEsami.DataBind();
-        K_Esame = new Guid((string)ddlCaricaEsami.SelectedValue);
+      //  K_Esame = new Guid(ddlCaricaEsami.SelectedValue);
     }
 
 
