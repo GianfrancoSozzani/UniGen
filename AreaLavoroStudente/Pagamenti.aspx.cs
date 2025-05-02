@@ -30,10 +30,10 @@ public partial class _Default : System.Web.UI.Page
 
     public void CaricaAA(int matricola)
     {
-        matricola = 123551;
+        matricola = 123551; //da sostituire con la session
         STUDENTI studente = new STUDENTI();
         studente.Matricola = matricola;
-        DataTable dt = studente.SelezionaAnnoAccademico();
+        DataTable dt = studente.SelezionaAnnoAccademico(matricola);
 
         if (dt.Rows.Count == 1)
         {
@@ -82,7 +82,7 @@ public partial class _Default : System.Web.UI.Page
         }
 
 
-        // Dopo aver terminato il ciclo, verifica se sono stati prenotati appelli
+        // Dopo aver terminato il ciclo, verifica se sono stati selezionati/effettuati pagamenti 7
         if (countPagamenti > 0)
         {
             // Mostra messaggio di successo

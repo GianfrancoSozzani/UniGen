@@ -30,10 +30,10 @@ public partial class _Default : System.Web.UI.Page
 
     public void CaricaAA(int matricola)
     {
-        matricola = 123551;
+        matricola = 123551; //sostituire con la session
         STUDENTI studente = new STUDENTI();
         studente.Matricola = matricola;
-        DataTable dt = studente.SelezionaAnnoAccademico();
+        DataTable dt = studente.SelezionaAnnoAccademico(matricola);
 
         if (dt.Rows.Count == 1)
         {
