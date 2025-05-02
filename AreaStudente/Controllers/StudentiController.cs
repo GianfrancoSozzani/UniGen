@@ -446,7 +446,7 @@ namespace AreaStudente.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Immatricolati(Guid cod)
+        public async Task<IActionResult> Immatricolati(Guid cod, Guid? K_Facolta)
         {
             ViewData["studente_id"] = cod;
             var studente = await dbContext.Studenti
@@ -485,13 +485,11 @@ namespace AreaStudente.Controllers
             };
 
             PopolaFacolta();
+            PopolaCorsi();
+
+
+          
             return View(model);
-
-
-
-
-
-
         }
 
         public void PopolaFacolta()
@@ -500,11 +498,56 @@ namespace AreaStudente.Controllers
                 .Select(i => new SelectListItem
                 {
                     Text = i.TitoloFacolta,
-                    Value = i.K_Facolta.ToString()
+                    Value = i.K_Facolta.ToString()                    
                 })
-                .ToList();
+                .ToList()
+                ;
 
             ViewBag.FacoltaList = listaFacolta;
+
+        }
+        //public IActionResult PopolaCorsi()
+
+        //{
+        //    var dati=(
+        //        from corsi in dbContext.Corsi
+        //        join facolta in dbContext.Facolta on corsi.K_Facolta  equals facolta.K_Facolta
+        //        select new { 
+        //        Facolta = facolta.TitoloFacolta,
+        //        Corso= corsi.TitoloCorso                
+        //        }
+
+        //        ).ToList<dynamic> ();
+        //    ViewBag.PopolaCorsi= dati;
+        //    return View(dati);
+
+        //    //IEnumerable<SelectListItem> listaCorsi = dbContext.Corsi
+
+        //        //.Where(c => c.K_Facolta == K_Facolta)
+        //        //.Select(i => new SelectListItem
+        //        //{
+        //        //    Text = i.TitoloCorso,
+        //        //    Value = i.K_Corso.ToString()
+        //        //})
+        //        //.ToList();
+
+        //    //ViewBag.listaCorsi = listaCorsi;
+        //}
+        public void PopolaCorsi() 
+        {
+            IEnumerable<SelectListItem> listaCorsi = dbContext.Corsi
+                .Select(i => new SelectListItem
+                {
+                    Text = i.TitoloCorso,
+                    Value = i.K_Corso.ToString()
+                })
+                .ToList()
+                ;
+
+            ViewBag.CorsiList = listaCorsi;
+
+
+
         }
     }
 
