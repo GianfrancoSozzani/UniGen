@@ -10,10 +10,10 @@ using LibreriaClassi;
 public partial class _Default : System.Web.UI.Page
 {
 
-   
+
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
+        if (string.IsNullOrEmpty((string)Session["mat"]) || string.IsNullOrEmpty((string)Session["a"]))
         {
             // RECUPERO PARAMETRI DA QUERYSTRING
             string K_Studente = Request.QueryString["cod"];
@@ -38,34 +38,38 @@ public partial class _Default : System.Web.UI.Page
                 return;
             }
 
+
             // SALVA DATI IN SESSION
             Session["mat"] = Matricola;
             Session["a"] = Abilitazione;
 
-            // CARICO SPECIFICHE STUDENTE
-            CaricaAA(int.Parse(Matricola));
-
-            //VISBIILITA' 
-            if (Abilitazione == "S")
-            {
-                divLezioni.Visible = true;
-                divComunicazioni.Visible = true;
-                divAppelli.Visible = true;
-            }
-            else
-            {
-                divLezioni.Visible = false;
-                divComunicazioni.Visible = false;
-                divAppelli.Visible = false;
-            }
         }
+
+
+
+
+        /*VISBIILITA*/
+        if (Session["a"].ToString() == "S")
+        {
+            divLezioni.Visible = true;
+            divComunicazioni.Visible = true;
+            divAppelli.Visible = true;
+        }
+        else
+        {
+            divLezioni.Visible = false;
+            divComunicazioni.Visible = false;
+            divAppelli.Visible = false;
+        }
+        //CARICO SPECIFICHE STUDENTE
+        CaricaAA();
     }
 
-    public void CaricaAA(int Matricola)
+    public void CaricaAA()
     {
         STUDENTI studente = new STUDENTI();
-        studente.Matricola = Matricola;
-        DataTable dt = studente.SelezionaAnnoAccademico(Matricola);
+        //studente.Matricola = Matricola;
+        DataTable dt = studente.SelezionaAnnoAccademico(int.Parse(Session["mat"].ToString()));
 
         if (dt.Rows.Count == 1)
         {
@@ -79,6 +83,7 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
+   
 
 
 

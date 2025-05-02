@@ -16,7 +16,7 @@ using System.Security.Cryptography.X509Certificates;
 
 public partial class MasterPage : System.Web.UI.MasterPage
 {
-    //public int Matricola;
+    
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -71,6 +71,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
 
     }
+
 }
 
 
