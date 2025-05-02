@@ -65,7 +65,7 @@ namespace LibreriaClassi
         public DataTable SelezionaTutto()
         {
             DB dB = new DB();
-            dB.query = "Docenti_SelectAll";
+            dB.query = "Docenti_SelectAllDocenti";
             return dB.SQLselect();
         }
 
