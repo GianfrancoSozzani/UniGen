@@ -63,5 +63,14 @@ namespace LibreriaClassi
             dB.cmd.Parameters.AddWithValue("", Importo);
             dB.SQLcommand();
         }
+
+        //lista pagamenti
+        public DataTable ListaPagamenti(int Matricola)
+        {
+            DB db = new DB();
+            db.query = "Pagamenti_SelectMat";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
     }
 }

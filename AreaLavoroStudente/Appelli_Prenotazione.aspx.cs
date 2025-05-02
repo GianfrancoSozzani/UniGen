@@ -106,6 +106,7 @@ public partial class _Default : System.Web.UI.Page
                 m.Matricola = matricola;
                 m.K_Appello = K_Appello;
                 m.RecuperaKStudenteDaMatricola(matricola);
+
                 if (m.RecuperaKStudenteDaMatricola(matricola).Rows.Count > 0 && m.RecuperaKStudenteDaMatricola(matricola).Columns.Count > 0)
                 {
                     Guid primoGuid = (Guid)m.RecuperaKStudenteDaMatricola(matricola).Rows[0][0];
