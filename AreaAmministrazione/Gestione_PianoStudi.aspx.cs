@@ -21,12 +21,16 @@ public partial class _Default : System.Web.UI.Page
             ddlFacolta.DataValueField = "K_Facolta";
             ddlFacolta.DataBind();
             ddlFacolta.Items.Insert(0, new ListItem("Seleziona una facoltà...", ""));
+            ddlCorso.Items.Insert(0, new ListItem("Seleziona prima una facoltà...", ""));
 
         }
         //metodo per mostrare il Popup con gli esami disponibili da aggiungere (TUTTI)
 
 
     }
+
+
+
     protected void MostraTuttiEsami()
     {
 
@@ -42,6 +46,7 @@ public partial class _Default : System.Web.UI.Page
     //carica solo i corsi associati alla facoltà selezionata
     protected void ddlFacolta_SelectedIndexChanged(object sender, EventArgs e)
     {
+        ddlCorso.Items.Clear(); // Pulisce la lista dei corsi
         if (!string.IsNullOrEmpty(ddlFacolta.SelectedValue))
         {
             DB db = new DB();
@@ -49,9 +54,15 @@ public partial class _Default : System.Web.UI.Page
             db.cmd.Parameters.AddWithValue("@chiave", Guid.Parse(ddlFacolta.SelectedValue));
             ddlCorso.DataSource = db.SQLselect();
             ddlCorso.DataTextField = "TitoloCorso";
-            ddlCorso.DataValueField = "K_Corso";
+            ddlCorso.DataValueField = "TitoloCorso";
             ddlCorso.DataBind();
         }
+        if(ddlFacolta.SelectedIndex == 0)
+        {
+            ddlCorso.Items.Insert(0, new ListItem("Seleziona prima una facoltà...", ""));
+            return;
+        }
+
         ddlCorso.Items.Insert(0, new ListItem("Seleziona un corso di laurea...", ""));
 
     }
@@ -86,7 +97,11 @@ public partial class _Default : System.Web.UI.Page
             {
 
                 Guid kFacolta = Guid.Parse(ddlFacolta.SelectedValue);
-                Guid kCorso = Guid.Parse(ddlCorso.SelectedValue);
+                DB db = new DB();
+                db.query = "Corsi_SelectbyTitoloTipo";
+                db.cmd.Parameters.AddWithValue("@TitoloCorso", ddlCorso.SelectedValue);
+                db.cmd.Parameters.AddWithValue("@K_TipoCorso", Guid.Parse(ddlTipoCorso.SelectedValue));               
+                Guid kCorso = Guid.Parse(db.SQLselect().Rows[0]["K_Corso"].ToString());
                 string tipoCorso = ddlTipoCorso.SelectedValue;
                 string annoAccademico = ddlAnnoAccademico.SelectedValue;
 
@@ -183,23 +198,23 @@ public partial class _Default : System.Web.UI.Page
         if (e.CommandName == "AggiungiEsame")
         {
             // Mappa la stringa del tipo corso al suo Guid
-            Guid tipoCorsoGuid;
+            //Guid tipoCorsoGuid;
 
-            switch (ddlTipoCorso.SelectedValue)
-            {
-                case "Triennale":
-                    tipoCorsoGuid = Guid.Parse("22b89603-2e76-416d-ba56-40ade89fa44e");
-                    break;
-                case "Magistrale":
-                    tipoCorsoGuid = Guid.Parse("4ca2f725-30fe-4ef1-8c10-1713f4d1acd0");
-                    break;
-                case "Ciclo Unico":
-                    tipoCorsoGuid = Guid.Parse("fc3cbdf5-fe6a-494c-ad32-88ea5f5e5da2");
-                    break;
-                default:
-                    ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Tipo di corso non valido');", true);
-                    return;
-            }
+            //switch (ddlTipoCorso.SelectedValue)
+            //{
+            //    case "Triennale":
+            //        tipoCorsoGuid = Guid.Parse("22b89603-2e76-416d-ba56-40ade89fa44e");
+            //        break;
+            //    case "Magistrale":
+            //        tipoCorsoGuid = Guid.Parse("4ca2f725-30fe-4ef1-8c10-1713f4d1acd0");
+            //        break;
+            //    case "Ciclo Unico":
+            //        tipoCorsoGuid = Guid.Parse("fc3cbdf5-fe6a-494c-ad32-88ea5f5e5da2");
+            //        break;
+            //    default:
+            //        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Tipo di corso non valido');", true);
+            //        return;
+            //}
             // Recupera l'esame dalla riga cliccata
             string kEsame = e.CommandArgument.ToString();
 
@@ -207,8 +222,12 @@ public partial class _Default : System.Web.UI.Page
             PIANISTUDIO ps = new PIANISTUDIO();
             ps.K_Esame = Guid.Parse(kEsame);
             ps.K_Facolta = Guid.Parse(ddlFacolta.SelectedValue);
-            ps.K_Corso = Guid.Parse(ddlCorso.SelectedValue);
-            ps.K_TipoCorso = tipoCorsoGuid;
+            DB db = new DB();
+            db.query = "Corsi_SelectbyTitoloTipo";
+            db.cmd.Parameters.AddWithValue("@TitoloCorso",  ddlCorso.SelectedValue);
+            db.cmd.Parameters.AddWithValue("@K_TipoCorso", Guid.Parse(ddlTipoCorso.SelectedValue));
+            ps.K_Corso = Guid.Parse(db.SQLselect().Rows[0]["K_Corso"].ToString());
+            ps.K_TipoCorso = Guid.Parse(ddlTipoCorso.SelectedValue);
             ps.AnnoAccademico = ddlAnnoAccademico.SelectedValue;
 
             // Verifica esistenza
@@ -220,8 +239,8 @@ public partial class _Default : System.Web.UI.Page
             }
             else
             {
-                CheckBox chkObbligatorio = (CheckBox)e.Item.FindControl("chkObbligatorio");
-                ps.Obbligatorio = chkObbligatorio != null && chkObbligatorio.Checked ? 'S' : 'N';
+                CheckBox chkFacoltativo = (CheckBox)e.Item.FindControl("chkFacoltativo");
+                ps.Obbligatorio = chkFacoltativo != null && chkFacoltativo.Checked ? 'N' : 'S';
                 ps.AggiungiEsami();
                 ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Esame aggiunto correttamente al Piano di Studi');", true);
                 CaricaEsamiPianiStudio();
@@ -241,5 +260,27 @@ public partial class _Default : System.Web.UI.Page
         ps.CancellaEsameDalPiano();
         ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Esame rimosso correttamente dal Piano di Studi');", true);
         CaricaEsamiPianiStudio();
+    }
+
+    protected void ddlCorso_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ddlTipoCorso.Items.Clear(); // Pulisce la lista dei corsi
+        if (!string.IsNullOrEmpty(ddlCorso.SelectedValue))
+        {
+            DB db = new DB();
+            db.query = "Corsi_SelectTipoByCorso";
+            db.cmd.Parameters.AddWithValue("@TitoloCorso", ddlCorso.SelectedValue);
+            ddlTipoCorso.DataSource = db.SQLselect();
+            ddlTipoCorso.DataTextField = "Tipo";
+            ddlTipoCorso.DataValueField = "K_TipoCorso";
+            ddlTipoCorso.DataBind();
+        }
+        if (ddlCorso.SelectedIndex == 0)
+        {
+            ddlTipoCorso.Items.Insert(0, new ListItem("Seleziona prima un Corso di Laurea...", ""));
+            return;
+        }
+        ddlTipoCorso.Items.Insert(0, new ListItem("Seleziona un tipo di corso...", ""));
+
     }
 }

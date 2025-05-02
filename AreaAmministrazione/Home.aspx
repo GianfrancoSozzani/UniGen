@@ -112,7 +112,7 @@
                         <div class="card-body">
                             <h5 class="card-title"><i class="bi bi-piggy-bank me-2"></i>Tassa media annua</h5>
                             <p class="card-text display-6 fw-bold">
-                                <asp:Literal ID="litTassaM" runat="server">€</asp:Literal>
+                                <asp:Literal ID="litTassaM" runat="server"></asp:Literal>€
                             </p>
                         </div>
                     </div>

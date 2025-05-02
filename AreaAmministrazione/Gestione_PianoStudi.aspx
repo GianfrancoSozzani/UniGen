@@ -32,7 +32,7 @@
             <%-- Dropdown Corso --%>
             <div class="col-5 mt-4 col-sm-8 col-md-4">
                 <asp:Label ID="lblCorso" runat="server" Text="Corso di laurea"></asp:Label>
-                <asp:DropDownList ID="ddlCorso" runat="server" CssClass="form-control"></asp:DropDownList>
+                <asp:DropDownList ID="ddlCorso" runat="server" CssClass="form-control" OnSelectedIndexChanged="ddlCorso_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
             </div>
         </div>
 
@@ -41,9 +41,9 @@
             <div class="col-4 mt-4 col-sm-8 col-md-4">
                 <asp:Label ID="Label2" runat="server" Text="Tipologia Corso"></asp:Label>
                 <asp:DropDownList ID="ddlTipoCorso" runat="server" CssClass="form-control">
-                    <asp:ListItem Text="Triennale" Value="Triennale"></asp:ListItem>
+  <%--                  <asp:ListItem Text="Triennale" Value="Triennale"></asp:ListItem>
                     <asp:ListItem Text="Magistrale" Value="Magistrale"></asp:ListItem>
-                    <asp:ListItem Text="Ciclo Unico" Value="Ciclo Unico"></asp:ListItem>
+                    <asp:ListItem Text="Ciclo Unico" Value="Ciclo Unico"></asp:ListItem>--%>
                 </asp:DropDownList>
             </div>
             <%-- Dropdown Anno accademico --%>
@@ -163,8 +163,8 @@
                                     <td><%# Eval("TitoloEsame") %></td>
                                     <td><%# Eval("CFU") %></td>
                                     <td>
-                                        <asp:CheckBox ID="chkObbligatorio" runat="server" CssClass="form-check-input" />
-                                        <label class="form-check-label">Obbligatorio</label>
+                                        <asp:CheckBox ID="chkFacoltativo" runat="server" CssClass="form-check-input" />
+                                        <label class="form-check-label">Facoltativo</label>
                                     </td>
                                     <td>
                                         <asp:LinkButton ID="btnAggiungiEsame" runat="server"
