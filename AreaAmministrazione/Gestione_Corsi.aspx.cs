@@ -196,4 +196,28 @@ public partial class _Default : System.Web.UI.Page
 
         CaricaCorsi();
     }
+
+    protected void btnRicerca_Click(object sender, EventArgs e)
+    {
+        //avendo creato la variabile matricolaRicerca la poniamo uguale alla matricola della classe
+        CORSI corsi = new CORSI();
+        corsi.TitoloCorso = txtRicercaCorso.Text.Trim();
+        DataTable dt = corsi.SelezionaPerNome();
+        if (dt != null && dt.Rows.Count > 0) //se la matricola esiste allora dt è maggiore di 0 e non è null
+        {
+
+            rpCorso.DataSource = dt.DefaultView; //la datasource del repeater diventa dt 
+            rpCorso.DataBind();
+
+            lblErrore.Visible = false;
+        }
+        else
+        {
+            lblErrore.Text = "Nessun corso trovato con il titolo inserito.";
+            lblErrore.Visible = true;
+            CaricaCorsi();
+            //rptStudenti.DataSource = null;
+            rpCorso.DataBind();
+        }
+    }
 }

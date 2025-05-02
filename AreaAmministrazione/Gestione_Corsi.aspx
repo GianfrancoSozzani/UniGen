@@ -5,10 +5,9 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
     <style>
-        .mio_width{
+        .mio_width {
             width: 200px;
         }
-
     </style>
 
     <div class="container mt-5">
@@ -59,9 +58,30 @@
             </div>
         </div>
 
+        <div class="form mb-3">
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label class="mr-2" for="lblRicercaCorso">Ricerca Corso</label>
+                </div>
+                <div class="col-auto">
+                    <asp:TextBox ID="txtRicercaCorso" runat="server" CssClass="form-control mr-2"></asp:TextBox>
+                </div>
+                <div class="col-auto">
+                    <asp:LinkButton ID="btnRicerca" runat="server" CssClass="btn btn-primary"  Style="box-shadow: 0px 4px 12px #21212115;" OnClick="btnRicerca_Click">
+         <i class="bi bi-search"></i>
+                    </asp:LinkButton>
+                </div>
+                <div class="col-auto">
+                    <span style="margin-left: 1em;">
+                        <asp:Label ID="lblErrore" runat="server" CssClass="text-danger mt-3" Text="" Visible="False"></asp:Label>
+                    </span>
+                </div>
+            </div>
+        </div>
+
         <div>
             <asp:Repeater ID="rpCorso" runat="server">
-                <headertemplate>
+                <HeaderTemplate>
                     <table class="table table-striped shadow">
                         <thead>
                             <tr>
@@ -74,9 +94,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                </headertemplate>
+                </HeaderTemplate>
 
-                <itemtemplate>
+                <ItemTemplate>
                     <tr>
                         <td><%# Eval("TitoloCorso") %></td>
                         <td><%# Eval("TitoloFacolta") %></td>
@@ -93,12 +113,12 @@
                                 '<%# Eval("CostoAnnuale") %>',)">Modifica</a>
                         </td>
                     </tr>
-                </itemtemplate>
+                </ItemTemplate>
 
-                <footertemplate>
+                <FooterTemplate>
                     </tbody>
             </table>
-                </footertemplate>
+                </FooterTemplate>
             </asp:Repeater>
         </div>
     </div>

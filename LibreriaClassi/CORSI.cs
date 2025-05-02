@@ -95,7 +95,16 @@ namespace LibreriaClassi
             db.query = "Corsi_TassaMediaAnn";
             return db.SQLselect();
         }
-        
+
+        public DataTable SelezionaPerNome()
+        {
+            DB db = new DB();
+            db.query = "Corsi_SelectPerNome";
+            db.cmd.Parameters.AddWithValue("@TitoloCorso", TitoloCorso);
+            return db.SQLselect();
+        }
+
+
 
     }
 }
