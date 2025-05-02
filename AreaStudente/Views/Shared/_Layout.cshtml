@@ -38,6 +38,9 @@
         right: 0; /* Posiziona il link a destra */
         }
 
+        body {
+            background-color: #f8f9fe;
+        }     
     </style>
 
 </head>
@@ -54,10 +57,12 @@
                     <div class="d-flex gap-2 me-3">
                         @if (@ViewData["matricola"] != null)
                         {
-                            <a href="http://Lezioni_Materiali.aspx" +studente.K_Studente.ToString().ToUpper()+studente.K_Matricola.ToString()" class="btn btn-sm text-white" style="background-color: #12304F;">Area Lavoro</a>
+
+                            <a class="btn btn-sm text-white" style="background-color: #12304F;" href="@($"http://localhost:54399/Homepage.aspx?cod={ViewData["studente_id"]}&usr={ViewData["email"]}&mat={ViewData["matricola"]}&ab={ViewData["abilitato"]}")">Area Lavoro</a>
+
                         } else
                         {
-                            <p>disattivato</p>
+                            <a class="btn btn-sm text-white disabled" tabindex="-1" aria-disabled="true" style="background-color: #12304F;" href="@($"http://localhost:54399/Homepage.aspx?cod={ViewData["studente_id"]}&usr={ViewData["email"]}&mat={ViewData["matricola"]}&ab={ViewData["abilitato"]}")">Area Lavoro</a>
                         }
                     </div>
                     <div class="d-flex gap-2 me-3">
@@ -80,16 +85,15 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="/Studenti/Show/@ViewData["studente_id"]">Il mio Profilo</a>
+                                <a class="nav-link active" aria-current="page" href="/Studenti/Show?cod=@ViewData["studente_id"]">Il mio Profilo</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Gestione Profilo
                                 </a>
                                 <ul class="dropdown-menu">
-
                                     <li class="dropdown">
-                                        <a class="dropdown-item" href="/Studenti/ModificaProfilo/@ViewData["studente_id"]">
+                                       <a class="dropdown-item" style="color:inherit; "href="/Studenti/ModificaProfilo?cod=@ViewData["studente_id"]">
                                             Modifica Dati
                                         </a>
                                     </li>
@@ -101,7 +105,9 @@
                                     Immatricolazione
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="" asp-action="">Invia Documenti</a></li>
+                                    <li><a class="dropdown-item" style="color:inherit; " href="/Studenti/Immatricolazione?cod=@ViewData["studente_id"]">Immatricolazione</a></li>          @*  
+                                    <li><a class="dropdown-item" style="color:inherit; " href="/Immatricolazione/Add?cod=@ViewData["studente_id"]">Invio documenti</a></li>
+                                *@
                                 </ul>
                             </li>
 
