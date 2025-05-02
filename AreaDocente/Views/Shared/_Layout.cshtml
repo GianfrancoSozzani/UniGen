@@ -32,6 +32,7 @@
     </style>
 
 </head>
+
 <body class="m-0 flex-wrapper">
     <header class="mb-5">
         <div class="fixed-top">
@@ -46,49 +47,53 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
+
+                            <li>
+                                <a class="navbar-brand" href="#">
+                                    <img src="~/css/resources/logonobg.png" alt="Bootstrap" width="150">
+                                </a>
+                            </li>
+
+
+
                             <li class="nav-item">
                                 <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Attività
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Materiali" asp-action="List">Materiali</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Lezioni" asp-action="List">Lezioni</a></li>
-                                </ul>
-                            </li>
 
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Esami
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Appelli" asp-action="Add">Appelli</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Tests" asp-action="Add">Test</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Valutazioni" asp-action="ValutazioneTest">Valutazioni</a></li>
-                                </ul>
-                            </li>
-
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Account
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Docenti" asp-action="ModificaProfilo">Modifica Dati</a></li>
+                                    <li><a class="dropdown-item" href="#">Modifica account</a></li>
+                                    <li><a class="dropdown-item" href="#">Logout</a></li>
+
                                 </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Gestione ...
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">materiali</a></li>
+                                    <li><a class="dropdown-item" href="#">lezioni</a></li>
+                                    <li><a class="dropdown-item" href="#">appelli</a></li>
+                                    <li><a class="dropdown-item" href="#">test</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Valutazione degli esami</a>
+
                             </li>
 
                         </ul>
                         <ul class="navbar-nav navbar-right">
                             <li class="nav-item">
-                                <a class="btn btn-light btn-sm disabled me-2"><i class="bi bi-person-circle"></i> *Placeholder*</a>
+                                <a class="btn btn-light btn-sm disabled"><i class="bi bi-person-circle"></i> *Placeholder per il nome docente*</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="btn btn-light btn-sm">Logout</a>
-                            </li>
-
                         </ul>
                     </div>
                 </div>
@@ -96,8 +101,10 @@
         </div>
     </header>
 
-    <div @* class="container" *@>
-        <main role="main" @* class="pb-3 mt-5" *@>
+    <div class="container">
+        <main role="main" class="pb-3 mt-5">
+            <div class="mt-5">&nbsp;</div>
+
             @RenderBody()
         </main>
     </div>

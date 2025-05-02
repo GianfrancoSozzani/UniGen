@@ -22,27 +22,47 @@
                         <div class="card mb-2">
                             <div class="card-body">
                                 <h5 class="card-title"><%# Eval("Titolo") %></h5>
-                                <a href='<%# Eval("Url") %>' target="_blank" class="btn btn-primary">Guarda lezione</a>
+                                <a href='<%# ResolveUrl(Eval("Video").ToString()) %>' target="_blank" class="btn btn-primary">Guarda lezione</a>
                             </div>
                         </div>
                     </ItemTemplate>
                 </asp:Repeater>
+
+                <!--Messaggio da visualizzare se non ci sono lezioni -->
+                <asp:Label ID="lblMessaggio" runat="server" CssClass="text-danger fs-5" Visible="false"></asp:Label>
             </div>
         </div>
 
         <div class="row mt-4">
             <div class="col-12">
                 <h4 class="mb-3">Dispense</h4>
+                <%-- <asp:Repeater ID="rptDispense" runat="server">
+                    <ItemTemplate>
+                        <div class="card mb-2">
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0"><%# Eval("Titolo") %></h5>
+                                <asp:Button ID="btnScarica" runat="server" Text="Download" OnCommand="btnScarica_Command" <%# Eval("K_Materiale") %> />
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                </asp:Repeater>--%>
                 <asp:Repeater ID="rptDispense" runat="server">
                     <ItemTemplate>
                         <div class="card mb-2">
                             <div class="card-body d-flex justify-content-between align-items-center">
                                 <h5 class="card-title mb-0"><%# Eval("Titolo") %></h5>
-                                <a href='<%# "DownloadMateriale.aspx?id=" + Eval("K_Materiale") %>' class="btn btn-secondary">Scarica dispensa</a>
+                                <asp:Button
+                                    ID="btnScarica"
+                                    runat="server"
+                                    Text="Download"
+                                    CommandName="Scarica"
+                                    CommandArgument='<%# Eval("K_Materiale") %>'
+                                    OnCommand="btnScarica_Command" />
                             </div>
                         </div>
                     </ItemTemplate>
                 </asp:Repeater>
+
             </div>
         </div>
     </div>
