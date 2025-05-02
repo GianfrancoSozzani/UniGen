@@ -47,7 +47,7 @@
 					<div class="d-flex justify-content-end flex-column w-50 mb-2 mt-1">
 						<div class="d-flex justify-content-end  mb-2 mt-1">
 							<!-- Pulsanti in alto a destra -->
-							
+
 							<div class="d-flex gap-2 me-3">
 								<a class="btn btn-sm text-white" style="background-color: #12304F;" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
 							</div>
@@ -76,13 +76,15 @@
 								</a>
 								<ul class="dropdown-menu">
 
-									<li class="dropdown">
-										<a class="dropdown-item dropdown-toggle" asp-controller="OffertaFormativa" data-bs-toggle="dropdown" aria-expanded="false">
-											Piano di studi
+									<li class="nav-item dropdown">
+										<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+											Offerta Formativa
 										</a>
-										<ul class="dropdown-menu dropdown-submenu">
-											<li><a class="dropdown-item" asp-controller="OffertaFormativa" asp-action="ElencoCorsiCompleti">Programma</a></li>
+										<ul class="dropdown-menu">
 											<li><a class="dropdown-item" asp-controller="OffertaFormativa" asp-action="ElencoDocentiConEsami">Esami e docenti</a></li>
+											<li><a class="dropdown-item" asp-controller="OffertaFormativa" asp-action="ElencoCorsiCompleti">Corsi di laurea</a></li>
+											<li><a class="dropdown-item" asp-controller="OffertaFormativa" asp-action="Programma">Programma</a></li>
+											<li><a class="dropdown-item" asp-controller="OffertaFormativa" asp-action="PianoStudi">Piano di studi</a></li>
 										</ul>
 									</li>
 								</ul>
@@ -123,39 +125,39 @@
 		<main role="main" class="">
 			<!-- Modale Login -->
 			<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="loginModalLabel">Login</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
-            </div>
-            <div class="modal-body">
-                <form method="post" asp-controller="Login" asp-action="Login" id="loginForm">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" asp-for="username" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" name="PWD" asp-for="PWD" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Login</button>
-                </form>
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="loginModalLabel">Login</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+						</div>
+						<div class="modal-body">
+							<form method="post" asp-controller="Login" asp-action="Login" id="loginForm">
+								<div class="mb-3">
+									<label for="email" class="form-label">Username</label>
+									<input type="text" class="form-control" id="username" name="username" asp-for="username" required>
+								</div>
+								<div class="mb-3">
+									<label for="password" class="form-label">Password</label>
+									<input type="password" class="form-control" name="PWD" asp-for="PWD" required>
+								</div>
+								<button type="submit" class="btn btn-primary w-100">Login</button>
+							</form>
 
-                <div class="text-center mt-3">
-                    <button class="btn btn-link" id="recoverBtn" type="button">Recupera password</button>
-                    <div id="recoveryMessage" class="text-success mt-2" style="display:none;"></div>
-                    <div id="recoveryError" class="text-danger mt-2" style="display:none;"></div>
-                </div>
+							<div class="text-center mt-3">
+								<button class="btn btn-link" id="recoverBtn" type="button">Recupera password</button>
+								<div id="recoveryMessage" class="text-success mt-2" style="display:none;"></div>
+								<div id="recoveryError" class="text-danger mt-2" style="display:none;"></div>
+							</div>
 
-                <p class="mt-3 text-center">Se non sei ancora registrato</p>
-                <div class="d-flex justify-content-center">
-                    <a class="btn btn-primary" asp-controller="Login" asp-action="Register">Registrati qui</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+							<p class="mt-3 text-center">Se non sei ancora registrato</p>
+							<div class="d-flex justify-content-center">
+								<a class="btn btn-primary" asp-controller="Login" asp-action="Register">Registrati qui</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			@RenderBody()
 		</main>
 	</div>
@@ -198,6 +200,6 @@
 
 
 	@await RenderSectionAsync("Scripts", required: false)
-	
+
 </body>
 </html>
