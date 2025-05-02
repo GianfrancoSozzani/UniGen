@@ -34,6 +34,7 @@ public partial class _Default : System.Web.UI.Page
         ddlDocente.DataTextField = "NomeCompleto";
         ddlDocente.DataValueField = "K_Docente";
         ddlDocente.DataBind();
+        ddlDocente.Items.Insert(0, new ListItem("Seleziona un docente", ""));
     }
 
     // Popolo la dropdownlist dei docenti MODAL

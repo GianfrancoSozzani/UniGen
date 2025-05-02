@@ -8,29 +8,29 @@
         <h1>Gestione Esami</h1>
 
         <div class="mb-4">
-            <div id="icona" class="row g-3 align-items-center justify-content-end">
+            <div id="icona" class="row g-3">
                 <div class="col-auto">
                     <asp:Label ID="Label2" runat="server" Text="Inserisci un nuovo esame" CssClass="fw-bold fs-5"></asp:Label>
                 </div>
                 <div class="col-auto">
-                    <i class="bi bi-plus-circle btn btn-primary"></i>
+                    <i class="bi bi-plus-circle btn btn-sm btn-primary"></i>
                 </div>
             </div>
 
-            <div id="insert" class="d-none row align-items-center justify-content-end" runat="server">
-                <div class="col-auto d-flex align-items-center column-gap-3">
+            <div id="insert" class="d-none row" runat="server">
+                <div class="col-auto">
                     <asp:Label ID="Label3" runat="server" Text="Esame"></asp:Label>
                     <asp:TextBox ID="txtEsami" CssClass="form-control" runat="server"></asp:TextBox>
                 </div>                
-                <div class="col-auto d-flex align-items-center column-gap-3">
+                <div class="col-auto">
                     <asp:Label ID="Label1" runat="server" Text="Docente"></asp:Label>
                     <asp:DropDownList ID="ddlDocente" CssClass="form-select" runat="server"></asp:DropDownList>
                 </div>
-                <div class="col-auto d-flex align-items-center column-gap-3">
+                <div class="col-auto">
                     <asp:Label ID="Label5" runat="server" Text="CFU"></asp:Label>
                     <asp:TextBox ID="txtCFU" CssClass="form-control" runat="server"></asp:TextBox>
                 </div>
-                <div class="col-auto ">
+                <div class="col-auto d-flex align-items-end">
                     <asp:Button CssClass="btn btn-primary" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
                 </div>
             </div>
