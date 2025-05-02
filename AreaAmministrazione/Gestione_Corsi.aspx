@@ -7,24 +7,50 @@
     <div class="container mt-5">
         <h1>Gestione Corsi</h1>
 
-        <div class="mb-4 text-end">
-            <div id="icona">
-                <asp:Label ID="Label2" runat="server" Text="Inserisci un nuovo corso" CssClass="fw-bold"></asp:Label>
-                <i class="bi bi-plus-circle btn btn-primary"></i>
+        <div class="mb-4">
+            <div id="icona" class="row g-3 align-items-center justify-content-end">
+                <div class="col-auto">
+                    <asp:Label ID="Label2" runat="server" Text="Inserisci un nuovo corso" CssClass="fw-bold fs-5"></asp:Label>
+                </div>
+                <div class="col-auto">
+                    <i class="bi bi-plus-circle btn btn-primary"></i>
+                </div>
             </div>
 
-            <div id="insert" runat="server" style="display: none;">
-                <asp:Label ID="Label4" runat="server" Text="Corso"></asp:Label>
-                <asp:TextBox ID="txtCorso" runat="server"></asp:TextBox>
-                <asp:Label ID="Label1" runat="server" Text="Facoltà"></asp:Label>
-                <asp:DropDownList ID="ddlFacolta" runat="server"></asp:DropDownList>
-                <asp:Label ID="Label3" runat="server" Text="Tipo Corso"></asp:Label>
-                <asp:DropDownList ID="ddlTipoCorso" runat="server"></asp:DropDownList>
-                <asp:Label ID="Label5" runat="server" Text="MinimoCFU"></asp:Label>
-                <asp:TextBox ID="txtMinimoCFU" runat="server"></asp:TextBox>
-                <asp:Label ID="Label6" runat="server" Text="CostoAnnuale"></asp:Label>
-                <asp:TextBox ID="txtCostoAnnuale" runat="server"></asp:TextBox>
-                <asp:Button CssClass="btn btn-primary btn-sm" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
+            <div id="insert" class="d-none row g-3 align-items-center justify-content-end" runat="server">
+                <div class="col-auto">
+                    <asp:Label ID="Label4" runat="server" Text="Corso"></asp:Label>
+                </div>
+                <div class="col-auto">
+                    <asp:TextBox ID="txtCorso" CssClass="form-control" runat="server"></asp:TextBox>
+                </div>
+                <div class="col-auto">
+                    <asp:Label ID="Label1" runat="server" Text="Facoltà"></asp:Label>
+                </div>
+                <div class="col-auto">
+                    <asp:DropDownList ID="ddlFacolta" CssClass="form-select" runat="server"></asp:DropDownList>
+                </div>
+                <div class="col-auto">
+                    <asp:Label ID="Label3" runat="server" Text="Tipo Corso"></asp:Label>
+                </div>
+                <div class="col-auto">
+                    <asp:DropDownList ID="ddlTipoCorso" CssClass="form-select" runat="server"></asp:DropDownList>
+                </div>
+                <div class="col-auto">
+                    <asp:Label ID="Label5" runat="server" Text="MinimoCFU"></asp:Label>
+                </div>
+                <div class="col-auto">
+                    <asp:TextBox ID="txtMinimoCFU" CssClass="form-control" runat="server"></asp:TextBox>
+                </div>
+                <div class="col-auto">
+                    <asp:Label ID="Label6" runat="server" Text="CostoAnnuale"></asp:Label>
+                </div>
+                <div class="col-auto">
+                    <asp:TextBox ID="txtCostoAnnuale" CssClass="form-control" runat="server"></asp:TextBox>
+                </div>
+                <div class="col-auto">
+                    <asp:Button CssClass="btn btn-primary" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
+                </div>
             </div>
         </div>
 
@@ -112,7 +138,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <asp:Button ID="btnSalvaModifica" runat="server" Text="Salva Modifiche" CssClass="btn btn-primary" OnClick="btnSalvaModifica_Click"/>
+                    <asp:Button ID="btnSalvaModifica" runat="server" Text="Salva Modifiche" CssClass="btn btn-primary" OnClick="btnSalvaModifica_Click" />
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
                 </div>
 
@@ -125,17 +151,11 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var btnMostra = document.getElementById("icona");
-            var divInsert = document.getElementById("<%= insert.ClientID %>");
-
-            if (divInsert.style.display == "block") {
-                btnMostra.style.display = "none";
-            } else {
-                btnMostra.style.display = "inline-block";
-            }
+            var divInsert = document.getElementById("<%= insert.ClientID %>");            
 
             btnMostra.addEventListener("click", function () {
-                btnMostra.style.display = "none";
-                divInsert.style.display = "block";
+                btnMostra.classList.add("d-none");
+                divInsert.classList.remove("d-none");
             });
         });
     </script>
