@@ -1,79 +1,101 @@
 ﻿@model AreaPubblica.Models.RegisterViewModel
+<div style="height:50vh;">
+</div>
+<div class="container mt-5">
+    <form asp-action="Register" method="post" enctype="multipart/form-data" class="row" id="register-form">
+        <div style="height: 4vh;">&nbsp;</div>
 
+        <div class="col-12 mb-5 mb-xl-0 col-xl-8 bg-white border border-1 border-black shadow rounded-5 p-4">
+            <h3 class="text-center mb-2">Registrazione Studente</h3>
+            <p class="text-black px-1">
+                Compila il modulo sottostante per registrarti come studente. Assicurati di inserire correttamente tutte le informazioni richieste.
+            </p>
 
-<h2>Registrazione Studente</h2>
-<div class="container">
-	
+            <hr class="my-4">
+            <h4 class="heading-small text-muted">Dati Anagrafici</h4>
+            <div class="row mb-3">
+                <div class="col-12 col-lg-6 mb-2">
+                    <label class="form-label">Nome</label>
+                    <input asp-for="Nome" class="form-control form-control-alternative" required />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-lg-6 mb-2">
+                    <label class="form-label">Cognome</label>
+                    <input asp-for="Cognome" class="form-control form-control-alternative" required />
+                    <span asp-validation-for="Cognome" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-lg-6 mb-2">
+                    <label class="form-label">Data di Nascita</label>
+                    <input asp-for="DataNascita" class="form-control form-control-alternative" type="date" required />
+                    <span asp-validation-for="DataNascita" class="text-danger"></span>
+                </div>
+            </div>
 
-	<form asp-action="Register" method="post" enctype="multipart/form-data">
-		<div asp-validation-summary="All" class="text-danger"></div>
+            <hr class="my-4">
+            <h4 class="heading-small text-muted">Informazioni di Contatto</h4>
+            <div class="row mb-3">
+                <div class="col-12 col-lg-9 mb-2">
+                    <label class="form-label">Indirizzo</label>
+                    <input asp-for="Indirizzo" class="form-control form-control-alternative" required />
+                    <span asp-validation-for="Indirizzo" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-lg-3 mb-2">
+                    <label class="form-label">CAP</label>
+                    <input asp-for="CAP" class="form-control form-control-alternative" maxlength="5" required />
+                    <span asp-validation-for="CAP" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-lg-9 mb-2">
+                    <label class="form-label">Città</label>
+                    <input asp-for="Citta" class="form-control form-control-alternative" required />
+                    <span asp-validation-for="Citta" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-lg-3 mb-2">
+                    <label class="form-label">Provincia</label>
+                    <input asp-for="Provincia" class="form-control form-control-alternative text-uppercase" maxlength="2" required />
+                    <span asp-validation-for="Provincia" class="text-danger"></span>
+                </div>
+            </div>
 
-		<div class="form-group">
-			<label asp-for="Nome"></label>
-			<input asp-for="Nome" class="form-control" />
-			<span asp-validation-for="Nome" class="text-danger"></span>
-		</div>
+            <hr class="my-4">
+            <h4 class="heading-small text-muted">Credenziali</h4>
+            <div class="row mb-3">
+                <div class="col-12 mb-2">
+                    <label class="form-label">Email</label>
+                    <input asp-for="Email" class="form-control form-control-alternative" type="email" required />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="col-12 mb-2">
+                    <label class="form-label">Password</label>
+                    <input asp-for="Password" class="form-control form-control-alternative" type="password" required />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
 
-		<div class="form-group">
-			<label asp-for="Cognome"></label>
-			<input asp-for="Cognome" class="form-control" />
-			<span asp-validation-for="Cognome" class="text-danger"></span>
-		</div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary" style="width: 179px;">Registrati</button>
+            </div>
+        </div>
 
-		<div class="form-group">
-			<label asp-for="Email"></label>
-			<input asp-for="Email" class="form-control" />
-			<span asp-validation-for="Email" class="text-danger"></span>
-		</div>
+        <div class="col-12 col-xl-4 px-0 px-lg-2 mt-5 mt-xl-0">
+            <div class="bg-white border border-1 border-black shadow rounded-5 p-4 position-relative">
+                <div id="img-container" class="position-absolute top-0 start-50 translate-middle d-flex justify-content-center align-items-center"
+                     style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background-color: #f0f0f0;">
+                    <i class="bi bi-person-circle text-black bg-white" style="font-size: 6rem; border-radius: 50%; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;"></i>
+                </div>
+                <h5 class="text-center mt-5">Immagine Profilo</h5>
+                <p class="text-center">Carica un'immagine per il tuo profilo (JPEG, JPG, PNG)</p>
 
-		<div class="form-group">
-			<label asp-for="Password"></label>
-			<input asp-for="Password" class="form-control" type="password" />
-			<span asp-validation-for="Password" class="text-danger"></span>
-		</div>
+                <div class="input-group mt-4">
+                    <input asp-for="ImmagineFile" type="file" class="form-control" id="inputGroupFile04" aria-label="Upload" />
+                </div>
+                <span asp-validation-for="ImmagineFile" class="text-danger d-block mt-2 text-center"></span>
+            </div>
+        </div>
+    </form>
 
-		<div class="form-group">
-			<label asp-for="DataNascita">Data di Nascita</label>
-			<input asp-for="DataNascita" class="form-control" type="date" />
-			<span asp-validation-for="DataNascita" class="text-danger"></span>
-		</div>
-
-		<div class="form-group">
-			<label asp-for="Indirizzo"></label>
-			<input asp-for="Indirizzo" class="form-control" />
-			<span asp-validation-for="Indirizzo" class="text-danger"></span>
-		</div>
-
-		<div class="form-group">
-			<label asp-for="CAP"></label>
-			<input asp-for="CAP" class="form-control" />
-			<span asp-validation-for="CAP" class="text-danger"></span>
-		</div>
-
-		<div class="form-group">
-			<label asp-for="Citta"></label>
-			<input asp-for="Citta" class="form-control" />
-			<span asp-validation-for="Citta" class="text-danger"></span>
-		</div>
-
-		<div class="form-group">
-			<label asp-for="Provincia"></label>
-			<input asp-for="Provincia" class="form-control" />
-			<span asp-validation-for="Provincia" class="text-danger"></span>
-		</div>
-
-		<div class="form-group">
-			<label asp-for="ImmagineFile"></label>
-			<input asp-for="ImmagineFile" class="form-control" type="file" />
-			<span asp-validation-for="ImmagineFile" class="text-danger"></span>
-		</div>
-
-		<button type="submit" class="btn btn-primary">Registrati</button>
-	</form>
-
-	@section Scripts {
-		@{
-			await Html.RenderPartialAsync("_ValidationScriptsPartial");
-		}
-	}
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
 </div>
