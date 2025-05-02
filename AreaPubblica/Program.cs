@@ -14,12 +14,12 @@ namespace AreaPubblica
 
             builder.Services.AddDbContext<ApplicationDbContext>
                 (options => options.UseSqlServer(
-                    builder.Configuration.GetConnectionString("DefaultConnection")));
+                    builder.Configuration.GetConnectionString("UniGenConn")));
 
             builder.Services.AddDistributedMemoryCache(); // Necessario per usare la sessione
             builder.Services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(30); // Tempo massimo inattività sessione
+                options.IdleTimeout = TimeSpan.FromMinutes(30); // Tempo massimo inattivitï¿½ sessione
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
