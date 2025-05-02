@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace LibreriaClassi
 {
     /// <summary>
@@ -62,6 +63,7 @@ namespace LibreriaClassi
         //    }
         //}
 
+
         //lista appelli 
         public DataTable ListaAppelli(int Matricola)
         {
@@ -72,5 +74,6 @@ namespace LibreriaClassi
             return db.SQLselect();
         }
        
+
     }
 }

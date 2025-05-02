@@ -14,7 +14,7 @@ using LibreriaClassi;
 public partial class _Default : System.Web.UI.Page
 {
     public int matricola;
-    
+
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -41,7 +41,7 @@ public partial class _Default : System.Web.UI.Page
         matricola = 123556;
         STUDENTI studente = new STUDENTI();
         studente.Matricola = matricola;
-        DataTable dt = studente.SelezionaAnnoAccademico();
+        DataTable dt = studente.SelezionaAnnoAccademico(matricola);
 
         if (dt.Rows.Count == 1)
         {
@@ -59,18 +59,17 @@ public partial class _Default : System.Web.UI.Page
     {
         matricola = 123556; //da sostituire con la session
         APPELLI m = new APPELLI();
-        rptAppelli.DataSource = m.ListaAppelli( matricola);
+        rptAppelli.DataSource = m.ListaAppelli(matricola);
         rptAppelli.DataBind();
-       
+
     }
     
+
 
     protected void btnPrenotaSelezionati_Click(object sender, EventArgs e)
     {
         // Recupera gli identificativi fissi (da sostituire poi con quelli della sessione utente)
         int matricola = int.Parse("123556");
-
-        string Esito = "Prenotato"; // Stato da inserire nel database
 
         int countPrenotati = 0; // Contatore degli appelli prenotati con successo
 
@@ -86,21 +85,6 @@ public partial class _Default : System.Web.UI.Page
             {
                 // Recupera il GUID dell'appello selezionato
                 Guid K_Appello = Guid.Parse(hfKAppello.Value);
-
-                //Controllo prenotazioni duplicati 
-                //string salvastudente = e.CommandArgument.ToString();
-                //Guid k_studente = Guid.Parse(salvastudente);
-
-                // Prova a fare il parsing del parametro 'CommandArgument' come Guid
-                //Guid k_studente;
-                //bool isValidGuid = Guid.TryParse(e.CommandArgument.ToString(), out k_studente);
-
-                //if (!isValidGuid)
-                //{
-                //    // Se il parsing fallisce, restituisci un errore
-                //    ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('ID studente non valido')", true);
-                //    return;
-                //}
 
                 LIBRETTI m = new LIBRETTI();
                 m.Matricola = matricola;
@@ -154,7 +138,7 @@ public partial class _Default : System.Web.UI.Page
             lblMessaggio.Visible = true;
         }
 
-       
+
     }
 }
 

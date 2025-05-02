@@ -80,6 +80,15 @@ namespace LibreriaClassi
             return db.SQLselect();
         }
 
+
+        public DataTable SelezionaMedia(int Matricola)
+        {
+            DB db = new DB();
+            db.query = "Libretti_MediaVotiByMatricola";
+               db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+
         //prenotazione appelli 
         public void PrenotazioneAppelli()
         {
@@ -100,6 +109,36 @@ namespace LibreriaClassi
             return db.SQLselect();
         }
 
+
+        public DataTable SelezionaTOTCFU(int Matricola)
+        {
+
+            DB db = new DB();
+            db.query = "Libretti_TotCFUByMatricola";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaEsami(int Matricola)
+        {
+            DB db = new DB();
+            db.query = "Libretti_EsamiByMatricola";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+
+
+        }
+        public DataTable SelezionaCFU(int Matricola)
+        {
+            DB db = new DB();
+            db.query = "Libretti_TotCFUByMatricola";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+
+
+        }
+
+
         //eliminazione prenotazione appelli 
         public void EliminazioneAppelli()
         {
@@ -110,7 +149,7 @@ namespace LibreriaClassi
         }
 
         //controllo prenotazioni doppioni
-        public DataTable ControlloDoppioni()
+        public DataTable ControlloDoppioni( )
         {
             DB db = new DB();
             db.query = "Prenotazione_Duplicati";
@@ -119,6 +158,7 @@ namespace LibreriaClassi
             return db.SQLselect();
         }
 
+        //recupera K_Studente
         public DataTable RecuperaKStudenteDaMatricola(int matricola)
         {
             DB db = new DB();
@@ -126,7 +166,24 @@ namespace LibreriaClassi
             db.cmd.Parameters.AddWithValue("@matricola", matricola);
             return db.SQLselect();
         }
-
-
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

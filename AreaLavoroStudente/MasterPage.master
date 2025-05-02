@@ -120,6 +120,7 @@
                                     </ul>
                                 </li>
 
+
                                 <li id="li2" runat="server" class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Pagamenti</a>
                                     <ul class="dropdown-menu">
@@ -127,6 +128,7 @@
                                         <li><a class="dropdown-item" href="PagamentiEffettuati.aspx">Pagamenti Effettuati</a></li>
                                     </ul>
                                 </li>
+
 
                                 <li id="liComunicazioni" runat="server" class="nav-item">
                                     <a class="nav-link" href="#">Comunicazioni</a>

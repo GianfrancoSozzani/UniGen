@@ -38,7 +38,7 @@ public partial class _Default : System.Web.UI.Page
         matricola = 123556;
         STUDENTI studente = new STUDENTI();
         studente.Matricola = matricola;
-        DataTable dt = studente.SelezionaAnnoAccademico();
+        DataTable dt = studente.SelezionaAnnoAccademico(matricola);
 
         if (dt.Rows.Count == 1)
         {
