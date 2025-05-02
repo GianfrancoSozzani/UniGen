@@ -1,10 +1,6 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@model AreaDocente.Models.Entities.MVCAPPELLO
+﻿@model AreaDocente.Models.Entities.MVCAPPELLO
 
-
-<div class="container mt-5">
+<div class="container my-5">
 
     <h1>Modifica Appello</h1>
 
@@ -59,8 +55,12 @@
                 </div>
 
                 <div class="mt-4 d-flex justify-content-between">
-                    <button type="submit" class="btn btn-primary btn-lg">Modifica</button>
-                    <button type="submit" class="btn btn-danger ms-3" asp-controller="Appelli" asp-action="Delete">Elimina</button>
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-pencil-square me-1"></i> Modifica
+                    </button>
+                    <button type="submit" class="btn btn-danger btn-lg ms-3" asp-controller="Appelli" asp-action="Delete">
+                        <i class="bi bi-trash me-1"></i> Elimina
+                    </button>
                 </div>
 
             </form>
