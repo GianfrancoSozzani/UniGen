@@ -41,7 +41,7 @@
             <div class="col-4 mt-4 col-sm-8 col-md-4">
                 <asp:Label ID="Label2" runat="server" Text="Tipologia Corso"></asp:Label>
                 <asp:DropDownList ID="ddlTipoCorso" runat="server" CssClass="form-control">
-  <%--                  <asp:ListItem Text="Triennale" Value="Triennale"></asp:ListItem>
+                    <%--                  <asp:ListItem Text="Triennale" Value="Triennale"></asp:ListItem>
                     <asp:ListItem Text="Magistrale" Value="Magistrale"></asp:ListItem>
                     <asp:ListItem Text="Ciclo Unico" Value="Ciclo Unico"></asp:ListItem>--%>
                 </asp:DropDownList>
@@ -79,24 +79,26 @@
         <%------------------------- MOSTRA ELENCO ESAMI INSERITI NEL PIANO DI STUDI------------------------%>
 
         <asp:Repeater ID="rpEsamiInseriti" runat="server">
-            <headertemplate>
+            <HeaderTemplate>
                 <table class="table">
                     <thead>
                         <tr>
                             <th>Esame</th>
                             <th>CFU</th>
                             <th>Tipologia</th>
+                            <th>Docente</th>
                             <th>Azioni</th>
                         </tr>
                     </thead>
                     <tbody>
-            </headertemplate>
+            </HeaderTemplate>
 
-            <itemtemplate>
+            <ItemTemplate>
                 <tr>
                     <td><%# Eval("TitoloEsame") %></td>
                     <td><%# Eval("CFU") %></td>
                     <td><%# Eval("Tipologia") %></td>
+                    <td><%# Eval("Cognome") %> <%# Eval("Nome") %></td>
                     <td>
                         <asp:LinkButton ID="btnRimuoviEsame" runat="server"
                             OnClick="btnRimuoviEsame_OnClick"
@@ -107,12 +109,12 @@
                         </asp:LinkButton>
                     </td>
                 </tr>
-            </itemtemplate>
+            </ItemTemplate>
 
-            <footertemplate>
+            <FooterTemplate>
                 </tbody>
         </table>
-            </footertemplate>
+            </FooterTemplate>
         </asp:Repeater>
 
 
@@ -145,20 +147,21 @@
                             </div>
                         </nav>
                         <asp:Repeater ID="rpEsami" runat="server" OnItemCommand="rpEsami_ItemCommand">
-                            <headertemplate>
+                            <HeaderTemplate>
                                 <table class="table">
                                     <thead>
                                         <tr>
                                             <th>Titolo</th>
                                             <th>CFU</th>
                                             <th>Tipologia</th>
+                                            <th>Docente</th>
                                             <th>Azioni</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                            </headertemplate>
+                            </HeaderTemplate>
 
-                            <itemtemplate>
+                            <ItemTemplate>
                                 <tr>
                                     <td><%# Eval("TitoloEsame") %></td>
                                     <td><%# Eval("CFU") %></td>
@@ -166,6 +169,7 @@
                                         <asp:CheckBox ID="chkFacoltativo" runat="server" CssClass="form-check-input" />
                                         <label class="form-check-label">Facoltativo</label>
                                     </td>
+                                    <td><%# Eval("Cognome") %> <%# Eval("Nome") %></td>
                                     <td>
                                         <asp:LinkButton ID="btnAggiungiEsame" runat="server"
                                             CssClass="btn btn-primary"
@@ -175,12 +179,12 @@
                                         </asp:LinkButton>
                                     </td>
                                 </tr>
-                            </itemtemplate>
+                            </ItemTemplate>
 
-                            <footertemplate>
+                            <FooterTemplate>
                                 </tbody>
                       </table>
-                            </footertemplate>
+                            </FooterTemplate>
                         </asp:Repeater>
 
                         <script>
