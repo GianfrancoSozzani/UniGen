@@ -151,7 +151,7 @@ public partial class _Default : System.Web.UI.Page
             lblMessaggio.Visible = true;
         }
 
-        Response.Redirect("Appelli_Gestione.aspx");
+        
     }
 }
 
