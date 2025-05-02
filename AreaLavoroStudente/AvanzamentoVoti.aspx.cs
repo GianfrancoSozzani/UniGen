@@ -1,121 +1,95 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.EnterpriseServices;
-using LibreriaClassi;
-using System.ComponentModel;
-using System.Activities.Expressions;
-using System.Security.Cryptography.X509Certificates;
+using LibreriaClassi;  // Assicurati di avere la libreria corretta per interagire con i dati.
 
-//VotiSelectMatricola
 public partial class _Default : System.Web.UI.Page
 {
-    public int matricola = 123562;
-
     protected void Page_Load(object sender, EventArgs e)
     {
+        // TEST: Caricare i dati di esempio
         if (!IsPostBack)
         {
-            //if (Session["Matricola"] == null)
-            //{
-            //    ClientScript.RegisterStartupScript(this.GetType(), "ShowLoginModal", "showLoginModal();", true);
-            //}
-            //else
-            //{
-            //    CaricaCorso(matricolaTest);
-            //    CaricaMedia(matricolaTest);
-            //    CaricaEsami(matricolaTest);
-            //}
-          
-
-            if (matricola == 0)
-            {
-                ClientScript.RegisterStartupScript(this.GetType(), "ShowLoginModal", "showLoginModal();", true);
-                //ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Utente non loggato')", true);
-                //return;
-            }
-            else
-            {
-                CaricaMedia(matricola);
-                CaricaCFU(matricola);
-                CaricaEsami(matricola);
-            }
+            int Matricola = 123562; // Sostituisci con la matricola dell'utente effettivo
+            CaricaEsami(Matricola);
+            CaricaMedia(Matricola);
+            CaricaCFU(Matricola);
         }
+
+        //VERSIONE MATRICOLA DA SESSION
+        //if (Session["Matricola"] != null)
+        //{
+        //    int Matricola = Convert.ToInt32(Session["Matricola"]);
+        //CaricaEsami(Matricola);
+        //CaricaMedia(Matricola);
+        //CaricaCFU(Matricola);
+        //}
+
+        //else
+
+        //{
+        //    // SE LA MATRICOLA NON E' PRESENTE, RIMANDA A LOGIN
+        //    Response.Write("Utente non trovato.");
+        //    Response.Redirect("~/Login.aspx");
+        //}
+
     }
 
-    private void CaricaEsami(int matricola)
+    private void CaricaEsami(int Matricola)
     {
         LIBRETTI lb = new LIBRETTI();
-        DataTable dt = lb.SelezionaEsami(matricola);
-        rptVoti.DataSource = dt;
+        DataTable dt = lb.SelezionaEsami(Matricola);
+
+        // Controllo se la DataTable è vuota
+        if (dt.Rows.Count > 0)
+        {
+            rptVoti.DataSource = dt;
+        }
+        else
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "showDatiModal", "showDatiModal();", true);
+            
+        }
+
         rptVoti.DataBind();
     }
 
-    private void CaricaMedia(int matricola)
+    private void CaricaMedia(int Matricola)
     {
-        DB db = new DB();
-        db.query = "Libretti_MediaVotiByMatricola";
-        db.cmd.Parameters.Clear();
-        db.cmd.Parameters.AddWithValue("@Matricola", matricola);
+        LIBRETTI lb = new LIBRETTI();
+        DataTable dt = lb.SelezionaMedia(Matricola);
 
-        DataTable dt = db.SQLselect();
-
-        if (dt.Rows.Count > 0)
+        if (dt.Rows.Count >= 1)
         {
-            var mediaPonderata = dt.Rows[0]["MediaPonderata"];
             formMedia.DataSource = dt;
             formMedia.DataBind();
-
-            Label lblMedia = (Label)formMedia.FindControl("lblMedia");
-            if (lblMedia != null)
-            {
-                lblMedia.Text = mediaPonderata.ToString();
-            }
+            //lblMediaVuota.Visible = false;
         }
         else
         {
-            Label lblMedia = (Label)formMedia.FindControl("lblMedia");
-            if (lblMedia != null)
-            {
-                lblMedia.Text = "Nessuna media disponibile";
-            }
+            formMedia.DataSource = null;
+            formMedia.DataBind();
+            //lblMediaVuota.Visible = true;
         }
     }
 
-    private void CaricaCFU(int matricola)
+    private void CaricaCFU(int Matricola)
     {
-        DB db = new DB();
-        db.query = "Libretti_TotCFUByMatricola";
-        db.cmd.Parameters.Clear();
-        db.cmd.Parameters.AddWithValue("@Matricola", matricola);
+        LIBRETTI lb = new LIBRETTI();
+        DataTable dt = lb.SelezionaTOTCFU(Matricola);
 
-        DataTable dt = db.SQLselect();
-
-        if (dt.Rows.Count > 0)
+        if (dt.Rows.Count >= 1)
         {
-            var totaleCFU = dt.Rows[0]["TotaleCFU"];
             formCFU.DataSource = dt;
             formCFU.DataBind();
-
-            Label lblCFU = (Label)formCFU.FindControl("lblCFU");
-            if (lblCFU != null)
-            {
-                lblCFU.Text = totaleCFU.ToString() + " CFU";
-            }
+            //lblCFUVuota.Visible = false;
         }
         else
         {
-            Label lblCFU = (Label)formCFU.FindControl("lblMedia");
-            if (lblCFU != null)
-            {
-                lblCFU.Text = "Nessuna media disponibile";
-            }
+            formCFU.DataSource = null;
+            formCFU.DataBind();
+            //lblCFUVuota.Visible = true;
         }
     }
+
 }

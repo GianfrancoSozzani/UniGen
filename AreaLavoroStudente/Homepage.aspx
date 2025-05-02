@@ -35,9 +35,14 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
-      <!--TITOLO-->
+    <!--TITOLO-->
     <div class="container my-5">
-        <div class="mt-1" style="margin-top: -50px !important;">
+        <%--<div class="mt-1" style="margin-top: -50px !important;">
+        </div>--%>
+
+        <!--TITOLO-->
+        <div class="mb-1">
+            <h2 class="text-start">Pannello studente</h2>
             <div class="d-flex text-start gap-2 my-3 flex-wrap  fs-6">
                 <asp:Label ID="lblAnno" runat="server"></asp:Label>
                 <span>-</span>
@@ -45,11 +50,6 @@
                 <span>-</span>
                 <asp:Label ID="lblFacolta" runat="server"></asp:Label>
             </div>
-        </div>
-
-        <!--TITOLO-->
-        <div class="mb-1">
-            <h2 class="text-start">Pannello studente</h2>
         </div>
 
         <div class="d-flex flex-wrap-cards justify-content-center gap-3">
@@ -118,4 +118,6 @@
             </div>
         </div>
     </div>
+
+
 </asp:Content>

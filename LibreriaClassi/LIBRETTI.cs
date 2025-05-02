@@ -13,6 +13,7 @@ namespace LibreriaClassi
         public Guid K_Studente { get; set; }
         public Guid K_Appello { get; set; }
         public int VotoEsame { get; set; }
+        public int Matricola { get; set; }
         /// <summary>
         /// l'esito è positivo o negativo? (N) negativo, (P) positivo
         /// </summary>
@@ -78,11 +79,59 @@ namespace LibreriaClassi
             db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
             return db.SQLselect();
         }
-     
-        public DataTable SelezionaEsami(int Matricola)
+
+
+        public DataTable SelezionaMedia(int Matricola)
         {
             DB db = new DB();
             db.query = "Libretti_MediaVotiByMatricola";
+               db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+
+        //prenotazione appelli 
+        public void PrenotazioneAppelli()
+        {
+            DB db = new DB();
+            db.query = "Prenotazione_Insert";
+            db.cmd.Parameters.AddWithValue("@k_studente", K_Studente);
+            db.cmd.Parameters.AddWithValue("@k_appello", K_Appello);
+            db.SQLcommand();
+        }
+
+        //lista prenotazioni appelli 
+        public DataTable ListaPrenotazioni()
+        {
+            
+            DB db = new DB();
+            db.query = "Appelli_Prenotati";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+
+
+        public DataTable SelezionaTOTCFU(int Matricola)
+        {
+
+            DB db = new DB();
+            db.query = "Libretti_TotCFUByMatricola";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaEsami(int Matricola)
+        {
+            DB db = new DB();
+            db.query = "Libretti_EsamiByMatricola";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+
+
+        }
+        public DataTable SelezionaCFU(int Matricola)
+        {
+            DB db = new DB();
+            db.query = "Libretti_TotCFUByMatricola";
             db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
             return db.SQLselect();
 
@@ -90,19 +139,24 @@ namespace LibreriaClassi
         }
 
 
+        //eliminazione prenotazione appelli 
+        public void EliminazioneAppelli()
+        {
+            DB db = new DB();
+            db.query = "Prenotazione_Delete";
+            db.cmd.Parameters.AddWithValue("@k_libretto", K_Libretto);
+            db.SQLcommand();
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
+        //controllo prenotazioni doppioni
+        public DataTable ControlloDoppioni(Guid K_Studente)
+        {
+            DB db = new DB();
+            db.query = "Prenotazione_Duplicati";
+            db.cmd.Parameters.AddWithValue("@k_studente", K_Studente); //abbiamo cambiato matricola con studente 
+            db.cmd.Parameters.AddWithValue("@k_appello", K_Appello);
+            return db.SQLselect();
+        }
 
     }
 

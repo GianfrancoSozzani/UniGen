@@ -16,47 +16,51 @@ using System.Security.Cryptography.X509Certificates;
 
 public partial class MasterPage : System.Web.UI.MasterPage
 {
-    public int matricola;
+    //public int Matricola;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-
-            string abilitazione = "S";
-            /*Session["Abilitazione"]?.ToString();*/
-            if (abilitazione == "N")
+            // Controlliamo se la sessione contiene i dati necessari (matricola e abilitazione)
+            if (Session["mat"] == null || Session["a"] == null)
             {
-                liAppelli.Visible = (abilitazione == "admin");
-                liMateriali.Visible = (abilitazione == "admin");
-                liComunicazioni.Visible = (abilitazione == "admin");
+                // Se non ci sono i dati nella sessione, mostriamo l'errore di autenticazione
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "authError", "showAuthErrorModal();", true);
+                return;
             }
 
-            // Nasconde la card se non sei admin
+            // Recuperiamo i dati dalla sessione
+            int Matricola = int.Parse(Session["mat"].ToString());
+            string Abilitazione = Session["a"].ToString();
 
+            // Carichiamo il nome utente (ad esempio nome, cognome)
+            CaricaUtente(Matricola);
+
+            // Impostiamo la visibilità dei menu in base all'abilitazione
+            if (Abilitazione == "S")
+            {
+                liAppelli.Visible = true;
+                liMateriali.Visible = true;
+                liComunicazioni.Visible = true;
+            }
+            else
+            {
+                liAppelli.Visible = false;
+                liMateriali.Visible = false;
+                liComunicazioni.Visible = false;
+            }
         }
+    
+
+}
 
 
-        //Verifica che la sessione contenga una matricola valida
-        //if (Session["matricola"] == null || !int.TryParse(Session["matricola"].ToString(), out matricola) || matricola == 0)
-        //{
-        //    Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Utente non loggato');", true);
-        //    Response.Redirect("~/Login.aspx");
-
-        //}
-
-        //TEST
-        matricola = 123562;
-
-        if (matricola == 0)
-        {
-            Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Utente non loggato');", true);
-            Response.Redirect("~/Login.aspx");
-            
-        }
-
+    private void CaricaUtente(int Matricola)
+    {
         STUDENTI studente = new STUDENTI();
-        studente.Matricola = matricola;
-        DataTable dt = studente.SelezionaPerMatricola();
+        studente.Matricola = Matricola;
+        DataTable dt = studente.SelezionaPerMatricola(Matricola);
+
 
         if (dt.Rows.Count == 1)
         {
@@ -64,6 +68,8 @@ public partial class MasterPage : System.Web.UI.MasterPage
             string cognome = dt.Rows[0]["Cognome"].ToString();
             lblStudente.Text = nome + " " + cognome;
         }
+
+
     }
 }
 
