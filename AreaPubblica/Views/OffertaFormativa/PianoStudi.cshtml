@@ -8,8 +8,12 @@
 
 <div style="height: 3vh;"></div>
 <div class="container" style="padding-top: 100px; padding-bottom: 100px;">
-	<h1 class="mb-4">Piani di Studio</h1>
-
+	<h1 class="mb-4 mt-5">Piano di Studi</h1>
+	<div class="mt-2">
+		Organizza al meglio il tuo percorso accademico consultando l'elenco dettagliato degli esami previsti per ogni corso di tuo interesse. 
+		Scopri le materie fondamentali, gli approfondimenti disponibili e le modalità di valutazione, 
+		così da pianificare con consapevolezza il tuo cammino universitario e ottimizzare il tuo tempo di studio!
+	</div>
 	@if (dati != null && dati.Any())
 	{
 		var facoltaGruppi = dati.GroupBy(d => d.Facolta);
