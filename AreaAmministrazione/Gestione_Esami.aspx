@@ -21,7 +21,7 @@
                 <div class="col-auto">
                     <asp:Label ID="Label3" runat="server" Text="Esame"></asp:Label>
                     <asp:TextBox ID="txtEsami" CssClass="form-control" runat="server"></asp:TextBox>
-                </div>                
+                </div>
                 <div class="col-auto">
                     <asp:Label ID="Label1" runat="server" Text="Docente"></asp:Label>
                     <asp:DropDownList ID="ddlDocente" CssClass="form-select" runat="server"></asp:DropDownList>
@@ -32,6 +32,27 @@
                 </div>
                 <div class="col-auto d-flex align-items-end">
                     <asp:Button CssClass="btn btn-primary" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form mb-3">
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label class="mr-2" for="lblRicercaEsame">Ricerca Esame</label>
+                </div>
+                <div class="col-auto">
+                    <asp:TextBox ID="txtRicercaEsame" runat="server" CssClass="form-control mr-2"></asp:TextBox>
+                </div>
+                <div class="col-auto">
+                    <asp:LinkButton ID="btnRicerca" runat="server" CssClass="btn btn-primary" Style="box-shadow: 0px 4px 12px #21212115;" OnClick="btnRicerca_Click">
+  <i class="bi bi-search"></i>
+                    </asp:LinkButton>
+                </div>
+                <div class="col-auto">
+                    <span style="margin-left: 1em;">
+                        <asp:Label ID="lblErrore" runat="server" CssClass="text-danger mt-3" Text="" Visible="False"></asp:Label>
+                    </span>
                 </div>
             </div>
         </div>
@@ -117,7 +138,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var btnMostra = document.getElementById("icona");
-            var divInsert = document.getElementById("<%= insert.ClientID %>");            
+            var divInsert = document.getElementById("<%= insert.ClientID %>");
 
             btnMostra.addEventListener("click", function () {
                 btnMostra.classList.add("d-none");
