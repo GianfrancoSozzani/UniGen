@@ -3,7 +3,6 @@ using AreaPubblica.Models;
 using AreaPubblica.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http; // Importante per la sessione
 
 namespace AreaPubblica.Controllers
 {
@@ -87,11 +86,10 @@ namespace AreaPubblica.Controllers
                 //HttpContext.Session.SetString("Ruolo", "D");
                 if (docente.Abilitato == "N")
                 {
-                    return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=d");
+                    return Redirect("https://localhost:7245/Docenti/ModificaProfilo?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=d");
                     //return RedirectToAction("AREA DOCENTE (NON ABILITATO)", "Home");
                 }
-                return Redirect("https://localhost:7245/?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=d");
-                //return RedirectToAction("AREA DOCENTE (ABILITATO)", "Home");
+                return Redirect("https://localhost:7245/Home/Index?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=d");
             }
 
             var operatore = await dbContext.Operatori

@@ -4,6 +4,7 @@ using AreaDocente.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace AreaDocente.Controllers
 {
@@ -17,13 +18,16 @@ namespace AreaDocente.Controllers
         }
         public void PopolaEsame()
         {
-            IEnumerable<SelectListItem> ListaEsame = dbContext.esami.Select(i => new SelectListItem
-            {
-                Text = i.TitoloEsame,
-                Value = i.K_Esame.ToString()
-            });
-            ViewBag.EsameList = ListaEsame;
+            IEnumerable<SelectListItem> ListaEsami = dbContext.esami
+                .Where(e => e.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
+                .Select(e => new SelectListItem
+                {
+                    Text = e.TitoloEsame,
+                    Value = e.K_Esame.ToString()
+                });
+            ViewBag.EsameList = ListaEsami;
         }
+
         [HttpGet]
         public ActionResult Add()
         {
@@ -34,6 +38,29 @@ namespace AreaDocente.Controllers
         [HttpPost]
         public async Task<ActionResult> Add(AddMaterialiViewModel viewModel)
         {
+            PopolaEsame();
+            //CONTROLLI FORMALI
+            if (viewModel.Titolo == null)
+            {
+                TempData["ErrorMessage"] = "Titolo mancante!";
+                return View(viewModel);
+            }
+            if (viewModel.materiale == null || viewModel.materiale.Length == 0)
+            {
+                TempData["ErrorMessage"] = "Materiale mancante!";
+                return View(viewModel);
+            }
+            if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
+            {
+                TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
+                return View(viewModel);
+            }
+            if (viewModel.K_Esame == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "Selezionare l'esame!";
+                return View(viewModel);
+            }
+
             var materiali = new MVCMateriali
             {
                 Titolo = viewModel.Titolo.ToString(),
@@ -61,12 +88,10 @@ namespace AreaDocente.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            var materiali = await dbContext.materiali.ToListAsync();
-            foreach (var item in materiali)
-            {
-                item.esame = await dbContext.esami.FirstOrDefaultAsync(e => e.K_Esame == item.K_Esame);
-            }
-
+            var materiali = await dbContext.materiali
+                .Include(a => a.esame)
+                .Where(a => a.esame.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
+                .ToListAsync();
 
             return View(materiali);
         }
@@ -90,13 +115,30 @@ namespace AreaDocente.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditMaterialiViewModel viewModel)
         {
-            viewModel.Tipo = viewModel.MaterialeDA.ContentType;
+            //CONTROLLI FORMALI
+            if (viewModel.Titolo == null)
+            {
+                TempData["ErrorMessage"] = "Inserire un titolo!";
+                return View(viewModel);
+            }
+            if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
+            {
+                TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
+                return View(viewModel);
+            }
+            if (viewModel.K_Esame == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "Selezionare l'esame!";
+                return View(viewModel);
+            }
+
             var materiale = await dbContext.materiali.FindAsync(viewModel.K_Materiale);
             if (materiale is not null)
             {
                 materiale.Titolo = viewModel.Titolo;
                 if (viewModel.MaterialeDA != null && viewModel.MaterialeDA.Length > 0)
                 {
+                    viewModel.Tipo = viewModel.MaterialeDA.ContentType;
                     using (var ms = new MemoryStream())
                     {
                         await viewModel.MaterialeDA.CopyToAsync(ms);
@@ -109,5 +151,57 @@ namespace AreaDocente.Controllers
             }
             return RedirectToAction("List");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(MVCMateriali viewModel)
+        {
+            var mat = await dbContext.materiali
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.K_Materiale == viewModel.K_Materiale);
+            if (mat is not null)
+            {
+                dbContext.materiali.Remove(viewModel);
+                await dbContext.SaveChangesAsync();
+            }
+            return RedirectToAction("List");
+        }
+
+        private string EstensioneDaContentType(string contentType)
+        {
+            return contentType switch
+            {
+                "application/pdf" => ".pdf",
+                "image/jpeg" => ".jpg",
+                "image/png" => ".png",
+                "image/gif" => ".gif",
+                "application/msword" => ".doc",
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => ".docx",
+                "application/vnd.ms-excel" => ".xls",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => ".xlsx",
+                "text/plain" => ".txt",
+                "application/zip" => ".zip",
+                _ => "" // fallback se il tipo non è riconosciuto
+            };
+        }
+
+        public async Task<IActionResult> Download(Guid id)
+        {
+            var materiale = await dbContext.materiali.FindAsync(id);
+            if (materiale == null || materiale.Materiale == null)
+                return NotFound();
+
+            materiale.Titolo = materiale.Titolo + EstensioneDaContentType(materiale.Tipo);
+            return File(materiale.Materiale, materiale.Tipo, materiale.Titolo);
+        }
+
+        public async Task<IActionResult> View(Guid id)
+        {
+            var materiale = await dbContext.materiali.FindAsync(id);
+            if (materiale == null || materiale.Materiale == null)
+                return NotFound();
+
+            return File(materiale.Materiale, materiale.Tipo);
+        }
+
     }
 }

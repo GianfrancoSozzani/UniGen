@@ -101,22 +101,23 @@
 		<div id="target-section">
 			
 
-			<h1 class=" alert-dark text-center mb-5 ">Offerta Formativa</h1>
+			<h1 class="text-center mb-5 ">Offerta Formativa</h1>
 
 			@* qattro card con immagini e testo *@
 
 			<div class="d-flex flex-row justify-content-around">
 
-
+				<a class="nav-link text-dark" asp-area="" asp-controller="OffertaFormativa" asp-action="ElencoDocentiConEsami">
 				<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
 					<img src="~/Sources/esamiedocentiUNIGEN.png" class="card-img-top" alt="...">
 					<div class="card-body">
-						<p class="fw-bold"><a class="nav-link text-dark" asp-area="" asp-controller="OffertaFormativa" asp-action="ElencoDocentiConEsami">Esami e Docenti</a></p>
+						<p class="fw-bold">Esami e Docenti</p>
 						<p class="card-text">Consulta informazioni su esami, modalità di svolgimento, programmi e contatti dei docenti per ogni insegnamento.</p>
 					</div>
 				</div>
+				</a>
 
-
+				<a class="nav-link text-dark" asp-area="" asp-controller="OffertaFormativa" asp-action="ElencoCorsiCompleti">
 				<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
 					<img src="~/Sources/corsidilaureaUNIGEN.png" class="card-img-top" alt="...">
 					<div class="card-body">
@@ -124,19 +125,20 @@
 						<p class="card-text">Scopri l’offerta formativa completa: corsi triennali, magistrali e a ciclo unico, pensati per accompagnarti nel tuo percorso universitario.</p>
 					</div>
 				</div>
+				</a>
 
-
-
+				<a class="nav-link text-dark" asp-area="" asp-controller="OffertaFormativa" asp-action="Programma">
 				<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
 					<img src="~/Sources/calendarioUNIGENpng.png" class="card-img-top" alt="...">
 					<div class="card-body">
-						<p class="fw-bold">Programma</p>
+						<p class="fw-bold"><a class="nav-link text-dark" asp-area="" asp-controller="OffertaFormativa" asp-action="Programma">Programma</a></p>
+
 						<p class="card-text">Consulta le date importanti dell’anno universitario: inizio lezioni, sessioni d’esame, scadenze e periodi di vacanza.</p>
 					</div>
 				</div>
+				</a>
 
-
-
+				<a class="nav-link text-dark" asp-area="" asp-controller="OffertaFormativa" asp-action="#">
 				<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
 					<img src="~/Sources/pianodistudioUNIGEN.png" class="card-img-top" alt="...">
 					<div class="card-body">
@@ -144,6 +146,7 @@
 						<p class="card-text">Esplora il piano di studi del tuo corso! Consulta gli insegnamenti, i crediti formativi e l'organizzazione del tuo percorso accademico in modo semplice e intuitivo.</p>
 					</div>
 				</div>
+				</a>
 			</div>
 
 
