@@ -67,7 +67,7 @@ namespace LibreriaClassi
             return dB.SQLselect();
         }
 
-        public DataTable SelezionaPerMatricola()
+        public DataTable SelezionaPerMatricola(int Matricola)
         {
             DB db = new DB();
             db.query = "Studenti_SelectByMatricola";
