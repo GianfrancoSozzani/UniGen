@@ -3,6 +3,8 @@ using AreaPubblica.Models;
 using AreaPubblica.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using System.Text.RegularExpressions; // Importante per la sessione
 
 namespace AreaPubblica.Controllers
 {
@@ -170,5 +172,28 @@ namespace AreaPubblica.Controllers
 
             return RedirectToAction("Index", "FAQ");
         }
+        [HttpPost]
+        public async Task<IActionResult> RecoverPassword(string email)
+        {
+            if (string.IsNullOrEmpty(email) || !Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                return BadRequest("Formato email non valido.");
+
+            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.Email == email);
+            if (studente != null)
+                return Content($"La tua password è: {studente.PWD}");
+
+            var docente = await dbContext.Docenti.FirstOrDefaultAsync(d => d.Email == email);
+            if (docente != null)
+                return Content($"La tua password è: {docente.PWD}");
+
+            var operatore = await dbContext.Operatori.FirstOrDefaultAsync(o => o.USR == email);
+            if (operatore != null)
+                return Content($"La tua password è: {operatore.PWD}");
+
+            return Content("Se l'email è registrata nei nostri sistemi, riceverai una mail con la password.");
+        }
+
+
+
     }
 }

@@ -1,10 +1,10 @@
-﻿@model List<AreaPubblica.Models.Entities.Facolta>
-
-@{
+﻿@* @model List<AreaPubblica.Models.Entities.Facolta>
+ *@
+@* @{
     ViewData["Title"] = "Offerta Formativa";
     var facoltaCorsi = ViewBag.FacoltaCorsi as List<dynamic>;
 
-    // dizionario 
+    dizionario 
     Dictionary<string, string> descrizioniCorsi = new Dictionary<string, string>
     {
         { "Giurisprudenza", "La Facoltà di Giurisprudenza offre un percorso formativo di eccellenza, volto a fornire agli studenti una solida preparazione giuridica, teorica e pratica." },
@@ -12,74 +12,91 @@
         { "Fisica", "Il percorso formativo offre una preparazione solida e approfondita, preparando gli studenti a carriere nella ricerca, nell’industria tecnologica e nell’innovazione scientifica." },
         { "Ingegneria Informatica", "Un percorso formativo che prepara gli studenti ad affrontare le sfide della digitalizzazione, dell’intelligenza artificiale e della sicurezza informatica." }
     };
+} *@
+@{
+	var facoltaCorsi = ViewBag.FacoltaCorsi as List<dynamic>;
+	var descrizioniCorsi = ViewBag.DescrizioniCorsi as Dictionary<string, string>;
 }
 
+
+
 <div class="container" style="padding-top:100px; padding-bottom:100px;">
-    <h1 class="mb-4">Programma dei corsi</h1>
-    <div class="mb-4">
-        I nostri corsi offrono un percorso formativo strutturato e innovativo, pensato per garantire agli studenti una preparazione solida e completa. 
-        I corsi sono progettati per unire teoria e pratica, fornendo conoscenze fondamentali e competenze applicabili nel mondo del lavoro e della ricerca.
-        Il piano didattico comprende videolezioni, seminari, laboratori e attività di approfondimento, 
-        permettendo agli studenti di sviluppare un approccio critico e analitico. 
-        Grazie all’interazione con docenti esperti e alla possibilità di partecipare a progetti interdisciplinari, 
-        ogni studente può personalizzare il proprio percorso accademico in base agli interessi e agli obiettivi professionali.
-        All’interno della sezione Programma dei Corsi, è possibile consultare l’elenco completo degli insegnamenti, 
-        suddivisi per docente e settore disciplinare, con dettagli su contenuti, obiettivi formativi, modalità di esame e materiali didattici. 
-    </div>
+	<div class="row">
+		<!-- Colonna sinistra: testo e programma corsi -->
+			<h1 class="mb-4 mt-5" style="padding:25px;">Programma dei corsi</h1>
+		<div class="col-md-8">
+			<div class="mb-4">
+				I nostri corsi offrono un percorso formativo strutturato e innovativo, pensato per garantire agli studenti una preparazione solida e completa.
+				I corsi sono progettati per unire teoria e pratica, fornendo conoscenze fondamentali e competenze applicabili nel mondo del lavoro e della ricerca.
+				Il piano didattico comprende <b>seminari, laboratori e attività di approfondimento,</b>
+				permettendo agli studenti di sviluppare un approccio critico e analitico.
+				Grazie all’interazione con <b>docenti esperti</b> e alla possibilità di partecipare a progetti interdisciplinari,
+				ogni studente può personalizzare il proprio percorso accademico in base agli interessi e agli obiettivi professionali.
+				All’interno della sezione <b>Programma dei Corsi</b>, è possibile consultare l’elenco completo degli<b>insegnamenti,
+					suddivisi per docente e settore disciplinare, con dettagli su contenuti, obiettivi formativi, modalità di esame e materiali didattici.
+				</b>
+			</div>
 
+			@if (facoltaCorsi != null)
+			{
+				var facoltaGruppi = facoltaCorsi.GroupBy(f => f.Facolta);
 
+				foreach (var facolta in facoltaGruppi)
+				{
+					<div class="card mt-3">
+						<div class="card-header bg-light accordion-button collapsed" style="cursor: pointer;" onclick="toggleSezione('@facolta.Key')">
+							<h4 class="mb-0">@facolta.Key</h4>
+						</div>
 
-    @if (facoltaCorsi != null)
-    {
-        var facoltaGruppi = facoltaCorsi.GroupBy(f => f.Facolta);
+						<div class="card-body d-none" id="sezione-@facolta.Key.Replace(" ", "")">
+							@{
+								var corsi = facolta.GroupBy(f => f.Corso);
+							}
 
-        foreach (var facolta in facoltaGruppi)
-        {
-            <div class="card mt-3">
-                <div class="card-header bg-light accordion-button collapsed" style="cursor: pointer;" onclick="toggleSezione('@facolta.Key')">
-                    <h4 class="mb-0">@facolta.Key</h4>
-                </div>
+							@foreach (var corso in corsi)
+							{
+								<div class="card mt-2 border border-dark p-3">
+									<h5>@corso.Key</h5>
+									<p><strong>Descrizione del corso:</strong></p>
+									<p>@(descrizioniCorsi.ContainsKey(corso.Key) ? descrizioniCorsi[corso.Key] : "Descrizione non disponibile.")</p>
 
-                <div class="card-body d-none" id="sezione-@facolta.Key.Replace(" ", "")">
-                    @{
-                        var corsi = facolta.GroupBy(f => f.Corso);
-                    }
+									<ul>
+										@foreach (var item in corso)
+										{
+											<li>
+												<strong>Esame:</strong> @item.Esame <br />
+												<strong>Docente:</strong> @item.NomeDocente @item.CognomeDocente
+											</li>
+										}
+									</ul>
+								</div>
+							}
+						</div>
+					</div>
+				}
+			}
+			else
+			{
+				<p>Nessun dato disponibile.</p>
+			}
+		</div>
 
-                    @foreach (var corso in corsi)
-                    {
-                        <div class="card mt-2 border border-dark p-3">
-                            <h5>@corso.Key</h5>
-                            <p><strong>Descrizione del corso:</strong></p>
-                            <p>@(descrizioniCorsi.ContainsKey(corso.Key) ? descrizioniCorsi[corso.Key] : "Descrizione non disponibile.")</p>
-
-                            <ul>
-                                @foreach (var item in corso)
-                                {
-                                    <li>
-                                        <strong>Esame:</strong> @item.Esame <br />
-                                        <strong>Docente:</strong> @item.NomeDocente @item.CognomeDocente
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    }
-                </div>
-            </div>
-        }
-    }
-    else
-    {
-        <p>Nessun dato disponibile.</p>
-    }
+		<!-- Colonna destra: immagine -->
+		<div class="col-md-4 d-flex align-items-start">
+			<img src="~/sources/prog.jpg" class="img-fluid rounded shadow" alt="Programma corsi" />
+		</div>
+	</div>
 </div>
 
+
+
 @section Scripts {
-    <script>
-        function toggleSezione(id) {
-            const section = document.getElementById("sezione-" + id.replace(/\s/g, ""));
-            if (section) {
-                section.classList.toggle("d-none");
-            }
-        }
-    </script>
+	<script>
+		function toggleSezione(id) {
+			const section = document.getElementById("sezione-" + id.replace(/\s/g, ""));
+			if (section) {
+				section.classList.toggle("d-none");
+			}
+		}
+	</script>
 }
