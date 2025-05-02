@@ -8,56 +8,66 @@
 
 <div style="height: 3vh;"></div>
 <div class="container" style="padding-top: 100px; padding-bottom: 100px;">
-	<h1 class="mb-4 mt-5">Piano di Studi</h1>
-	<div class="mt-2">
-		Organizza al meglio il tuo percorso accademico consultando l'elenco dettagliato degli esami previsti per ogni corso di tuo interesse. 
-		Scopri le materie fondamentali, gli approfondimenti disponibili e le modalità di valutazione, 
-		così da pianificare con consapevolezza il tuo cammino universitario e ottimizzare il tuo tempo di studio!
-	</div>
-	@if (dati != null && dati.Any())
-	{
-		var facoltaGruppi = dati.GroupBy(d => d.Facolta);
+    <div class="row">
+            <h1 class="mb-4 mt-5">Piano di Studi</h1>
+        <div class="col-md-8">
+            <div class="mt-2 mb-4">
+                Organizza al meglio il tuo<b> percorso accademico</b> consultando l'elenco dettagliato degli esami previsti per ogni corso di tuo interesse.
+                Scopri le materie fondamentali, gli approfondimenti disponibili e le modalità di valutazione,
+                così da pianificare con consapevolezza il tuo cammino universitario e ottimizzare il tuo tempo di studio!
+            </div>
 
-		foreach (var facolta in facoltaGruppi)
-		{
-			string facoltaId = facolta.Key.Replace(" ", "");
+            @if (dati != null && dati.Any())
+            {
+                var facoltaGruppi = dati.GroupBy(d => d.Facolta);
 
-			<div class="card mt-3">
-				<div class="card-header" style="cursor: pointer;" onclick="toggleSezione('@facoltaId')">
-					<h4 class="mb-0">@facolta.Key</h4>
-				</div>
+                foreach (var facolta in facoltaGruppi)
+                {
+                    string facoltaId = facolta.Key.Replace(" ", "");
 
-				<div class="card-body d-none" id="sezione-@facoltaId">
-					@{
-						var corsi = facolta.GroupBy(f => f.Corso);
-					}
+                    <div class="card mt-3">
+                        <div class="card-header" style="cursor: pointer;" onclick="toggleSezione('@facoltaId')">
+                            <h4 class="mb-0">@facolta.Key</h4>
+                        </div>
 
-					@foreach (var corso in corsi)
-					{
-						<div class="card mt-2 border border-secondary p-3">
-							<h5>@corso.Key</h5>
-							<ul class="list-group">
-								@foreach (var esame in corso)
-								{
-									<li class="list-group-item">
-										<strong>Esame:</strong> @esame.Esame <br />
-										<strong>Anno Accademico:</strong> @esame.AnnoAccademico <br />
-										<strong>CFU:</strong> @esame.CFU <br />
-										<strong>Obbligatorio:</strong> @(esame.Obbligatorio == "S" ? "Sì" : "No")
-									</li>
-								}
-							</ul>
-						</div>
-					}
-				</div>
-			</div>
-		}
-	}
-	else
-	{
-		<p>Nessun dato disponibile.</p>
-	}
+                        <div class="card-body d-none" id="sezione-@facoltaId">
+                            @{
+                                var corsi = facolta.GroupBy(f => f.Corso);
+                            }
+
+                            @foreach (var corso in corsi)
+                            {
+                                <div class="card mt-2 border border-secondary p-3">
+                                    <h5>@corso.Key</h5>
+                                    <ul class="list-group">
+                                        @foreach (var esame in corso)
+                                        {
+                                            <li class="list-group-item">
+                                                <strong>Esame:</strong> @esame.Esame <br />
+                                                <strong>Anno Accademico:</strong> @esame.AnnoAccademico <br />
+                                                <strong>CFU:</strong> @esame.CFU <br />
+                                                <strong>Obbligatorio:</strong> @(esame.Obbligatorio == "S" ? "Sì" : "No")
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>Nessun dato disponibile.</p>
+            }
+        </div>
+
+        <div class="col-md-4 d-flex align-items-start">
+            <img src="~/sources/plan.jpg" class="img-fluid rounded shadow" alt="Piano di studi" />
+        </div>
+    </div>
 </div>
+
 
 <div style="height:42vh;">
 </div>
