@@ -21,7 +21,7 @@ public partial class _Default : System.Web.UI.Page
             //  
             //}
 
-            matricola = 123551;//verrà sostituita con la session 
+            matricola = 123546;//verrà sostituita con la session 
             CaricaAA(matricola);
             CaricaPagamenti();
 
@@ -30,7 +30,7 @@ public partial class _Default : System.Web.UI.Page
 
     public void CaricaAA(int matricola)
     {
-        matricola = 123551;
+        matricola = 123546;
         STUDENTI studente = new STUDENTI();
         studente.Matricola = matricola;
         DataTable dt = studente.SelezionaAnnoAccademico();
@@ -49,7 +49,7 @@ public partial class _Default : System.Web.UI.Page
 
     protected void CaricaPagamenti()
     {
-        matricola = 123551; //da sostituire con la session
+        matricola = 123546; //da sostituire con la session
         PAGAMENTI m = new PAGAMENTI();
         rptPagamenti.DataSource = m.ListaPagamenti(matricola);
         rptPagamenti.DataBind();
@@ -60,7 +60,7 @@ public partial class _Default : System.Web.UI.Page
     protected void btnPaga_Click(object sender, EventArgs e)
     {
         // Recupera gli identificativi fissi (da sostituire poi con quelli della sessione utente)
-        int matricola = int.Parse("123551");
+        int matricola = int.Parse("123546");
 
         int countPagamenti = 0; // Contatore dei pagamenti prenotati con successo
 
