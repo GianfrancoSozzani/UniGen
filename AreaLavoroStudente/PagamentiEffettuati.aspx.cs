@@ -9,31 +9,24 @@ using LibreriaClassi;
 
 public partial class _Default : System.Web.UI.Page
 {
-    public int matricola;
+    
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            //if (Session["matricola"] == null || !int.TryParse(Session["matricola"].ToString(), out matricola) || matricola == 0)
-            //{
-            //    Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Utente non loggato');", true);
-            //    Response.Redirect("~/Login.aspx");
-            //  
-            //}
-
-            matricola = 123551;//verrà sostituita con la session 
-            CaricaAA(matricola);
-            CaricaPagamentiEffettuati();
+            string Matricola = Session["mat"].ToString();
+            Session["mat"] = Matricola;
+            CaricaAA(int.Parse(Matricola));
+            CaricaPagamentiEffettuati(int.Parse(Matricola));
 
         }
     }
 
-    public void CaricaAA(int matricola)
+    public void CaricaAA(int Matricola)
     {
-        matricola = 123551; //sostituire con la session
         STUDENTI studente = new STUDENTI();
-        studente.Matricola = matricola;
-        DataTable dt = studente.SelezionaAnnoAccademico(matricola);
+        studente.Matricola = Matricola;
+        DataTable dt = studente.SelezionaAnnoAccademico(Matricola);
 
         if (dt.Rows.Count == 1)
         {
@@ -47,11 +40,11 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
-    public void CaricaPagamentiEffettuati()
+    public void CaricaPagamentiEffettuati(int Matricola)
     {
-        matricola = 123551; //da sostituire con la session
+        
         PAGAMENTI m = new PAGAMENTI();
-        rptPagamenti.DataSource = m.ListaPagamentiEffettuati(matricola);
+        rptPagamenti.DataSource = m.ListaPagamentiEffettuati(Matricola);
         rptPagamenti.DataBind();
     }
 }

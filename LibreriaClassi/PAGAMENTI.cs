@@ -83,11 +83,11 @@ namespace LibreriaClassi
         }
 
         //lista pagamenti effetuati dallo studente in base alla matricola
-        public DataTable ListaPagamentiEffettuati(int matricola)
+        public DataTable ListaPagamentiEffettuati(int Matricola)
         {
             DB db = new DB();
             db.query = "PagamentiEffettuati_SelectMat";
-            db.cmd.Parameters.AddWithValue("@Matricola", matricola);
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
              return db.SQLselect();
         }
 

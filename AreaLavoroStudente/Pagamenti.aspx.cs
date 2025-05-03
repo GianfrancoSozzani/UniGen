@@ -9,31 +9,23 @@ using LibreriaClassi;
 
 public partial class _Default : System.Web.UI.Page
 {
-    public int matricola;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            //if (Session["matricola"] == null || !int.TryParse(Session["matricola"].ToString(), out matricola) || matricola == 0)
-            //{
-            //    Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Utente non loggato');", true);
-            //    Response.Redirect("~/Login.aspx");
-            //  
-            //}
-
-            matricola = 123551;//verrà sostituita con la session 
-            CaricaAA(matricola);
-            CaricaPagamenti();
+            string Matricola = Session["mat"].ToString();
+            Session["mat"] = Matricola;
+            CaricaAA(int.Parse(Matricola));
+            CaricaPagamenti(int.Parse(Matricola));
 
         }
     }
 
-    public void CaricaAA(int matricola)
+    public void CaricaAA(int Matricola)
     {
-        matricola = 123551; //da sostituire con la session
         STUDENTI studente = new STUDENTI();
-        studente.Matricola = matricola;
-        DataTable dt = studente.SelezionaAnnoAccademico(matricola);
+        studente.Matricola = Matricola;
+        DataTable dt = studente.SelezionaAnnoAccademico(Matricola);
 
         if (dt.Rows.Count == 1)
         {
@@ -47,11 +39,11 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
-    protected void CaricaPagamenti()
+    protected void CaricaPagamenti(int Matricola)
     {
-        matricola = 123551; //da sostituire con la session
+        
         PAGAMENTI m = new PAGAMENTI();
-        rptPagamenti.DataSource = m.ListaPagamenti(matricola);
+        rptPagamenti.DataSource = m.ListaPagamenti(Matricola);
         rptPagamenti.DataBind();
     }
 
@@ -59,8 +51,7 @@ public partial class _Default : System.Web.UI.Page
 
     protected void btnPaga_Click(object sender, EventArgs e)
     {
-        // Recupera gli identificativi fissi (da sostituire poi con quelli della sessione utente)
-        int matricola = int.Parse("123551");
+       
 
         int countPagamenti = 0; // Contatore dei pagamenti prenotati con successo
 
@@ -98,7 +89,8 @@ public partial class _Default : System.Web.UI.Page
             lblMessaggio.Visible = true;
         }
 
-        CaricaPagamenti();
+        string Matricola = Session["mat"].ToString();
+        CaricaPagamenti(int.Parse(Matricola));
     }
     
 }

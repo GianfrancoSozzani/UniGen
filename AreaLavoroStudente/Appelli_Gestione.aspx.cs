@@ -11,21 +11,16 @@ using LibreriaClassi;
 
 public partial class _Default : System.Web.UI.Page
 {
-    public int matricola;
+  
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            //if (Session["matricola"] == null || !int.TryParse(Session["matricola"].ToString(), out matricola) || matricola == 0)
-            //{
-            //    Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Utente non loggato');", true);
-            //    Response.Redirect("~/Login.aspx");
-            //  
-            //}
-
-            matricola = 123556; // prendi dal login/sessione
-            CaricaAA(matricola);
-            CaricaAppelli(matricola);
+            //string Matricola = Request.QueryString["mat"];
+            string Matricola = Session["mat"].ToString();
+            Session["mat"] = Matricola;
+            CaricaAA(int.Parse(Matricola));
+            CaricaAppelli(int.Parse(Matricola));
 
         }
         
@@ -33,12 +28,12 @@ public partial class _Default : System.Web.UI.Page
 
 
     //mostra identificativo studente 
-    public void CaricaAA(int matricola)
+    public void CaricaAA(int Matricola)
     {
-        matricola = 123556; //da sostituire con la session
+        
         STUDENTI studente = new STUDENTI();
-        studente.Matricola = matricola;
-        DataTable dt = studente.SelezionaAnnoAccademico(matricola);
+        studente.Matricola = Matricola;
+        DataTable dt = studente.SelezionaAnnoAccademico(Matricola);
 
         if (dt.Rows.Count == 1)
         {
@@ -53,11 +48,11 @@ public partial class _Default : System.Web.UI.Page
     }
    
     //mostrami le prenotazioni fatte in base alla matricola
-    private void CaricaAppelli(int matricola)
+    private void CaricaAppelli(int Matricola)
     {
         LIBRETTI m = new LIBRETTI();
-        m.Matricola = matricola;
-        rptAppelli.DataSource = m.ListaPrenotazioni();
+        m.Matricola = Matricola;
+        rptAppelli.DataSource = m.ListaPrenotazioni(Matricola);
         rptAppelli.DataBind();
     }
 
@@ -112,9 +107,8 @@ public partial class _Default : System.Web.UI.Page
 
         if (eliminato)
         {
-            matricola = 123556; // recupera da sessione se disponibile
-            CaricaAppelli( matricola);
-
+            string Matricola = Session["mat"].ToString();
+            CaricaAppelli(int.Parse(Matricola));
             lblMessaggio.Text = "Prenotazione eliminata con successo.";
             lblMessaggio.CssClass = "alert alert-success mt-3";
             lblMessaggio.Visible = true;

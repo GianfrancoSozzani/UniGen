@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -100,7 +101,7 @@ namespace LibreriaClassi
         }
 
         //lista prenotazioni appelli 
-        public DataTable ListaPrenotazioni()
+        public DataTable ListaPrenotazioni(int Matricola)
         {
             
             DB db = new DB();
@@ -159,11 +160,11 @@ namespace LibreriaClassi
         }
 
         //recupera K_Studente
-        public DataTable RecuperaKStudenteDaMatricola(int matricola)
+        public DataTable RecuperaKStudenteDaMatricola(int Matricola)
         {
             DB db = new DB();
             db.query = "Recupera_KStudente";
-            db.cmd.Parameters.AddWithValue("@matricola", matricola);
+            db.cmd.Parameters.AddWithValue("@matricola", Matricola);
             return db.SQLselect();
         }
     }
