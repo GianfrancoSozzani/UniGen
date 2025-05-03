@@ -21,7 +21,7 @@
             </div>
         </div>
     </div>
-   
+
 
     <div class="container mt-2 mb-2">
         <div class="row">
@@ -40,7 +40,7 @@
                     <li><strong>Matricola:</strong>
                         <asp:Label ID="lblMatricola" runat="server" /></li>
                     <li><strong>Nome:</strong>
-                        <asp:Label ID="lblNome" runat="server" /></li> 
+                        <asp:Label ID="lblNome" runat="server" /></li>
                     <li><strong>Cognome:</strong>
                         <asp:Label ID="lblCognome" runat="server" /></li>
                     <li><strong>Corso di Studi:</strong>

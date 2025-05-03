@@ -99,7 +99,7 @@
                                 </li>
 
                                 <li id="liMateriali" runat="server" class="nav-item">
-                                    <a class="nav-link" href="Lezioni_Materiali.aspx" role="button" data-bs-toggle="dropdown">Lezioni</a>
+                                    <a class="nav-link" href="Lezioni_Materiali.aspx">Lezioni</a>
                                 </li>
 
                                 <li id="liAppelli" runat="server" class="nav-item dropdown">
@@ -113,7 +113,7 @@
                                     <a class="nav-link" href="#">Piano di Studio</a>
                                 </li>
                                 <li id="li1" runat="server" class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">La tua carriera</a>
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Carriera</a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="AvanzamentoVoti.aspx">Libretto</a></li>
                                         <li><a class="dropdown-item" href="RinunciaStudi.aspx">Rinuncia agli studi</a></li>
@@ -125,6 +125,9 @@
                                 </li>
                                 <li id="liComunicazioni" runat="server" class="nav-item">
                                     <a class="nav-link" href="#">Comunicazioni</a>
+                                </li> 
+                                <li class="nav-item">
+                                    <a class="nav-link" href="FAQ.aspx">FAQ</a>
                                 </li>
                             </ul>
 
@@ -134,7 +137,7 @@
                                         <asp:Label ID="lblStudente" runat="server"></asp:Label></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="btn btn-light btn-sm">Logout</a>
+                                    <a class="btn btn-light btn-sm" href="#">Logout</a>
                                 </li>
                             </ul>
 
