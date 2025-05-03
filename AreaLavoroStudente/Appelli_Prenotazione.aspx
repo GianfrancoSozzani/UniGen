@@ -51,7 +51,7 @@
                 </tbody>
             </table>
 
-            <%--<asp:Button ID="btnPrenotaSelezionati" runat="server" Text="Prenota Selezionati" CssClass="btn btn-primary mt-3" CommandName="Abilita" CommandArgument='<%# Eval("K_Studente") %>' OnCommand="btnPrenotaSelezionati_Command" />--%>
+
             <asp:Button ID="btnPrenotaSelezionati" runat="server" Text="Prenota" CssClass="btn btn-primary mt-3"
                 CommandName="prenota"
                 CommandArgument='<%# Eval("K_Studente") %>'
