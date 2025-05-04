@@ -46,9 +46,12 @@
 
         .flex-wrapper {
             display: flex;
-            min-height: 100vh;
             flex-direction: column;
-            justify-content: space-between;
+            min-height: 100vh;
+        }
+
+        footer {
+            margin-top: auto;
         }
     </style>
 
@@ -133,7 +136,7 @@
 
                                 <li id="liComunicazioni" runat="server" class="nav-item">
                                     <a class="nav-link" href="#">Comunicazioni</a>
-                                </li> 
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="FAQ.aspx">FAQ</a>
                                 </li>

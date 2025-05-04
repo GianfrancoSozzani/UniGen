@@ -73,7 +73,7 @@
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">Lezioni e materiali</h5>
                     <p class="card-text">Scarica le lezioni del tuo corso di studi e i relativi materiali.</p>
-                    <a href="#" class="btn btn-primary mt-auto">Vai</a>
+                    <a href="/Lezioni_Materiali.aspx" class="btn btn-primary mt-auto">Vai</a>
                 </div>
             </div>
 
@@ -83,7 +83,7 @@
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">Appelli</h5>
                     <p class="card-text">Gestisci e visualizza le prenotazioni agli esami.</p>
-                    <a href="#" class="btn btn-primary mt-auto">Vai</a>
+                    <a href="/Appelli_Prenotazione.aspx" class="btn btn-primary mt-auto">Vai</a>
                 </div>
             </div>
 
@@ -116,7 +116,7 @@
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">Pagamenti</h5>
                     <p class="card-text">Visualizza i tuoi pagamenti.</p>
-                    <a href="#" class="btn btn-primary mt-auto">Vai</a>
+                    <a href="/PagamentiEffettuati.aspx" class="btn btn-primary mt-auto">Vai</a>
                 </div>
             </div>
 

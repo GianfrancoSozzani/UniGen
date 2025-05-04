@@ -21,8 +21,7 @@ public partial class Default2 : System.Web.UI.Page
             Session["mat"] = Matricola;
             string K_Studente = Session["cod"].ToString();
             Session["cod"]= K_Studente;
-            //Session["Matricola"] = 123563;
-            //Session["K_Studente"] = "382a8129-4725-4723-aecd-963b5e840509";
+            
 
             CaricaDdl();
             CaricaFacoltaECorso();

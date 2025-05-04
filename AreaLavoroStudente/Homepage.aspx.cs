@@ -41,6 +41,7 @@ public partial class _Default : System.Web.UI.Page
             // SALVA DATI IN SESSION
             Session["mat"] = Matricola;
             Session["a"] = Abilitazione;
+            Session["cod"] = K_Studente;
 
             // CARICO SPECIFICHE STUDENTE
             CaricaAA(int.Parse(Matricola));
