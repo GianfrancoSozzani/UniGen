@@ -13,6 +13,13 @@
             -webkit-box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);
             -moz-box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);
         }
+
+        .btn-icon::before {
+            content: "\f4d8"; /* codice icona "plus" in Bootstrap Icons */
+            font-family: "Bootstrap Icons";
+            font-weight: normal;
+            padding-right: 6px;
+        }
     </style>
 </asp:Content>
 
@@ -31,7 +38,7 @@
             </div>
             <%-- Dropdown Corso --%>
             <div class="col-5 mt-4 col-sm-8 col-md-4">
-                <asp:Label ID="lblCorso" runat="server" Text="Corso di laurea"></asp:Label>
+                <asp:Label ID="lblCorso" runat="server" Text="Corso di Laurea"></asp:Label>
                 <asp:DropDownList ID="ddlCorso" runat="server" CssClass="form-control"></asp:DropDownList>
             </div>
         </div>
@@ -48,7 +55,7 @@
             </div>
             <%-- Dropdown Anno accademico --%>
             <div class="col-5 mt-4 col-sm-8 col-md-4">
-                <asp:Label ID="Label1" runat="server" Text="Anno accademico"></asp:Label>
+                <asp:Label ID="Label1" runat="server" Text="Anno Accademico"></asp:Label>
                 <asp:DropDownList ID="ddlAnnoAccademico" runat="server" CssClass="form-control">
                     <asp:ListItem Text="2024/2025" Value="2024/2025"></asp:ListItem>
                     <asp:ListItem Text="2025/2026" Value="2025/2026"></asp:ListItem>
@@ -70,7 +77,7 @@
         <div class="row">
             <div class="col-7 mb-3">
                 <asp:Button ID="btnApriModalEsami" runat="server"
-                    CssClass="btn btn-outline-success mt-4"
+                    CssClass="btn btn-outline-success mt-4 btn-icon"
                     Text="Aggiungi Esami"
                     OnClick="btnApriModalEsami_Click" />
             </div>
@@ -79,7 +86,7 @@
         <%------------------------- MOSTRA ELENCO ESAMI INSERITI NEL PIANO DI STUDI------------------------%>
 
         <asp:Repeater ID="rpEsamiInseriti" runat="server">
-            <headertemplate>
+            <HeaderTemplate>
                 <table class="table">
                     <thead>
                         <tr>
@@ -90,9 +97,9 @@
                         </tr>
                     </thead>
                     <tbody>
-            </headertemplate>
+            </HeaderTemplate>
 
-            <itemtemplate>
+            <ItemTemplate>
                 <tr>
                     <td><%# Eval("TitoloEsame") %></td>
                     <td><%# Eval("CFU") %></td>
@@ -107,12 +114,12 @@
                         </asp:LinkButton>
                     </td>
                 </tr>
-            </itemtemplate>
+            </ItemTemplate>
 
-            <footertemplate>
+            <FooterTemplate>
                 </tbody>
         </table>
-            </footertemplate>
+            </FooterTemplate>
         </asp:Repeater>
 
 
@@ -145,7 +152,7 @@
                             </div>
                         </nav>
                         <asp:Repeater ID="rpEsami" runat="server" OnItemCommand="rpEsami_ItemCommand">
-                            <headertemplate>
+                            <HeaderTemplate>
                                 <table class="table">
                                     <thead>
                                         <tr>
@@ -156,9 +163,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                            </headertemplate>
+                            </HeaderTemplate>
 
-                            <itemtemplate>
+                            <ItemTemplate>
                                 <tr>
                                     <td><%# Eval("TitoloEsame") %></td>
                                     <td><%# Eval("CFU") %></td>
@@ -175,12 +182,12 @@
                                         </asp:LinkButton>
                                     </td>
                                 </tr>
-                            </itemtemplate>
+                            </ItemTemplate>
 
-                            <footertemplate>
+                            <FooterTemplate>
                                 </tbody>
                       </table>
-                            </footertemplate>
+                            </FooterTemplate>
                         </asp:Repeater>
 
                         <script>
