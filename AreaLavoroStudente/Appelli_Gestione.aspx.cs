@@ -27,7 +27,7 @@ public partial class _Default : System.Web.UI.Page
     }
 
 
-    //mostra identificativo studente 
+    //mostra identificativo studente per trovare la matricola
     public void CaricaAA(int Matricola)
     {
         
