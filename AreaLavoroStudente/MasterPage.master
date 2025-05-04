@@ -12,6 +12,7 @@
     <title></title>
 
     <style>
+        /*Colore*/
         .navbar-custom {
             background-color: #12304F;
         }
