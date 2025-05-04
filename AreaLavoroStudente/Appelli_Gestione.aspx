@@ -62,7 +62,6 @@
                     <asp:Label ID="lblMessaggio" runat="server" CssClass="alert d-none"></asp:Label>
                 </div>
             </div>
-
             <!-- COLONNA DESTRA: Card descrittiva -->
             <div class="col-12 col-lg-4 mt-5">
                 <div class="card shadow-sm">

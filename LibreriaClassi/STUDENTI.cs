@@ -168,7 +168,6 @@ namespace LibreriaClassi
             return db.SQLselect();
         }
 
-
         public DataTable SelezionaDatiRinuncia(int Matricola)
         {
             DB db = new DB();
@@ -185,7 +184,6 @@ namespace LibreriaClassi
             db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
             db.SQLcommand();
         }
-
 
     }
 }
