@@ -47,10 +47,6 @@ public partial class _Default : System.Web.UI.Page
             }
             // SALVA DATI IN SESSION
         }
-        
-
-
-
 
         /*VISBIILITA*/
         if (Session["a"].ToString() == "S")
