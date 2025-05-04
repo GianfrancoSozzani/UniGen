@@ -98,15 +98,17 @@ public partial class Default2 : System.Web.UI.Page
         {
             rptVideolezioni.DataSource = dt;
             rptVideolezioni.DataBind();
+            lblMessaggio1.Visible = false;
         }
         else
         {
-            //lblMessaggio.Visible = true;
-            //lblMessaggio.Text = "Non ci sono videolezioni disponibili per il tuo corso.";
             rptVideolezioni.DataSource = null;
             rptVideolezioni.DataBind();
+            lblMessaggio1.Visible = true;
+            lblMessaggio1.Text = "Non ci sono videolezioni disponibili per il tuo corso.";
         }
     }
+
 
     private void CaricaDispense()
     {
@@ -116,25 +118,29 @@ public partial class Default2 : System.Web.UI.Page
             return;
         }
 
-        MATERIALI lezioni = new MATERIALI();
+        MATERIALI materiali = new MATERIALI();
         Guid K_Studente = new Guid((string)Session["cod"]);
+        DataTable dt = materiali.DispensaPerMatricola(K_Studente, K_Esame);
 
-      
-        DataTable dt = lezioni.DispensaPerMatricola(K_Studente, K_Esame);
-
-        if (dt.Rows.Count > 0)
+        if (dt != null && dt.Rows.Count > 0)
         {
+            rptDispense.Visible = true;
             rptDispense.DataSource = dt;
             rptDispense.DataBind();
+
+            lblMessaggio.Visible = false; // Nascondi la label se ci sono dispense
         }
         else
         {
-            //lblMessaggio.Visible = true;
-            //lblMessaggio.Text = "Non ci sono dispense disponibili per il tuo corso.";
             rptDispense.DataSource = null;
             rptDispense.DataBind();
+            rptDispense.Visible = false; // NASCONDI completamente il repeater
+
+            lblMessaggio.Visible = true;
+            lblMessaggio.Text = "Non ci sono dispense disponibili per il tuo corso.";
         }
     }
+
 
 
     protected void btnScarica_Command(object sender, CommandEventArgs e)
