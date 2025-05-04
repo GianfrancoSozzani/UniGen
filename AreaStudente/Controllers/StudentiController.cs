@@ -546,9 +546,9 @@ namespace AreaStudente.Controllers
 
             //Se un corso è selezionato, vengono aggiornati i dettagli dello studente.
 
-            studente.Corso.K_Facolta = model.K_Facolta;
-            studente.K_Corso = model.K_Corso;
-            studente.DataImmatricolazione = DateTime.Now;
+            //studente.Corso.K_Facolta = model.K_Facolta;
+            //studente.K_Corso = model.K_Corso;
+            //studente.DataImmatricolazione = DateTime.Now;
 
             // Salva i cambiamenti nel database
             await dbContext.SaveChangesAsync();
