@@ -44,7 +44,7 @@
                         <!-- card -->
                     </FooterTemplate>
                 </asp:Repeater>
-                        <!-- closes card -->
+                <!-- closes card -->
 
 
                 <!-- Messaggio se non ci sono videolezioni -->
@@ -87,21 +87,20 @@
 
                 <!-- Messaggio se non ci sono videolezioni -->
                 <asp:Label ID="lblMessaggio" runat="server" CssClass="text-danger fs-5 mt-3 d-block" Visible="false" Text="Non ci sono dispense disponibili per il tuo corso."></asp:Label>
-                <asp:Button
-        </div>
-
-     
-
-    </asp:Repeater>
-
-
-
-    <!--Messaggio da visualizzare se non ci sono lezioni -->
-           <asp:Label ID="lblMessaggio" runat="server" CssClass="text-danger fs-5" Visible="false"></asp:Label>
+                <asp:Button />
             </div>
         </div>
 
-    <%--        <div class="row mt-4">
+
+
+
+
+
+
+
+
+
+        <%--        <div class="row mt-4">
             <div class="col-12">
                 <h4 class="mb-3">Dispense</h4>
                 <asp:Repeater ID="rptDispense" runat="server">
@@ -121,7 +120,7 @@
                     </ItemTemplate>
                 </asp:Repeater>--%>
 
-    <%--      </div>
+        <%--      </div>
         </div>
     </div>--%>
 </asp:Content>
