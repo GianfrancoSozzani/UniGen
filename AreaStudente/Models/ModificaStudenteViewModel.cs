@@ -31,6 +31,7 @@ namespace AreaStudente.Models
         public Guid? K_Facolta { get; set; } // selezione utente
         public IEnumerable<SelectListItem>? FacoltaList { get; set; } // per la DDL
         public Guid? K_Corso { get; set; }
+        public IEnumerable<SelectListItem>? CorsiList { get; set; }
         [ForeignKey("K_Corso")]
         [ValidateNever]
         //public Facolta Facolta { get; set; }

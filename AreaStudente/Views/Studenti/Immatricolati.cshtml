@@ -16,7 +16,7 @@
 						<h4 class="heading-small text-muted">SELEZIONA UNA FACOLTÀ</h4>
 						<div class="row mb-0 mb-lg-3 align-items-end">
 							<div class="col-12 col-lg-9 mb-2 mb-lg-0">				
-								<select asp-for="K_Facolta" asp-items="ViewBag.FacoltaList" class="form-select">
+								<select asp-for="K_Facolta" asp-items="Model.FacoltaList" class="form-select" onchange="this.form.submit()">
 									<option disabled selected >-- Selezionare una Facoltà --</option>
 								</select>
 							</div>							
@@ -26,7 +26,7 @@
 						<h4 class="heading-small text-muted">SELEZIONA UNA CORSO</h4>
 						<div class="row mb-0 mb-lg-3 align-items-end">
 							<div class="col-12 col-lg-9 mb-2 mb-lg-0">
-								<select asp-for="K_Corso" asp-items=" ViewBag.CorsiList" class="form-select">
+								<select asp-for="K_Corso" asp-items="Model.CorsiList" class="form-select">
 									<option disabled selected>-- Selezionare un Corso --</option>
 								</select>
 							</div>
