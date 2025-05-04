@@ -4,27 +4,78 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
+    <style>
+        .mio_width {
+            width: 200px;
+        }
+    </style>
+
     <div class="container mt-5">
         <h1>Gestione Corsi</h1>
 
-        <div class="mb-4 text-end">
-            <div id="icona">
-                <asp:Label ID="Label2" runat="server" Text="Inserisci un nuovo corso" CssClass="fw-bold"></asp:Label>
-                <i class="bi bi-plus-circle btn btn-primary"></i>
+        <div class="mb-4">
+            <div id="icona" class="row g-3">
+                <div class="col-auto">
+                    <asp:Label ID="Label2" runat="server" Text="Inserisci un nuovo corso" CssClass="fw-bold fs-5"></asp:Label>
+                </div>
+                <div class="col-auto">
+                    <i class="bi bi-plus-circle btn btn-sm btn-primary"></i>
+                </div>
             </div>
 
-            <div id="insert" runat="server" style="display: none;">
-                <asp:Label ID="Label4" runat="server" Text="Corso"></asp:Label>
-                <asp:TextBox ID="txtCorso" runat="server"></asp:TextBox>
-                <asp:Label ID="Label1" runat="server" Text="Facoltà"></asp:Label>
-                <asp:DropDownList ID="ddlFacolta" runat="server"></asp:DropDownList>
-                <asp:Label ID="Label3" runat="server" Text="Tipo Corso"></asp:Label>
-                <asp:DropDownList ID="ddlTipoCorso" runat="server"></asp:DropDownList>
-                <asp:Label ID="Label5" runat="server" Text="MinimoCFU"></asp:Label>
-                <asp:TextBox ID="txtMinimoCFU" runat="server"></asp:TextBox>
-                <asp:Label ID="Label6" runat="server" Text="CostoAnnuale"></asp:Label>
-                <asp:TextBox ID="txtCostoAnnuale" runat="server"></asp:TextBox>
-                <asp:Button CssClass="btn btn-primary btn-sm" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
+            <div id="insert" class="d-none" runat="server">
+                <div class="row mb-3">
+                    <div class="col-auto">
+                        <asp:Label ID="Label1" runat="server" Text="Facoltà"></asp:Label>
+                        <asp:DropDownList ID="ddlFacolta" CssClass="form-select mio_width" runat="server"></asp:DropDownList>
+                    </div>
+                    <div class="col-auto">
+                        <asp:Label ID="Label3" runat="server" Text="Tipo&nbsp;Corso"></asp:Label>
+                        <asp:DropDownList ID="ddlTipoCorso" CssClass="form-select mio_width" runat="server"></asp:DropDownList>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-auto">
+                        <asp:Label ID="Label4" runat="server" Text="Corso"></asp:Label>
+                        <asp:TextBox ID="txtCorso" CssClass="form-control mio_width" runat="server"></asp:TextBox>
+                    </div>
+                    <div class="col-auto">
+                        <asp:Label ID="Label5" runat="server" Text="MinimoCFU"></asp:Label>
+                        <asp:TextBox ID="txtMinimoCFU" CssClass="form-control mio_width" runat="server"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-auto">
+                        <asp:Label ID="Label6" runat="server" Text="CostoAnnuale"></asp:Label>
+                        <asp:TextBox ID="txtCostoAnnuale" CssClass="form-control mio_width" runat="server"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-auto">
+                        <asp:Button CssClass="btn btn-primary" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form mb-3">
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label class="mr-2" for="lblRicercaCorso">Ricerca Corso</label>
+                </div>
+                <div class="col-auto">
+                    <asp:TextBox ID="txtRicercaCorso" runat="server" CssClass="form-control mr-2"></asp:TextBox>
+                </div>
+                <div class="col-auto">
+                    <asp:LinkButton ID="btnRicerca" runat="server" CssClass="btn btn-primary"  Style="box-shadow: 0px 4px 12px #21212115;" OnClick="btnRicerca_Click">
+         <i class="bi bi-search"></i>
+                    </asp:LinkButton>
+                </div>
+                <div class="col-auto">
+                    <span style="margin-left: 1em;">
+                        <asp:Label ID="lblErrore" runat="server" CssClass="text-danger mt-3" Text="" Visible="False"></asp:Label>
+                    </span>
+                </div>
             </div>
         </div>
 
@@ -112,7 +163,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <asp:Button ID="btnSalvaModifica" runat="server" Text="Salva Modifiche" CssClass="btn btn-primary" OnClick="btnSalvaModifica_Click"/>
+                    <asp:Button ID="btnSalvaModifica" runat="server" Text="Salva Modifiche" CssClass="btn btn-primary" OnClick="btnSalvaModifica_Click" />
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
                 </div>
 
@@ -127,15 +178,9 @@
             var btnMostra = document.getElementById("icona");
             var divInsert = document.getElementById("<%= insert.ClientID %>");
 
-            if (divInsert.style.display == "block") {
-                btnMostra.style.display = "none";
-            } else {
-                btnMostra.style.display = "inline-block";
-            }
-
             btnMostra.addEventListener("click", function () {
-                btnMostra.style.display = "none";
-                divInsert.style.display = "block";
+                btnMostra.classList.add("d-none");
+                divInsert.classList.remove("d-none");
             });
         });
     </script>

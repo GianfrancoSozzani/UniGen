@@ -48,8 +48,8 @@
                                     <th>Nome</th>
                                     <th>Data di Nascita</th>
                                     <th>Stato</th>
-                                    <th>Titolo Corso</th>
-                                    <th>Titolo Esame</th>
+<%--                                    <th>Titolo Corso</th>
+                                    <th>Titolo Esame</th>--%>
                                     <th>Azioni</th>
                                 </tr>
                             </thead>
@@ -64,12 +64,12 @@
                         <td>
                             <%# Eval("Abilitato").ToString() == "S" ? "Abilitato" : "Disabilitato" %>
                         </td>
-                        <td>
+<%--                        <td>
                             <%# Eval("TitoloCorso") %>
                         </td>
                         <td>
                             <%# Eval("TitoloEsame") %>
-                        </td>
+                        </td>--%>
                         <td>
                             <asp:Button ID="btnAbilita" Class="btn btn-success" runat="server" Text="Abilita" Visible='<%# Eval("Abilitato") != null && string.Equals(Eval("Abilitato").ToString(), "N", StringComparison.OrdinalIgnoreCase) %>' CommandName="Abilita" CommandArgument='<%# Eval("K_Docente") %>' OnCommand="Selected_Command" />
                             <asp:Button ID="btnDisabilita" Class="btn btn-danger" runat="server" Text="Disabilita" Visible='<%# Eval("Abilitato") != null && string.Equals(Eval("Abilitato").ToString(), "S", StringComparison.OrdinalIgnoreCase) %>' CommandName="Disabilita" CommandArgument='<%# Eval("K_Docente") %>' OnCommand="Selected_Command" />
