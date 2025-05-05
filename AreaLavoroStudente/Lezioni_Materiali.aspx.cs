@@ -34,13 +34,27 @@ public partial class Default2 : System.Web.UI.Page
 
     private void CaricaDdl()
     {
+        //Guid K_Studente = new Guid((string)Session["cod"]);
+        //ESAMI e = new ESAMI();
+        //ddlCaricaEsami.DataSource = e.SelezionaPsp(K_Studente);
+        //ddlCaricaEsami.DataValueField = ("K_Esame");
+        //ddlCaricaEsami.DataTextField = ("TitoloEsame");
+        //ddlCaricaEsami.DataBind();
+        ////  K_Esame = new Guid(ddlCaricaEsami.SelectedValue)
+
         Guid K_Studente = new Guid((string)Session["cod"]);
         ESAMI e = new ESAMI();
         ddlCaricaEsami.DataSource = e.SelezionaPsp(K_Studente);
-        ddlCaricaEsami.DataValueField = ("K_Esame");
-        ddlCaricaEsami.DataTextField = ("TitoloEsame");
+        ddlCaricaEsami.DataValueField = "K_Esame";
+        ddlCaricaEsami.DataTextField = "TitoloEsame";
         ddlCaricaEsami.DataBind();
-      //  K_Esame = new Guid(ddlCaricaEsami.SelectedValue);
+
+        if (ddlCaricaEsami.Items.Count > 0)
+        {
+            K_Esame = new Guid(ddlCaricaEsami.SelectedValue);
+            ViewState["K_Esame"] = ddlCaricaEsami.SelectedValue;
+        }
+
     }
 
 
@@ -105,7 +119,7 @@ public partial class Default2 : System.Web.UI.Page
             rptVideolezioni.DataSource = null;
             rptVideolezioni.DataBind();
             lblMessaggio1.Visible = true;
-            lblMessaggio1.Text = "Non ci sono videolezioni disponibili per il tuo corso.";
+            
         }
     }
 
@@ -122,22 +136,19 @@ public partial class Default2 : System.Web.UI.Page
         Guid K_Studente = new Guid((string)Session["cod"]);
         DataTable dt = materiali.DispensaPerMatricola(K_Studente, K_Esame);
 
-        if (dt != null && dt.Rows.Count > 0)
+        if (dt.Rows.Count > 0)
         {
-            rptDispense.Visible = true;
             rptDispense.DataSource = dt;
             rptDispense.DataBind();
-
-            lblMessaggio.Visible = false; // Nascondi la label se ci sono dispense
+            lblMessaggio2.Visible = false; // Nascondi la label se ci sono dispense
         }
         else
-        {
-            rptDispense.DataSource = null;
-            rptDispense.DataBind();
-            rptDispense.Visible = false; // NASCONDI completamente il repeater
+        {      
 
-            lblMessaggio.Visible = true;
-            lblMessaggio.Text = "Non ci sono dispense disponibili per il tuo corso.";
+            rptDispense.DataSource = null; // Svuota il Repeater
+            rptDispense.DataBind();
+            lblMessaggio2.Visible = true;  // Mostra il messaggio
+
         }
     }
 
@@ -151,8 +162,8 @@ public partial class Default2 : System.Web.UI.Page
             K_Esame = new Guid((string)ViewState["K_Esame"]);
         else
         {
-            lblMessaggio.Visible = true;
-            lblMessaggio.Text = "Errore: esame non selezionato.";
+            lblMessaggio2.Visible = true;
+            lblMessaggio2.Text = "Errore: esame non selezionato.";
             return;
         }
 
@@ -177,8 +188,8 @@ public partial class Default2 : System.Web.UI.Page
         }
         else
         {
-            lblMessaggio.Visible = true;
-            lblMessaggio.Text = "Il materiale richiesto non è disponibile.";
+            lblMessaggio2.Visible = true;
+            lblMessaggio2.Text = "Il materiale richiesto non è disponibile.";
         }
     }
    
@@ -190,6 +201,7 @@ public partial class Default2 : System.Web.UI.Page
         CaricaDispense();
     }
 }
+
 
 
 

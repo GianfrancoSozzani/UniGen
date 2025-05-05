@@ -17,6 +17,8 @@
             </div>
         </div>
 
+
+
         <!-- Dropdown selezione esame -->
         <div class="mb-4">
             <asp:DropDownList ID="ddlCaricaEsami" runat="server" CssClass="form-select" AutoPostBack="true" OnSelectedIndexChanged="ddlCaricaEsami_SelectedIndexChanged"></asp:DropDownList>
@@ -63,64 +65,33 @@
                     </HeaderTemplate>
                     <ItemTemplate>
                         <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-2">
-                            <h5 class="mb-0"><%# Eval("Titolo") %></h5>
-                            <asp:HiddenField ID="hfEsame" runat="server" Value='<%# Eval("K_Materiale") %>' />
+                            <h5 class="card-title ms-0"><%# Eval("Titolo") %></h5>
+                            <%-- <asp:HiddenField ID="hfEsame" runat="server" Value='<%# Eval("K_Materiale") %>' />--%>
                             <asp:Button
                                 ID="btnScarica"
                                 runat="server"
                                 Text="Download"
-                                CssClass="btn btn-sm btn-outline-primary"
+                                CssClass="btn btn-sm btn-outline-primary me-0"
                                 CommandName="Scarica"
                                 CommandArgument='<%# Eval("K_Materiale") %>'
+                                Visible='<%# !string.IsNullOrEmpty(Eval("Titolo") as string) %>'
                                 OnCommand="btnScarica_Command" />
                         </div>
                     </ItemTemplate>
+
                     <FooterTemplate>
                         </div>
-                        
+                        <!-- card-body -->
                         </div>
-                        
+                    <!-- card -->
                     </FooterTemplate>
                 </asp:Repeater>
 
-
-
                 <!-- Messaggio se non ci sono videolezioni -->
-                <asp:Label ID="lblMessaggio" runat="server" CssClass="text-danger fs-5 mt-3 d-block" Visible="false" Text="Non ci sono dispense disponibili per il tuo corso."></asp:Label>
-                <asp:Button />
+                <asp:Label ID="lblMessaggio2" runat="server" CssClass="text-danger fs-5 mt-3 d-block" Visible="false" Text="Non ci sono dispense disponibili per il tuo corso."></asp:Label>
             </div>
         </div>
+    </div>
 
 
-
-
-
-
-
-
-
-
-        <%--        <div class="row mt-4">
-            <div class="col-12">
-                <h4 class="mb-3">Dispense</h4>
-                <asp:Repeater ID="rptDispense" runat="server">
-                    <ItemTemplate>
-                        <div class="card mb-2">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <h5 class="card-title mb-0"><%# Eval("Titolo") %></h5>
-                                <asp:Button
-                                    ID="btnScarica"
-                                    runat="server"
-                                    Text="Download"
-                                    CommandName="Scarica"
-                                    CommandArgument='<%# Eval("K_Materiale") %>'
-                                    OnCommand="btnScarica_Command" />
-                            </div>
-                        </div>
-                    </ItemTemplate>
-                </asp:Repeater>--%>
-
-        <%--      </div>
-        </div>
-    </div>--%>
 </asp:Content>
