@@ -464,7 +464,7 @@ namespace AreaStudente.Controllers
             if (studente == null)
             {
                 TempData["PopupErrore"] = "Studente non trovato.";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Show", "Studenti", new { cod = HttpContext.Session.GetString("cod") });
             }
 
             //rispecifico i parametri per passarli ad altre pg.
@@ -527,7 +527,6 @@ namespace AreaStudente.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Immatricolati(ModificaStudenteViewModel model, Guid cod)
-
         {
             ViewData["studente_id"] = cod;
             var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == model.K_Studente);
@@ -538,28 +537,34 @@ namespace AreaStudente.Controllers
             ViewData["email"] = studente.Email;
             ViewData["matricola"] = studente.Matricola;
             ViewData["abilitato"] = studente.Abilitato;
-            // Se è solo un cambio facoltà (nessun corso ancora selezionato), NON salvare
+
             if (model.K_Corso == null)
             {
-                //Se model.K_Corso è nullo (nessun corso selezionato), si assume che l'utente stia cercando solo di cambiare la facoltà.
-                //In questo caso, vengono ripopolate le dropdown e restituita la vista senza fare modifiche.
                 model.FacoltaList = PopolaFacolta();
                 model.CorsiList = PopolaCorsi(model.K_Facolta);
-                model.ImmagineProfilo = studente.ImmagineProfilo; // Mantieni l'immagine del profilo
+                model.ImmagineProfilo = studente.ImmagineProfilo;
                 return View(model);
             }
 
-            //Se un corso è selezionato, vengono aggiornati i dettagli dello studente.
+            // 🔒 Controllo: già immatricolato a quel corso?
+            if (studente.K_Corso != null && studente.Abilitato == "S")
+            {
+                ModelState.AddModelError("", "Risulti già immatricolato. Se desideri procedere con una nuova immatricolazione, è necessario presentare prima la rinuncia agli studi.");
+                model.FacoltaList = PopolaFacolta();
+                model.CorsiList = PopolaCorsi(model.K_Facolta);
+                model.ImmagineProfilo = studente.ImmagineProfilo;
+                return View(model);
+            }
 
-            //studente.Corso.K_Facolta = model.K_Facolta;
-            //studente.K_Corso = model.K_Corso;
-            //studente.DataImmatricolazione = DateTime.Now;
+            // Procedi con l'immatricolazione
+            studente.Abilitato = "S";
+            studente.K_Corso = model.K_Corso;
+            studente.DataImmatricolazione = DateTime.Now;
 
-            // Salva i cambiamenti nel database
             await dbContext.SaveChangesAsync();
 
-            TempData["PopupConferma"] = "Dati aggiornati con successo!";
-            return RedirectToAction("Index");
+            TempData["PopupConferma"] = "Pagamento effettuato con successo!";
+            return RedirectToAction("Show", "Studenti", new { cod = HttpContext.Session.GetString("cod") });
         }
 
     }
