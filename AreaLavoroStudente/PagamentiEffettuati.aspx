@@ -19,7 +19,6 @@
             </div>
         </div>
 
-        <div class="row">
             <!-- COLONNA SINISTRA -->
             <div class="col-12 col-lg-8 mb-4">
                 <!-- TABELLA PAGAMENTI -->

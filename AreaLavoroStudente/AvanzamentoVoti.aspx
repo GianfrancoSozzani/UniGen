@@ -32,83 +32,84 @@
                 <span>-</span>
                 <asp:Label ID="lblFacolta" runat="server"></asp:Label>
             </div>
-        </div>
-        <div class="row mb-4">
-            <hr />
+          
         </div>
 
-        <!-- COLONNA SINISTRA: Tabella esami -->
-        <div class="col-12 col-lg-8 mb-4">
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered align-middle">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Esame</th>
-                            <th>Votazione</th>
-                            <th>Data Verbalizzazione</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <asp:Repeater ID="rptVoti" runat="server">
-                            <ItemTemplate>
-                                <tr>
-                                    <td><%# Eval("TitoloEsame") %></td>
-                                    <td><span class="badge text-bg-dark"><%# Eval("VotoEsame") %></span></td>
-                                    <td><%# Eval("DataVerbalizzazione", "{0:dd/MM/yyyy}") %></td>
-                                </tr>
-                            </ItemTemplate>
-                        </asp:Repeater>
-                    </tbody>
-                </table>
-            </div>
-        </div>
 
-        <!-- COLONNA DESTRA: Statistiche -->
-        <div class="col-12 col-lg-4">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h2 class="fw-bold mb-1">Statistiche carriera</h2>
-                    <p class="text-muted mb-4 fs-6">Qui puoi consultare la media ponderata dei tuoi voti e il numero totale di crediti (CFU) ottenuti fino a questo momento.</p>
-
-                    <table class="table table-borderless mb-4">
-                        <thead>
+        <!-- SEZIONE LAYOUT A DUE COLONNE -->
+        <div class="row">
+            <!-- COLONNA SINISTRA: Tabella esami -->
+            <div class="col-12 col-lg-8 mb-4">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered align-middle">
+                        <thead class="table-light">
                             <tr>
-                                <th class="fw-bold">Indicatore</th>
-                                <th class="fw-bold">Valore</th>
+                                <th>Esame</th>
+                                <th>Votazione</th>
+                                <th>Data Verbalizzazione</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-muted">Media ponderata:</td>
-                                <td>
-                                    <asp:FormView ID="formMedia" runat="server">
-                                        <ItemTemplate>
-                                            <asp:Label ID="lblMedia" CssClass="fs-5" runat="server" Text='<%# Eval("MediaPonderata") %>' />
-                                        </ItemTemplate>
-                                    </asp:FormView>
-                                    <asp:Label ID="lblMediaVuota" runat="server" CssClass="text-danger" Text="Dati non disponibili" Visible="true" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">Totale CFU:</td>
-                                <td>
-                                    <asp:FormView ID="formCFU" runat="server">
-                                        <ItemTemplate>
-                                            <asp:Label ID="lblCFU" CssClass="fs-5" runat="server" Text='<%# Eval("TotaleCFU") %>' />
-                                        </ItemTemplate>
-                                    </asp:FormView>
-                                    <asp:Label ID="lblCFUVuota" runat="server" CssClass="text-danger" Text="Dati non disponibili" Visible="true" />
-                                </td>
-                            </tr>
+                            <asp:Repeater ID="rptVoti" runat="server">
+                                <ItemTemplate>
+                                    <tr>
+                                        <td><%# Eval("TitoloEsame") %></td>
+                                        <td><span class="badge text-bg-dark"><%# Eval("VotoEsame") %></span></td>
+                                        <td><%# Eval("DataVerbalizzazione", "{0:dd/MM/yyyy}") %></td>
+                                    </tr>
+                                </ItemTemplate>
+                            </asp:Repeater>
                         </tbody>
                     </table>
+                </div>
+            </div>
 
-                    <p class="text-muted fs-6 mb-0">La media ponderata calcola la media dei voti degli esami, tenendo conto del numero di crediti (CFU) associati a ciascun esame.</p>
+            <!-- COLONNA DESTRA: Statistiche -->
+            <div class="col-12 col-lg-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="fw-bold mb-1">Statistiche carriera</h2>
+                        <p class="text-muted mb-4 fs-6">Qui puoi consultare la media ponderata dei tuoi voti e il numero totale di crediti (CFU) ottenuti fino a questo momento.</p>
+
+                        <table class="table table-borderless mb-4">
+                            <thead>
+                                <tr>
+                                    <th class="fw-bold">Indicatore</th>
+                                    <th class="fw-bold">Valore</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted">Media ponderata:</td>
+                                    <td>
+                                        <asp:FormView ID="formMedia" runat="server">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblMedia" CssClass="fs-5" runat="server" Text='<%# Eval("MediaPonderata") %>' />
+                                            </ItemTemplate>
+                                        </asp:FormView>
+                                        <asp:Label ID="lblMediaVuota" runat="server" CssClass="text-danger" Text="Dati non disponibili" Visible="true" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Totale CFU:</td>
+                                    <td>
+                                        <asp:FormView ID="formCFU" runat="server">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblCFU" CssClass="fs-5" runat="server" Text='<%# Eval("TotaleCFU") %>' />
+                                            </ItemTemplate>
+                                        </asp:FormView>
+                                        <asp:Label ID="lblCFUVuota" runat="server" CssClass="text-danger" Text="Dati non disponibili" Visible="true" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <p class="text-muted fs-6 mb-0">La media ponderata calcola la media dei voti degli esami, tenendo conto del numero di crediti (CFU) associati a ciascun esame.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    
 
     <div style="height: 8vh;">&nbsp;</div>
 
