@@ -1,0 +1,96 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+using System.Data.SqlClient;
+using LibreriaClassi;
+
+    public partial class InserisciPianoStudi : Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+
+        {
+        ValidationSettings.UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
+        if (!IsPostBack)
+            {
+            string Matricola = Session["mat"].ToString();
+            Session["mat"] = Matricola;
+            string K_Studente = Session["cod"].ToString();
+            Session["cod"] = K_Studente;
+            try
+                {
+                    CaricaEsamiDisponibili(int.Parse(Matricola));
+                }
+                catch (SqlException sqlEx)
+                {
+                    MostraErrore("Errore database:" + sqlEx.Message);
+                }
+                catch (Exception ex)
+                {
+                    MostraErrore("Errore database:" + ex.Message);
+                }
+            }
+        }
+
+        private void CaricaEsamiDisponibili(int Matricola)
+        {
+            PIANISTUDIOPERSONALI piano = new PIANISTUDIOPERSONALI();
+             
+            DataTable dt = piano.GetEsamiDisponibili(Matricola);
+
+            ddlEsame.DataSource = dt;
+            ddlEsame.DataTextField = "TitoloEsame";
+            ddlEsame.DataValueField = "K_Esame";
+            ddlEsame.DataBind();
+        }
+
+        protected void btnSalva_Click(object sender, EventArgs e)
+        {
+            if (!Page.IsValid) return;
+
+            try
+            {
+                PIANISTUDIOPERSONALI piano = new PIANISTUDIOPERSONALI
+                {
+                    K_PianoStudioPersonale = Guid.NewGuid(),
+                    K_Esame = new Guid(ddlEsame.SelectedValue),
+                    K_Studente = new Guid((string)Session["cod"]),
+                    AnnoAccademico = txtAnnoAccademico.Text
+                };
+
+                piano.Inserimento();
+                MostraSuccesso("Esame aggiunto con successo al piano di studio!");
+                Response.AddHeader("REFRESH", "2;URL=PianoStudioPersonale.aspx");
+            }
+            catch (SqlException sqlEx)
+            {
+                MostraErrore("Errore database durante il salvataggio: " + sqlEx.Message);
+            }
+            catch (Exception ex)
+            {
+                MostraErrore("Errore database durante il salvataggio: " + ex.Message);
+            }
+        }
+
+        protected void btnAnnulla_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("PianoStudioPersonale.aspx");
+        }
+
+        private void MostraSuccesso(string messaggio)
+        {
+            pnlMessaggio.Visible = true;
+            pnlMessaggio.CssClass = "alert alert-success alert-dismissible fade show alert-message";
+            litMessaggio.Text = messaggio;
+        }
+
+        private void MostraErrore(string messaggio)
+        {
+            pnlMessaggio.Visible = true;
+            pnlMessaggio.CssClass = "alert alert-danger alert-dismissible fade show alert-message";
+            litMessaggio.Text = messaggio;
+        }
+    }
