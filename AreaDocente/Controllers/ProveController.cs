@@ -13,12 +13,6 @@ namespace AreaDocente.Controllers
             this.dbContext = dbContext;
         }
 
-        public IActionResult Add()
-        {
-            PopolaEsami();
-            return View();
-        }
-
         public IActionResult Appelli()
         {
             var dati = (
@@ -56,7 +50,19 @@ namespace AreaDocente.Controllers
                 });
             ViewBag.EsameList = ListaEsami;
         }
+        [HttpGet]
+        public ActionResult Add()
+        {
+            PopolaEsami();
+            return View();
+        }
 
+        //[HttpPost]
+        //public async Task<ActionResult> Add() 
+        //{
+
+        //    return Redirect();
+        //}
 
 
     }
