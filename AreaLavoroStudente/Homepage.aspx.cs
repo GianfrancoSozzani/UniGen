@@ -77,8 +77,8 @@ public partial class _Default : System.Web.UI.Page
             string facolta = dt.Rows[0]["TitoloFacolta"].ToString();
 
             lblAnno.Text = "Anno Accademico " + annoAccademico;
-            lblCorso.Text = corso;
-            lblFacolta.Text = facolta;
+            lblFacolta.Text = "Facoltà " + facolta;
+            lblCorso.Text = "Corso " + corso;
         }
     }
 
