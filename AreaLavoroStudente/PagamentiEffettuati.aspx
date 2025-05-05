@@ -6,8 +6,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
     <div class="container mt-4 mb-4">
-        
-        <!-- BLOCCO TITOLO + ETICHETTE -->
+
+        <!-- TITOLO E ETICHETTE -->
         <div class="py-4 mb-4 border-bottom">
             <h2 class="text-start mb-1">I tuoi pagamenti</h2>
             <div class="d-flex text-start gap-2 flex-wrap fs-6 mb-2">
@@ -19,9 +19,11 @@
             </div>
         </div>
 
-            <!-- COLONNA SINISTRA -->
+        <!-- ROW: tabella + card -->
+        <div class="row align-items-start">
+            
+            <!-- COLONNA SINISTRA: Tabella pagamenti -->
             <div class="col-12 col-lg-8 mb-4">
-                <!-- TABELLA PAGAMENTI -->
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped align-middle">
                         <thead class="table-light">
@@ -48,9 +50,9 @@
                 <asp:Label ID="lblMessaggio" runat="server" Visible="false" CssClass="alert alert-info mt-3" />
             </div>
 
-            <!-- COLONNA DESTRA -->
-            <div class="col-12 col-lg-4">
-                <div class="card shadow-sm">
+            <!-- COLONNA DESTRA: Card informativa -->
+            <div class="col-12 col-lg-4 mb-4">
+                <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h3 class="fw-bold mb-2">Informazioni utili</h3>
                         <p class="text-muted fs-6">
