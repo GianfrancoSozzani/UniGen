@@ -33,7 +33,7 @@
                                 <th class="fw-bold">Obbligatorio</th>
                                 <th class="fw-bold">Data Appello</th>
                                 <th class="fw-bold">Tipo</th>
-                                <th class="fw-bold">Link</th>
+                                <%--<th class="fw-bold">Link</th>--%>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,9 +48,9 @@
                                         <td><%# Eval("Obbligatorio").ToString().ToLower() == "true" ? "Obbligatorio" : "Facoltativo" %></td>
                                         <td><%# Eval("DataAppello", "{0:dd/MM/yyyy}") %></td>
                                         <td><%# Eval("Tipo") %></td>
-                                        <td>
+                                       <%-- <td>
                                             <a href='<%# Eval("Link") %>' target="_blank" class="link-primary">Vai al link</a>
-                                        </td>
+                                        </td>--%>
                                     </tr>
                                 </ItemTemplate>
                             </asp:Repeater>
