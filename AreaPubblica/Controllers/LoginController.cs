@@ -3,7 +3,8 @@ using AreaPubblica.Models;
 using AreaPubblica.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http; // Importante per la sessione
+using Microsoft.AspNetCore.Http;
+using System.Text.RegularExpressions; // Importante per la sessione
 
 namespace AreaPubblica.Controllers
 {
@@ -37,20 +38,50 @@ namespace AreaPubblica.Controllers
                 .Select(s => new { s.K_Studente, s.Email, s.Matricola }) // Carico solo K_Studente ed Email e Matricola
                 .FirstOrDefaultAsync();
 
+
+
             if (studente != null)
             {
+
                 // Salvo solo ciò che serve
                 //HttpContext.Session.SetString("K_Studente", studente.K_Studente.ToString());
                 //HttpContext.Session.SetString("Email", studente.Email);
                 //HttpContext.Session.SetString("Ruolo", "S");
 
+                if (studente.Matricola == null)
+                {
+
+
+                    return Redirect("https://localhost:7050/Studenti/Show?cod=" + studente.K_Studente.ToString() + "&&usr=" + studente.Email + "&&r=s");
+
+
+                    //return RedirectToAction("AREA STUDENTE (NON IMMATRICOLATO)", "Home");
+                   
+
+                }
 
                 //return RedirectToAction("AREA LAVORO STUDENTE (IMMATRICOLATO)", "Home");
-                HttpContext.Session.SetString("studente_id", studente.K_Studente.ToString().ToUpper());
-                return Redirect("https://localhost:7050/Studenti/Show/"+studente.K_Studente.ToString().ToUpper());
+
+
+                return Redirect("https://localhost:7050/Studenti/Show?cod=" + studente.K_Studente.ToString() + "&&usr=" + studente.Email + "&&r=s");
+
 
 
             }
+            //if (studente != null)
+            //{
+            //    // Salvo solo ciò che serve
+            //    //HttpContext.Session.SetString("K_Studente", studente.K_Studente.ToString());
+            //    //HttpContext.Session.SetString("Email", studente.Email);
+            //    //HttpContext.Session.SetString("Ruolo", "S");
+
+
+            //    //return RedirectToAction("AREA LAVORO STUDENTE (IMMATRICOLATO)", "Home");
+            //    HttpContext.Session.SetString("studente_id", studente.K_Studente.ToString().ToUpper());
+            //    return Redirect("https://localhost:7050/Studenti/Show/?cod="+studente.K_Studente.ToString().ToUpper());
+
+
+            //}
 
             // Controllo login Docente
             var docente = await dbContext.Docenti
@@ -65,16 +96,15 @@ namespace AreaPubblica.Controllers
                 //HttpContext.Session.SetString("Ruolo", "D");
                 if (docente.Abilitato == "N")
                 {
-                    return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=dn");
+                    return Redirect("https://localhost:7245/Docenti/ModificaProfilo?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=d");
                     //return RedirectToAction("AREA DOCENTE (NON ABILITATO)", "Home");
                 }
-                return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=da");
-                //return RedirectToAction("AREA DOCENTE (ABILITATO)", "Home");
+                return Redirect("https://localhost:7245/Home/Index?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=d");
             }
 
             var operatore = await dbContext.Operatori
             .Where(o => o.USR == viewModel.username && o.PWD == viewModel.PWD)
-            .Select(o => new { o.K_Operatore, o.USR }) // Carico solo K_Studente ed Email e Matricola
+            .Select(o => new { o.K_Operatore, o.USR, o.Nome }) // Carico solo K_Studente ed Email e Matricola
             .FirstOrDefaultAsync();
 
             if (operatore != null)
@@ -85,7 +115,7 @@ namespace AreaPubblica.Controllers
                 //HttpContext.Session.SetString("Ruolo", "O");
 
 
-                return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + operatore.K_Operatore.ToString() + "&&usr=" + operatore.USR + "&&r=o");
+                return Redirect("http://localhost:54411/Home.aspx?cod=" + operatore.K_Operatore.ToString() + "&&usr=" + operatore.Nome + "&&r=a");
 
                 //return RedirectToAction("AREA AMMINISTRAZIONE", "Home");
             }
@@ -101,7 +131,6 @@ namespace AreaPubblica.Controllers
         {
             return View();
         }
-        
 
 
         [HttpPost]
@@ -112,18 +141,24 @@ namespace AreaPubblica.Controllers
                 return View(viewModel);
             }
 
-            // Recupera un corso esistente
-            var corso = await dbContext.Corsi.FirstOrDefaultAsync();
+            // Elaborazione immagine profilo
+            if (viewModel.ImmagineFile != null)
+            {
+                using var ms = new MemoryStream();
+                await viewModel.ImmagineFile.CopyToAsync(ms);
+                viewModel.ImmagineProfilo = ms.ToArray();
+                viewModel.Tipo = Path.GetExtension(viewModel.ImmagineFile.FileName).ToLowerInvariant();
+            }
+
+            var corso = await dbContext.Corsi.FirstOrDefaultAsync(); // solo per k_corso
             if (corso == null)
             {
                 ModelState.AddModelError("", "Nessun corso disponibile.");
                 return View(viewModel);
             }
 
-            // Ora puoi creare lo studente associato al corso
             var studente = new Studente
             {
-                //K_Studente = Guid.NewGuid(),
                 Nome = viewModel.Nome?.Trim(),
                 Cognome = viewModel.Cognome?.Trim(),
                 Email = viewModel.Email?.Trim(),
@@ -134,11 +169,10 @@ namespace AreaPubblica.Controllers
                 Citta = viewModel.Citta,
                 Provincia = viewModel.Provincia,
                 ImmagineProfilo = viewModel.ImmagineProfilo,
-                //Tipo = viewModel.Tipo,
-                //Matricola = null,
+                Tipo = viewModel.Tipo,
                 Abilitato = "No",
                 DataImmatricolazione = null,
-                K_Corso = corso.K_Corso // 👈 Associazione corretta
+                K_Corso = corso.K_Corso
             };
 
             await dbContext.Studenti.AddAsync(studente);
@@ -146,5 +180,28 @@ namespace AreaPubblica.Controllers
 
             return RedirectToAction("Index", "FAQ");
         }
+        [HttpPost]
+        public async Task<IActionResult> RecoverPassword(string email)
+        {
+            if (string.IsNullOrEmpty(email) || !Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                return BadRequest("Formato email non valido.");
+
+            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.Email == email);
+            if (studente != null)
+                return Content($"La tua password è: {studente.PWD}");
+
+            var docente = await dbContext.Docenti.FirstOrDefaultAsync(d => d.Email == email);
+            if (docente != null)
+                return Content($"La tua password è: {docente.PWD}");
+
+            var operatore = await dbContext.Operatori.FirstOrDefaultAsync(o => o.USR == email);
+            if (operatore != null)
+                return Content($"La tua password è: {operatore.PWD}");
+
+            return Content("Se l'email è registrata nei nostri sistemi, riceverai una mail con la password.");
+        }
+
+
+
     }
 }

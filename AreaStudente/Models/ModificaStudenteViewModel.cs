@@ -1,4 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using AreaStudente.Models.Entities;
+using LibreriaClassi;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AreaStudente.Models
 {
@@ -20,6 +25,17 @@ namespace AreaStudente.Models
         // nuovo campo per il file caricato
         public IFormFile? ImmagineProfiloFile { get; set; }
         public string? Tipo { get; set; }
+        public int? Matricola { get; set; }
+
+        public DateTime? DataImmatricolazione { get; set; }
+        public Guid? K_Facolta { get; set; } // selezione utente
+        public IEnumerable<SelectListItem>? FacoltaList { get; set; } // per la DDL
+        public Guid? K_Corso { get; set; }
+        public IEnumerable<SelectListItem>? CorsiList { get; set; }
+        [ForeignKey("K_Corso")]
+        [ValidateNever]
+        //public Facolta Facolta { get; set; }
+        public Corso Corso { get; set; }
 
     }
 }

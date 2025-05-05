@@ -1,0 +1,44 @@
+﻿@model List<AreaDocente.Models.Entities.MVCLezioni>
+
+<div class="container my-5">
+    <h1>Elenco Lezioni</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Esame</th>
+                <th>Titolo lezione</th>
+                <th>Video</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var lezioni in Model)
+            {
+                <tr>
+                    <td>@lezioni.Esame?.TitoloEsame</td>
+                    <td>@lezioni.Titolo</td>
+                    <td>
+                        <a target="_blank" href="@lezioni.Video" class="btn btn-outline-info btn-sm">
+                            <i class="bi bi-play-circle-fill me-1"></i> Guarda
+                        </a>
+                    </td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" asp-controller="Lezioni" asp-action="Edit" asp-route-id="@lezioni.K_Lezione">
+                            <i class="bi bi-pencil-square me-1"></i> Modifica
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <a class="btn btn-success" asp-controller="Lezioni" asp-action="Add">
+                        <i class="bi bi-plus-circle me-1"></i> Inserisci nuova lezione
+                    </a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

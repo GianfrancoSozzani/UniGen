@@ -23,7 +23,7 @@
 		}
 
 
-		 /* testo velatura */
+	/* testo velatura */
 
 	#testoVelatura > h1 {
 		font-size: 6.5rem;
@@ -98,102 +98,121 @@
 
 <main>
 	<div class="container mt-5">
-		<div id="target-section">
-			
+		<section id="next-section">
+			<div class="row justify-content-center g-4">
 
-			<h1 class=" alert-dark text-center mb-5 ">Offerta Formativa</h1>
+				<h2 class="text-center">Offerta Formativa</h2>
 
-			@* qattro card con immagini e testo *@
-
-			<div class="d-flex flex-row justify-content-around">
-
-
-				<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
-					<img src="~/Sources/esamiedocentiUNIGEN.png" class="card-img-top" alt="...">
-					<div class="card-body">
-						<p class="fw-bold"><a class="nav-link text-dark" asp-area="" asp-controller="OffertaFormativa" asp-action="ElencoDocentiConEsami">Esami e Docenti</a></p>
-						<p class="card-text">Consulta informazioni su esami, modalità di svolgimento, programmi e contatti dei docenti per ogni insegnamento.</p>
-					</div>
-				</div>
-
-
-				<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
-					<img src="~/Sources/corsidilaureaUNIGEN.png" class="card-img-top" alt="...">
-					<div class="card-body">
-						<p class="fw-bold">Corsi di Laurea</p>
-						<p class="card-text">Scopri l’offerta formativa completa: corsi triennali, magistrali e a ciclo unico, pensati per accompagnarti nel tuo percorso universitario.</p>
-					</div>
-				</div>
-
-
-
-				<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
-					<img src="~/Sources/calendarioUNIGENpng.png" class="card-img-top" alt="...">
-					<div class="card-body">
-						<p class="fw-bold">Programma</p>
-						<p class="card-text">Consulta le date importanti dell’anno universitario: inizio lezioni, sessioni d’esame, scadenze e periodi di vacanza.</p>
-					</div>
-				</div>
-
-
-
-				<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
-					<img src="~/Sources/pianodistudioUNIGEN.png" class="card-img-top" alt="...">
-					<div class="card-body">
-						<p class="fw-bold">Piano Di Studi</p>
-						<p class="card-text">Esplora il piano di studi del tuo corso! Consulta gli insegnamenti, i crediti formativi e l'organizzazione del tuo percorso accademico in modo semplice e intuitivo.</p>
-					</div>
-				</div>
-			</div>
-
-
-
-			@*sezione notizie*@
-
-
-
-			<div id="news" class=" mt-5 ">
-				<h2 class="mt-5  d-flex flex-row justify-content-around ">Ultime Notizie</h2>
-				<div class=" mb-3 col card" style="transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
-					<div class="row g-0">
-						<div class="col-md-6">
-							<img src="~/sources/Notizie1.jpg" class="img-fluid rounded-start" alt="...">
-						</div>
-						<div class="col-md-6">
+				<div class="col-12 col-sm-6 col-lg-3">
+					<a class="nav-link text-dark" asp-area="" asp-controller="OffertaFormativa" asp-action="ElencoDocentiConEsami">
+						<div class="card" style="height: 500px; transition: all 0.3s ease;"
+							 onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'"
+							 onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
+							<img src="~/Sources/esamiedocentiUNIGEN.png" class="card-img-top" alt="Esami e Docenti">
 							<div class="card-body">
-								<h5 class="card-title">Le Nuove Aule Studio </h5>
-								<p class="card-text">L'apertura delle nostre nuove aule studio con cui supportiamo i nostri studenti nei loro progetti di studio.</p>
-								<p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+								<p class="fw-bold">Esami e Docenti</p>
+								<p class="card-text">Consulta informazioni su esami, modalità di svolgimento, programmi e contatti dei docenti per ogni insegnamento.</p>
 							</div>
 						</div>
-					</div>
+					</a>
 				</div>
 
-
-				<div class="d-flex flex-row justify-content-around mt-2">
-
-					<div class="col card me-2" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
-						<img src="~/sources/BandiErasmusUNIGEN.jpg" class="card-img-top " alt="...">
-						<div class="card-body">
-							<p class="fw-bold">Nuovi Bandi Erasmus</p>
-							<p class="card-text">Rimani aggiornato su tutte le opportunità Erasmus! Scopri bandi, esperienze di studio all'estero e novità sui programmi di mobilità internazionale per studenti e docenti.</p>
+				<div class="col-12 col-sm-6 col-lg-3">
+					<a class="nav-link text-dark" asp-area="" asp-controller="OffertaFormativa" asp-action="ElencoCorsiCompleti">
+						<div class="card " style="transition: all 0.3s ease; height: 500px;"
+							 onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'"
+							 onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
+							<img src="~/Sources/corsidilaureaUNIGEN.png" class="card-img-top" alt="Corsi di Laurea">
+							<div class="card-body">
+								<p class="fw-bold">Corsi di Laurea</p>
+								<p class="card-text">Scopri l’offerta formativa completa: corsi triennali, magistrali e a ciclo unico, pensati per accompagnarti nel tuo percorso universitario.</p>
+							</div>
 						</div>
-					</div>
+					</a>
+				</div>
 
-
-					<div class="col card " style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
-						<img src="~/Sources/RicercaUNIGEN.jpg" style="" class="card-img-top " alt="...">
-						<div class="card-body">
-							<p class="fw-bold"> UniGeneration per la ricerca.</p>
-							<p class="card-text">I nostri ricercatori UniGeneration lavorano senza sosta. – Scopri studi, pubblicazioni e progetti di ricerca in corso! Accedi alle risorse accademiche, esplora i temi innovativi e resta aggiornato sui progressi nel tuo settore di interesse. </p>
+				<div class="col-12 col-sm-6 col-lg-3">
+					<a class="nav-link text-dark" asp-area="" asp-controller="OffertaFormativa" asp-action="Programma">
+						<div class="card" style="transition: all 0.3s ease; height: 500px;"
+							 onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'"
+							 onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
+							<img src="~/Sources/calendarioUNIGENpng.png" class="card-img-top" alt="Programma">
+							<div class="card-body">
+								<p class="fw-bold">Programma</p>
+								<p class="card-text">Consulta le date importanti dell’anno universitario: inizio lezioni, sessioni d’esame, scadenze e periodi di vacanza.</p>
+							</div>
 						</div>
-					</div>
+					</a>
+				</div>
 
-
+				<div class="col-12 col-sm-6 col-lg-3">
+					<a class="nav-link text-dark" asp-area="" asp-controller="OffertaFormativa" asp-action="PianoStudi">
+						<div class="card" style="transition: all 0.3s ease; height: 500px;"
+							 onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'"
+							 onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
+							<img src="~/Sources/pianodistudioUNIGEN.png" class="card-img-top" alt="Piano di Studi">
+							<div class="card-body">
+								<p class="fw-bold">Piano di Studi</p>
+								<p class="card-text">Esplora il piano di studi del tuo corso! Consulta gli insegnamenti, i crediti formativi e l'organizzazione del tuo percorso accademico in modo semplice e intuitivo.</p>
+							</div>
+						</div>
+					</a>
 				</div>
 
 			</div>
+		</section>
+	</div>
+
+
+
+
+
+	@*sezione notizie*@
+
+
+
+	<div id="news" class="container mt-5 ">
+		<h2 class="mt-5  d-flex flex-row justify-content-around ">Ultime Notizie</h2>
+		<div class=" mb-3 col card" style="transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
+			<div class="row g-0">
+				<div class="col-md-6">
+					<img src="~/sources/Notizie1.jpg" class="img-fluid rounded-start" alt="...">
+				</div>
+				<div class="col-md-6">
+					<div class="card-body">
+						<h5 class="card-title">Le Nuove Aule Studio </h5>
+						<p class="card-text">L'apertura delle nostre nuove aule studio con cui supportiamo i nostri studenti nei loro progetti di studio.</p>
+						<p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+					</div>
+				</div>
+			</div>
 		</div>
+
+
+		<div class="d-flex flex-row justify-content-around mt-2">
+
+			<div class="col card me-2 mb-5" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
+				<img src="~/sources/BandiErasmusUNIGEN.jpg" class="card-img-top " alt="...">
+				<div class="card-body">
+					<p class="fw-bold">Nuovi Bandi Erasmus</p>
+					<p class="card-text">Rimani aggiornato su tutte le opportunità Erasmus! Scopri bandi, esperienze di studio all'estero e novità sui programmi di mobilità internazionale per studenti e docenti.</p>
+				</div>
+			</div>
+
+
+			<div class="col card mb-5" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
+				<img src="~/Sources/RicercaUNIGEN.jpg" style="" class="card-img-top " alt="...">
+				<div class="card-body">
+					<p class="fw-bold"> UniGeneration per la ricerca.</p>
+					<p class="card-text">I nostri ricercatori UniGeneration lavorano senza sosta. Scopri studi, pubblicazioni e progetti di ricerca in corso! Accedi alle risorse accademiche, esplora i temi innovativi e resta aggiornato sui progressi nel tuo settore di interesse. </p>
+				</div>
+			</div>
+
+
+		</div>
+
+	</div>
+	</div>
 	</div>
 </main>
 

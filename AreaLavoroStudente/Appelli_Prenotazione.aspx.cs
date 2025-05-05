@@ -13,7 +13,7 @@ using LibreriaClassi;
 
 public partial class _Default : System.Web.UI.Page
 {
-    public int matricola;
+    
 
 
     protected void Page_Load(object sender, EventArgs e)
@@ -22,26 +22,20 @@ public partial class _Default : System.Web.UI.Page
         // Carica gli appelli solo al primo caricamento della pagina(non su PostBack, ad esempio dopo un click)
         if (!IsPostBack)
         {
-            //if (Session["matricola"] == null || !int.TryParse(Session["matricola"].ToString(), out matricola) || matricola == 0)
-            //{
-            //    Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Utente non loggato');", true);
-            //    Response.Redirect("~/Login.aspx");
-            //  
-            //}
-
-            matricola = 123556;//verrà sostituita con la session 
-            CaricaAA(matricola);
-            CaricaAppelli();
+            //string Matricola = Request.QueryString["mat"];
+            string Matricola = Session["mat"].ToString();
+            Session["mat"] = Matricola;
+            CaricaAA(int.Parse(Matricola));
+            CaricaAppelli(int.Parse(Matricola));
 
         }
     }
 
-    public void CaricaAA(int matricola)
+    public void CaricaAA(int Matricola)
     {
-        matricola = 123556;
         STUDENTI studente = new STUDENTI();
-        studente.Matricola = matricola;
-        DataTable dt = studente.SelezionaAnnoAccademico(matricola);
+        studente.Matricola = Matricola;
+        DataTable dt = studente.SelezionaAnnoAccademico(Matricola);
 
         if (dt.Rows.Count == 1)
         {
@@ -55,20 +49,21 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
-    protected void CaricaAppelli()
+    protected void CaricaAppelli(int Matricola)
     {
-        matricola = 123556; //da sostituire con la session
+        
         APPELLI m = new APPELLI();
-        rptAppelli.DataSource = m.ListaAppelli(matricola);
+        rptAppelli.DataSource = m.ListaAppelli(Matricola);
         rptAppelli.DataBind();
 
     }
+    
 
 
     protected void btnPrenotaSelezionati_Click(object sender, EventArgs e)
     {
         // Recupera gli identificativi fissi (da sostituire poi con quelli della sessione utente)
-        int matricola = int.Parse("123556");
+        
 
         int countPrenotati = 0; // Contatore degli appelli prenotati con successo
 
@@ -85,28 +80,15 @@ public partial class _Default : System.Web.UI.Page
                 // Recupera il GUID dell'appello selezionato
                 Guid K_Appello = Guid.Parse(hfKAppello.Value);
 
-                //Controllo prenotazioni duplicati 
-                //string salvastudente = e.CommandArgument.ToString();
-                //Guid k_studente = Guid.Parse(salvastudente);
-
-                // Prova a fare il parsing del parametro 'CommandArgument' come Guid
-                //Guid k_studente;
-                //bool isValidGuid = Guid.TryParse(e.CommandArgument.ToString(), out k_studente);
-
-                //if (!isValidGuid)
-                //{
-                //    // Se il parsing fallisce, restituisci un errore
-                //    ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('ID studente non valido')", true);
-                //    return;
-                //}
-
                 LIBRETTI m = new LIBRETTI();
-                m.Matricola = matricola;
+                int Matricola = int.Parse(Session["mat"].ToString());
+                m.Matricola = Matricola;
                 m.K_Appello = K_Appello;
-                m.RecuperaKStudenteDaMatricola(matricola);
-                if (m.RecuperaKStudenteDaMatricola(matricola).Rows.Count > 0 && m.RecuperaKStudenteDaMatricola(matricola).Columns.Count > 0)
+                m.RecuperaKStudenteDaMatricola(Matricola);
+
+                if (m.RecuperaKStudenteDaMatricola(Matricola).Rows.Count > 0 && m.RecuperaKStudenteDaMatricola(Matricola).Columns.Count > 0)
                 {
-                    Guid primoGuid = (Guid)m.RecuperaKStudenteDaMatricola(matricola).Rows[0][0];
+                    Guid primoGuid = (Guid)m.RecuperaKStudenteDaMatricola(Matricola).Rows[0][0];
                     m.K_Studente = primoGuid;
                 }
 
@@ -151,7 +133,7 @@ public partial class _Default : System.Web.UI.Page
             lblMessaggio.Visible = true;
         }
 
-        Response.Redirect("Appelli_Gestione.aspx");
+
     }
 }
 

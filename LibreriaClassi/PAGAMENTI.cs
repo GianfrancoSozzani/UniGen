@@ -63,5 +63,87 @@ namespace LibreriaClassi
             dB.cmd.Parameters.AddWithValue("", Importo);
             dB.SQLcommand();
         }
+
+        //lista pagamenti per lo studente in base alla matricola 
+        public DataTable ListaPagamenti(int Matricola)
+        {
+            DB db = new DB();
+            db.query = "Pagamenti_SelectMat";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+
+        //aggiorna stato pagamenti studente da N a S
+        public void ModificaStatoPagamento()
+        {
+            DB db = new DB();
+            db.query = "Pagamenti_AggiornaStato";
+            db.cmd.Parameters.AddWithValue("@IDPagamento", K_Pagamento);
+            db.SQLcommand();
+        }
+
+        //lista pagamenti effetuati dallo studente in base alla matricola
+        public DataTable ListaPagamentiEffettuati(int Matricola)
+        {
+            DB db = new DB();
+            db.query = "PagamentiEffettuati_SelectMat";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+             return db.SQLselect();
+        }
+
+        //---------------AGGIUNTA PER HOME AMMINISTRAZIONE
+        public DataTable IncassoAnnoCorrente()
+        {
+            DB db = new DB();
+            db.query = "Pagamenti_IncassoAnnoCorrente";
+            return db.SQLselect();
+        }
+
+        public DataTable IncassiPerAnno()
+        {
+            DB db = new DB();
+            db.cmd.Parameters.AddWithValue("@anno", Anno);
+            db.query = "Pagamenti_SelectIncassoAnnuale";
+            return db.SQLselect();
+        }
+
+        public DataTable IncassiGroupByAnno()
+        {
+            DB db = new DB();
+            db.query = "Pagamenti_SelectGroupByAnno";
+            return db.SQLselect();
+        }
+
+        public DataTable IncassiGroupByFacolta()
+        {
+            DB db = new DB();
+            db.cmd.Parameters.AddWithValue("@anno", Anno);
+            db.query = "Pagamenti_SelectGroupByFacolta";
+            return db.SQLselect();
+        }
+
+        public DataTable IncassiPerCorso(Guid Facolta)
+        {
+            DB db = new DB();
+            db.cmd.Parameters.AddWithValue("@anno", Anno);
+            db.cmd.Parameters.AddWithValue("@facolta", Facolta);
+            db.query = "Pagamenti_SelectGroupByCorso";
+            return db.SQLselect();
+        }
+
+        public DataTable IncassiStimatiFacolta()
+        {
+            DB db = new DB();
+            db.query = "Pagamenti_SelectStimatiFacolta";
+            return db.SQLselect();
+        }
+
+        public DataTable IncassiStimatiCorso(Guid Facolta)
+        {
+            DB db = new DB();
+            db.cmd.Parameters.AddWithValue("@facolta", Facolta);
+            db.query = "Pagamenti_SelectStimatiCorso";
+            return db.SQLselect();
+        }
     }
 }

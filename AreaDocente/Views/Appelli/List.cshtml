@@ -1,0 +1,50 @@
+﻿@model List<AreaDocente.Models.Entities.MVCAPPELLO>
+
+<div class="container my-5">
+    <h1 class="mb-4">Elenco Appelli</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Esame</th>
+                <th>Data Appello</th>
+                <th>Data Verbalizzazione</th>
+                <th>Tipo</th>
+                <th>Link</th>
+                <th>Data Orale</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var appello in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(Model => appello.Esame.TitoloEsame)</td>
+                    <td>@appello.DataAppello?.ToString("dd/MM/yyyy")</td>
+                    <td>@appello.DataVerbalizzazione?.ToString("dd/MM/yyyy")</td>
+                    <td>@appello.Tipo</td>
+                    <td>
+                        <a target="_blank" href="@appello.Link" class="btn btn-outline-info btn-sm">
+                            <i class="bi bi-link-45deg me-1"></i> Link
+                        </a>
+                    </td>
+                    <td>@appello.DataOrale?.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <a class="btn btn-warning btn-sm" asp-controller="Appelli" asp-action="Edit" asp-route-id="@appello.K_Appello">
+                            <i class="bi bi-pencil-square me-1"></i> Modifica
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <a class="btn btn-success" asp-controller="Appelli" asp-action="Add">
+                        <i class="bi bi-plus-circle me-1"></i> Inserisci nuovo appello
+                    </a>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

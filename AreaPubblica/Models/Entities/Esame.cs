@@ -17,7 +17,7 @@ namespace AreaPubblica.Models.Entities
         [ForeignKey("K_Corso")]
         [ValidateNever]
         public Corso Corso { get; set; }
-        public byte[] CFU { get; set; }
+        public byte CFU { get; set; }
 
     }
 }
