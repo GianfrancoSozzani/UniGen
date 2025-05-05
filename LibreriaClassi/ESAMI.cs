@@ -86,5 +86,12 @@ namespace LibreriaClassi
             return db.SQLselect();
         }
 
+        public DataTable SelezionaEsami()
+        {
+            DB dB = new DB();
+            dB.query = "Esami_SelectEsami";
+            return dB.SQLselect();
+        }
+
     }
 }
