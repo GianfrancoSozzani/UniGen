@@ -1,0 +1,4 @@
+1) Ogni elemento di un team creerà e lavorerà su un branch personale
+2) A test compiuti si effettuerà un merge sul branch dell'area di lavoro (Amministrazione, Comunicazione, Docenti ecc.).
+3) Ad approvazione di un Responsabile Tecnico si procederà al merge sul branch Testing
+4) In assenza di Conflitti Il responsabile potrà procedere al merge sul master

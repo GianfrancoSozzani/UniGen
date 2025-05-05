@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AreaDocente</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AreaDocente.styles.css" asp-append-version="true" />
+
+    <style>
+        .navbar-custom {
+            background-color: #12304F;
+        }
+
+            .navbar-custom .nav-link,
+            .navbar-custom .navbar-brand {
+                color: white !important;
+            }
+
+        .dropdown-menu > li:hover > .dropdown-submenu {
+            display: block;
+        }
+
+        .flex-wrapper {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+    </style>
+
+</head>
+
+<body class="m-0 flex-wrapper">
+    <header class="mb-5">
+        <div class="fixed-top">
+            <nav class="navbar navbar-dark navbar-expand-lg navbar-custom">
+                <div class="container">
+                    <a class="navbar-brand" href="#">
+                        <img src="~/css/resources/logonobg.png" alt="Bootstrap" width="150">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+
+                            <li>
+                                <a class="navbar-brand" href="#">
+                                    <img src="~/css/resources/logonobg.png" alt="Bootstrap" width="150">
+                                </a>
+                            </li>
+
+
+
+                            <li class="nav-item">
+                                <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+                                    Account
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Modifica account</a></li>
+                                    <li><a class="dropdown-item" href="#">Logout</a></li>
+
+                                </ul>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Gestione ...
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">materiali</a></li>
+                                    <li><a class="dropdown-item" href="#">lezioni</a></li>
+                                    <li><a class="dropdown-item" href="#">appelli</a></li>
+                                    <li><a class="dropdown-item" href="#">test</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Valutazione degli esami</a>
+
+                            </li>
+
+                        </ul>
+                        <ul class="navbar-nav navbar-right">
+                            <li class="nav-item">
+                                <a class="btn btn-light btn-sm disabled"><i class="bi bi-person-circle"></i> *Placeholder per il nome docente*</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3 mt-5">
+            <div class="mt-5">&nbsp;</div>
+
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer>
+        <div class="bg-dark text-white position-sticky">
+            <div class="container d-flex justify-content-between align-items-end flex-wrap">
+                <div>
+                    <img src="https://italy.generation.org/wp-content/uploads/2019/05/Generation_Italy_logo_WHITE.svg" alt="Logo UNIGen" class="img-fluid my-3" width="150px">
+                    <p class="fs-4">Università UNIGen</p>
+                    <p class="fs-6">Milano, MI 20100, IT</p>
+                </div>
+                <div>
+                    <p class="fs-6">© 2024 Generation: You Employed, Inc.</p>
+                </div>
+                <div>
+                    <p class="fs-5 mb-1">Chi Siamo</p>
+                    <ul class="list-unstyled ms-3">
+                        <li><a href="#" class="text-white">Contatti</a></li>
+                        <li><a href="#" class="text-white">Come Funziona</a></li>
+                        <li><a href="#" class="text-white">FAQ</a></li>
+                        <li><a href="#" class="text-white">Privacy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
