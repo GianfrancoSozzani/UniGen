@@ -55,7 +55,7 @@ namespace AreaDocente.Controllers
                 TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
                 return View(viewModel);
             }
-            if (viewModel.K_Esame == Guid.Empty)
+            if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare l'esame!";
                 return View(viewModel);
@@ -165,7 +165,11 @@ namespace AreaDocente.Controllers
             }
             return RedirectToAction("List");
         }
-
+        
+        public async Task<IActionResult> Annulla()
+        {
+            return RedirectToAction("List", "Materiali");
+        }
         private string EstensioneDaContentType(string contentType)
         {
             return contentType switch

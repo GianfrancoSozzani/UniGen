@@ -75,7 +75,7 @@ namespace AreaDocente.Controllers
                 TempData["ErrorMessage"] = "Link appello mancante!";
                 return View(viewModel);
             }
-            if (viewModel.K_Esame == Guid.Empty)
+            if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare l'esame!";
                 return View(viewModel);
@@ -128,7 +128,7 @@ namespace AreaDocente.Controllers
                 TempData["ErrorMessage"] = "Inserire la data dell'rale!";
                 return View(viewModel);
             }
-            if (viewModel.K_Esame == Guid.Empty)
+            if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare l'esame!";
                 return View(viewModel);
@@ -165,6 +165,10 @@ namespace AreaDocente.Controllers
                 await dbContext.SaveChangesAsync();
             }
             return RedirectToAction("List");
+        }
+        public async Task<IActionResult> Annulla()
+        {
+            return RedirectToAction("List", "Appelli");
         }
     }
 }
