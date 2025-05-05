@@ -124,6 +124,9 @@ public partial class _Default : System.Web.UI.Page
             lblMessaggio.Text = string.Format("{0} appello/i prenotato/i con successo!", countPrenotati);
             lblMessaggio.CssClass = "alert alert-success mt-3";
             lblMessaggio.Visible = true;
+            string Matricola = Session["mat"].ToString();
+            //RICARICA GLI APPELLI DISPONIBILI
+            CaricaAppelli(int.Parse(Matricola));
         }
         else
         {
