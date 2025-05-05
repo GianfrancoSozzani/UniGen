@@ -25,7 +25,7 @@
 						<h4 class="heading-small text-muted">SELEZIONA UNA FACOLTÀ</h4>
 						<div class="row mb-0 mb-lg-3 align-items-end">
 							<div class="col-12 col-lg-9 mb-2 mb-lg-0">
-								<select asp-for="K_Facolta" asp-items="Model.FacoltaList" class="form-select" onchange="this.form.submit()">
+								<select asp-for="K_Facolta" asp-items="Model.FacoltaList" class="form-control" id="facolta-select">
 									<option disabled selected required>-- Selezionare una Facoltà --</option>
 								</select>
 							</div>
@@ -35,7 +35,7 @@
 						<h4 class="heading-small text-muted">SELEZIONA UNA CORSO</h4>
 						<div class="row mb-0 mb-lg-3 align-items-end">
 							<div class="col-12 col-lg-9 mb-2 mb-lg-0">
-								<select asp-for="K_Corso" asp-items="Model.CorsiList" class="form-select">
+								<select asp-for="K_Corso" asp-items="Model.CorsiList" class="form-control" id="corso-select">
 									<option disabled selected required>-- Selezionare un Corso --</option>
 								</select>
 							</div>
@@ -85,12 +85,31 @@
 							</div>
 						</div>
 						<div class="text-center">
-							<button type="submit" class="btn btn-primary" style="width: 179px;">Conferma</button>
+							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confermaModal">Procedi</button>
 						</div>
 					</div>
 				</div>
 			</div>
 
+			<!-- Modal -->
+		
+			<div class="modal fade" id="confermaModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="modalLabel">Conferma Iscrizione</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+						</div>
+						<div class="modal-body">
+							Vuoi confermare l'immatricolazione? L'importo è: €@Model.Importo
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+							<button type="button" class="btn btn-primary" id="conferma-btn">Conferma</button>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="col-12 col-xl-4 px-0 px-lg-2 mt-xl-0 order-xl-2 mt--7">
 				<div class="card shadow">
 					<div class="card-body">
@@ -166,5 +185,41 @@
 	</div>
 </div>
 
+@section Scripts {
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			const form = document.getElementById("modifica-form");
+			const facoltaSelect = document.getElementById("facolta-select");
+			const corsoSelect = document.getElementById("corso-select")
+			const confermaBtn = document.getElementById("conferma-btn");
+
+			facoltaSelect.addEventListener("change", function () {
+				// Aggiunge un campo nascosto per identificare il submit parziale
+				const input = document.createElement("input");
+				input.type = "hidden";
+				input.name = "updateFacolta";
+				input.value = "true";
+				form.appendChild(input);
+
+				form.submit();
+			});
+
+			corsoSelect.addEventListener("change", function(){
+				const input = document.createElement("input");
+				input.type = "hidden";
+				input.name = "updateFacolta";
+				input.value = "true";
+				form.appendChild(input);
+
+				form.submit();
+			})
+
+
+			confermaBtn.addEventListener("click", function () {
+				form.submit();
+			});
+		});
+	</script>
+}
 
 

@@ -12,6 +12,8 @@ namespace AreaStudente.Models.Entities
         public string? TitoloCorso { get; set; }
         public Guid? K_Facolta { get; set; }
         public Guid? K_TipoCorso { get; set; }
+
+        public decimal? CostoAnnuale { get; set; }
         public short? MinimoCFU { get; set; }
         [ForeignKey("K_Facolta")]
         [ValidateNever]
