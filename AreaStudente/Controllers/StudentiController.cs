@@ -52,10 +52,10 @@ namespace AreaStudente.Controllers
 
         [HttpGet]
 
-        public async Task<IActionResult> Show(Guid cod, Comunicazione c) // L'ID dello studente da visualizzare
+        public async Task<IActionResult> Show(Guid cod, string usr, string r) // L'ID dello studente da visualizzare
 
         {
-
+            Comunicazione c;
             // Trova lo studente includendo potenzialmente dati correlati se servissero
             // In questo caso, per il ViewModel fornito, non serve caricare il Corso,
             // ma lo lascio commentato come esempio se volessi il nome del corso in futuro.
@@ -82,6 +82,7 @@ namespace AreaStudente.Controllers
             ViewData["matricola"] = studente.Matricola;
             ViewData["abilitato"] = studente.Abilitato.Trim();
             HttpContext.Session.SetString("cod", studente.K_Studente.ToString());
+            HttpContext.Session.SetString("r","s");
 
             // Mappa dall'entità Studente (dal DB) a ShowStudenteViewModel
             // Dentro l'action Show() nel StudentiController.cs, dopo aver recuperato 'studente'

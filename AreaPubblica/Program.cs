@@ -14,7 +14,7 @@ namespace AreaPubblica
 
             builder.Services.AddDbContext<ApplicationDbContext>
                 (options => options.UseSqlServer(
-                    builder.Configuration.GetConnectionString("UniGenConn")));
+                    builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddDistributedMemoryCache(); // Necessario per usare la sessione
             builder.Services.AddSession(options =>
