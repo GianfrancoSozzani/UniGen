@@ -11,6 +11,7 @@ using System.Data;
 using System.Net.Mail;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace AreaStudente.Controllers
@@ -27,42 +28,14 @@ namespace AreaStudente.Controllers
             this.dbContext = dbContext; // Inizializzo il contesto del database 
         }
 
-        //public IActionResult LoginRedirect()
-
-
-        //{
-        //    // Leggi parametri dalla query string e salvali in sessione
-        //    var usr = Request.Query["usr"];
-        //    var guidid = Request.Query["guidid"];
-        //    var tipo = Request.Query["tipo"];
-
-        //    if (!string.IsNullOrEmpty(usr) && !string.IsNullOrEmpty(guidid) && !string.IsNullOrEmpty(tipo))
-        //    {
-        //        HttpContext.Session.SetString("usr", usr);
-        //        HttpContext.Session.SetString("guidid", guidid);
-        //        HttpContext.Session.SetString("tipo", tipo);
-        //    }
-        //    else
-        //    {
-        //        return BadRequest("Parametri mancanti o invalidi.");
-        //    }
-
-        //    // Reindirizza all'area studente dopo aver settato la sessione
-        //    return RedirectToAction("Show", "Studenti");
-        //}
-
         [HttpGet]
 
         public async Task<IActionResult> Show(Guid cod, string usr, string r) // L'ID dello studente da visualizzare
 
         {
-            Comunicazione c;
-            // Trova lo studente includendo potenzialmente dati correlati se servissero
-            // In questo caso, per il ViewModel fornito, non serve caricare il Corso,
-            // ma lo lascio commentato come esempio se volessi il nome del corso in futuro.
+            //Comunicazione c;
             var studente = await dbContext.Studenti
                                           // Sostituisci con il tuo DbSet<Studente>
-                                          // .Include(s => s.Corso) // Esempio: Decommenta se hai una navigation property 'Corso' in Studente e vuoi il nome
                                           .Include(s => s.Corso)
                                           .ThenInclude(c => c.Facolta)
                                           .FirstOrDefaultAsync(s => s.K_Studente == cod);
@@ -81,9 +54,9 @@ namespace AreaStudente.Controllers
             ViewData["studente_id"] = studente.K_Studente;
             ViewData["email"] = studente.Email;
             ViewData["matricola"] = studente.Matricola;
-            ViewData["abilitato"] = studente.Abilitato.Trim();
+            ViewData["abilitato"] = studente.Abilitato;
             HttpContext.Session.SetString("cod", studente.K_Studente.ToString());
-            HttpContext.Session.SetString("r","s");
+            HttpContext.Session.SetString("r", "s");
 
             // Mappa dall'entità Studente (dal DB) a ShowStudenteViewModel
             // Dentro l'action Show() nel StudentiController.cs, dopo aver recuperato 'studente'
@@ -106,24 +79,11 @@ namespace AreaStudente.Controllers
                 K_Corso = studente.K_Corso,
                 Abilitato = studente.Abilitato,
                 CorsoTitolo = studente.Corso?.TitoloCorso,
-                FacoltaTitolo = studente.Corso?.Facolta?.TitoloFacolta
-
-
-
-                // Opzione 3: Se la stringa nel DB ha valori specifici come "ATTIVO", "SOSPESO" etc.
-                //            e vuoi mapparli a "Sì"/"No" o altro. Esempio:
-                // Abilitato = studente.Abilitato?.ToUpper() switch
-                // {
-                //     "ATTIVO" => "Sì",
-                //     "TRUE" => "Sì",
-                //     "1" => "Sì",
-                //     null => "Non specificato",
-                //     _ => "No" // Tutti gli altri casi ("SOSPESO", "FALSE", "0", etc.)
-                // },
+                FacoltaTitolo = studente.Corso?.Facolta?.TitoloFacolta,
             };
 
             var comunicazioni = await dbContext.Comunicazioni
-                .Where(c => c.K_Studente == studente.K_Studente || c.K_Soggetto == studente.K_Studente)
+                .Where(c => c.K_Studente == studente.K_Studente && c.K_Docente == null || c.K_Soggetto == studente.K_Studente && c.K_Docente == null || dbContext.Operatori.Any(o => o.K_Operatore == c.K_Soggetto))
                 .Select(c => new ComunicazioneViewModel
                 {
                     K_Comunicazione = c.K_Comunicazione,
@@ -169,7 +129,8 @@ namespace AreaStudente.Controllers
             var dashboardViewModel = new StudenteDashboardViewModel
             {
                 Studente = viewModel,
-                Comunicazioni = comunicazioni
+                Comunicazioni = comunicazioni,
+                NuovaComunicazione = new AddComunicazioneViewModel()
             };
 
             return View(dashboardViewModel);
@@ -323,7 +284,7 @@ namespace AreaStudente.Controllers
 
             ViewData["email"] = studente.Email;
             ViewData["matricola"] = studente.Matricola;
-            ViewData["abilitato"] = studente.Abilitato.Trim();
+            ViewData["abilitato"] = studente.Abilitato;
 
             var model = new ModificaStudenteViewModel
             {
@@ -359,7 +320,7 @@ namespace AreaStudente.Controllers
 
             ViewData["email"] = studente.Email;
             ViewData["matricola"] = studente.Matricola;
-            ViewData["abilitato"] = studente.Abilitato.Trim();
+            ViewData["abilitato"] = studente.Abilitato;
 
             // Aggiorna i dati anagrafici
             studente.Nome = CapitalizeWords(model.Nome);
@@ -464,7 +425,7 @@ namespace AreaStudente.Controllers
             if (studente == null)
             {
                 TempData["PopupErrore"] = "Studente non trovato.";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Show", "Studenti", new { cod = HttpContext.Session.GetString("cod") });
             }
 
             //rispecifico i parametri per passarli ad altre pg.
@@ -494,9 +455,13 @@ namespace AreaStudente.Controllers
                 CorsiList = PopolaCorsi(selectedFacolta)
                 //= studente.Abilitato
 
+
             };
-                     
+            
+
+
             return View(model);
+
         }
 
 
@@ -525,103 +490,158 @@ namespace AreaStudente.Controllers
                 }).ToList();
         }
 
+
+
+
         [HttpPost]
         public async Task<IActionResult> Immatricolati(ModificaStudenteViewModel model, Guid cod)
-
         {
             ViewData["studente_id"] = cod;
+
+            // Dichiarazione della variabile 'studente' prima del suo utilizzo
             var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == model.K_Studente);
 
             if (studente == null)
                 return NotFound();
 
+            // Correzione: Sposta la dichiarazione di 'modelp' dopo che 'studente' è stato inizializzato
+            var modelp = await dbContext.Pagamenti.FirstOrDefaultAsync(p => p.K_Studente == studente.K_Studente);
+
             ViewData["email"] = studente.Email;
             ViewData["matricola"] = studente.Matricola;
             ViewData["abilitato"] = studente.Abilitato;
-            // Se è solo un cambio facoltà (nessun corso ancora selezionato), NON salvare
+
             if (model.K_Corso == null)
             {
-                //Se model.K_Corso è nullo (nessun corso selezionato), si assume che l'utente stia cercando solo di cambiare la facoltà.
-                //In questo caso, vengono ripopolate le dropdown e restituita la vista senza fare modifiche.
                 model.FacoltaList = PopolaFacolta();
                 model.CorsiList = PopolaCorsi(model.K_Facolta);
-                model.ImmagineProfilo = studente.ImmagineProfilo; // Mantieni l'immagine del profilo
+                model.ImmagineProfilo = studente.ImmagineProfilo;
                 return View(model);
             }
 
-            //Se un corso è selezionato, vengono aggiornati i dettagli dello studente.
+            string mat = studente.Matricola.ToString();
 
-            //studente.Corso.K_Facolta = model.K_Facolta;
-            //studente.K_Corso = model.K_Corso;
-            //studente.DataImmatricolazione = DateTime.Now;
+            if (string.IsNullOrEmpty(mat))
+            {
+                var anno = DateTime.Now.Year.ToString(); // Es: "2025"
 
-            // Salva i cambiamenti nel database
+                // Conta quanti studenti hanno già una matricola che inizia con l'anno
+                var count = await dbContext.Studenti
+                    .CountAsync(s => s.Matricola.HasValue && s.Matricola.Value.ToString().StartsWith(anno));
+
+                // Aggiungi 1 al contatore per il nuovo studente
+                var nuovaMatricola = $"{anno}{(count + 1):D4}"; // es: 20250001
+
+                studente.Matricola = int.Parse(nuovaMatricola);
+            }
+
+            // 🔒 Controllo: già immatricolato a quel corso?
+            if (studente.K_Corso != model.K_Corso && studente.Abilitato == "S" || studente.K_Corso == model.K_Corso && studente.Abilitato == "S")
+            {
+                ModelState.AddModelError("", "Risulti già immatricolato. Se desideri procedere con una nuova immatricolazione, è necessario presentare prima la rinuncia agli studi.");
+                model.FacoltaList = PopolaFacolta();
+                model.CorsiList = PopolaCorsi(model.K_Facolta);
+                model.ImmagineProfilo = studente.ImmagineProfilo;
+                return View(model);
+            }
+
+            var pagamento = new Pagamento
+            {
+                K_Pagamento = modelp?.K_Pagamento ?? Guid.NewGuid(),
+                K_Studente = studente.K_Studente,
+                DataPagamento = DateTime.Now,
+                Anno = DateTime.Now.Year.ToString(),
+                Importo = modelp?.Importo ?? 0,
+                Stato = modelp?.Stato ?? "S"
+            };
+
+            // Procedi con l'immatricolazione
+            studente.Abilitato = "S";
+            studente.K_Corso = model.K_Corso;
+            studente.DataImmatricolazione = DateTime.Now;
+
+            await dbContext.Pagamenti.AddAsync(pagamento);
+
+            // Se il primo pagamento è andato a buon fine (stato "S"), crea quello futuro
+            if (pagamento.Stato == "S" && pagamento.Importo >= 0)
+            {
+                var pagamentoFuturo = new Pagamento
+                {
+                    K_Pagamento = Guid.NewGuid(),
+                    K_Studente = studente.K_Studente,
+                    DataPagamento = DateTime.Now.AddMonths(6),
+                    Anno = DateTime.Now.AddMonths(6).Year.ToString(),
+                    Importo = pagamento.Importo,
+                    Stato = "N"
+                };
+
+                await dbContext.Pagamenti.AddAsync(pagamentoFuturo);
+            }
             await dbContext.SaveChangesAsync();
 
-            TempData["PopupConferma"] = "Dati aggiornati con successo!";
-            return RedirectToAction("Index");
+            TempData["PopupConferma"] = "Pagamento effettuato con successo!";
+            return RedirectToAction("Show", "Studenti", new { cod = HttpContext.Session.GetString("cod") });
         }
 
+
+
     }
-    
-
-
 }
 
 
 
 
 
-        //public IActionResult PopolaCorsi()
+//public IActionResult PopolaCorsi()
 
-        //{
-        //    var dati=(
-        //        from corsi in dbContext.Corsi
-        //        join facolta in dbContext.Facolta on corsi.K_Facolta  equals facolta.K_Facolta
-        //        select new { 
-        //        Facolta = facolta.TitoloFacolta,
-        //        Corso= corsi.TitoloCorso                
-        //        }
+//{
+//    var dati=(
+//        from corsi in dbContext.Corsi
+//        join facolta in dbContext.Facolta on corsi.K_Facolta  equals facolta.K_Facolta
+//        select new { 
+//        Facolta = facolta.TitoloFacolta,
+//        Corso= corsi.TitoloCorso                
+//        }
 
-        //        ).ToList<dynamic> ();
-        //    ViewBag.PopolaCorsi= dati;
-        //    return View(dati);
+//        ).ToList<dynamic> ();
+//    ViewBag.PopolaCorsi= dati;
+//    return View(dati);
 
-        //    //IEnumerable<SelectListItem> listaCorsi = dbContext.Corsi
+//    //IEnumerable<SelectListItem> listaCorsi = dbContext.Corsi
 
-        //        //.Where(c => c.K_Facolta == K_Facolta)
-        //        //.Select(i => new SelectListItem
-        //        //{
-        //        //    Text = i.TitoloCorso,
-        //        //    Value = i.K_Corso.ToString()
-        //        //})
-        //        //.ToList();
+//        //.Where(c => c.K_Facolta == K_Facolta)
+//        //.Select(i => new SelectListItem
+//        //{
+//        //    Text = i.TitoloCorso,
+//        //    Value = i.K_Corso.ToString()
+//        //})
+//        //.ToList();
 
-        //    //ViewBag.listaCorsi = listaCorsi;
-        //}
-        //public void PopolaFacolta()
-        //{
-        //    IEnumerable<SelectListItem> listaFacolta = dbContext.Facolta
-        //        .Select(i => new SelectListItem
-        //        {
-        //            Text = i.TitoloFacolta,
-        //            Value = i.K_Facolta.ToString()                    
-        //        })
-        //        .ToList()
-        //        ;
+//    //ViewBag.listaCorsi = listaCorsi;
+//}
+//public void PopolaFacolta()
+//{
+//    IEnumerable<SelectListItem> listaFacolta = dbContext.Facolta
+//        .Select(i => new SelectListItem
+//        {
+//            Text = i.TitoloFacolta,
+//            Value = i.K_Facolta.ToString()                    
+//        })
+//        .ToList()
+//        ;
 
-        //    ViewBag.FacoltaList = listaFacolta;
+//    ViewBag.FacoltaList = listaFacolta;
 
-        //}
-        //public void PopolaCorsi() 
-        //{
-        //    IEnumerable<SelectListItem> listaCorsi = dbContext.Corsi
-        //        .Select(i => new SelectListItem
-        //        {
-        //            Text = i.TitoloCorso,
-        //            Value = i.K_Corso.ToString()
-        //        })
-        //        .ToList()
-        //        ;
+//}
+//public void PopolaCorsi() 
+//{
+//    IEnumerable<SelectListItem> listaCorsi = dbContext.Corsi
+//        .Select(i => new SelectListItem
+//        {
+//            Text = i.TitoloCorso,
+//            Value = i.K_Corso.ToString()
+//        })
+//        .ToList()
+//        ;
 
-        //    ViewBag.CorsiList = listaCorsi;
+//    ViewBag.CorsiList = listaCorsi;
