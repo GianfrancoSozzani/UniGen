@@ -39,7 +39,7 @@
 							}
 
 							<div id="img-container" class="position-absolute top-0 start-50 translate-middle mb-5 d-flex justify-content-center align-items-center"
-								 style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background-color: #f0f0f0; font-size: 4rem;">
+							style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background-color: #f0f0f0; font-size: 4rem;">
 								@if (hasImage)
 								{
 									<img src="@imgSrc" alt="Immagine Profilo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
@@ -112,13 +112,32 @@
 										@foreach (var gruppo in Model.Comunicazioni.GroupBy(c => c.Codice_Comunicazione).OrderByDescending(g => g.Max(c => c.DataOraComunicazione)))
 										{
 											<tr>
-												<td>@gruppo.First().Soggetto</td>
+												<td>
+													@{
+														var primaComunicazione = gruppo.OrderBy(c => c.DataOraComunicazione).FirstOrDefault();
+														if (primaComunicazione != null)
+														{
+															if (primaComunicazione.Studente != null && primaComunicazione.K_Soggetto == primaComunicazione.Studente.K_Studente)
+															{
+																<span class="text-primary">@($"{primaComunicazione.Studente.Nome} {primaComunicazione.Studente.Cognome} - {primaComunicazione.Soggetto}")</span>
+															}
+															else if (primaComunicazione.Docente != null && primaComunicazione.K_Soggetto == primaComunicazione.Docente.K_Docente)
+															{
+																<span class="text-danger">@($"{primaComunicazione.Docente.Nome} {primaComunicazione.Docente.Cognome} - {primaComunicazione.Soggetto}")</span>
+															}
+															else
+															{
+																<span class="text-success">Amministrazione</span>
+															}
+														}
+													}
+												</td>
 												<td>
 													<div class="accordion" id="accordion_@gruppo.Key">
 														<div class="accordion-item">
 															<h2 class="accordion-header">
 																<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@gruppo.Key" aria-expanded="true" aria-controls="collapse_@gruppo.Key">
-																	Comunicazione numero: @gruppo.Key
+																	@gruppo.Max(c => c.DataOraComunicazione)?.ToString("dd/MM/yyyy HH:mm")
 																</button>
 															</h2>
 															<div id="collapse_@gruppo.Key" class="accordion-collapse collapse show" data-bs-parent="#accordion_@gruppo.Key">
@@ -144,6 +163,7 @@
 																									<span class="text-success">Amministrazione</span>
 																								}
 																							</p>
+																							&nbsp;
 																							<p class="text-muted small mb-0"><i class="far fa-clock"></i> @comunicazione.DataOraComunicazione?.ToString("dd/MM/yyyy HH:mm")</p>
 																						</div>
 																					</div>
@@ -157,7 +177,7 @@
 																			<form method="post" asp-action="AddRisposta">
 																				<input type="hidden" name="Codice_Comunicazione" value="@gruppo.Key" />
 																				<div class="form-outline">
-																					<textarea class="form-control bg-body-tertiary" id="textArea_@gruppo.Key" rows="4" name="Testo"></textarea>
+																					<textarea class="form-control bg-body-tertiary" id="textArea_@gruppo.Key" rows="4" name="Testo" required></textarea>
 																					<label class="form-label" for="textArea_@gruppo.Key">Messaggio</label>
 																					<button type="submit" class="btn btn-info btn-rounded float-end mt-2">Invia</button>
 																				</div>
@@ -173,6 +193,7 @@
 										}
 									</tbody>
 								</table>
+
 							}
 							else
 							{
