@@ -22,7 +22,7 @@ using LibreriaClassi;
             Session["cod"] = K_Studente;
             try
                 {
-                    CaricaEsamiDisponibili(int.Parse(Matricola));
+                    CaricaEsamiDisponibili(Guid.Parse(K_Studente));
                 }
                 catch (SqlException sqlEx)
                 {
@@ -35,11 +35,11 @@ using LibreriaClassi;
             }
         }
 
-        private void CaricaEsamiDisponibili(int Matricola)
+        private void CaricaEsamiDisponibili(Guid K_Studente)
         {
             PIANISTUDIOPERSONALI piano = new PIANISTUDIOPERSONALI();
              
-            DataTable dt = piano.GetEsamiDisponibili(Matricola);
+            DataTable dt = piano.GetEsamiDisponibili(K_Studente);
 
             ddlEsame.DataSource = dt;
             ddlEsame.DataTextField = "TitoloEsame";
@@ -63,7 +63,7 @@ using LibreriaClassi;
 
                 piano.Inserimento();
                 MostraSuccesso("Esame aggiunto con successo al piano di studio!");
-                Response.AddHeader("REFRESH", "2;URL=PianoStudioPersonale.aspx");
+                Response.AddHeader("REFRESH", "2;URL=PianoStudiPersonale.aspx");
             }
             catch (SqlException sqlEx)
             {
@@ -77,7 +77,7 @@ using LibreriaClassi;
 
         protected void btnAnnulla_Click(object sender, EventArgs e)
         {
-            Response.Redirect("PianoStudioPersonale.aspx");
+            Response.Redirect("PianoStudiPersonale.aspx");
         }
 
         private void MostraSuccesso(string messaggio)

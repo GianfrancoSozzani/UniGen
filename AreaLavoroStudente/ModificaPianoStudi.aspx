@@ -77,6 +77,7 @@
                 <div class="mb-4">
                     <label class="form-label">Anno Accademico</label>
                     <asp:TextBox ID="txtAnnoAccademico" runat="server" CssClass="form-control"></asp:TextBox>
+                    <asp:TextBox ID="txtKPianoPersonale" runat="server" CssClass="form-control" Visible="False"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="rfvAnnoAccademico" runat="server" 
                         ControlToValidate="txtAnnoAccademico" ErrorMessage="Inserisci l'anno accademico" 
                         CssClass="text-danger" Display="Dynamic"></asp:RequiredFieldValidator>

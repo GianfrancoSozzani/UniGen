@@ -33,10 +33,10 @@ namespace LibreriaClassi
         {
             DB db = new DB();
             db.query = "PianoStudioPersonale_Insert";
-            db.cmd.Parameters.AddWithValue("@annoaccademico", AnnoAccademico);
-            db.cmd.Parameters.AddWithValue("@obbligatorio", Obbligatorio);
-            db.cmd.Parameters.AddWithValue("@k_esame", K_Esame);
-            db.cmd.Parameters.AddWithValue("@k_studente", K_Studente);
+            db.cmd.Parameters.AddWithValue("@K_PianoStudioPersonale", K_PianoStudioPersonale);
+            db.cmd.Parameters.AddWithValue("@AnnoAccademico", AnnoAccademico);
+            db.cmd.Parameters.AddWithValue("@K_Esame", K_Esame);
+            db.cmd.Parameters.AddWithValue("@K_Studente", K_Studente);
             db.SQLcommand();
         }
 
@@ -69,7 +69,6 @@ namespace LibreriaClassi
             db.query = "PianoStudioPersonale_Update";
             db.cmd.Parameters.AddWithValue("@chiave", K_PianoStudioPersonale);
             db.cmd.Parameters.AddWithValue("@annoaccademico", AnnoAccademico);
-            db.cmd.Parameters.AddWithValue("@obbligatorio", Obbligatorio);
             db.cmd.Parameters.AddWithValue("@k_esame", K_Esame);
             db.cmd.Parameters.AddWithValue("@k_studente", K_Studente);
             db.SQLcommand();
@@ -83,11 +82,11 @@ namespace LibreriaClassi
             db.SQLcommand();
         }
 
-        public DataTable GetEsamiDisponibili(int Matricola)
+        public DataTable GetEsamiDisponibili(Guid K_Studente)
         {
             DB db = new DB();
             db.query = "Esami_SelectDisponibili";
-            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            db.cmd.Parameters.AddWithValue("@K_Studente", K_Studente);
             return db.SQLselect();
         }
 
