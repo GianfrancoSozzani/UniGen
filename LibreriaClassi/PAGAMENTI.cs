@@ -28,13 +28,16 @@ namespace LibreriaClassi
 
         }
 
-        public void Inserimento()
+        //PAGAMENTO NUOVO CHE SI INSERISCE DOPO AVER PAGATO IL PRIMO
+        public void Inserimento(int Matricola)
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", Anno);
-            db.cmd.Parameters.AddWithValue("", DataPagamento);
-            db.cmd.Parameters.AddWithValue("", Importo);
+            db.query = "Pagamenti_Insert";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            db.cmd.Parameters.AddWithValue("@k_studente", K_Studente);
+            db.cmd.Parameters.AddWithValue("@anno", Anno);
+            db.cmd.Parameters.AddWithValue("@datapagamento", DataPagamento);
+            db.cmd.Parameters.AddWithValue("@stato", Stato);
             db.SQLcommand();
         }
 

@@ -9,6 +9,10 @@ using LibreriaClassi;
 
 public partial class _Default : System.Web.UI.Page
 {
+    Guid K_Studente;
+    string Anno;
+    DateTime DataPagamento;
+    char Stato;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -89,8 +93,17 @@ public partial class _Default : System.Web.UI.Page
             lblMessaggio.Visible = true;
         }
 
+        //dopo aver fatto l'update che segnala il pagamento si deve rinserire il pagamento nuovo che deve essere fatto tra 6 mesi 
         string Matricola = Session["mat"].ToString();
+        PAGAMENTI d = new PAGAMENTI();
+        d.K_Studente = K_Studente;
+        d.Anno = Anno;
+        d.DataPagamento = DataPagamento;
+        d.Stato = Stato;
+        d.Inserimento(int.Parse(Matricola));
+
+        //ricarica la pagina con i dati aggiornati 
         CaricaPagamenti(int.Parse(Matricola));
     }
-    
+   
 }
