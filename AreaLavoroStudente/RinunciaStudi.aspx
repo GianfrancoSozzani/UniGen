@@ -76,7 +76,7 @@ Assicurati di aver compreso le conseguenze prima di procedere.
 
 
 
-     <div style="height: 5vh;">
+     <div style="height: 20vh;">
      &nbsp
  </div>
 

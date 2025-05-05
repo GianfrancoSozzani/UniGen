@@ -92,12 +92,7 @@
         </div>
         </div>
         
-        <div style="height: 5vh;">
+        <div style="height: 20vh;">
             &nbsp
         </div>
-
-
-
-
-
-</asp:Content>
+    </asp:Content>
