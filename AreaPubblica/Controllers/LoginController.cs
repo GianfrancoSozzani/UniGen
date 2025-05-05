@@ -29,7 +29,7 @@ namespace AreaPubblica.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(viewModel);
+                return RedirectToAction("Index", "Home");
             }
 
             // Controllo login Studente
@@ -93,8 +93,9 @@ namespace AreaPubblica.Controllers
             }
 
             // Nessun utente trovato
-            ModelState.AddModelError("", "Credenziali non valide.");
-            return RedirectToAction("Privacy", "Home");
+            //ModelState.AddModelError("", "Credenziali non valide.");
+            TempData["LoginMessage"] = "Credenziali non valide.";
+            return RedirectToAction("Index", "Home");
         }
 
 
@@ -122,12 +123,12 @@ namespace AreaPubblica.Controllers
                 viewModel.Tipo = Path.GetExtension(viewModel.ImmagineFile.FileName).ToLowerInvariant();
             }
 
-            var corso = await dbContext.Corsi.FirstOrDefaultAsync(); // solo per k_corso
-            if (corso == null)
-            {
-                ModelState.AddModelError("", "Nessun corso disponibile.");
-                return View(viewModel);
-            }
+            //var corso = await dbContext.Corsi.FirstOrDefaultAsync(); // solo per k_corso
+            //if (corso == null)
+            //{
+            //    ModelState.AddModelError("", "Nessun corso disponibile.");
+            //    return View(viewModel);
+            //}
 
             var studente = new Studente
             {
@@ -142,16 +143,19 @@ namespace AreaPubblica.Controllers
                 Provincia = viewModel.Provincia,
                 ImmagineProfilo = viewModel.ImmagineProfilo,
                 Tipo = viewModel.Tipo,
-                Abilitato = "No",
+                Abilitato = "N",
                 DataImmatricolazione = null,
-                K_Corso = corso.K_Corso
+                //K_Corso =  null
             };
 
             await dbContext.Studenti.AddAsync(studente);
             await dbContext.SaveChangesAsync();
 
-            return RedirectToAction("Index", "FAQ");
+            TempData["SuccessMessage"] = "Registrazione avvenuta con successo!";
+
+            return RedirectToAction("Index", "Home"); 
         }
+
         [HttpPost]
         public async Task<IActionResult> RecoverPassword(string email)
         {
