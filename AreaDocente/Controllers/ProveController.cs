@@ -3,6 +3,7 @@ using AreaDocente.Models;
 using AreaDocente.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace AreaDocente.Controllers
 {
@@ -15,40 +16,32 @@ namespace AreaDocente.Controllers
             this.dbContext = dbContext;
         }
 
-        public IActionResult PopolaAppelli(Guid K_Esame)
+        [HttpPost]
+        public ActionResult SelezionaEsame(AddProveViewModel model)
         {
-            //var dati = (
-            //    from Prova in dbContext.prove
-            //    join Appello in dbContext.appelli on Prova.K_Appello equals Appello.K_Appello
-            //    join Esami in dbContext.esami on Appello.K_Esame equals Esami.K_Esame
-            //    join Docenti in dbContext.docenti on Esami.K_Docente equals Docenti.K_Docente
-            //    select new
-            //    {
-            //        id = Prova.K_Appello,
-            //        data_A = Appello.DataAppello,
-            //        tipo = Prova.Tipologia,
-            //        link = Prova.Link,
-            //        data_O = Appello.DataOrale,
-            //        esame = Esami.TitoloEsame,
+            PopolaEsami();
 
-            //    }).ToList<dynamic>();
-
-            IEnumerable<SelectListItem> ListaAppelli = dbContext.appelli
-                .Where(e => e.K_Esame == K_Esame)
-                .Select(e => new SelectListItem
+            // Popola appelli in base all'esame selezionato
+            ViewBag.AppelliList = dbContext.appelli
+                .Where(a => a.K_Esame == model.K_Esame)
+                .Select(a => new SelectListItem
                 {
-                    Text = $"{e.DataAppello.ToString()} - {e.Tipo.ToString()}",
-                    Value = e.K_Appello.ToString()
-                });
+                    Value = a.K_Appello.ToString(),
+                    Text = $"{a.DataAppello:dd/MM/yyyy} - {(a.Tipo == "Or" ? "Orale" : a.Tipo == "Sc" ? "Scritto" : a.Tipo == "La" ? "Laurea" : a.Tipo)}"
+                })
+                .ToList();
 
-            ViewBag.AppelliList = ListaAppelli;
-            return View();
+
+            return View("Add", model); // restituisci la stessa view "Add"
         }
+
+
         public IActionResult ValutazioneTest()
         {
 
             return View();
         }
+
         public void PopolaEsami()
         {
             IEnumerable<SelectListItem> ListaEsami = dbContext.esami
@@ -62,26 +55,72 @@ namespace AreaDocente.Controllers
         }
 
         [HttpGet]
-        public ActionResult Add()
+        public IActionResult Add()
         {
             PopolaEsami();
-            //PopolaAppelli();
-            return View();
+            ViewBag.AppelliList = new List<SelectListItem>();
+            return View(new AddProveViewModel());
         }
 
         [HttpPost]
         public async Task<ActionResult> Add(AddProveViewModel viewModel)
         {
-            MVCPROVA prova = new MVCPROVA
+            if (!ModelState.IsValid)
             {
+
+            }
+
+            var prova = new MVCPROVA
+            {
+                K_Prova = viewModel.K_Prova != Guid.Empty ? viewModel.K_Prova : Guid.NewGuid(),
                 K_Appello = viewModel.K_Appello,
-                Link = viewModel.Link,
-                Tipologia = viewModel.Tipologia
+                Tipologia = viewModel.Tipologia,
+                Link = viewModel.Link
             };
 
             await dbContext.prove.AddAsync(prova);
-            await dbContext.SaveChangesAsync();
 
+            if (viewModel.Tipologia != "Or")
+            {
+                // Salva ogni domanda legata a questa prova
+                if (viewModel.Domande != null && viewModel.Domande.Any())
+                {
+                    if (viewModel.Tipologia == "Da")
+                    {
+                        foreach (var d in viewModel.Domande)
+                        {
+                            var domanda = new MVCTest_DA
+                            {
+                                K_Test_DA = Guid.NewGuid(),
+                                Numero_Domanda = d.Numero_Domanda,
+                                Domanda = d.Domanda,
+                                K_Prova = prova.K_Prova
+                            };
+
+                            await dbContext.test_DA.AddAsync(domanda);
+                        }
+                    }
+                    else
+                    {
+                        foreach (var d in viewModel.Domande)
+                        {
+                            var domanda = new MVCTest_DC
+                            {
+                                K_Test_DC = Guid.NewGuid(),
+                                Numero_Domanda = d.Numero_Domanda,
+                                Domanda = d.Domanda,
+                                Risposte = d.Risposte,
+                                RispostaCorretta = d.RispostaCorretta,
+                                K_Prova = prova.K_Prova
+                            };
+
+                            await dbContext.test_DC.AddAsync(domanda);
+                        }
+                    }
+                }
+            }
+
+            await dbContext.SaveChangesAsync();
             return RedirectToAction("List");
         }
 
