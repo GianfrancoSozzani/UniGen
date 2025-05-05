@@ -123,7 +123,7 @@ namespace AreaStudente.Controllers
             };
 
             var comunicazioni = await dbContext.Comunicazioni
-                .Where(c => c.K_Studente == studente.K_Studente || c.K_Soggetto == studente.K_Studente)
+                .Where(c => c.K_Studente == studente.K_Studente && c.K_Docente == null || c.K_Soggetto == studente.K_Studente && c.K_Docente == null || dbContext.Operatori.Any(o => o.K_Operatore == c.K_Soggetto))
                 .Select(c => new ComunicazioneViewModel
                 {
                     K_Comunicazione = c.K_Comunicazione,

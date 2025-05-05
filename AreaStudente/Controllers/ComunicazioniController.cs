@@ -65,39 +65,39 @@ namespace Comunicazioni.Controllers
             }
         }
 
-        public void PopolaDocenti()
-        {
-            string ruolo = HttpContext.Session.GetString("r");
-            if (ruolo == "a")
-            {
-                IEnumerable<SelectListItem> listaDocenti = dbContext.Docenti
-                    .Select(i => new SelectListItem
-                    {
-                        Text = i.Nome + " " + i.Cognome,
-                        Value = i.K_Docente.ToString()
-                    });
-                ViewBag.DocentiList = listaDocenti;
-            }
-            else if (ruolo == "s")
-            {
-                var Idstudente = Guid.Parse(HttpContext.Session.GetString("cod"));
-                var pianiDiStudio = dbContext.PianiStudioPersonali
-                .Where(ps => ps.K_Studente == Idstudente)
-                .Select(ps => ps.K_Esame);
+        //public void PopolaDocenti()
+        //{
+        //    string ruolo = HttpContext.Session.GetString("r");
+        //    if (ruolo == "a")
+        //    {
+        //        IEnumerable<SelectListItem> listaDocenti = dbContext.Docenti
+        //            .Select(i => new SelectListItem
+        //            {
+        //                Text = i.Nome + " " + i.Cognome,
+        //                Value = i.K_Docente.ToString()
+        //            });
+        //        ViewBag.DocentiList = listaDocenti;
+        //    }
+        //    else if (ruolo == "s")
+        //    {
+        //        var Idstudente = Guid.Parse(HttpContext.Session.GetString("cod"));
+        //        var pianiDiStudio = dbContext.PianiStudioPersonali
+        //        .Where(ps => ps.K_Studente == Idstudente)
+        //        .Select(ps => ps.K_Esame);
 
-                var listaDocenti = dbContext.Esami
-                       .Where(e => pianiDiStudio.Contains(e.K_Esame))
-                       .Select(e => e.Docente)
-                       .Distinct()
-                       .Select(docente => new SelectListItem
-                       {
-                           Text = docente.Nome + " " + docente.Cognome,
-                           Value = docente.K_Docente.ToString()
-                       }).ToList();  // Converti in lista
+        //        var listaDocenti = dbContext.Esami
+        //               .Where(e => pianiDiStudio.Contains(e.K_Esame))
+        //               .Select(e => e.Docente)
+        //               .Distinct()
+        //               .Select(docente => new SelectListItem
+        //               {
+        //                   Text = docente.Nome + " " + docente.Cognome,
+        //                   Value = docente.K_Docente.ToString()
+        //               }).ToList();  // Converti in lista
 
-                ViewBag.DocentiList = listaDocenti;
-            }
-        }
+        //        ViewBag.DocentiList = listaDocenti;
+        //    }
+        //}
 
 
         [HttpGet] //visualizzo i dati
@@ -124,7 +124,7 @@ namespace Comunicazioni.Controllers
             }
             PopolaEsami(null);
             PopolaStudenti(null);
-            PopolaDocenti();
+            //PopolaDocenti();
             return View();
         }
 
