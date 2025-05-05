@@ -15,6 +15,7 @@ namespace AreaDocente.Controllers
 
         public IActionResult Add()
         {
+            PopolaEsami();
             return View();
         }
 
@@ -41,7 +42,7 @@ namespace AreaDocente.Controllers
         }
         public IActionResult ValutazioneTest()
         {
-
+            
             return View();
         }
         public void PopolaEsami()
