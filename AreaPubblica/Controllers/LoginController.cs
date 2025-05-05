@@ -3,7 +3,8 @@ using AreaPubblica.Models;
 using AreaPubblica.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http; // Importante per la sessione
+using Microsoft.AspNetCore.Http;
+using System.Text.RegularExpressions; // Importante per la sessione
 
 namespace AreaPubblica.Controllers
 {
@@ -49,14 +50,22 @@ namespace AreaPubblica.Controllers
 
                 if (studente.Matricola == null)
                 {
-                    //return RedirectToAction("AREA STUDENTE (NON IMMATRICOLATO)", "Home");
+
+
                     return Redirect("https://localhost:7050/Studenti/Show?cod=" + studente.K_Studente.ToString() + "&&usr=" + studente.Email + "&&r=s");
+
+
+                    //return RedirectToAction("AREA STUDENTE (NON IMMATRICOLATO)", "Home");
+                   
 
                 }
 
                 //return RedirectToAction("AREA LAVORO STUDENTE (IMMATRICOLATO)", "Home");
 
+
                 return Redirect("https://localhost:7050/Studenti/Show?cod=" + studente.K_Studente.ToString() + "&&usr=" + studente.Email + "&&r=s");
+
+
 
             }
             //if (studente != null)
@@ -87,16 +96,15 @@ namespace AreaPubblica.Controllers
                 //HttpContext.Session.SetString("Ruolo", "D");
                 if (docente.Abilitato == "N")
                 {
-                    return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=d");
+                    return Redirect("https://localhost:7245/Docenti/ModificaProfilo?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=d");
                     //return RedirectToAction("AREA DOCENTE (NON ABILITATO)", "Home");
                 }
-                return Redirect("https://localhost:7245/?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=d");
-                //return RedirectToAction("AREA DOCENTE (ABILITATO)", "Home");
+                return Redirect("https://localhost:7245/Home/Index?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=d");
             }
 
             var operatore = await dbContext.Operatori
             .Where(o => o.USR == viewModel.username && o.PWD == viewModel.PWD)
-            .Select(o => new { o.K_Operatore, o.USR }) // Carico solo K_Studente ed Email e Matricola
+            .Select(o => new { o.K_Operatore, o.USR, o.Nome }) // Carico solo K_Studente ed Email e Matricola
             .FirstOrDefaultAsync();
 
             if (operatore != null)
@@ -107,7 +115,7 @@ namespace AreaPubblica.Controllers
                 //HttpContext.Session.SetString("Ruolo", "O");
 
 
-                return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + operatore.K_Operatore.ToString() + "&&usr=" + operatore.USR + "&&r=a");
+                return Redirect("http://localhost:54411/Home.aspx?cod=" + operatore.K_Operatore.ToString() + "&&usr=" + operatore.Nome + "&&r=a");
 
                 //return RedirectToAction("AREA AMMINISTRAZIONE", "Home");
             }
@@ -172,5 +180,28 @@ namespace AreaPubblica.Controllers
 
             return RedirectToAction("Index", "FAQ");
         }
+        [HttpPost]
+        public async Task<IActionResult> RecoverPassword(string email)
+        {
+            if (string.IsNullOrEmpty(email) || !Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                return BadRequest("Formato email non valido.");
+
+            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.Email == email);
+            if (studente != null)
+                return Content($"La tua password è: {studente.PWD}");
+
+            var docente = await dbContext.Docenti.FirstOrDefaultAsync(d => d.Email == email);
+            if (docente != null)
+                return Content($"La tua password è: {docente.PWD}");
+
+            var operatore = await dbContext.Operatori.FirstOrDefaultAsync(o => o.USR == email);
+            if (operatore != null)
+                return Content($"La tua password è: {operatore.PWD}");
+
+            return Content("Se l'email è registrata nei nostri sistemi, riceverai una mail con la password.");
+        }
+
+
+
     }
 }

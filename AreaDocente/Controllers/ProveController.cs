@@ -8,5 +8,10 @@ namespace AreaDocente.Controllers
         {
             return View();
         }
+
+        public IActionResult ValutazioneTest()
+        {
+            return View();
+        }
     }
 }
