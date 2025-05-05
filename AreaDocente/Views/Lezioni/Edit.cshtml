@@ -36,12 +36,15 @@
                     <input type="text" class="form-control" asp-for="Video" />
                 </div>
 
-                <div class="mt-4 d-flex justify-content-between">
+                <div class="mt-4 d-flex justify-content-end gap-2">
                     <button type="submit" class="btn btn-success btn-lg">
                         <i class="bi bi-pencil-square me-1"></i> Modifica
                     </button>
-                    <button type="submit" class="btn btn-danger btn-lg ms-3" asp-controller="Lezioni" asp-action="Delete">
+                    <button type="submit" class="btn btn-danger btn-lg " asp-controller="Lezioni" asp-action="Delete">
                         <i class="bi bi-trash me-1"></i> Elimina
+                    </button> 
+                    <button type="submit" class="btn btn-secondary btn-lg " asp-controller="Lezioni" asp-action="Annulla">
+                        <i class="bi bi-arrow-90deg-left me-1"></i> Annulla
                     </button>
                 </div>
             </form>

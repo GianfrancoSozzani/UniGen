@@ -156,8 +156,9 @@ namespace AreaDocente.Controllers
         //public async Task<ActionResult> Add()
         //{
 
-        //    return Redirect();
-        //}
+
+            return View();
+        }
 
 
     }
