@@ -5,6 +5,10 @@ VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AreaPubblica", "AreaPubblica\AreaPubblica.csproj", "{4B940F69-EDDB-46D5-AAA0-34979491D11D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AreaStudente", "AreaStudente\AreaStudente.csproj", "{9B2431EE-622B-4B6A-A97F-8B78B601D7C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AStudente", "AStudente", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "AreaLavoroStudente", "AreaLavoroStudente\", "{AC4D4E27-7069-31D3-61C9-C82131829A72}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
@@ -27,6 +31,10 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "AreaLavoroStudente", "AreaL
 		SlnRelativePath = "AreaLavoroStudente\"
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ADocente", "ADocente", "{382784A9-BD44-47D8-963E-C577D572680F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AreaDocente", "AreaDocente\AreaDocente.csproj", "{4B0B1B38-1D72-460D-B6F1-88C8E00B6E63}"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "AreaAmministrazione", "AreaAmministrazione\", "{A06C6270-2393-1AED-096A-8A4EECE13D15}"
 	ProjectSection(WebsiteProperties) = preProject
@@ -51,13 +59,13 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "AreaAmministrazione", "Area
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "consumer", "consumer", "{090E74C8-34D1-4857-B7C6-37CE56396B3D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "consumer", "consumer", "{08D1CB58-E5AB-44D2-A304-64764F064E06}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comunicazioni", "Comunicazioni\Comunicazioni.csproj", "{2635816B-49A9-4089-BE7F-3AB1DF8C3E59}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibreriaClassi", "LibreriaClassi\LibreriaClassi.csproj", "{4103300C-E9CB-4E1A-A639-85C3B164FEA3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AreaDocente", "AreaDocente\AreaDocente.csproj", "{530E99B0-9A74-4EC2-B0BC-A9DFC027ED2A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AreaStudente", "AreaStudente\AreaStudente.csproj", "{8554E761-A6B9-48A6-8A00-F37831290D71}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,10 +77,18 @@ Global
 		{4B940F69-EDDB-46D5-AAA0-34979491D11D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B940F69-EDDB-46D5-AAA0-34979491D11D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B940F69-EDDB-46D5-AAA0-34979491D11D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B2431EE-622B-4B6A-A97F-8B78B601D7C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B2431EE-622B-4B6A-A97F-8B78B601D7C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B2431EE-622B-4B6A-A97F-8B78B601D7C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B2431EE-622B-4B6A-A97F-8B78B601D7C9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AC4D4E27-7069-31D3-61C9-C82131829A72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AC4D4E27-7069-31D3-61C9-C82131829A72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC4D4E27-7069-31D3-61C9-C82131829A72}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{AC4D4E27-7069-31D3-61C9-C82131829A72}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{4B0B1B38-1D72-460D-B6F1-88C8E00B6E63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B0B1B38-1D72-460D-B6F1-88C8E00B6E63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B0B1B38-1D72-460D-B6F1-88C8E00B6E63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B0B1B38-1D72-460D-B6F1-88C8E00B6E63}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A06C6270-2393-1AED-096A-8A4EECE13D15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A06C6270-2393-1AED-096A-8A4EECE13D15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A06C6270-2393-1AED-096A-8A4EECE13D15}.Release|Any CPU.ActiveCfg = Debug|Any CPU
@@ -85,17 +101,15 @@ Global
 		{4103300C-E9CB-4E1A-A639-85C3B164FEA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4103300C-E9CB-4E1A-A639-85C3B164FEA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4103300C-E9CB-4E1A-A639-85C3B164FEA3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{530E99B0-9A74-4EC2-B0BC-A9DFC027ED2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{530E99B0-9A74-4EC2-B0BC-A9DFC027ED2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{530E99B0-9A74-4EC2-B0BC-A9DFC027ED2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{530E99B0-9A74-4EC2-B0BC-A9DFC027ED2A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8554E761-A6B9-48A6-8A00-F37831290D71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8554E761-A6B9-48A6-8A00-F37831290D71}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8554E761-A6B9-48A6-8A00-F37831290D71}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8554E761-A6B9-48A6-8A00-F37831290D71}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9B2431EE-622B-4B6A-A97F-8B78B601D7C9} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{4B0B1B38-1D72-460D-B6F1-88C8E00B6E63} = {382784A9-BD44-47D8-963E-C577D572680F}
+		{090E74C8-34D1-4857-B7C6-37CE56396B3D} = {382784A9-BD44-47D8-963E-C577D572680F}
+		{08D1CB58-E5AB-44D2-A304-64764F064E06} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9BEE9C42-EA1C-4B2A-8C99-01A75248F5E0}
