@@ -58,7 +58,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
     {
         STUDENTI studente = new STUDENTI();
         studente.Matricola = Matricola;
-        DataTable dt = studente.SelezionaPerMatricola(Matricola);
+        DataTable dt = studente.SelezionaPerMatricola();
 
 
         if (dt.Rows.Count == 1)

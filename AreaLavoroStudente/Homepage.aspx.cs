@@ -30,7 +30,8 @@ public partial class _Default : System.Web.UI.Page
 
             // CONTROLLO CHE K_STUDENTE E MATRICOLA CORRISPONDANO
             STUDENTI s = new STUDENTI();
-            DataTable dt = s.SelezionaPerMatricola(int.Parse(Matricola));
+            s.Matricola = int.Parse(Matricola);
+            DataTable dt = s.SelezionaPerMatricola();
             if (dt.Rows.Count != 1 || dt.Rows[0]["K_Studente"].ToString() != K_Studente)
             {
                 // Se non corrispondono, mostra il modal di errore

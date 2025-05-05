@@ -13,17 +13,17 @@ namespace Comunicazioni.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string r, string cod)
         {
-            
-            string ruolo = HttpContext.Session.GetString("Ruolo");
-
             // Se "ruolo" è null o vuoto, l'utente non è autenticato
-            if (String.IsNullOrEmpty(ruolo))
+            if (String.IsNullOrEmpty(r))
             {
                 // Reindirizza alla pagina di login
                 return RedirectToAction("Login", "Login");
             }
+
+            HttpContext.Session.SetString("r", r);
+            HttpContext.Session.SetString("cod", cod);
             return View();
         }
 

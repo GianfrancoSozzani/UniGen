@@ -21,65 +21,77 @@
 					{
 						<tr>
 							<td>
-								@gruppo.First().Soggetto
+								@{
+									var primaComunicazione = gruppo.OrderBy(c => c.DataOraComunicazione).FirstOrDefault();
+									if (primaComunicazione != null)
+									{
+										if (primaComunicazione.Studente != null && primaComunicazione.K_Soggetto == primaComunicazione.Studente.K_Studente)
+										{
+											<span>@($"{primaComunicazione.Studente.Nome} {primaComunicazione.Studente.Cognome} - {primaComunicazione.Soggetto}")</span>
+										}
+										else if (primaComunicazione.Docente != null && primaComunicazione.K_Soggetto == primaComunicazione.Docente.K_Docente)
+										{
+											<span>@($"{primaComunicazione.Docente.Nome} {primaComunicazione.Docente.Cognome} - {primaComunicazione.Soggetto}")</span>
+										}
+										else
+										{
+											<span>Amministrazione</span>
+										}
+									}
+								}
 							</td>
 							<td>
-								<div class="accordion" id="accordionExample">
+								<div class="accordion" id="accordion_@gruppo.Key">
 									<div class="accordion-item">
 										<h2 class="accordion-header">
 											<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@gruppo.Key" aria-expanded="true" aria-controls="collapse_@gruppo.Key">
-												Comunicazione numero: @gruppo.Key
-												@*  .Key è in comando Linq per indicare la chiavbe usata per il group by  *@
+												@gruppo.Max(c => c.DataOraComunicazione).ToString("dd/MM/yyyy HH:mm")
 											</button>
 										</h2>
-										<div id="collapse_@gruppo.Key" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+										<div id="collapse_@gruppo.Key" class="accordion-collapse collapse show" data-bs-parent="#accordion_@gruppo.Key">
 											<div class="accordion-body">
-												<div class="col-md-6 col-lg-7 col-xl-8">
-													<ul class="list-unstyled">
-														@foreach (var comunicazione in gruppo.OrderBy(c => c.DataOraComunicazione))
-														{
-															<li class="d-flex justify-content-between mb-4">
-																<div class="card">
-																	<div class="card-header d-flex justify-content-between p-3">
-																		<div class="d-flex justify-content-between align-items-baseline">
-																			<p class="fw-bold mb-0">
-																				@if (comunicazione.Studente != null && comunicazione.Studente.K_Studente == comunicazione.K_Soggetto)
-																				{
-																					<span class="text-primary">@($"{comunicazione.Studente.Nome} {comunicazione.Studente.Cognome} - {comunicazione.Soggetto}")</span>
-																				}
-																				else if (comunicazione.Docente != null && comunicazione.Docente.K_Docente == comunicazione.K_Soggetto)
-																				{
-																					<span class="text-danger">@($"{comunicazione.Docente.Nome} {comunicazione.Docente.Cognome} - {comunicazione.Soggetto}")</span>
-																				}
-																				else if (comunicazione.Studente == null && comunicazione.Docente == null)
-																				{
-																					<span class="text-success">Amministrazione</span>
-																				}
-																			</p>
-																			<span class="px-2"></span>
-																			<p class="text-muted small mb-0"><i class="far fa-clock"></i>@comunicazione.DataOraComunicazione</p>
-																		</div>
-																	</div>
-																	<div class="card-body">
-																		<p class="mb-0">
-																			@comunicazione.Testo
+												<ul class="list-unstyled">
+													@foreach (var comunicazione in gruppo.OrderBy(c => c.DataOraComunicazione))
+													{
+														<li class="d-flex justify-content-between mb-4">
+															<div class="card w-100">
+																<div class="card-header d-flex justify-content-between p-3">
+																	<div class="d-flex justify-content-between align-items-baseline">
+																		<p class="fw-bold mb-0">
+																			@if (comunicazione.Studente != null && comunicazione.K_Soggetto == comunicazione.Studente.K_Studente)
+																			{
+																				<span class="text-primary">@($"{comunicazione.Studente.Nome} {comunicazione.Studente.Cognome} - {comunicazione.Soggetto}")</span>
+																			}
+																			else if (comunicazione.Docente != null && comunicazione.K_Soggetto == comunicazione.Docente.K_Docente)
+																			{
+																				<span class="text-danger">@($"{comunicazione.Docente.Nome} {comunicazione.Docente.Cognome} - {comunicazione.Soggetto}")</span>
+																			}
+																			else
+																			{
+																				<span class="text-success">Amministrazione</span>
+																			}
 																		</p>
+																		&nbsp;
+																		<p class="text-muted small mb-0"><i class="far fa-clock"></i> @comunicazione.DataOraComunicazione.ToString("dd/MM/yyyy HH:mm")</p>
 																	</div>
 																</div>
-															</li>
-														}
-														<li class="bg-white">
-															<form method="post" asp-action="AddRisposta">
-																<input type="hidden" name="Codice_Comunicazione" value="@gruppo.Key" />
-																<div data-mdb-input-init class="form-outline">
-																	<textarea class="form-control bg-body-tertiary" id="textAreaExample2" rows="4" name="Testo"></textarea>
-																	<label class="form-label" for="textAreaExample2">Message</label>
+																<div class="card-body">
+																	<p class="mb-0">@comunicazione.Testo</p>
 																</div>
-																<button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-info btn-rounded float-end p-0 px-2">Send</button>
-															</form>
+															</div>
 														</li>
-													</ul>
-												</div>
+													}
+													<li class="bg-white">
+														<form method="post" asp-action="AddRisposta">
+															<input type="hidden" name="Codice_Comunicazione" value="@gruppo.Key" />
+															<div class="form-outline">
+																<textarea class="form-control bg-body-tertiary" id="textArea_@gruppo.Key" rows="4" name="Testo" required></textarea>
+																<label class="form-label" for="textArea_@gruppo.Key">Messaggio</label>
+																<button type="submit" class="btn btn-info btn-rounded float-end mt-2">Invia</button>
+															</div>
+														</form>
+													</li>
+												</ul>
 											</div>
 										</div>
 									</div>
@@ -89,6 +101,7 @@
 					}
 				</tbody>
 			</table>
+				
 		</div>
 
 		<div class="col-2 col-md-3">
