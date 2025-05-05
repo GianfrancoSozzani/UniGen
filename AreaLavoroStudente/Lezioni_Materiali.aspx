@@ -87,40 +87,17 @@
 
                 <!-- Messaggio se non ci sono videolezioni -->
                 <asp:Label ID="lblMessaggio" runat="server" CssClass="text-danger fs-5 mt-3 d-block" Visible="false" Text="Non ci sono dispense disponibili per il tuo corso."></asp:Label>
-                <asp:Button />
+             
             </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-        <%--        <div class="row mt-4">
-            <div class="col-12">
-                <h4 class="mb-3">Dispense</h4>
-                <asp:Repeater ID="rptDispense" runat="server">
-                    <ItemTemplate>
-                        <div class="card mb-2">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <h5 class="card-title mb-0"><%# Eval("Titolo") %></h5>
-                                <asp:Button
-                                    ID="btnScarica"
-                                    runat="server"
-                                    Text="Download"
-                                    CommandName="Scarica"
-                                    CommandArgument='<%# Eval("K_Materiale") %>'
-                                    OnCommand="btnScarica_Command" />
-                            </div>
-                        </div>
-                    </ItemTemplate>
-                </asp:Repeater>--%>
-
-        <%--      </div>
         </div>
-    </div>--%>
+        
+        <div style="height: 5vh;">
+            &nbsp
+        </div>
+
+
+
+
+
 </asp:Content>
