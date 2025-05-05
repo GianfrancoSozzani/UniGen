@@ -1,5 +1,6 @@
 ﻿using AreaDocente.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AreaDocente.Controllers
 {
@@ -25,6 +26,7 @@ namespace AreaDocente.Controllers
                 join Docenti in dbContext.docenti on Esami.K_Docente equals Docenti.K_Docente
                 select new
                 {
+                    id = Appelli.K_Appello,
                     data_A = Appelli.DataAppello,
                     data_V = Appelli.DataVerbalizzazione,
                     tipo = Appelli.Tipo,
@@ -42,5 +44,19 @@ namespace AreaDocente.Controllers
 
             return View();
         }
+        public void PopolaEsami()
+        {
+            IEnumerable<SelectListItem> ListaEsami = dbContext.esami
+                .Where(e => e.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
+                .Select(e => new SelectListItem
+                {
+                    Text = e.TitoloEsame,
+                    Value = e.K_Esame.ToString()
+                });
+            ViewBag.EsameList = ListaEsami;
+        }
+
+
+
     }
 }
