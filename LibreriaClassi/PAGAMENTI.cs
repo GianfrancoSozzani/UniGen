@@ -142,7 +142,7 @@ namespace LibreriaClassi
         {
             DB db = new DB();
             db.cmd.Parameters.AddWithValue("@facolta", Facolta);
-            db.query = "Pagamenti_SelectStimatiCorso";
+            db.query = "Pagamenti_FindStimatiCorso";
             return db.SQLselect();
         }
     }

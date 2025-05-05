@@ -25,15 +25,18 @@
 
         <!-- Sezione a destra -->
         <div class="col-md-6">
-            <div class="border p-5 rounded shadow mb-4">
+            <div class="border p-5 rounded shadow mb-4 ">
                 <h5 class="text-center mb-4">Seleziona Facoltà</h5>
-                <asp:DropDownList
-                    ID="ddlFacolta"
-                    runat="server"
-                    CssClass="form-control form-control-sm mb-3"
-                    AutoPostBack="true"
-                    OnSelectedIndexChanged="ddlFacolta_SelectedIndexChanged">
-                </asp:DropDownList>
+                <div class="d-flex justify-content-center">
+                    <asp:DropDownList
+                        ID="ddlFacolta"
+                        runat="server"
+                        CssClass="form-select form-select-sm mb-3"
+                        Style="width: 200px;"
+                        AutoPostBack="true"
+                        OnSelectedIndexChanged="ddlFacolta_SelectedIndexChanged">
+                    </asp:DropDownList>
+                </div>
 
 
                 <div class="text-center">
