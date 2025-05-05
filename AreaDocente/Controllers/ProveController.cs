@@ -3,7 +3,6 @@ using AreaDocente.Models;
 using AreaDocente.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace AreaDocente.Controllers
 {
@@ -129,37 +128,5 @@ namespace AreaDocente.Controllers
         {
             return View();
         }
-        public IActionResult ValutazioneTest()
-        {
-
-            return View();
-        }
-        public void PopolaEsami()
-        {
-            IEnumerable<SelectListItem> ListaEsami = dbContext.esami
-                .Where(e => e.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
-                .Select(e => new SelectListItem
-                {
-                    Text = e.TitoloEsame,
-                    Value = e.K_Esame.ToString()
-                });
-            ViewBag.EsameList = ListaEsami;
-        }
-        [HttpGet]
-        public ActionResult Add()
-        {
-            PopolaEsami();
-            return View();
-        }
-
-        //[HttpPost]
-        //public async Task<ActionResult> Add()
-        //{
-
-
-            return View();
-        }
-
-
     }
 }
