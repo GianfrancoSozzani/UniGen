@@ -8,5 +8,11 @@ namespace AreaDocente.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> List()
+        {
+            return View();
+        }
     }
 }

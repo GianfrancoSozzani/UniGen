@@ -13,9 +13,9 @@ namespace AreaDocente.Models.Entities
         public string? Risposte { get; set; }
         public string? RispostaCorretta { get; set; }
         public string? RispostaData { get; set; }
-        public Guid? Codice_Test_DC { get; set; }
+        public Guid? K_Prova { get; set; }
 
-        [ForeignKey("Codice_Test_DC")]
+        [ForeignKey("K_Prova")]
         [ValidateNever]
         public MVCPROVA? Prova { get; set; }
     }
