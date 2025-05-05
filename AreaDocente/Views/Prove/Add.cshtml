@@ -1,11 +1,17 @@
 ﻿@{
     ViewData["Title"] = "Pagina con Accordion";
 }
-
+@model AreaDocente.Models.AddMaterialiViewModel
 <div class="container mt-5">
     <h2>Aggiungi Sezioni</h2>
 
     <form method="post" id="accordionForm">
+    <div class="mb-4">
+        <label class="form-label fw-semibold">Esame di appartenenza</label>
+        <select asp-for="K_Esame" asp-items="@ViewBag.EsameList" class="form-select" required>
+            <option disabled selected value="">== Selezionare un esame ==</option>
+        </select>
+    </div>
         <div class="accordion" id="accordionContainer">
             <!-- Sezioni aggiunte dinamicamente qui -->
         </div>
