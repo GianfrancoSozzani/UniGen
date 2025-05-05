@@ -35,6 +35,21 @@ namespace AreaDocente.Controllers
             return View();
         }
 
+        public IActionResult Contatti()
+        {
+            return View();
+        }
+
+        public IActionResult FAQ()
+        {
+            return View();
+        }
+
+        public IActionResult ComeFunziona()
+        {
+            return View();
+        }
+
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();

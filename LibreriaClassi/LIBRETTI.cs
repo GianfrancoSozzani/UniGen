@@ -149,12 +149,21 @@ namespace LibreriaClassi
         }
 
         //controllo prenotazioni doppioni
-        public DataTable ControlloDoppioni(Guid K_Studente)
+        public DataTable ControlloDoppioni( )
         {
             DB db = new DB();
             db.query = "Prenotazione_Duplicati";
             db.cmd.Parameters.AddWithValue("@k_studente", K_Studente); //abbiamo cambiato matricola con studente 
             db.cmd.Parameters.AddWithValue("@k_appello", K_Appello);
+            return db.SQLselect();
+        }
+
+        //recupera K_Studente
+        public DataTable RecuperaKStudenteDaMatricola(int matricola)
+        {
+            DB db = new DB();
+            db.query = "Recupera_KStudente";
+            db.cmd.Parameters.AddWithValue("@matricola", matricola);
             return db.SQLselect();
         }
 

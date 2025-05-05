@@ -54,6 +54,7 @@
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
+
 <body class="m-0 flex-wrapper">
 
     <%--MODAL--%>
@@ -96,13 +97,11 @@
                                 <li class="nav-item">
                                     <a class="nav-link active" href="Homepage.aspx">Home</a>
                                 </li>
-                                <li id="liMateriali" runat="server" class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Lezioni</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Accesso lezioni</a></li>
-                                        <li><a class="dropdown-item" href="Lezioni_Materiali.aspx">Materiale lezioni</a></li>
-                                    </ul>
+
+                                <li id="liMateriali" runat="server" class="nav-item">
+                                    <a class="nav-link" href="Lezioni_Materiali.aspx" role="button" data-bs-toggle="dropdown">Lezioni</a>
                                 </li>
+
                                 <li id="liAppelli" runat="server" class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Appelli</a>
                                     <ul class="dropdown-menu">
