@@ -24,7 +24,7 @@
         <div class="row">
             <%-- COLONNA SINISTRA: TABELLONE ESAMI --%>
             <div class="col-12 col-lg-8 mb-4">
-                <h2 class="fw-bold mb-1">La tua carriera</h2>
+                 <h2 class="fw-bold mb-4">Prenotazione Appelli</h2>
                 <p class="text-muted mb-4">In questa sezione puoi visualizzare l’elenco degli esami sostenuti, le relative votazioni e i dati riepilogativi del tuo percorso accademico.</p>
 
                 <div class="table-responsive">
