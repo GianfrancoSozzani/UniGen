@@ -1,0 +1,204 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model AreaStudente.Models.StudenteDashboardViewModel
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+@* <link href="~/css/show.css" rel="stylesheet" /> *@
+
+<div class="main-content">
+	<!-- Header -->
+	<div class="header pb-3 pt-5 d-flex align-items-center" style="max-height: 400px; background-image: url('/resources/StudentiUniversitari.jpg'); background-size: cover; background-position: center top;">
+		<span class="mask bg-gradient-default opacity-8"></span>
+		<div class="container-fluid d-flex align-items-center">
+			<div class="row">
+				<div class="col-lg-7 col-md-10">
+					<h1 class="display-2 text-white">Benvenuto/a @(Model.Studente?.Nome ?? "Studente")!</h1>
+					<p class="text-white fs-4 mt-0 mb-5">
+						Quest'area personale permette di consultare e modificare i dati della tua registrazione, procedere all'immatricolazione e contattare l'università per ottenere informazioni.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Page content -->
+	<div class="container-fluid">
+		@if (Model != null && Model.Studente?.K_Studente != Guid.Empty)
+		{
+			<div class="row">
+				<!-- COLONNA SINISTRA -->
+				<div class="col-12 col-xl-4 px-0 px-lg-2 mt-xl-0 order-xl-2 mt--7">
+					<div class="card shadow">
+						<div class="card-body">
+							@{
+								bool hasImage = Model?.Studente?.ImmagineProfilo != null && Model.Studente?.ImmagineProfilo.Length > 0;
+								string imgSrc = hasImage ? $"data:image/jpeg;base64,{Convert.ToBase64String(Model.Studente.ImmagineProfilo)}" : null;
+							}
+
+							<div id="img-container" class="position-absolute top-0 start-50 translate-middle mb-5 d-flex justify-content-center align-items-center"
+								 style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background-color: #f0f0f0; font-size: 4rem;">
+								@if (hasImage)
+								{
+									<img src="@imgSrc" alt="Immagine Profilo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
+								}
+								else
+								{
+									<i class="bi bi-person-circle rounded img-icon text-black bg-white" style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; font-size: 6rem; border-radius: 50%;"></i>
+								}
+							</div>
+
+							<h4 class="text-center mt-5">@($"{Model?.Studente?.Nome ?? "Studente"} {Model?.Studente?.Cognome ?? "Cognome"}")</h4>
+							<p class="text-center" style="color: #212529">@Model?.Studente?.Email</p>
+							<p class="fs-3 text-center" style="color: #212529">Riepilogo Profilo</p>
+							<hr class="my-4" />
+							<h6 class="heading-small text-muted mb-4 text-center">Informazioni di Immatricolazione</h6>
+
+							<div class="pl-lg-4">
+								<div class="row g-3">
+									<div class="col-md-6">
+										<div class="form-group focused">
+											<label for="input-matriculation-number" class="form-control-label">Matricola</label>
+											<input id="input-matriculation-number" class="form-control form-control-alternative" placeholder="Numero Matricola" value="@(Model?.Studente?.Matricola?.ToString() ?? "N/A")" type="text" readonly />
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group focused">
+											<label for="input-date-matriculation" class="form-control-label">Data di Immatricolazione</label>
+											<input id="input-date-matriculation" class="form-control form-control-alternative" placeholder="Data di Immatricolazione" value="@(Model?.Studente?.DataImmatricolazione?.ToString("dd/MM/yyyy") ?? "N/A")" type="text" readonly />
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6">
+										<div class="form-group focused">
+											<label for="input-enabled" class="form-control-label">Corso</label>
+											<input id="input-enabled" class="form-control form-control-alternative" value="@(Model?.Studente?.Corso?.TitoloCorso ?? "N/A")" type="text" readonly />
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group focused">
+											<label for="input-course" class="form-control-label">Facoltà</label>
+											<input id="input-course" class="form-control form-control-alternative" value="@(Model?.Studente?.Corso?.Facolta?.TitoloFacolta ?? "N/A")" type="text" readonly />
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<hr class="my-4" />
+						</div>
+					</div>
+				</div>
+
+				<!-- COLONNA DESTRA: Comunicazioni -->
+				<div class="col-xl-8 order-xl-1 mt--7">
+					<div class="card shadow">
+						<div class="card-body">
+							<h1>LE TUE COMUNICAZIONI</h1>
+							<hr class="my-4" />
+							@if (Model.Comunicazioni != null && Model.Comunicazioni.Count > 0)
+							{
+								<table class="table">
+									<thead>
+										<tr>
+											<th>Ruolo Mittente</th>
+											<th>Comunicazione</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach (var gruppo in Model.Comunicazioni.GroupBy(c => c.Codice_Comunicazione).OrderByDescending(g => g.Max(c => c.DataOraComunicazione)))
+										{
+											<tr>
+												<td>@gruppo.First().Soggetto</td>
+												<td>
+													<div class="accordion" id="accordion_@gruppo.Key">
+														<div class="accordion-item">
+															<h2 class="accordion-header">
+																<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@gruppo.Key" aria-expanded="true" aria-controls="collapse_@gruppo.Key">
+																	Comunicazione numero: @gruppo.Key
+																</button>
+															</h2>
+															<div id="collapse_@gruppo.Key" class="accordion-collapse collapse show" data-bs-parent="#accordion_@gruppo.Key">
+																<div class="accordion-body">
+																	<ul class="list-unstyled">
+																		@foreach (var comunicazione in gruppo.OrderBy(c => c.DataOraComunicazione))
+																		{
+																			<li class="d-flex justify-content-between mb-4">
+																				<div class="card w-100">
+																					<div class="card-header d-flex justify-content-between p-3">
+																						<div class="d-flex justify-content-between align-items-baseline">
+																							<p class="fw-bold mb-0">
+																								@if (comunicazione.Studente != null && comunicazione.K_Soggetto == comunicazione.Studente.K_Studente)
+																								{
+																									<span class="text-primary">@($"{comunicazione.Studente.Nome} {comunicazione.Studente.Cognome} - {comunicazione.Soggetto}")</span>
+																								}
+																								else if (comunicazione.Docente != null && comunicazione.K_Soggetto == comunicazione.Docente.K_Docente)
+																								{
+																									<span class="text-danger">@($"{comunicazione.Docente.Nome} {comunicazione.Docente.Cognome} - {comunicazione.Soggetto}")</span>
+																								}
+																								else
+																								{
+																									<span class="text-success">Amministrazione</span>
+																								}
+																							</p>
+																							<p class="text-muted small mb-0"><i class="far fa-clock"></i> @comunicazione.DataOraComunicazione?.ToString("dd/MM/yyyy HH:mm")</p>
+																						</div>
+																					</div>
+																					<div class="card-body">
+																						<p class="mb-0">@comunicazione.Testo</p>
+																					</div>
+																				</div>
+																			</li>
+																		}
+																		<li class="bg-white">
+																			<form method="post" asp-action="AddRisposta">
+																				<input type="hidden" name="Codice_Comunicazione" value="@gruppo.Key" />
+																				<div class="form-outline">
+																					<textarea class="form-control bg-body-tertiary" id="textArea_@gruppo.Key" rows="4" name="Testo"></textarea>
+																					<label class="form-label" for="textArea_@gruppo.Key">Messaggio</label>
+																					<button type="submit" class="btn btn-info btn-rounded float-end mt-2">Invia</button>
+																				</div>
+																			</form>
+																		</li>
+																	</ul>
+																</div>
+															</div>
+														</div>
+													</div>
+												</td>
+											</tr>
+										}
+									</tbody>
+								</table>
+							}
+							else
+							{
+								<p>Non hai comunicazioni.</p>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+		else
+		{
+			<div class="mb-5">&nbsp;</div>
+			<div class="row justify-content-center">
+				<div class="col-lg-8">
+					<div class="card shadow">
+						<div class="card-body text-center">
+							@if (ViewBag.ErrorMessage != null)
+							{
+								<p>@ViewBag.ErrorMessage</p>
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="mb-5">&nbsp;</div>
+		}
+	</div>
+</div>

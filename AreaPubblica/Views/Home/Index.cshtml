@@ -1,8 +1,208 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 }
+<style>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+	/* velatura sul carousel */
+
+	.bottom-overlay {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 80%; /* Puoi aumentare o diminuire */
+		background: linear-gradient( to top, rgba(0, 0, 0, 1) 0%, /* più scuro alla base */
+		rgba(0, 0, 0, 0) 100% /* completamente trasparente sopra */
+		);
+		pointer-events: none; /* così il carousel continua a funzionare normalmente */
+	}
+
+		.bottom-overlay h5,
+		.bottom-overlay a {
+			pointer-events: auto; /* Ma il testo e il bottone devono essere cliccabili */
+		}
+
+
+		 /* testo velatura */
+
+	#testoVelatura > h1 {
+		font-size: 6.5rem;
+		font-weight: 600;
+		opacity: 0.9;
+	}
+
+
+	/* carousel full screen */
+	.carousel-inner img {
+		object-fit: cover;
+		height: 95vh;
+		width: 100%;
+	}
+
+</style>
+
+
+
+
+@* carousel con scritta *@
+
+<header>
+	<div class="mt-2">
+
+		<div id="carouselExampleIndicators" class="carousel slide position-relative fullscreen-carousel " data-bs-ride="carousel">
+
+
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<img src="~/Sources/StudendeConCappello.gif" class="d-block w-100" alt="GIF 1">
+				</div>
+				<div class="carousel-item">
+					<img src="~/Sources/SrudendessaInPiedi.gif" class="d-block w-100 " alt="GIF 2">
+				</div>
+				<div class="carousel-item">
+					<img src="~/Sources/StudendtiGiosi.gif" class="d-block w-100" alt="GIF 3">
+				</div>
+			</div>
+
+
+			<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon"></span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+				<span class="carousel-control-next-icon"></span>
+			</button>
+
+
+			<!-- Velatura in basso -->
+			<div class="bottom-overlay d-flex flex-column justify-content-end align-items-center text-center ">
+				<div id="testoVelatura" class="mb-5">
+
+					<h1 class="text-light fw-bold ">UniGen</h1>
+					<p class="text-light fs-1 fst-italic mb-1" style="font-family: serif">La conoscenza rende liberi</p>
+					@* <p class="text-light opacity-75 mb-2 fs-6">Scopri chi siamo</p> *@
+
+
+					@* bottone *@
+					<a href="#next-section" class="btn btn-outline text-light opacity-75 mb-5" onclick="scrollToSection()">∨</a>
+
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</header>
+
+
+@* main della pagina *@
+
+<main>
+	<div class="container mt-5">
+		<div id="target-section">
+			
+
+			<h1 class=" alert-dark text-center mb-5 ">Offerta Formativa</h1>
+
+			@* qattro card con immagini e testo *@
+
+			<div class="d-flex flex-row justify-content-around">
+
+
+				<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
+					<img src="~/Sources/esamiedocentiUNIGEN.png" class="card-img-top" alt="...">
+					<div class="card-body">
+						<p class="fw-bold"><a class="nav-link text-dark" asp-area="" asp-controller="OffertaFormativa" asp-action="ElencoDocentiConEsami">Esami e Docenti</a></p>
+						<p class="card-text">Consulta informazioni su esami, modalità di svolgimento, programmi e contatti dei docenti per ogni insegnamento.</p>
+					</div>
+				</div>
+
+
+				<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
+					<img src="~/Sources/corsidilaureaUNIGEN.png" class="card-img-top" alt="...">
+					<div class="card-body">
+						<p class="fw-bold">Corsi di Laurea</p>
+						<p class="card-text">Scopri l’offerta formativa completa: corsi triennali, magistrali e a ciclo unico, pensati per accompagnarti nel tuo percorso universitario.</p>
+					</div>
+				</div>
+
+
+
+				<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
+					<img src="~/Sources/calendarioUNIGENpng.png" class="card-img-top" alt="...">
+					<div class="card-body">
+						<p class="fw-bold">Programma</p>
+						<p class="card-text">Consulta le date importanti dell’anno universitario: inizio lezioni, sessioni d’esame, scadenze e periodi di vacanza.</p>
+					</div>
+				</div>
+
+
+
+				<div class="card" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
+					<img src="~/Sources/pianodistudioUNIGEN.png" class="card-img-top" alt="...">
+					<div class="card-body">
+						<p class="fw-bold">Piano Di Studi</p>
+						<p class="card-text">Esplora il piano di studi del tuo corso! Consulta gli insegnamenti, i crediti formativi e l'organizzazione del tuo percorso accademico in modo semplice e intuitivo.</p>
+					</div>
+				</div>
+			</div>
+
+
+
+			@*sezione notizie*@
+
+
+
+			<div id="news" class=" mt-5 ">
+				<h2 class="mt-5  d-flex flex-row justify-content-around ">Ultime Notizie</h2>
+				<div class=" mb-3 col card" style="transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
+					<div class="row g-0">
+						<div class="col-md-6">
+							<img src="~/sources/Notizie1.jpg" class="img-fluid rounded-start" alt="...">
+						</div>
+						<div class="col-md-6">
+							<div class="card-body">
+								<h5 class="card-title">Le Nuove Aule Studio </h5>
+								<p class="card-text">L'apertura delle nostre nuove aule studio con cui supportiamo i nostri studenti nei loro progetti di studio.</p>
+								<p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="d-flex flex-row justify-content-around mt-2">
+
+					<div class="col card me-2" style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
+						<img src="~/sources/BandiErasmusUNIGEN.jpg" class="card-img-top " alt="...">
+						<div class="card-body">
+							<p class="fw-bold">Nuovi Bandi Erasmus</p>
+							<p class="card-text">Rimani aggiornato su tutte le opportunità Erasmus! Scopri bandi, esperienze di studio all'estero e novità sui programmi di mobilità internazionale per studenti e docenti.</p>
+						</div>
+					</div>
+
+
+					<div class="col card " style="width: 18rem;transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.backgroundColor='rgba(0, 0, 0, 0.05)'" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='transparent'">
+						<img src="~/Sources/RicercaUNIGEN.jpg" style="" class="card-img-top " alt="...">
+						<div class="card-body">
+							<p class="fw-bold"> UniGeneration per la ricerca.</p>
+							<p class="card-text">I nostri ricercatori UniGeneration lavorano senza sosta. – Scopri studi, pubblicazioni e progetti di ricerca in corso! Accedi alle risorse accademiche, esplora i temi innovativi e resta aggiornato sui progressi nel tuo settore di interesse. </p>
+						</div>
+					</div>
+
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+</main>
+
+
+@* script per bottone *@
+
+<script>
+	function scrollToSection() {
+		const element = document.getElementById("target-section");
+		element.scrollIntoView({ behavior: "smooth" });
+	}
+</script>
