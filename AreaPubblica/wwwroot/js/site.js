@@ -1,4 +1,39 @@
 ﻿
+document.getElementById("ImmagineFile").addEventListener("change", function (e) {
+    const file = e.target.files[0];
+    const uploadMsg = document.getElementById("upload-msg");
+    const submitBtn = document.querySelector("button[type='submit']");
+
+    if (file) {
+        const validExtensions = ["image/jpeg", "image/jpg", "image/png"];
+        const maxSize = 10 * 1024 * 1024; // 10 MB
+
+        // Controllo estensione
+        if (!validExtensions.includes(file.type)) {
+            uploadMsg.innerHTML = `<div class="alert alert-danger">Formato non valido. Usa JPG, JPEG o PNG.</div>`;
+            submitBtn.disabled = true;
+            return;
+        }
+
+        // Controllo dimensione
+        if (file.size > maxSize) {
+            uploadMsg.innerHTML = `<div class="alert alert-danger">L'immagine supera i 10 MB consentiti.</div>`;
+            submitBtn.disabled = true;
+            return;
+        }
+
+        // Anteprima immagine
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            const imgContainer = document.getElementById("img-container");
+            imgContainer.innerHTML = `<img src="${event.target.result}" class="w-100 h-100 object-fit-cover" />`;
+        };
+        reader.readAsDataURL(file);
+
+        uploadMsg.innerHTML = `<div class="alert alert-success">Immagine valida!</div>`;
+        submitBtn.disabled = false;
+    }
+});
     document.getElementById('recoverBtn').addEventListener('click', async function () {
     const emailInput = document.getElementById('username');
     const email = emailInput.value.trim();
@@ -63,20 +98,43 @@ $(document).ready(function () {
         });
     });
 });
-[HttpPost]
-public IActionResult VerificaImmagine(IFormFile file)
-{
-    if (file == null || file.Length == 0)
-        return Json(new { success = false, message = "Nessun file selezionato." });
+document.getElementById("registerForm").addEventListener("submit", function (e) {
+    var fileInput = document.getElementById("ImmagineFile");
+    var file = fileInput.files[0];
 
-    var allowedExtensions = new [] { ".jpg", ".jpeg", ".png" };
-    var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+    if (file) {
+        var allowedExtensions = ["jpg", "jpeg", "png"];
+        var fileExtension = file.name.split('.').pop().toLowerCase();
 
-    if (!allowedExtensions.Contains(extension))
-        return Json(new { success = false, message = "Formato non valido. Usa JPG, JPEG o PNG." });
+        if (!allowedExtensions.includes(fileExtension)) {
+            e.preventDefault();  // Ferma l'invio del form
+            alert("Il file caricato deve essere un'immagine con estensione .jpg, .jpeg o .png.");
+        }
+    }
+});
+document.getElementById("register-form").addEventListener("submit", function (e) {
+    const fileInput = document.getElementById("ImmagineFile");
+    const file = fileInput.files[0];
 
-    if (file.Length > 10 * 1024 * 1024)
-        return Json(new { success = false, message = "Il file supera i 10 MB." });
+    // Solo se è stato caricato un file
+    if (file) {
+        const validExtensions = [".jpg", ".jpeg", ".png"];
+        const extension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+        const maxSize = 10 * 1024 * 1024; // 10 MB
 
-    return Json(new { success = true, message = "Immagine valida!" });
-}
+        if (!validExtensions.includes(extension)) {
+            e.preventDefault();
+            document.querySelector("span[asp-validation-for='ImmagineFile']").innerText = "Formato immagine non valido. Solo JPG, JPEG, PNG.";
+            return;
+        }
+
+        if (file.size > maxSize) {
+            e.preventDefault();
+            document.querySelector("span[asp-validation-for='ImmagineFile']").innerText = "L'immagine supera il limite di 10 MB.";
+            return;
+        }
+
+        // Pulisce eventuali messaggi precedenti se il file è valido
+        document.querySelector("span[asp-validation-for='ImmagineFile']").innerText = "";
+    }
+});

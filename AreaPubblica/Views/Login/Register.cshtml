@@ -46,7 +46,7 @@
                 </div>
                 <div class="col-12 col-lg-3 mb-2">
                     <label class="form-label">CAP</label>
-                    <input asp-for="CAP" class="form-control form-control-alternative" maxlength="5" pattern="[0-9][0-9][0-9][0-9][0-9]" required />
+                    <input asp-for="CAP" class="form-control form-control-alternative" maxlength="5" inputmode="numeric" pattern="[0-9][0-9][0-9][0-9][0-9]" required />
                     <span asp-validation-for="CAP" class="text-danger"></span>
                 </div>
                 <div class="col-12 col-lg-9 mb-2">
@@ -91,7 +91,7 @@
                 <p class="text-center">Carica un'immagine per il tuo profilo (JPEG, JPG, PNG)</p>
 
                 <div class="input-group mt-4">
-                    <input asp-for="ImmagineFile" type="file" class="form-control" id="inputGroupFile04" aria-label="Upload" />
+                    <input asp-for="ImmagineFile" type="file" class="form-control" id="ImmagineFile" aria-label="Upload" />
                 </div>
                 <span asp-validation-for="ImmagineFile" class="text-danger d-block mt-2 text-center"></span>
                 <div id="upload-msg"></div>

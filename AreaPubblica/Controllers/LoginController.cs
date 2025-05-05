@@ -135,25 +135,6 @@ namespace AreaPubblica.Controllers
             }
 
             // Elaborazione immagine profilo
-            if (viewModel.ImmagineFile != null)
-            {
-                var estensione = Path.GetExtension(viewModel.ImmagineFile.FileName).ToLowerInvariant();
-                var estensioniConsentite = new[] { ".jpg", ".jpeg", ".png" };
-
-                if (!estensioniConsentite.Contains(estensione))
-                {
-                    ModelState.AddModelError("ImmagineFile", "Formato immagine non valido. Sono consentiti solo JPG, JPEG e PNG.");
-                    TempData["ErroreUpload"] = "Il file caricato non è un'immagine valida.";
-                    return View(viewModel);
-                }
-
-                using var ms = new MemoryStream();
-                await viewModel.ImmagineFile.CopyToAsync(ms);
-                viewModel.ImmagineProfilo = ms.ToArray();
-                viewModel.Tipo = estensione;
-
-                TempData["SuccessoUpload"] = "Immagine caricata correttamente.";
-            }
 
 
             //var corso = await dbContext.Corsi.FirstOrDefaultAsync(); // solo per k_corso
@@ -181,6 +162,25 @@ namespace AreaPubblica.Controllers
                 //K_Corso =  null
             };
 
+            if (viewModel.ImmagineFile != null)
+            {
+                var estensione = Path.GetExtension(viewModel.ImmagineFile.FileName).ToLowerInvariant();
+                var estensioniConsentite = new[] { ".jpg", ".jpeg", ".png" };
+
+                if (!estensioniConsentite.Contains(estensione))
+                {
+                    ModelState.AddModelError("ImmagineFile", "Formato immagine non valido. Sono consentiti solo JPG, JPEG e PNG.");
+                    TempData["ErroreUpload"] = "Il file caricato non è un'immagine valida.";
+                    return View(viewModel);
+                }
+
+                using var ms = new MemoryStream();
+                await viewModel.ImmagineFile.CopyToAsync(ms);
+                viewModel.ImmagineProfilo = ms.ToArray();
+                viewModel.Tipo = estensione;
+
+                TempData["SuccessoUpload"] = "Immagine caricata correttamente.";
+            }
             await dbContext.Studenti.AddAsync(studente);
             await dbContext.SaveChangesAsync();
 
