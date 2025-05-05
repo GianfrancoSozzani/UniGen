@@ -27,7 +27,12 @@ namespace AreaStudente.Data
         public DbSet<TipiCorsi> TipiCorsi { get; set; }
         public DbSet<Esame> Esami { get; set; }
         //public DbSet<Operatore> Operatori { get; set; }
+
         public DbSet<PianoStudioPersonale> PianiStudioPersonali { get; set; }
+
+      
+        public DbSet<Pagamento> Pagamenti { get; set; }
+
 
 
 
