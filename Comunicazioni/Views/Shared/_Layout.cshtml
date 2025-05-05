@@ -1,39 +1,40 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - AreaStudente</title>
-	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-	<link rel="stylesheet" href="~/AreaStudente.styles.css" asp-append-version="true" />
-
-	<style>
-		.navbar-custom {
-			background-color: #12304F;
-		}
-
-			.navbar-custom .nav-link,
-			.navbar-custom .navbar-brand {
-				color: white !important;
-			}
-
-		.dropdown-menu > li:hover > .dropdown-submenu {
-			display: block;
-		}
-	</style>
-
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Comunicazioni</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Comunicazioni.styles.css" asp-append-version="true" />
 </head>
 <body>
-	<div class="bg-black pb-1">
-		<div class="container d-flex flex-column">
-			<div class="d-flex justify-content-end mb-2 mt-1">
-				<!-- Pulsanti in alto a destra -->
-				<div class="d-flex gap-2">
-					<a href="#" class="btn btn-light btn-sm"><i class="bi bi-envelope"></i> Webmail</a>
-					<a href="#" class="btn btn-light btn-sm"><i class="bi bi-person-circle"></i> Area riservata</a>
-				</div>
-			</div>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Comunicazioni</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
 
 			<div class="d-flex justify-content-between align-items-center flex-wrap">
 				<div>
@@ -164,5 +165,6 @@
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	@await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
