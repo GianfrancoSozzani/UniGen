@@ -16,6 +16,7 @@ namespace AreaDocente.Controllers
         {
             return View();
         }
+
         public IActionResult Appelli()
         {
             var dati = (
@@ -34,6 +35,11 @@ namespace AreaDocente.Controllers
                 }).ToList<dynamic>();
 
             ViewBag.Appelli = dati;
+
+		}
+        public IActionResult ValutazioneTest()
+        {
+
             return View();
         }
     }
