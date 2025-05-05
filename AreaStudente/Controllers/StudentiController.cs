@@ -336,7 +336,7 @@ namespace AreaStudente.Controllers
                 if (tipo != "image/jpeg" && tipo != "image/jpg" && tipo != "image/png")
                 {
                     TempData["AlertMessage"] = "Formato non valido. Sono accettati solo JPG, JPEG e PNG.";
-                    return RedirectToAction("ModificaProfilo");
+                    return RedirectToAction("ModificaProfilo", "Studenti", new { cod = model.K_Studente });
                 }
 
                 using (var memoryStream = new MemoryStream())
@@ -363,7 +363,7 @@ namespace AreaStudente.Controllers
 
                     TempData["ApriModalePassword"] = true;
 
-                    return RedirectToAction("ModificaProfilo");
+                    return RedirectToAction("ModificaProfilo", "Studenti", new { cod = model.K_Studente });
                 }
 
                 // 2. Password vecchia errata
@@ -374,7 +374,7 @@ namespace AreaStudente.Controllers
                     TempData["PopupErrore"] = "La password vecchia inserita non risulta essere corretta.";
                     TempData["ApriModalePassword"] = true;
 
-                    return RedirectToAction("ModificaProfilo");
+                    return RedirectToAction("ModificaProfilo", "Studenti", new { cod = model.K_Studente });
                 }
 
                 // 3. Password nuova e conferma non coincidono
@@ -382,7 +382,7 @@ namespace AreaStudente.Controllers
                 {
                     TempData["PopupErrore"] = "La nuova password e la conferma non coincidono.";
                     TempData["ApriModalePassword"] = true;
-                    return RedirectToAction("ModificaProfilo");
+                    return RedirectToAction("ModificaProfilo", "Studenti", new { cod = model.K_Studente });
                 }
 
                 // 4. Tutto corretto, aggiorna
@@ -396,7 +396,7 @@ namespace AreaStudente.Controllers
             await dbContext.SaveChangesAsync();
             TempData["DisplaySuccessMsg"] = true;
             TempData["PopupSuccesso"] = "I dati sono stati salvati correttamente.";
-            return RedirectToAction("ModificaProfilo", "Studenti");
+            return RedirectToAction("ModificaProfilo", "Studenti", new { cod = model.K_Studente });
         }
 
         private string CapitalizeWords(string input)
