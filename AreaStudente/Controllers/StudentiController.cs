@@ -169,7 +169,8 @@ namespace AreaStudente.Controllers
             var dashboardViewModel = new StudenteDashboardViewModel
             {
                 Studente = viewModel,
-                Comunicazioni = comunicazioni
+                Comunicazioni = comunicazioni,
+                NuovaComunicazione = new AddComunicazioneViewModel()
             };
 
             return View(dashboardViewModel);
