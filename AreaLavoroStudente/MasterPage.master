@@ -179,10 +179,10 @@
                     <div>
                         <p class="fs-5 mb-1">Chi Siamo</p>
                         <ul class="list-unstyled ms-3">
-                            <li><a href="#" class="text-white">Contatti</a></li>
-                            <li><a href="#" class="text-white">Come Funziona</a></li>
-                            <li><a href="#" class="text-white">FAQ</a></li>
-                            <li><a href="#" class="text-white">Privacy</a></li>
+                            <li><a href="PagineFooter/Contatti.aspx" class="text-white">Contatti</a></li>
+                            <li><a href="PagineFooter/Comefunziona.aspx" class="text-white">Come Funziona</a></li>
+                            <li><a href="FAQ.aspx" class="text-white">FAQ</a></li>
+                            <li><a href="PagineFooter/Privacy.aspx" class="text-white">Privacy</a></li>
                         </ul>
                     </div>
                 </div>
