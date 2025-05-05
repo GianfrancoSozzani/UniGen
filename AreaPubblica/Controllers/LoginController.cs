@@ -51,14 +51,21 @@ namespace AreaPubblica.Controllers
                 if (studente.Matricola == null)
                 {
 
+
                     return Redirect("https://localhost:7050/Studenti/Show?cod=" + studente.K_Studente.ToString() + "&&usr=" + studente.Email + "&&r=s");
 
+
+                    //return RedirectToAction("AREA STUDENTE (NON IMMATRICOLATO)", "Home");
+                   
 
                 }
 
                 //return RedirectToAction("AREA LAVORO STUDENTE (IMMATRICOLATO)", "Home");
 
+
                 return Redirect("https://localhost:7050/Studenti/Show?cod=" + studente.K_Studente.ToString() + "&&usr=" + studente.Email + "&&r=s");
+
+
 
             }
             //if (studente != null)
