@@ -104,7 +104,7 @@ namespace AreaPubblica.Controllers
 
             var operatore = await dbContext.Operatori
             .Where(o => o.USR == viewModel.username && o.PWD == viewModel.PWD)
-            .Select(o => new { o.K_Operatore, o.USR }) // Carico solo K_Studente ed Email e Matricola
+            .Select(o => new { o.K_Operatore, o.USR, o.Nome }) // Carico solo K_Studente ed Email e Matricola
             .FirstOrDefaultAsync();
 
             if (operatore != null)
@@ -115,7 +115,7 @@ namespace AreaPubblica.Controllers
                 //HttpContext.Session.SetString("Ruolo", "O");
 
 
-                return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + operatore.K_Operatore.ToString() + "&&usr=" + operatore.USR + "&&r=a");
+                return Redirect("http://localhost:54411/Home.aspx?cod=" + operatore.K_Operatore.ToString() + "&&usr=" + operatore.Nome + "&&r=a");
 
                 //return RedirectToAction("AREA AMMINISTRAZIONE", "Home");
             }

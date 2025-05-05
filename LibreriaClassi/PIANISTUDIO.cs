@@ -119,8 +119,8 @@ namespace LibreriaClassi
         public DataTable CercaEsame(string termine)
         {
             DB database = new DB();
-            database.query = "PianiStudio_SearchByEsame";
-            database.cmd.Parameters.AddWithValue("@termine", termine);
+            database.query = "Esami_SelectPerNome";
+            database.cmd.Parameters.AddWithValue("@TitoloEsame", termine);
             return database.SQLselect();
 
         }
