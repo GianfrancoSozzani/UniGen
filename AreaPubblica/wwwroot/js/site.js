@@ -40,5 +40,43 @@
         errorDiv.textContent = "Errore nella richiesta. Riprova più tardi.";
     errorDiv.style.display = 'block';
     }
-});
+    });
 
+$(document).ready(function () {
+    $('#loginForm').on('submit', function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: '/Login/Login',
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.success) {
+                    window.location.href = response.redirectUrl;
+                } else {
+                    $('#loginError').text(response.message).removeClass('d-none');
+                }
+            },
+            error: function () {
+                $('#loginError').text('Riprova più tardi').removeClass('d-none');
+            }
+        });
+    });
+});
+[HttpPost]
+public IActionResult VerificaImmagine(IFormFile file)
+{
+    if (file == null || file.Length == 0)
+        return Json(new { success = false, message = "Nessun file selezionato." });
+
+    var allowedExtensions = new [] { ".jpg", ".jpeg", ".png" };
+    var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+
+    if (!allowedExtensions.Contains(extension))
+        return Json(new { success = false, message = "Formato non valido. Usa JPG, JPEG o PNG." });
+
+    if (file.Length > 10 * 1024 * 1024)
+        return Json(new { success = false, message = "Il file supera i 10 MB." });
+
+    return Json(new { success = true, message = "Immagine valida!" });
+}

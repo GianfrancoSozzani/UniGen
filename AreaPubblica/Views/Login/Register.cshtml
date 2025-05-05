@@ -26,10 +26,12 @@
                 </div>
                 @{
                     var oggi = DateTime.Today.ToString("yyyy-MM-dd");
+					var oggi2 = DateTime.Now.Year.ToString("yyyy-MM-dd");
+					var maxData = DateTime.Now.AddYears(-18).ToString("yyyy-MM-dd");
                 }
                 <div class="col-12 col-lg-6 mb-2">
                     <label class="form-label">Data di Nascita</label>
-                    <input asp-for="DataNascita" class="form-control form-control-alternative" type="date" max="@oggi" required />
+                    <input asp-for="DataNascita" class="form-control form-control-alternative" type="date" max="@maxData" required />
                     <span asp-validation-for="DataNascita" class="text-danger"></span>
                 </div>
             </div>
@@ -92,6 +94,16 @@
                     <input asp-for="ImmagineFile" type="file" class="form-control" id="inputGroupFile04" aria-label="Upload" />
                 </div>
                 <span asp-validation-for="ImmagineFile" class="text-danger d-block mt-2 text-center"></span>
+                <div id="upload-msg"></div>
+                @if (TempData["SuccessoUpload"] != null)
+                {
+                    <div class="alert alert-success">@TempData["SuccessoUpload"]</div>
+                }
+
+                @if (TempData["ErroreUpload"] != null)
+                {
+                    <div class="alert alert-danger">@TempData["ErroreUpload"]</div>
+                }
             </div>
         </div>
     </form>

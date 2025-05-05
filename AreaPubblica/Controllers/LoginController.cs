@@ -105,6 +105,26 @@ namespace AreaPubblica.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult VerificaImmagine(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return Json(new { success = false, message = "Nessun file selezionato." });
+
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+            var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+
+            if (!allowedExtensions.Contains(extension))
+                return Json(new { success = false, message = "Formato non valido. Usa JPG, JPEG o PNG." });
+
+            if (file.Length > 10 * 1024 * 1024)
+                return Json(new { success = false, message = "Il file supera i 10 MB." });
+
+            return Json(new { success = true, message = "Immagine valida!" });
+        }
+
+
+
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel viewModel)
@@ -117,11 +137,24 @@ namespace AreaPubblica.Controllers
             // Elaborazione immagine profilo
             if (viewModel.ImmagineFile != null)
             {
+                var estensione = Path.GetExtension(viewModel.ImmagineFile.FileName).ToLowerInvariant();
+                var estensioniConsentite = new[] { ".jpg", ".jpeg", ".png" };
+
+                if (!estensioniConsentite.Contains(estensione))
+                {
+                    ModelState.AddModelError("ImmagineFile", "Formato immagine non valido. Sono consentiti solo JPG, JPEG e PNG.");
+                    TempData["ErroreUpload"] = "Il file caricato non è un'immagine valida.";
+                    return View(viewModel);
+                }
+
                 using var ms = new MemoryStream();
                 await viewModel.ImmagineFile.CopyToAsync(ms);
                 viewModel.ImmagineProfilo = ms.ToArray();
-                viewModel.Tipo = Path.GetExtension(viewModel.ImmagineFile.FileName).ToLowerInvariant();
+                viewModel.Tipo = estensione;
+
+                TempData["SuccessoUpload"] = "Immagine caricata correttamente.";
             }
+
 
             //var corso = await dbContext.Corsi.FirstOrDefaultAsync(); // solo per k_corso
             //if (corso == null)
