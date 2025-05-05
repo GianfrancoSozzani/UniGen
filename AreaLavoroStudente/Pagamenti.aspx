@@ -60,6 +60,9 @@
         <asp:Label ID="lblMessaggio" runat="server" Visible="false" CssClass="alert mt-3" />
 
     </div>
+     <div style="height: 44vh;">
+     &nbsp
+ </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 </asp:Content>
 

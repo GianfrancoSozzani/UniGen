@@ -45,27 +45,26 @@
             min-height: 100vh;
         }
 
-        footer {
-            position: fixed; /* Rende il footer fisso al fondo */
-            bottom: 0; /* Posiziona il footer in fondo alla pagina */
-            left: 0;
+        /*footer {
+            position: fixed;*/ /* Rende il footer fisso al fondo */
+        /*bottom: 0;*/ /* Posiziona il footer in fondo alla pagina */
+        /*left: 0;
             width: 100%;
             background-color: #212529;
             color: white;
-            padding: 5px 0; /* Ridurre l'altezza del footer */
-            font-size: 0.6rem; /* Font più piccolo */
-            text-align: center; /* Centra il testo */
-        }
+            padding: 5px 0;*/ /* Ridurre l'altezza del footer */
+        /*font-size: 0.6rem;*/ /* Font più piccolo */
+        /*text-align: center;*/ /* Centra il testo */
+        /*}
 
             footer p, footer a {
-                margin-bottom: 0.2rem; /* Ridurre ulteriormente il margine tra gli elementi */
-            }
+                margin-bottom: 0.2rem;*/ /* Ridurre ulteriormente il margine tra gli elementi */
+        /*}
 
             footer .container {
                 padding-top: 5px;
                 padding-bottom: 5px;
-            }
-
+            }*/
     </style>
 
     <asp:ContentPlaceHolder ID="head" runat="server" />
@@ -164,25 +163,25 @@
 
         <!-- Footer -->
         <footer>
-            <div class="bg-dark text-white">
-                <%--<div class="container d-flex justify-content-between align-items-end flex-wrap py-3">--%>
-                <div class="container d-flex justify-content-between align-items-start flex-wrap py-2">
+            <div class="bg-dark text-white  h-100 mt-5">
+                <div class="container d-flex justify-content-between align-items-end flex-wrap">
+
 
                     <div>
                         <img src="https://italy.generation.org/wp-content/uploads/2019/05/Generation_Italy_logo_WHITE.svg" alt="Logo UNIGen" class="img-fluid my-3" width="150px">
-                        <p class="fs-4">Università UNIGen</p>
+                        <p class="fs-4 mb-0">Università UNIGen</p>
                         <p class="fs-6">Milano, MI 20100, IT</p>
                     </div>
                     <div>
                         <p class="fs-6">© 2024 Generation: You Employed, Inc.</p>
                     </div>
                     <div>
-                        <p class="fs-5 mb-1">Chi Siamo</p>
+                        <p class="fs-5">Chi Siamo</p>
                         <ul class="list-unstyled ms-3">
-                            <li><a href="#" class="text-white">Contatti</a></li>
-                            <li><a href="#" class="text-white">Come Funziona</a></li>
-                            <li><a href="#" class="text-white">FAQ</a></li>
-                            <li><a href="#" class="text-white">Privacy</a></li>
+                            <li><a href="PagineFooter/Contatti.aspx" class="text-white">Contatti</a></li>
+                            <li><a href="PagineFooter/Comefunziona.aspx" class="text-white">Come Funziona</a></li>
+                            <li><a href="FAQ.aspx" class="text-white">FAQ</a></li>
+                            <li><a href="PagineFooter/Privacy.aspx" class="text-white">Privacy</a></li>
                         </ul>
                     </div>
                 </div>
