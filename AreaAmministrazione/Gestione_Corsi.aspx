@@ -40,13 +40,13 @@
                         <asp:TextBox ID="txtCorso" CssClass="form-control mio_width" runat="server"></asp:TextBox>
                     </div>
                     <div class="col-auto">
-                        <asp:Label ID="Label5" runat="server" Text="MinimoCFU"></asp:Label>
+                        <asp:Label ID="Label5" runat="server" Text="Minimo CFU"></asp:Label>
                         <asp:TextBox ID="txtMinimoCFU" CssClass="form-control mio_width" runat="server"></asp:TextBox>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-auto">
-                        <asp:Label ID="Label6" runat="server" Text="CostoAnnuale"></asp:Label>
+                        <asp:Label ID="Label6" runat="server" Text="Costo Annuale"></asp:Label>
                         <asp:TextBox ID="txtCostoAnnuale" CssClass="form-control mio_width" runat="server"></asp:TextBox>
                     </div>
                 </div>
