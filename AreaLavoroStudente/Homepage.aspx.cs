@@ -15,50 +15,51 @@ public partial class _Default : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            // RECUPERO PARAMETRI DA QUERYSTRING
-            string K_Studente = Request.QueryString["cod"];
-            string Matricola = Request.QueryString["mat"];
-            string Abilitazione = Request.QueryString["a"];
+            // 1. Prova a recuperare i dati dalla Session
+            string K_Studente = Session["cod"] as string;
+            string Matricola = Session["mat"] as string;
+            string Abilitazione = Session["a"] as string;
 
-            // CONTROLLO SE I PARAMETRI NON SONO CORRETTI (SESSIONS O PARAMETRI)
+            // 2. Se mancano, prova dalla QueryString
             if (string.IsNullOrEmpty(K_Studente) || string.IsNullOrEmpty(Matricola) || string.IsNullOrEmpty(Abilitazione))
             {
-                // Se i parametri non sono validi, mostra modal
+                K_Studente = Request.QueryString["cod"];
+                Matricola = Request.QueryString["mat"];
+                Abilitazione = Request.QueryString["a"];
+
+                // Se ora li trovi, salvali nella sessione
+                if (!string.IsNullOrEmpty(K_Studente) && !string.IsNullOrEmpty(Matricola) && !string.IsNullOrEmpty(Abilitazione))
+                {
+                    Session["cod"] = K_Studente;
+                    Session["mat"] = Matricola;
+                    Session["a"] = Abilitazione;
+                }
+            }
+
+            // 3. Se ancora mancanti, mostra errore
+            if (string.IsNullOrEmpty(K_Studente) || string.IsNullOrEmpty(Matricola) || string.IsNullOrEmpty(Abilitazione))
+            {
                 ClientScript.RegisterStartupScript(this.GetType(), "authError", "showAuthErrorModal();", true);
                 return;
             }
 
-            // CONTROLLO CHE K_STUDENTE E MATRICOLA CORRISPONDANO
+            // 4. Verifica che matricola e K_Studente corrispondano
             STUDENTI s = new STUDENTI();
             DataTable dt = s.SelezionaPerMatricola(int.Parse(Matricola));
             if (dt.Rows.Count != 1 || dt.Rows[0]["K_Studente"].ToString() != K_Studente)
             {
-                // Se non corrispondono, mostra il modal di errore
                 ClientScript.RegisterStartupScript(this.GetType(), "authError", "showAuthErrorModal();", true);
                 return;
             }
 
-            // SALVA DATI IN SESSION
-            Session["mat"] = Matricola;
-            Session["a"] = Abilitazione;
-            Session["cod"] = K_Studente;
-
-            // CARICO SPECIFICHE STUDENTE
+            // 5. Carica dati dello studente
             CaricaAA(int.Parse(Matricola));
 
-            //VISBIILITA' 
-            if (Abilitazione == "S")
-            {
-                divLezioni.Visible = true;
-                divComunicazioni.Visible = true;
-                divAppelli.Visible = true;
-            }
-            else
-            {
-                divLezioni.Visible = false;
-                divComunicazioni.Visible = false;
-                divAppelli.Visible = false;
-            }
+            // 6. Visibilità delle sezioni in base all'abilitazione
+            bool abilitato = Abilitazione == "S";
+            divLezioni.Visible = abilitato;
+            divComunicazioni.Visible = abilitato;
+            divAppelli.Visible = abilitato;
         }
     }
 
