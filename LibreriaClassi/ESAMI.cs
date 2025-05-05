@@ -78,5 +78,13 @@ namespace LibreriaClassi
             return dB.SQLselect();
         }
 
+        public DataTable SelezionaPerNome()
+        {
+            DB db = new DB();
+            db.query = "Esami_SelectPerNome";
+            db.cmd.Parameters.AddWithValue("@TitoloEsame", TitoloEsame);
+            return db.SQLselect();
+        }
+
     }
 }
