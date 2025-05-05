@@ -1,57 +1,106 @@
 ﻿@{
     ViewData["Title"] = "Pagina con Accordion";
 }
-@* @model AreaDocente.Models.AddProveViewModel *@
+@model AreaDocente.Models.AddProveViewModel
 
 <div class="container mt-5">
-    <h2>Aggiungi Sezioni</h2>
+    <h2>Aggiunta Prova</h2>
 
     <form method="post" id="accordionForm">
-        <div class="mb-4">
-            <label class="form-label fw-semibold">Esame di appartenenza</label>
-            <select asp-for="K_Esame" asp-items="@ViewBag.EsameList" class="form-select" required>
-                <option disabled selected value="">== Selezionare un esame ==</option>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Esame di appartenenza</label>
+                <select asp-for="K_Esame" asp-items="@ViewBag.EsamiList" class="form-select" required>
+                    <option disabled selected value="">== Selezionare un esame ==</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Appello di appartenenza</label>
+                <select asp-for="K_Appello" asp-items="@ViewBag.AppelliList" class="form-select" required>
+                    <option disabled selected value="">== Selezionare un appello ==</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-semibold">Tipo Prova</label>
+            <select asp-for="Tipologia" class="form-select" id="TipoProva" required>
+                <option disabled selected value="">== Seleziona il tipo della prova ==</option>
+                <option value="Da">Domande Aperte</option>
+                <option value="Dc">Domande Chiuse</option>
+                <option value="Or">Orale</option>
             </select>
         </div>
+
         <div class="accordion" id="accordionContainer">
-            <!-- Sezioni aggiunte dinamicamente qui -->
+            <!-- Domande dinamiche -->
         </div>
 
-        <button type="button" class="btn btn-primary mt-3" onclick="aggiungiSezione()">Aggiungi sezione</button>
-        <button type="submit" class="btn btn-success mt-3">Invia</button>
+        <button type="button" class="btn btn-primary mt-3" onclick="aggiungiDomanda()">Aggiungi Domanda</button>
+        <button type="submit" class="btn btn-success mt-3">Salva</button>
     </form>
-
 </div>
 
 @section Scripts {
     <script>
         let indice = 0;
 
-        function aggiungiSezione() {
-            const container = document.getElementById("accordionContainer");
+        // Reset accordion quando cambia il tipo prova
+        document.getElementById("TipoProva").addEventListener("change", function () {
+            document.getElementById("accordionContainer").innerHTML = "";
+            indice = 0;
+        });
 
-            const sezione = document.createElement("div");
-            sezione.classList.add("accordion-item");
+        function aggiungiDomanda() {
+            const tipoProva = document.getElementById("TipoProva").value;
+            if (!tipoProva) {
+                alert("Seleziona prima un tipo di prova.");
+                return;
+            }
+
+            if (tipoProva === "Or") {
+                alert("Non è possibile aggiungere domande per prove orali.");
+                return;
+            }
+
+            const container = document.getElementById("accordionContainer");
 
             const headerId = `heading${indice}`;
             const collapseId = `collapse${indice}`;
 
+            const sezione = document.createElement("div");
+            sezione.classList.add("accordion-item");
+
+            let bodyHtml = `
+                <div class="mb-3">
+                    <label class="form-label">Domanda</label>
+                    <input type="text" name="Domande[${indice}].Domanda" class="form-control" required />
+                </div>
+            `;
+
+            if (tipoProva === "Dc") {
+                bodyHtml += `
+                    <div class="mb-3">
+                        <label class="form-label">Risposte</label>
+                        <textarea name="Domande[${indice}].Risposte" class="form-control" placeholder="Risposte separate da punto e virgola"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Risposta Corretta</label>
+                        <input type="text" name="Domande[${indice}].RispostaCorretta" class="form-control" />
+                    </div>
+                `;
+            }
+
             sezione.innerHTML = `
                 <h2 class="accordion-header" id="${headerId}">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
-                        Sezione ${indice + 1}
+                        Domanda ${indice + 1}
                     </button>
                 </h2>
                 <div id="${collapseId}" class="accordion-collapse collapse" aria-labelledby="${headerId}" data-bs-parent="#accordionContainer">
                     <div class="accordion-body">
-                        <div class="mb-3">
-                            <label class="form-label">Titolo</label>
-                            <input type="text" name="Sezioni[${indice}].Titolo" class="form-control" />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Descrizione</label>
-                            <textarea name="Sezioni[${indice}].Descrizione" class="form-control"></textarea>
-                        </div>
+                        ${bodyHtml}
                     </div>
                 </div>
             `;
@@ -60,4 +109,6 @@
             indice++;
         }
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 }

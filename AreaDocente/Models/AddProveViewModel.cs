@@ -7,5 +7,6 @@
         public string? Link { get; set; }
         public string? Tipologia { get; set; }
         public Guid? K_Esame { get; set; }
+        public List<AddDomandeViewModel> Domande { get; set; }
     }
 }
