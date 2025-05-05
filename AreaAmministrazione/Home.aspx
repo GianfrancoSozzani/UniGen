@@ -126,9 +126,9 @@
             <div class="mt-5">
                 <h3>Azioni rapide</h3>
                 <div class="btn-group">
-                    <a class="btn btn-outline-primary" href="GesioneCorso.aspx"><i class="bi bi-plus-circle me-1"></i>Nuovo corso</a>
-                    <a class="btn btn-outline-info" href="AbilitaStudente.aspx"><i class="bi bi-person-plus me-1"></i>Nuovo studente</a>
-                    <a class="btn btn-outline-success" href="IncassoAnnuale.aspx"><i class="bi bi-file-earmark-arrow-down me-1"></i>Esporta dati</a>
+                    <a class="btn btn-outline-primary" href="Gestione_Corsi.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-plus-circle me-1"></i>Nuovo corso</a>
+                    <a class="btn btn-outline-info" href="AbilitaStudente.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-person-plus me-1"></i>Nuovo studente</a>
+                    <a class="btn btn-outline-success" href="IncassoAnnuale.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-file-earmark-arrow-down me-1"></i>Esporta dati</a>
                 </div>
             </div>
 
