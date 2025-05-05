@@ -27,7 +27,7 @@
         <div class="col-md-6 d-flex justify-content-center">
             <div class="border p-5 rounded shadow w-75">
                 <div class="row justify-content-center mb-4">
-                    <div class="col-4">
+                    <div class="col-5">
                         <h5 class="mb-4">Seleziona Anno</h5>
                         <asp:DropDownList
                             ID="ddlAnno"
@@ -37,8 +37,8 @@
                             OnSelectedIndexChanged="ddlAnno_SelectedIndexChanged">
                         </asp:DropDownList>
                     </div>
-                    <div class="col-8">
-                                        <h5 class="mb-4">Seleziona Facoltà</h5>
+                    <div class="col-6">
+                        <h5 class="mb-4">Seleziona Facoltà</h5>
                         <asp:DropDownList
                             ID="ddlFacolta"
                             runat="server"

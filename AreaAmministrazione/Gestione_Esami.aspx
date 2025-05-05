@@ -75,7 +75,7 @@
                 <ItemTemplate>
                     <tr>
                         <td><%# Eval("TitoloEsame") %></td>
-                        <td><%# Eval("NomeCompleto") %></td>
+                        <td><%# Eval("Cognome") %> <%# Eval("Nome") %></td>
                         <td><%# Eval("CFU") %></td>
                         <td>
                             <a href="#" class="btn btn-sm btn-primary" onclick="apriModal(
