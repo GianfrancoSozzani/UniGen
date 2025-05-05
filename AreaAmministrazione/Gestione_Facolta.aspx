@@ -7,15 +7,23 @@
     <div class="container mt-5">
         <h1>Gestione Facoltà</h1>
 
-        <div class="mb-4 text-end">
-            <div id="icona">
-                <asp:Label ID="Label2" runat="server" Text="Inserisci una nuova Facoltà" CssClass="fw-bold"></asp:Label>
-                <i class="bi bi-plus-circle btn btn-primary"></i>
+        <div class="mb-4">
+            <div id="icona" class="row g-3 align-items-center justify-content-end">
+                <div class="col-auto">
+                    <asp:Label ID="Label2" runat="server" Text="Inserisci una nuova Facoltà" CssClass="fw-bold fs-5"></asp:Label>
+                </div>
+                <div class="col-auto">
+                    <i class="bi bi-plus-circle btn btn-primary"></i>
+                </div>
             </div>
 
-            <div id="insert" runat="server" style="display: none;">
-                <asp:TextBox ID="txtFacolta" runat="server"></asp:TextBox>
-                <asp:Button CssClass="btn btn-primary btn-sm" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
+            <div id="insert" class="d-none row g-3 align-items-center justify-content-end" runat="server">
+                <div class="col-auto">
+                    <asp:TextBox ID="txtFacolta" CssClass="form-control" runat="server"></asp:TextBox>
+                </div>
+                <div class="col-auto">
+                    <asp:Button CssClass="btn btn-primary" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
+                </div>
             </div>
         </div>
 
@@ -85,15 +93,9 @@
             var btnMostra = document.getElementById("icona");
             var divInsert = document.getElementById("<%= insert.ClientID %>");
 
-            if (divInsert.style.display == "block") {
-                btnMostra.style.display = "none";
-            } else {
-                btnMostra.style.display = "inline-block";
-            }
-
             btnMostra.addEventListener("click", function () {
-                btnMostra.style.display = "none";
-                divInsert.style.display = "block";
+                btnMostra.classList.add("d-none");
+                divInsert.classList.remove("d-none");
             });
         });
     </script>
@@ -107,7 +109,6 @@
             var myModal = new bootstrap.Modal(document.getElementById('modalModificaFacolta'));
             myModal.show();
         }
-</script>
+    </script>
 
 </asp:Content>
-

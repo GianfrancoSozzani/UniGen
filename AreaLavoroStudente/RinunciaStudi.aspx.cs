@@ -9,33 +9,23 @@ using LibreriaClassi;
 
 public partial class _Default : System.Web.UI.Page
 {
-    public int Matricola;
+    
     protected void Page_Load(object sender, EventArgs e)
 
-    { //VERSIONE MATRICOLA DA SESSION
-        //if (Session["Matricola"] != null)
-        //{
-        //    int Matricola = Convert.ToInt32(Session["Matricola"]);
-        //CaricaDati(Matricola)
-        //}
+    {
 
-        //else
-
-        //{
-        //    // SE LA MATRICOLA NON E' PRESENTE, RIMANDA A LOGIN
-        //    Response.Write("Utente non trovato.");
-        //    Response.Redirect("~/Login.aspx");
-        //}
-
-        Matricola = 123562;
-        CaricaDati(Matricola);
+        string Matricola = Session["mat"].ToString();
+        string Abilitazione = Session["a"].ToString();
+        CaricaDati(int.Parse(Matricola));
 
     }
 
     protected void btnConfermaRinuncia_Click(object sender, EventArgs e)
     {
         STUDENTI stu = new STUDENTI();
-        stu.Disabilita(Matricola);
+        string Matricola = Session["mat"].ToString();
+        stu.Disabilita(int.Parse(Matricola));
+        Session["a"] = "N";
         Response.Redirect("Homepage.aspx");
 
     }

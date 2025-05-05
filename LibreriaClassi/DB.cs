@@ -18,13 +18,7 @@ namespace LibreriaClassi
 
         public DB()
         {
-
-
-            conn.ConnectionString = "Data source=5.134.124.100\\MSSQLSERVER2019;Initial Catalog=GENERATION;User ID=generation;Password=G3n3rat!on;";
-
-            
-
-
+            conn.ConnectionString = "Server=5.134.124.100\\MSSQLSERVER2019;Database=GENERATION;User Id=generation;Password=G3n3rat!on;TrustServerCertificate=True";
             cmd.Connection = conn;
             cmd.CommandType = CommandType.StoredProcedure;
         }

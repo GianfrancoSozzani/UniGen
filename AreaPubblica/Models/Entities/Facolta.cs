@@ -7,7 +7,7 @@ namespace AreaPubblica.Models.Entities
         [Key]
         public Guid K_Facolta { get; set; }
         public string TitoloFacolta { get; set; }
-}
+    }
 
 }
 
