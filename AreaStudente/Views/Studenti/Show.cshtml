@@ -104,7 +104,7 @@
 								<table class="table">
 									<thead>
 										<tr>
-											<th>Ruolo Mittente</th>
+											<th>Mittente</th>
 											<th>Comunicazione</th>
 										</tr>
 									</thead>
@@ -119,15 +119,15 @@
 														{
 															if (primaComunicazione.Studente != null && primaComunicazione.K_Soggetto == primaComunicazione.Studente.K_Studente)
 															{
-																<span class="text-primary">@($"{primaComunicazione.Studente.Nome} {primaComunicazione.Studente.Cognome} - {primaComunicazione.Soggetto}")</span>
+																<span class="text-primary">@($"{primaComunicazione.Studente.Nome} {primaComunicazione.Studente.Cognome}")</span>
 															}
 															else if (primaComunicazione.Docente != null && primaComunicazione.K_Soggetto == primaComunicazione.Docente.K_Docente)
 															{
-																<span class="text-danger">@($"{primaComunicazione.Docente.Nome} {primaComunicazione.Docente.Cognome} - {primaComunicazione.Soggetto}")</span>
+																<span class="text-primary">@($"{primaComunicazione.Docente.Nome} {primaComunicazione.Docente.Cognome}")</span>
 															}
 															else
 															{
-																<span class="text-success">Amministrazione</span>
+																<span class="text-primary">Amministrazione</span>
 															}
 														}
 													}
