@@ -94,7 +94,7 @@
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">Piano di studio</h5>
                     <p class="card-text">Visualizza il tuo piano di studio.</p>
-                    <a href="#" class="btn btn-primary mt-auto">Vai</a>
+                    <a href="PianoStudiPersonale.aspx" class="btn btn-primary mt-auto">Vai</a>
                 </div>
             </div>
 
@@ -131,6 +131,8 @@
             </div>
         </div>
     </div>
-
+    <div style="height: 5vh;">
+        &nbsp
+    </div>
 
 </asp:Content>

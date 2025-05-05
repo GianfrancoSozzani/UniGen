@@ -79,12 +79,14 @@ public partial class _Default : System.Web.UI.Page
     {
         annoscelto = ddlAnno.SelectedValue;
         CaricaChart();
+        CaricaRp();
     }
 
     protected void btnRiepilogo_Click(object sender, EventArgs e)
     {
         annoscelto = "0";
         CaricaChart();
+        CaricaRp();
     }
     public void CaricaRp()
     {

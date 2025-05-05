@@ -28,19 +28,47 @@ public partial class Default2 : System.Web.UI.Page
             CaricaVideolezioni();
             CaricaDispense();
 
+            //Carica dati dello studente
+            CaricaAA(int.Parse(Matricola));
         }
 
     }
 
+    public void CaricaAA(int Matricola)
+    {
+        STUDENTI studente = new STUDENTI();
+        studente.Matricola = Matricola;
+        DataTable dt = studente.SelezionaAnnoAccademico(Matricola);
+
+        if (dt.Rows.Count == 1)
+        {
+            string annoAccademico = dt.Rows[0]["AnnoAccademico"].ToString();
+            string corso = dt.Rows[0]["TitoloCorso"].ToString();
+            string facolta = dt.Rows[0]["TitoloFacolta"].ToString();
+
+            lblAnno.Text = "Anno Accademico " + annoAccademico;
+            lblC.Text = corso;
+            lblF.Text = facolta;
+        }
+    }
+
     private void CaricaDdl()
     {
+        
+
         Guid K_Studente = new Guid((string)Session["cod"]);
         ESAMI e = new ESAMI();
         ddlCaricaEsami.DataSource = e.SelezionaPsp(K_Studente);
-        ddlCaricaEsami.DataValueField = ("K_Esame");
-        ddlCaricaEsami.DataTextField = ("TitoloEsame");
+        ddlCaricaEsami.DataValueField = "K_Esame";
+        ddlCaricaEsami.DataTextField = "TitoloEsame";
         ddlCaricaEsami.DataBind();
-      //  K_Esame = new Guid(ddlCaricaEsami.SelectedValue);
+
+        if (ddlCaricaEsami.Items.Count > 0)
+        {
+            K_Esame = new Guid(ddlCaricaEsami.SelectedValue);
+            ViewState["K_Esame"] = ddlCaricaEsami.SelectedValue;
+        }
+
     }
 
 
@@ -63,17 +91,17 @@ public partial class Default2 : System.Web.UI.Page
         db.cmd.Parameters.AddWithValue("@Matricola", matricola);
         DataTable dt = db.SQLselect();
 
-        if (dt.Rows.Count > 0)
-        {
-            //Prendo i valori e li carico nelle label
-            lblFacolta.Text = dt.Rows[0]["Facolta"].ToString();
-            lblCorso.Text = dt.Rows[0]["Corso"].ToString();
-        }
-        else
-        {
-            lblFacolta.Text = "Facoltà non trovata";
-            lblCorso.Text = "Corso non trovato";
-        }
+        //if (dt.Rows.Count > 0)
+        //{
+        //    //Prendo i valori e li carico nelle label
+        //    lblFacolta.Text = dt.Rows[0]["Facolta"].ToString();
+        //    lblCorso.Text = dt.Rows[0]["Corso"].ToString();
+        //}
+        //else
+        //{
+        //    lblFacolta.Text = "Facoltà non trovata";
+        //    lblCorso.Text = "Corso non trovato";
+        //}
     }
 
     private System.Web.SessionState.HttpSessionState GetSession()
@@ -98,15 +126,17 @@ public partial class Default2 : System.Web.UI.Page
         {
             rptVideolezioni.DataSource = dt;
             rptVideolezioni.DataBind();
+            lblMessaggio1.Visible = false;
         }
         else
         {
-            //lblMessaggio.Visible = true;
-            //lblMessaggio.Text = "Non ci sono videolezioni disponibili per il tuo corso.";
             rptVideolezioni.DataSource = null;
             rptVideolezioni.DataBind();
+            lblMessaggio1.Visible = true;
+            
         }
     }
+
 
     private void CaricaDispense()
     {
@@ -116,25 +146,26 @@ public partial class Default2 : System.Web.UI.Page
             return;
         }
 
-        MATERIALI lezioni = new MATERIALI();
+        MATERIALI materiali = new MATERIALI();
         Guid K_Studente = new Guid((string)Session["cod"]);
-
-      
-        DataTable dt = lezioni.DispensaPerMatricola(K_Studente, K_Esame);
+        DataTable dt = materiali.DispensaPerMatricola(K_Studente, K_Esame);
 
         if (dt.Rows.Count > 0)
         {
             rptDispense.DataSource = dt;
             rptDispense.DataBind();
+            lblMessaggio2.Visible = false; // Nascondi la label se ci sono dispense
         }
         else
-        {
-            //lblMessaggio.Visible = true;
-            //lblMessaggio.Text = "Non ci sono dispense disponibili per il tuo corso.";
-            rptDispense.DataSource = null;
+        {      
+
+            rptDispense.DataSource = null; // Svuota il Repeater
             rptDispense.DataBind();
+            lblMessaggio2.Visible = true;  // Mostra il messaggio
+
         }
     }
+
 
 
     protected void btnScarica_Command(object sender, CommandEventArgs e)
@@ -145,8 +176,8 @@ public partial class Default2 : System.Web.UI.Page
             K_Esame = new Guid((string)ViewState["K_Esame"]);
         else
         {
-            lblMessaggio.Visible = true;
-            lblMessaggio.Text = "Errore: esame non selezionato.";
+            lblMessaggio2.Visible = true;
+            lblMessaggio2.Text = "Errore: esame non selezionato.";
             return;
         }
 
@@ -171,8 +202,8 @@ public partial class Default2 : System.Web.UI.Page
         }
         else
         {
-            lblMessaggio.Visible = true;
-            lblMessaggio.Text = "Il materiale richiesto non è disponibile.";
+            lblMessaggio2.Visible = true;
+            lblMessaggio2.Text = "Il materiale richiesto non è disponibile.";
         }
     }
    
@@ -184,6 +215,7 @@ public partial class Default2 : System.Web.UI.Page
         CaricaDispense();
     }
 }
+
 
 
 

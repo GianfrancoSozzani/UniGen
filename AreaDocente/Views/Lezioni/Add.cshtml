@@ -1,32 +1,31 @@
 ﻿@model AreaDocente.Models.AddLezioniViewModel
 
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Inserimento Nuova Lezione</h1>
+<div class="container my-5">
+    <h1 class="mb-4">Inserimento Lezione</h1>
 
-    <div class="card p-4 shadow-sm">
-        <form method="post">
+    <div class="card shadow-sm p-4">
+        <form method="post" class="needs-validation" novalidate>
 
-
-            <div class="mt-3">
-                <label class="form-label">Esami</label>
-                <select asp-for="K_Esame" asp-items="@ViewBag.EsamiDDl" class="form-select" placeholder="Inserisci il titolo della lezione">
-                    <option disabled selected>Seleziona un esame</option>
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Esame</label>
+                <select asp-for="K_Esame" asp-items="@ViewBag.EsamiDDl" class="form-select" required>
+                    <option disabled selected value="">== Seleziona un esame ==</option>
                 </select>
             </div>
 
-            <div class="mt-3">
-                <label id="lblLezione" class="form-label">Titolo</label>
-                <input type="text" class="form-control" asp-for="Titolo" placeholder="Inserisci il titolo della lezione" />
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Titolo lezione</label>
+                <input type="text" class="form-control" asp-for="Titolo" placeholder="Inserisci il titolo della lezione" required />
             </div>
 
-            <div class="mt-3">
-                <label id="lblVideo" class="form-label">Video</label>
-                <input type="text" class="form-control" asp-for="Video" placeholder="Inserisci il link del video" />
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Link video</label>
+                <input type="text" class="form-control" asp-for="Video" placeholder="Inserisci il link del video" required />
             </div>
 
-            <div class="mt-4">
-                <button type="submit" class="btn btn-primary btn-lg w-100">Salva</button>
-            </div>
+            <button type="submit" class="btn btn-success btn-lg w-100">
+                <i class="bi bi-save me-1"></i> Salva
+            </button>
         </form>
     </div>
 

@@ -34,6 +34,7 @@ public partial class _Default : System.Web.UI.Page
         ddlDocente.DataTextField = "NomeCompleto";
         ddlDocente.DataValueField = "K_Docente";
         ddlDocente.DataBind();
+        ddlDocente.Items.Insert(0, new ListItem("Seleziona un docente", ""));
     }
 
     // Popolo la dropdownlist dei docenti MODAL
@@ -142,5 +143,29 @@ public partial class _Default : System.Web.UI.Page
         es.Modifica();
 
         CaricaEsami();
+    }
+
+    protected void btnRicerca_Click(object sender, EventArgs e)
+    {
+        //avendo creato la variabile matricolaRicerca la poniamo uguale alla matricola della classe
+        ESAMI esami = new ESAMI();
+        esami.TitoloEsame= txtRicercaEsame.Text.Trim();
+        DataTable dt = esami.SelezionaPerNome();
+        if (dt != null && dt.Rows.Count > 0) //se la matricola esiste allora dt è maggiore di 0 e non è null
+        {
+
+            rpEsame.DataSource = dt.DefaultView; //la datasource del repeater diventa dt 
+            rpEsame.DataBind();
+
+            lblErrore.Visible = false;
+        }
+        else
+        {
+            lblErrore.Text = "Nessun esame trovato con il titolo inserito.";
+            lblErrore.Visible = true;
+            CaricaEsami();
+            //rptStudenti.DataSource = null;
+            rpEsame.DataBind();
+        }
     }
 }

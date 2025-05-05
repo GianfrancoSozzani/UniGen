@@ -72,7 +72,7 @@
 															<form method="post" asp-action="AddRisposta">
 																<input type="hidden" name="Codice_Comunicazione" value="@gruppo.Key" />
 																<div data-mdb-input-init class="form-outline">
-																	<textarea class="form-control bg-body-tertiary" id="textAreaExample2" rows="4" name="Testo"></textarea>
+																	<textarea class="form-control bg-body-tertiary" id="textAreaExample2" rows="4" name="Testo" required></textarea>
 																	<label class="form-label" for="textAreaExample2">Message</label>
 																</div>
 																<button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-info btn-rounded float-end p-0 px-2">Send</button>

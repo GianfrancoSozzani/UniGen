@@ -37,7 +37,7 @@ public partial class _Default : System.Web.UI.Page
 
         STUDENTI s = new STUDENTI();
         DataTable dt = s.StudentiIscritti();
-        if(dt.Rows.Count == 0)
+        if (dt.Rows.Count == 0)
         {
             litStudentii.Text = "0";
             return;
@@ -109,7 +109,10 @@ public partial class _Default : System.Web.UI.Page
             litTassaM.Text = "0";
             return;
         }
-        litTassaM.Text = dt.Rows[0][0].ToString();
+        //Massimo due cifre decimali
+        litTassaM.Text = Decimal.Parse(dt.Rows[0][0].ToString()).ToString("0.00");
+        //litTassaM.Text = String.Format("{0:0,##}", dt.Rows[0][0].ToString());
+
 
     }
 

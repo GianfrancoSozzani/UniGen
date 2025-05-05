@@ -69,7 +69,7 @@
                         <a class="btn  btn-sm " style="color: #12304F; border-color:#12304F;" aria-current="page" href="https://localhost:7272/Home/Index">Logout</a>
                     </div>
                 </div>
-                <p class="fs-4 text-black me-3 text-end">Fatti non foste a viver come bruti</p>
+                <p class="fs-4 text-black me-3 text-end fst-italic">"Fatti non foste a viver come bruti"</p>
 
             </div>
         </div>
@@ -93,7 +93,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="dropdown">
-                                       <a class="dropdown-item" style="color:inherit; "href="/Studenti/ModificaProfilo?cod=@ViewData["studente_id"]">
+                                        <a class="dropdown-item" style="color:inherit"; href="/Studenti/ModificaProfilo?cod=@ViewData["studente_id"]">
                                             Modifica Dati
                                         </a>
                                     </li>
@@ -105,14 +105,14 @@
                                     Immatricolazione
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" style="color:inherit; " href="/Studenti/Immatricolazione?cod=@ViewData["studente_id"]">Immatricolazione</a></li>          @*  
+                                    <li><a class="dropdown-item" style="color:inherit; " href="/Studenti/Immatricolati?cod=@ViewData["studente_id"]">Immatricolazione</a></li>          @*  
                                     <li><a class="dropdown-item" style="color:inherit; " href="/Immatricolazione/Add?cod=@ViewData["studente_id"]">Invio documenti</a></li>
                                 *@
                                 </ul>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Contatta l'Amministrazione</a>
+                                <a class="nav-link active" aria-current="page" href="/Comunicazioni/Add">Nuova Comunicazione</a>
 
                             </li>
 
