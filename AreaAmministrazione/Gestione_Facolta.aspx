@@ -10,26 +10,17 @@
         <div class="mb-4">
             <div id="icona" class="row g-3 align-items-center justify-content-end">
                 <div class="col-auto">
-                    <asp:Label ID="Label2" runat="server" Text="Inserisci una nuova Facoltà" CssClass="fw-bold fs-5"></asp:Label>
-                </div>
-                <div class="col-auto">
-                    <i class="bi bi-plus-circle btn btn-primary"></i>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalInserimentoFacolta">
+                        <i class="bi bi-plus-circle"></i>
+                    </button>
                 </div>
             </div>
 
-            <div id="insert" class="d-none row g-3 align-items-center justify-content-end" runat="server">
-                <div class="col-auto">
-                    <asp:TextBox ID="txtFacolta" CssClass="form-control" runat="server"></asp:TextBox>
-                </div>
-                <div class="col-auto">
-                    <asp:Button CssClass="btn btn-primary" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
-                </div>
-            </div>
         </div>
 
         <div>
             <asp:Repeater ID="rpFacolta" runat="server">
-                <HeaderTemplate>
+                <headertemplate>
                     <table class="table table-striped shadow">
                         <thead>
                             <tr>
@@ -38,9 +29,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                </HeaderTemplate>
+                </headertemplate>
 
-                <ItemTemplate>
+                <itemtemplate>
                     <tr>
                         <td><%# Eval("TitoloFacolta") %></td>
                         <td>
@@ -48,19 +39,47 @@
 
                         </td>
                     </tr>
-                </ItemTemplate>
+                </itemtemplate>
 
-                <FooterTemplate>
+                <footertemplate>
                     </tbody>
             </table>
-                </FooterTemplate>
+                </footertemplate>
             </asp:Repeater>
         </div>
     </div>
 
-    <%--Modal--%>
+    <%--Modal inserimento--%>
+    <div class="modal fade" id="modalInserimentoFacolta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="example2ModalLabel">Inserisci Facoltà</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                </div>
+
+                <div class="modal-body">
+                    <asp:HiddenField ID="hiddenFacoltaIns" runat="server" />
+
+                    <div class="mb-3">
+                        <label for="txtTitoloFacoltaIns" class="form-label fw-bold">Facoltà</label>
+                        <asp:TextBox ID="txtTitoloFacoltaIns" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <asp:Button ID="btnSalvaInserimento" runat="server" Text="Salva Modifiche" CssClass="btn btn-primary" OnClick="btnSalvaInserimento_Click" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <%--Modal modifica--%>
     <div class="modal fade" id="modalModificaFacolta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -86,21 +105,18 @@
         </div>
     </div>
 
-
-    <%--Script per nascondere l'icona e rendere visibili gli elementi per l'inserimento--%>
+    <%--Script per il modal inserimento--%>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var btnMostra = document.getElementById("icona");
-            var divInsert = document.getElementById("<%= insert.ClientID %>");
+        function apriModalIns(id, titolo) {
+            document.getElementById('<%= hiddenFacoltaIns.ClientID %>').value = id;
+            document.getElementById('<%= txtTitoloFacoltaIns.ClientID %>').value = titolo;
 
-            btnMostra.addEventListener("click", function () {
-                btnMostra.classList.add("d-none");
-                divInsert.classList.remove("d-none");
-            });
-        });
+            var myModal = new bootstrap.Modal(document.getElementById('modalInserimentoFacolta'));
+            myModal.show();
+        }
     </script>
 
-    <%--Script per il modal--%>
+    <%--Script per il modal modifica--%>
     <script>
         function apriModal(id, titolo) {
             document.getElementById('<%= hiddenIdFacolta.ClientID %>').value = id;
