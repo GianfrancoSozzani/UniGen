@@ -1,4 +1,5 @@
 ﻿using AreaDocente.Data;
+using AreaDocente.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -16,17 +17,17 @@ namespace AreaDocente.Controllers
         public IActionResult Appelli()
         {
             var dati = (
-                from Appelli in dbContext.appelli
-                join Esami in dbContext.esami on Appelli.K_Esame equals Esami.K_Esame
+                from Prova in dbContext.prove
+                join Appello in dbContext.appelli on Prova.K_Appello equals Appello.K_Appello
+                join Esami in dbContext.esami on Appello.K_Esame equals Esami.K_Esame
                 join Docenti in dbContext.docenti on Esami.K_Docente equals Docenti.K_Docente
                 select new
                 {
-                    id = Appelli.K_Appello,
-                    data_A = Appelli.DataAppello,
-                    data_V = Appelli.DataVerbalizzazione,
-                    tipo = Appelli.Tipo,
-                    link = Appelli.Link,
-                    data_O = Appelli.DataOrale,
+                    id = Prova.K_Appello,
+                    data_A = Appello.DataAppello,
+                    tipo = Prova.Tipologia,
+                    link = Prova.Link,
+                    data_O = Appello.DataOrale,
                     esame = Esami.TitoloEsame,
 
                 }).ToList<dynamic>();
@@ -57,12 +58,13 @@ namespace AreaDocente.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult> Add() 
-        //{
+        [HttpPost]
+        public async Task<ActionResult> Add(AddProveViewModel viewModel) 
+        {
 
-        //    return Redirect();
-        //}
+
+            return View();
+        }
 
 
     }
