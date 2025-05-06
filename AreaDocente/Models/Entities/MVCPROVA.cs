@@ -16,7 +16,10 @@ namespace AreaDocente.Models.Entities
         public string? Link { get; set; }
         public string? Tipologia { get; set; }
 
-        //[ValidateNever]
-        //public List<AddDomandeViewModel>? Domande { get; set; }
+        [ValidateNever]
+        public List<MVCTest_DA>? DomandeAperte { get; set; }
+
+        [ValidateNever]
+        public List<MVCTest_DC>? DomandeChiuse { get; set; }
     }
 }
