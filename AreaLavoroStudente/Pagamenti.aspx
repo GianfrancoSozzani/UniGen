@@ -4,7 +4,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <div class="container mt-4 mb-4">
+    <div class="container mt-2 mb-4">
 
         <!-- TITOLO + ETICHETTE ACCADEMICHE -->
         <div class="py-4 mb-4 border-bottom">

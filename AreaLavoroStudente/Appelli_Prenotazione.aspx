@@ -6,7 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-    <div class="container mt-4 mb-4">
+    <div class="container mt-2 mb-4">
         <!-- TITOLO E ETICHETTE -->
         <div class="py-4 mb-4 border-bottom">
             <h2 class="text-start mb-1">Prenotazione Appelli</h2>
@@ -47,7 +47,7 @@
                                         <td><%# Eval("TitoloEsame") %></td>
                                         <td><%# Eval("Obbligatorio").ToString().ToLower() == "true" ? "Obbligatorio" : "Facoltativo" %></td>
                                         <td><%# Eval("DataAppello", "{0:dd/MM/yyyy}") %></td>
-                                        <td><%# Eval("Tipo") %></td>
+                                        <td><%# Eval("Tipo").ToString() == "Sc" ? "Scritto" : "Orale" %></td>
                                        <%-- <td>
                                             <a href='<%# Eval("Link") %>' target="_blank" class="link-primary">Vai al link</a>
                                         </td>--%>

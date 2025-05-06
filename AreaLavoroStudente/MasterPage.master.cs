@@ -71,6 +71,21 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
     }
 
+    protected void btnLogout_Click(object sender, EventArgs e)
+    {
+        string Cod = Session["cod"] as string;
+        string Usr = Session["usr"] as string;
+        string Matricola = Session["mat"] as string;
+        string Abilitato = Session["ab"] as string;
+
+        string url = "https://localhost:7050/Studenti/Show?cod=" + Cod +
+                     "&usr=" + Usr +
+                     "&mat=" + Matricola +
+                     "&ab=" + Abilitato;
+
+        Response.Redirect(url);
+
+    }
 }
 
 

@@ -116,9 +116,13 @@
     <!-- Script Bootstrap -->
     <script>
         function showDatiModal() {
-            const datiModal = new bootstrap.Modal(document.getElementById('datiModal'));
+            var datiModal = new bootstrap.Modal(document.getElementById('datiModal'), {
+                backdrop: 'static',   // Impedisce la chiusura cliccando fuori
+                keyboard: false       // Impedisce la chiusura con ESC
+            });
             datiModal.show();
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
 </asp:Content>

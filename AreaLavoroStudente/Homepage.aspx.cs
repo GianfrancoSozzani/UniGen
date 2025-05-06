@@ -27,12 +27,14 @@ public partial class _Default : System.Web.UI.Page
                 Matricola = Request.QueryString["mat"];
                 Abilitazione = Request.QueryString["a"];
 
+
                 // Se ora li trovi, salvali nella sessione
                 if (!string.IsNullOrEmpty(K_Studente) && !string.IsNullOrEmpty(Matricola) && !string.IsNullOrEmpty(Abilitazione))
                 {
                     Session["cod"] = K_Studente;
                     Session["mat"] = Matricola;
                     Session["a"] = Abilitazione;
+
                 }
             }
 
@@ -77,8 +79,8 @@ public partial class _Default : System.Web.UI.Page
             string facolta = dt.Rows[0]["TitoloFacolta"].ToString();
 
             lblAnno.Text = "Anno Accademico " + annoAccademico;
-            lblFacolta.Text = "Facoltà " + facolta;
-            lblCorso.Text = "Corso " + corso;
+            lblFacolta.Text = "Facoltà: " + facolta;
+            lblCorso.Text = "Corso: " + corso;
         }
     }
 
