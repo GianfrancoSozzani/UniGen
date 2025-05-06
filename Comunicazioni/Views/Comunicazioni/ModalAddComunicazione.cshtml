@@ -1,0 +1,38 @@
+﻿@model Comunicazioni.Models.ListAndAddViewModel
+
+@{
+    var ruolo = Context.Session.GetString("r");
+}
+@if (ruolo == "d")
+{
+    <form method="post" asp-action="AddStudente" id="formSelezioneEsame">
+        <div class="mt-3">
+            <label class="form-label">Esame</label>
+            <select asp-for="AddComunicazione.K_Esame" asp-items="@ViewBag.EsamiList" class="form-select" onchange="document.getElementById('formSelezioneEsame').submit();">
+                <option disabled selected>-- Seleziona un esame --</option>
+            </select>
+        </div>
+    </form>
+
+    <form method="post" asp-action="AddStudenteFinale">
+        @if (ViewBag.SelectedKEsame != null)
+        {
+            <input type="hidden" name="AddComunicazione.K_Esame" value="@ViewBag.SelectedKEsame" />
+        }
+
+        <div class="mt-3">
+            <label class="form-label">Destinatari</label>
+            <select asp-for="AddComunicazione.K_Studente" asp-items="@ViewBag.StudentiList" class="form-select" required>
+                <option selected disabled>-- Seleziona un destinatario --</option>
+                <option value="">Amministrazione</option>
+            </select>
+        </div>
+
+        <div class="mt-4">
+            <label class="form-label">Testo:</label>
+            <textarea asp-for="AddComunicazione.Testo" class="form-control" rows="6"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Inserisci Comunicazione</button>
+    </form>
+}

@@ -240,12 +240,22 @@ namespace Comunicazioni.Controllers
             return View();
         }
 
+        //[HttpPost]
+        //public IActionResult AddStudente(Guid? K_Esame) // Riceve l'ID dell'esame selezionato
+        //{
+        //    PopolaEsami(null);
+        //    PopolaStudenti(K_Esame);
+        //    return View("Add");
+        //}
+
         [HttpPost]
-        public IActionResult AddStudente(Guid? K_Esame) // Riceve l'ID dell'esame selezionato
+        public IActionResult AddStudente(Guid? K_Esame)
         {
             PopolaEsami(null);
             PopolaStudenti(K_Esame);
-            return View("Add");
+            ViewBag.SelectedKEsame = K_Esame;
+            ViewBag.RiapriModal = true; // <-- FLAG PER RIAPRIRE IL MODAL
+            return View("List");
         }
 
 
