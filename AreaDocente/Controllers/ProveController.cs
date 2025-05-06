@@ -52,8 +52,15 @@ namespace AreaDocente.Controllers
             //    .Select(v => v.Studente)
             //    .ToListAsync();
 
+            //var studenti = await dbContext.valutazioni
+            //    .Where(v => v.K_Prova == K_Prova)
+            //    .Include(v => v.Studente)
+            //    .Include(v => v.Prova)
+            //    .ToListAsync();
+
             var studenti = await dbContext.valutazioni
-                .Where(v => v.K_Prova == K_Prova)
+                .Where(v => v.K_Prova == K_Prova &&
+                            dbContext.libretti.Any(l => l.K_Studente == v.K_Studente && l.VotoEsame == null))
                 .Include(v => v.Studente)
                 .Include(v => v.Prova)
                 .ToListAsync();
