@@ -4,9 +4,9 @@
 
 <div class="container" style="padding-top: 120px; padding-bottom: 100px;">
 	<div class="row">
-		<h1 class="mb-4 mt-5">Piano di Studi</h1>
+		<h1 class="mb-4">Piano di Studi</h1>
 		<div class="col-md-8">
-			<div class="mt-2 mb-4">
+			<div class="mb-4">
 				Organizza al meglio il tuo<b> percorso accademico</b> consultando l'elenco dettagliato degli esami previsti per ogni corso di tuo interesse.
 			</div>
 
@@ -40,10 +40,10 @@
 												@foreach (var esame in corso)
 												{
 													<li class="list-group-item">
-														<nobr class="text-primary">Esame:</nobr> @esame.Esame <br />
-														<strong>Anno Accademico:</strong> @esame.AnnoAccademico <br />
-														<nobr>CFU:</nobr> @esame.CFU <br />
-														<nobr>Obbligatorio:</nobr> @(esame.Obbligatorio == "S" ? "Sì" : "No")
+														<nobr>Esame:</nobr> <a class="text-primary">@esame.Esame</a> <br />
+														Anno Accademico: <strong>@esame.AnnoAccademico</strong> <br />
+														<nobr>CFU:</nobr> <strong> @esame.CFU </strong> <br />
+														<nobr>Obbligatorio:</nobr> <strong>@(esame.Obbligatorio == "S" ? "Sì" : "No")</strong>
 													</li>
 												}
 											</ul>
