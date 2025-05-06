@@ -15,7 +15,10 @@
                     </button>
                 </div>
                 <div class="col-auto">
-                    <asp:Button ID="btnNuovaPagina" runat="server" CssClass="btn btn-primary" Text="+" OnClick="btnNuovaPagina_Click" />
+                    <asp:LinkButton ID="btnNuovaPagina" runat="server" CssClass="btn btn-primary" OnClick="btnNuovaPagina_Click">
+                        <i class="bi bi-plus-circle"></i>
+                    </asp:LinkButton>
+                    <%--<asp:Button ID="btnNuovaPagina" runat="server" CssClass="btn btn-primary" Text="+" OnClick="btnNuovaPagina_Click" />--%>
                 </div>
             </div>
         </div>
