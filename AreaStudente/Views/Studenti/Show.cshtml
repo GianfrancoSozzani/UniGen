@@ -113,16 +113,16 @@
 
 													<div class="mt-3">
 														<label class="form-label">Destinatari</label>
-														<select asp-for="NuovaComunicazione.K_Docente" asp-items="@ViewBag.DocentiList" class="form-select">
-															<option selected>-- Seleziona un destinatario --</option>
-															<option value="Amministrazione">Amministrazione</option>
+														<select asp-for="NuovaComunicazione.K_Docente" asp-items="@ViewBag.DocentiList" class="form-select" required>
+														@* 	<option selected>-- Seleziona un destinatario --</option> *@
+															<option selected value="Amministrazione">Amministrazione</option>
 														</select>
 														<span asp-validation-for="NuovaComunicazione.K_Docente" class="text-danger"></span>
 													</div>
 
 													<div class="mt-4">
 														<label class="form-label">Testo:</label>
-														<textarea asp-for="NuovaComunicazione.Testo" class="form-control" rows="6"></textarea>
+														<textarea asp-for="NuovaComunicazione.Testo" class="form-control" rows="6" required></textarea>
 														<span asp-validation-for="NuovaComunicazione.Testo" class="text-danger"></span>
 														<button type="submit" class="btn btn-primary mt-3">Inserisci Comunicazione</button>
 													</div>
