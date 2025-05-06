@@ -197,7 +197,7 @@ namespace Comunicazioni.Controllers
 
                 // Carica solo questi studenti dalla tabella Studenti
                 var listaStudenti = dbContext.Studenti
-                    .Where(s => studentiFiltrati.Contains(s.K_Studente))
+                    .Where(s => studentiFiltrati.Contains(s.K_Studente) && s.Matricola != null)
                     .Select(s => new SelectListItem
                     {
                         Text = s.Nome + " " + s.Cognome,
