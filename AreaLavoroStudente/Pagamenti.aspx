@@ -29,8 +29,7 @@
                                 <th>Seleziona</th>
                                 <th>Importo</th>
                                 <th>Scadenza</th>
-                                <th>Anno</th>
-                                <th>Stato</th>
+                                <th>Anno Accademico</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,7 +43,6 @@
                                         <td>€ <%# Eval("Importo", "{0:N2}") %></td>
                                         <td><%# Eval("Scadenza", "{0:dd/MM/yyyy}") %></td>
                                         <td><%# Eval("AnnoPagamento") %></td>
-                                        <td><%# Eval("StatoPagamento") %></td>
                                     </tr>
                                 </ItemTemplate>
                             </asp:Repeater>
@@ -56,7 +54,6 @@
                 <asp:Button ID="btnPaga" runat="server"
                     Text="Paga"
                     CommandArgument='<%# Eval("IDPagamento") %>'
-                    Visible='<%# Eval("StatoPagamento").ToString() == "Non Pagato" %>'
                     CssClass="btn btn-primary btn-sm mt-3"
                     OnClick="btnPaga_Click" />
 
