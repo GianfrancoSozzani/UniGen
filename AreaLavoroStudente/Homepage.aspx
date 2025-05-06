@@ -101,7 +101,7 @@
             <!-- CARRIERA -->
             <!-- da collegare a visualizzazione AvanzamentoVoti-->
             <div class="card shadow-sm card-small">
-                <img src="resources/4.png" class="card-img-top" alt="Carriera">
+                <img src="resources/Libretto.png" class="card-img-top" alt="Carriera">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">La tua carriera</h5>
                     <p class="card-text">Visualizza gli esami verbalizzati, la tua media e i CFU conseguiti.</p>
@@ -112,7 +112,7 @@
             <!-- PAGAMENTI -->
             <!-- da collegare a visualizzazione pagamenti -->
             <div class="card shadow-sm card-small">
-                <img src="resources/Libretto.png" class="card-img-top" alt="Pagamenti">
+                <img src="resources/Pagamenti.png" class="card-img-top" alt="Pagamenti">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">Pagamenti</h5>
                     <p class="card-text">Visualizza i tuoi pagamenti.</p>
@@ -122,7 +122,7 @@
 
             <!-- COMUNICAZIONI (solo abilitati)-->
             <div id="divComunicazioni" runat="server" class="card shadow-sm card-small">
-                <img src="resources/6.png" class="card-img-top" alt="Comunicazioni">
+                <img src="resources/Comunicazioni.png" class="card-img-top" alt="Comunicazioni">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">Comunicazioni</h5>
                     <p class="card-text">Accedi alle comunicazioni relative al tuo corso e agli esami.</p>
