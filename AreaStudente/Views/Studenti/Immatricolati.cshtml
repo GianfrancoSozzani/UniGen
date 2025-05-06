@@ -98,7 +98,7 @@
 			</div>
 
 			<!-- Modal -->
-		
+
 			<div class="modal fade" id="confermaModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
 				<div class="modal-dialog ">
 					<div class="modal-content">
@@ -110,48 +110,50 @@
 							Vuoi confermare l'immatricolazione?
 							<p>L'importo è: €@Model.Importo</p>
 						</div>
-						<div class="modal-footer d-flex justify-content-center">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-							<button type="button" class="btn btn-primary" id="conferma-btn" asp-controller="Studenti" asp-action="Paypal">Conferma</button>
-						</div>
+						<div id="paypal-button-container"></div>
+					</div>
+					<div class="modal-footer d-flex justify-content-center">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
 					</div>
 				</div>
 			</div>
+		</form>
+	</div>
 
-			<div class="col-12 col-xl-4 px-0 px-lg-2 mt-xl-0 order-xl-2 mt--7">
-				<div class="card shadow">
-					<div class="card-body">
-						@* <div class="bg-white border border-1 border-black shadow rounded-5 p-4 position-relative"> *@
+	<div class="col-12 col-xl-4 px-0 px-lg-2 mt-xl-0 order-xl-2 mt--7">
+		<div class="card shadow">
+			<div class="card-body">
+				@* <div class="bg-white border border-1 border-black shadow rounded-5 p-4 position-relative"> *@
 
-						@{
-							bool hasImage = Model?.ImmagineProfilo != null && Model.ImmagineProfilo.Length > 0;
-							string imgSrc = null;
+				@{
+					bool hasImage = Model?.ImmagineProfilo != null && Model.ImmagineProfilo.Length > 0;
+					string imgSrc = null;
 
-							if (hasImage)
-							{
-								var base64 = Convert.ToBase64String(Model.ImmagineProfilo);
-								imgSrc = $"data:image/jpeg;base64,{base64}";
-							}
-						}
+					if (hasImage)
+					{
+						var base64 = Convert.ToBase64String(Model.ImmagineProfilo);
+						imgSrc = $"data:image/jpeg;base64,{base64}";
+					}
+				}
 
-						<div id="img-container" class="position-absolute top-0 start-50 translate-middle mb-5 d-flex justify-content-center align-items-center"
-							 style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background-color: #f0f0f0; font-size: 4rem;">
-							@if (hasImage)
-							{
-								<img src="@imgSrc" alt="Immagine Profilo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
-							}
-							else
-							{
-								<!-- Imposta le dimensioni dell'icona per essere uguali all'immagine -->
-								<i class="bi bi-person-circle rounded img-icon text-black bg-white" style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; font-size: 6rem; border-radius: 50%;"></i>
-							}
-						</div>
-						<h4 class="text-center mt-5">
-							<!-- Mostra il nome solo se il modello non è null/vuoto -->
-							@(Model?.Nome ?? "Studente") @(Model?.Cognome ?? "Cognome")
-						</h4>
-						<p class="text-center">@Model?.Email</p>
-						@* <p class="fs-3 text-center">Riepilogo Profilo</p>
+				<div id="img-container" class="position-absolute top-0 start-50 translate-middle mb-5 d-flex justify-content-center align-items-center"
+					 style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background-color: #f0f0f0; font-size: 4rem;">
+					@if (hasImage)
+					{
+						<img src="@imgSrc" alt="Immagine Profilo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
+					}
+					else
+					{
+						<!-- Imposta le dimensioni dell'icona per essere uguali all'immagine -->
+						<i class="bi bi-person-circle rounded img-icon text-black bg-white" style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; font-size: 6rem; border-radius: 50%;"></i>
+					}
+				</div>
+				<h4 class="text-center mt-5">
+					<!-- Mostra il nome solo se il modello non è null/vuoto -->
+					@(Model?.Nome ?? "Studente") @(Model?.Cognome ?? "Cognome")
+				</h4>
+				<p class="text-center">@Model?.Email</p>
+				@* <p class="fs-3 text-center">Riepilogo Profilo</p>
 						<hr class="my-4">
 						<h6 class="heading-small text-muted mb-4 text-center">Informazioni di Immatricolazione</h6>
 						<div class="pl-lg-4">
@@ -184,15 +186,16 @@
 								</div>
 							</div>
 						</div> *@
-						<hr class="my-4">
-					</div>
-				</div>
-				@* </div> *@
+				<hr class="my-4">
 			</div>
-		</form>
+		</div>
+		@* </div> *@
 	</div>
+
+</div>
 </div>
 
+<script src="https://www.paypal.com/sdk/js?client-id=Adbf7fTtUU3GWVxRgKRn4-68S8X52d2nyyh7pJ4eEKdNPXgP6GGlVP8Zuomr1OsJUoSWjYLRe23jgyaN&currency=USD"></script>
 @section Scripts {
 	<script>
 		document.addEventListener("DOMContentLoaded", function () {
@@ -225,6 +228,41 @@
 
 			confermaBtn.addEventListener("click", function () {
 				form.submit();
+			});
+		});
+			document.addEventListener("DOMContentLoaded", function () {
+			// (Il tuo codice già esistente...)
+			const form = document.getElementById("modifica-form");
+			const facoltaSelect = document.getElementById("facolta-select");
+			const corsoSelect = document.getElementById("corso-select")
+			const confermaBtn = document.getElementById("conferma-btn");
+			// PayPal rendering solo quando la modale viene aperta
+			const modal = document.getElementById('confermaModal');
+			modal.addEventListener('shown.bs.modal', function () {
+				if (!document.getElementById('paypal-button-container').hasChildNodes()) {
+					paypal.Buttons({
+						createOrder: function (data, actions) {
+							return actions.order.create({
+								purchase_units: [{
+									amount: {
+										value: '@Model.Importo.ToString()'
+									}
+								}]
+							});
+						},
+						onApprove: function (data, actions) {
+							return actions.order.capture().then(function (details) {
+								alert('Pagamento effettuato da: ' + details.payer.name.given_name);
+
+								// Dopo pagamento, invia form
+								document.getElementById("modifica-form").submit();
+							});
+						},
+						onCancel: function (data) {
+							alert('Pagamento annullato');
+						}
+					}).render('#paypal-button-container');
+				}
 			});
 		});
 	</script>
