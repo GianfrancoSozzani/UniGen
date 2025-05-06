@@ -17,6 +17,88 @@ namespace Comunicazioni.Controllers
         {
             this.dbContext = dbContext;
         }
+
+        public void PopolaEsami(Guid? IDEsame)
+        {
+            IEnumerable<SelectListItem> listaEsami = dbContext.Esami
+                .Where(e => e.K_Docente == Guid.Parse(HttpContext.Session.GetString("cod")))
+                .Select(e => new SelectListItem
+                {
+                    Text = e.TitoloEsame,
+                    Value = e.K_Esame.ToString(),
+                    Selected = (IDEsame.HasValue && e.K_Esame == IDEsame.Value)
+                });
+            ViewBag.EsamiList = listaEsami;
+        }
+
+        public void PopolaStudenti(Guid? K_Esame)
+        {
+            string ruolo = HttpContext.Session.GetString("r");
+            if (ruolo == "a")
+            {
+                IEnumerable<SelectListItem> listaStudenti = dbContext.Studenti
+                    .Select(i => new SelectListItem
+                    {
+                        Text = i.Nome + " " + i.Cognome,
+                        Value = i.K_Studente.ToString()
+                    });
+                ViewBag.StudentiList = listaStudenti;
+            }
+            else if (ruolo == "d" && K_Esame.HasValue)
+            {
+                var pianiDiStudio = dbContext.PianiStudioPersonali
+                .Where(ps => ps.K_Esame == K_Esame.Value)
+                .Select(ps => ps.K_Studente); // Ottieni solo gli ID degli studenti
+
+                // Recupera gli studenti che hanno un K_Studente presente nei piani di studio trovati
+                IEnumerable<SelectListItem> listaStudenti = dbContext.Studenti
+                    .Where(s => pianiDiStudio.Contains(s.K_Studente))
+                    .Select(s => new SelectListItem
+                    {
+                        Text = s.Nome + " " + s.Cognome,
+                        Value = s.K_Studente.ToString()
+                    });
+                ViewBag.StudentiList = listaStudenti;
+            }
+        }
+
+        public void PopolaDocenti()
+        {
+            string ruolo = HttpContext.Session.GetString("r");
+            if (ruolo == "a")
+            {
+                IEnumerable<SelectListItem> listaDocenti = dbContext.Docenti
+                    .Select(i => new SelectListItem
+                    {
+                        Text = i.Nome + " " + i.Cognome,
+                        Value = i.K_Docente.ToString()
+                    });
+                ViewBag.DocentiList = listaDocenti;
+            }
+            else if (ruolo == "s")
+            {
+                var Idstudente = Guid.Parse(HttpContext.Session.GetString("cod"));
+                var pianiDiStudio = dbContext.PianiStudioPersonali
+                .Where(ps => ps.K_Studente == Idstudente)
+                .Select(ps => ps.K_Esame);
+
+                var listaDocenti = dbContext.Esami
+                       .Where(e => pianiDiStudio.Contains(e.K_Esame))
+                       .Select(e => e.Docente)
+                       .Distinct()
+                       .Select(docente => new SelectListItem
+                       {
+                           Text = docente.Nome + " " + docente.Cognome,
+                           Value = docente.K_Docente.ToString()
+                       }).ToList();  // Converti in lista
+
+                ViewBag.DocentiList = listaDocenti;
+            }
+        }
+
+
+
+
         //----------------------------------------------//
         //LIST------------------------------------------//
         //----------------------------------------------//
@@ -152,83 +234,7 @@ namespace Comunicazioni.Controllers
         //----------------------------------------------//
         //ADD-------------------------------------------//
         //----------------------------------------------//
-        public void PopolaEsami(Guid? IDEsame)
-        {
-            IEnumerable<SelectListItem> listaEsami = dbContext.Esami
-                .Where(e => e.K_Docente == Guid.Parse(HttpContext.Session.GetString("cod")))
-                .Select(e => new SelectListItem
-                {
-                    Text = e.TitoloEsame,
-                    Value = e.K_Esame.ToString(),
-                    Selected = (IDEsame.HasValue && e.K_Esame == IDEsame.Value)
-                });
-            ViewBag.EsamiList = listaEsami;
-        }
-
-        public void PopolaStudenti(Guid? K_Esame)
-        {
-            string ruolo = HttpContext.Session.GetString("r");
-            if (ruolo == "a")
-            {
-                IEnumerable<SelectListItem> listaStudenti = dbContext.Studenti
-                    .Select(i => new SelectListItem
-                    {
-                        Text = i.Nome + " " + i.Cognome,
-                        Value = i.K_Studente.ToString()
-                    });
-                ViewBag.StudentiList = listaStudenti;
-            }
-            else if (ruolo == "d" && K_Esame.HasValue)
-            {
-                var pianiDiStudio = dbContext.PianiStudioPersonali
-                .Where(ps => ps.K_Esame == K_Esame.Value)
-                .Select(ps => ps.K_Studente); // Ottieni solo gli ID degli studenti
-
-                // Recupera gli studenti che hanno un K_Studente presente nei piani di studio trovati
-                IEnumerable<SelectListItem> listaStudenti = dbContext.Studenti
-                    .Where(s => pianiDiStudio.Contains(s.K_Studente))
-                    .Select(s => new SelectListItem
-                    {
-                        Text = s.Nome + " " + s.Cognome,
-                        Value = s.K_Studente.ToString()
-                    });
-                ViewBag.StudentiList = listaStudenti;
-            }
-        }
-
-        public void PopolaDocenti()
-        {
-            string ruolo = HttpContext.Session.GetString("r");
-            if (ruolo == "a")
-            {
-                IEnumerable<SelectListItem> listaDocenti = dbContext.Docenti
-                    .Select(i => new SelectListItem
-                    {
-                        Text = i.Nome + " " + i.Cognome,
-                        Value = i.K_Docente.ToString()
-                    });
-                ViewBag.DocentiList = listaDocenti;
-            }
-            else if (ruolo == "s")
-            {
-                var Idstudente = Guid.Parse(HttpContext.Session.GetString("cod"));
-                var pianiDiStudio = dbContext.PianiStudioPersonali
-                .Where(ps => ps.K_Studente == Idstudente)
-                .Select(ps => ps.K_Esame);
-
-                var listaDocenti = dbContext.Esami
-                       .Where(e => pianiDiStudio.Contains(e.K_Esame))
-                       .Select(e => e.Docente)
-                       .Distinct()
-                       .Select(docente => new SelectListItem
-                       {
-                           Text = docente.Nome + " " + docente.Cognome,
-                           Value = docente.K_Docente.ToString()
-                       }).ToList();  // Converti in lista
-
-                ViewBag.DocentiList = listaDocenti;
-            }
-        }
+       
 
 
         [HttpGet] //visualizzo i dati
@@ -245,9 +251,8 @@ namespace Comunicazioni.Controllers
         {
             PopolaEsami(null);
             PopolaStudenti(K_Esame);
-            return View("Add");
+            return View("List");
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Add(ListAndAddViewModel listAndAddViewModel)
