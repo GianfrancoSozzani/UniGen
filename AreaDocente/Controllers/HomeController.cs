@@ -27,7 +27,13 @@ namespace AreaDocente.Controllers
                 HttpContext.Session.SetString("r", r);
             }
 
-            return View();
+            //return View();
+            var model = new ListAndAddViewModel
+            {
+                Comunicazioni = new List<IGrouping<Guid, AreaDocente.Models.Entities.Comunicazione>>(),
+                AddComunicazione = new AddComunicazioneViewModel()
+            };
+            return View(model);
         }
 
         public IActionResult Privacy()
