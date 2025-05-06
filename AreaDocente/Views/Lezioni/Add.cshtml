@@ -22,10 +22,14 @@
                 <label class="form-label fw-semibold">Link video</label>
                 <input type="text" class="form-control" asp-for="Video" placeholder="Inserisci il link del video" required />
             </div>
-
-            <button type="submit" class="btn btn-success btn-lg w-100">
+            <div class="d-flex justify-content-end mt-3 gap-2">
+            <button type="submit" class="btn btn-primary btn-lg ">
                 <i class="bi bi-save me-1"></i> Salva
             </button>
+                <button type="submit" class="btn btn-secondary btn-lg " asp-controller="Lezioni" asp-action="Annulla">
+                    <i class="bi bi-arrow-90deg-left me-1"></i> Annulla
+                </button>
+            </div>
         </form>
     </div>
 
