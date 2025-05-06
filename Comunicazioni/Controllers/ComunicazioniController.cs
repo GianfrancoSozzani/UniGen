@@ -285,7 +285,7 @@ namespace Comunicazioni.Controllers
                 comunicazione.K_Soggetto = Guid.Parse(HttpContext.Session.GetString("cod"));
                 comunicazione.K_Docente = null;
                 comunicazione.Soggetto = "D";
-                if (viewModel.K_Studente == null || viewModel.K_Studente == Guid.Empty)  // Se "Amministrazione"
+                if (comunicazione.K_Studente == null || comunicazione.K_Studente == Guid.Empty)  // Se "Amministrazione"
                 {
                     comunicazione.K_Studente = null;  // Non associato a uno studente
                 }
@@ -295,7 +295,7 @@ namespace Comunicazioni.Controllers
                 comunicazione.K_Soggetto = Guid.Parse(HttpContext.Session.GetString("cod"));
                 comunicazione.K_Studente = null;
                 comunicazione.Soggetto = "S";
-                if (viewModel.K_Docente == null || viewModel.K_Docente == Guid.Empty)  // Se "Amministrazione"
+                if (comunicazione.K_Docente == null || comunicazione.K_Docente == Guid.Empty)  // Se "Amministrazione"
                 {
                     comunicazione.K_Docente = null;  // Non associato a uno studente
                 }
