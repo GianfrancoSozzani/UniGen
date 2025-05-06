@@ -45,7 +45,8 @@ public partial class _Default : System.Web.UI.Page
 
             // 4. Verifica che matricola e K_Studente corrispondano
             STUDENTI s = new STUDENTI();
-            DataTable dt = s.SelezionaPerMatricola(int.Parse(Matricola));
+            s.Matricola = int.Parse(Matricola);
+            DataTable dt = s.SelezionaPerMatricola();
             if (dt.Rows.Count != 1 || dt.Rows[0]["K_Studente"].ToString() != K_Studente)
             {
                 ClientScript.RegisterStartupScript(this.GetType(), "authError", "showAuthErrorModal();", true);

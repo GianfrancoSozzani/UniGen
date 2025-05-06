@@ -98,7 +98,7 @@
                                     </ul>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Piano di Studio</a>
+                                    <a class="nav-link" href="PianoStudiPersonale.aspx">Piano di Studio</a>
                                 </li>
                                 <li id="li1" runat="server" class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Carriera</a>

@@ -10,6 +10,7 @@ using AreaStudente.Models.Entities;
 using System.Data;
 using System.Net.Mail;
 using System.Net.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 namespace AreaStudente.Controllers
@@ -52,16 +53,18 @@ namespace AreaStudente.Controllers
 
         [HttpGet]
 
-        public async Task<IActionResult> Show(Guid cod, Comunicazione c) // L'ID dello studente da visualizzare
+        public async Task<IActionResult> Show(Guid cod, string usr, string r) // L'ID dello studente da visualizzare
 
         {
-
+            Comunicazione c;
             // Trova lo studente includendo potenzialmente dati correlati se servissero
             // In questo caso, per il ViewModel fornito, non serve caricare il Corso,
             // ma lo lascio commentato come esempio se volessi il nome del corso in futuro.
             var studente = await dbContext.Studenti
                                           // Sostituisci con il tuo DbSet<Studente>
                                           // .Include(s => s.Corso) // Esempio: Decommenta se hai una navigation property 'Corso' in Studente e vuoi il nome
+                                          .Include(s => s.Corso)
+                                          .ThenInclude(c => c.Facolta)
                                           .FirstOrDefaultAsync(s => s.K_Studente == cod);
             if (studente == null)
             {
@@ -78,8 +81,9 @@ namespace AreaStudente.Controllers
             ViewData["studente_id"] = studente.K_Studente;
             ViewData["email"] = studente.Email;
             ViewData["matricola"] = studente.Matricola;
-            ViewData["abilitato"] = studente.Abilitato;
+            ViewData["abilitato"] = studente.Abilitato.Trim();
             HttpContext.Session.SetString("cod", studente.K_Studente.ToString());
+            HttpContext.Session.SetString("r","s");
 
             // Mappa dall'entità Studente (dal DB) a ShowStudenteViewModel
             // Dentro l'action Show() nel StudentiController.cs, dopo aver recuperato 'studente'
@@ -100,7 +104,9 @@ namespace AreaStudente.Controllers
                 Matricola = studente.Matricola,
                 DataImmatricolazione = studente.DataImmatricolazione,
                 K_Corso = studente.K_Corso,
-                Abilitato = studente.Abilitato
+                Abilitato = studente.Abilitato,
+                CorsoTitolo = studente.Corso?.TitoloCorso,
+                FacoltaTitolo = studente.Corso?.Facolta?.TitoloFacolta
 
 
 
@@ -179,10 +185,10 @@ namespace AreaStudente.Controllers
             string ruolo = HttpContext.Session.GetString("r");
 
 
-                 var ultimaComunicazione = dbContext.Comunicazioni
-                .Where(c => c.Codice_Comunicazione == viewModel.Codice_Comunicazione)
-                .OrderByDescending(c => c.DataOraComunicazione)
-                .FirstOrDefault();
+            var ultimaComunicazione = dbContext.Comunicazioni
+           .Where(c => c.Codice_Comunicazione == viewModel.Codice_Comunicazione)
+           .OrderByDescending(c => c.DataOraComunicazione)
+           .FirstOrDefault();
 
             if (ultimaComunicazione == null)
             {
@@ -294,7 +300,7 @@ namespace AreaStudente.Controllers
                     Console.WriteLine("Errore invio email: " + ex.Message);
                 }
             }
-           
+
             return RedirectToAction("Show", "Studenti", new { cod = HttpContext.Session.GetString("cod") });
         }
 
@@ -317,7 +323,7 @@ namespace AreaStudente.Controllers
 
             ViewData["email"] = studente.Email;
             ViewData["matricola"] = studente.Matricola;
-            ViewData["abilitato"] = studente.Abilitato;
+            ViewData["abilitato"] = studente.Abilitato.Trim();
 
             var model = new ModificaStudenteViewModel
             {
@@ -353,7 +359,7 @@ namespace AreaStudente.Controllers
 
             ViewData["email"] = studente.Email;
             ViewData["matricola"] = studente.Matricola;
-            ViewData["abilitato"] = studente.Abilitato;
+            ViewData["abilitato"] = studente.Abilitato.Trim();
 
             // Aggiorna i dati anagrafici
             studente.Nome = CapitalizeWords(model.Nome);
@@ -444,9 +450,120 @@ namespace AreaStudente.Controllers
             );
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Immatricolati(Guid cod, Guid K_Facolta)
+        {
+            ViewData["studente_id"] = cod;
+            var studente = await dbContext.Studenti
+                .Include(s => s.Corso)
+                .ThenInclude(c => c.Facolta)
+                .FirstOrDefaultAsync(s => s.K_Studente == cod);
+            //dibbiamo capire, per lo studente già immatricolato, come comportarci e quali dati fare visualizzare.
+
+
+            if (studente == null)
+            {
+                TempData["PopupErrore"] = "Studente non trovato.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            //rispecifico i parametri per passarli ad altre pg.
+            ViewData["email"] = studente.Email;
+            ViewData["matricola"] = studente.Matricola;
+            ViewData["abilitato"] = studente.Abilitato;
+
+            var selectedFacolta = K_Facolta;
+
+            var model = new ModificaStudenteViewModel
+            {
+                K_Studente = studente.K_Studente,
+                Nome = studente.Nome,
+                Cognome = studente.Cognome,
+                Email = studente.Email,
+                DataNascita = studente.DataNascita,
+                Indirizzo = studente.Indirizzo,
+                CAP = studente.CAP,
+                Citta = studente.Citta,
+                Provincia = studente.Provincia,
+                ImmagineProfilo = studente.ImmagineProfilo,
+                Matricola = studente.Matricola,
+                DataImmatricolazione = studente.DataImmatricolazione,
+                K_Facolta = selectedFacolta,
+                K_Corso = studente.K_Corso,
+                FacoltaList = PopolaFacolta(),
+                CorsiList = PopolaCorsi(selectedFacolta)
+                //= studente.Abilitato
+
+            };
+                     
+            return View(model);
+        }
+
+
+        private IEnumerable<SelectListItem> PopolaFacolta()
+        {
+            return dbContext.Facolta
+                .Select(f => new SelectListItem
+                {
+                    Text = f.TitoloFacolta,
+                    Value = f.K_Facolta.ToString()
+                }).ToList();
+        }
+
+        //Questo metodo recupera i corsi legati alla facoltà specificata. Se k_facolta è nullo, restituisce una lista vuota.
+        private IEnumerable<SelectListItem> PopolaCorsi(Guid? k_facolta)
+        {
+            if (k_facolta == null)
+                return new List<SelectListItem>();
+
+            return dbContext.Corsi
+                .Where(c => c.K_Facolta == k_facolta)
+                .Select(c => new SelectListItem
+                {
+                    Text = c.TitoloCorso,
+                    Value = c.K_Corso.ToString()
+                }).ToList();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Immatricolati(ModificaStudenteViewModel model, Guid cod)
+
+        {
+            ViewData["studente_id"] = cod;
+            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == model.K_Studente);
+
+            if (studente == null)
+                return NotFound();
+
+            ViewData["email"] = studente.Email;
+            ViewData["matricola"] = studente.Matricola;
+            ViewData["abilitato"] = studente.Abilitato;
+            // Se è solo un cambio facoltà (nessun corso ancora selezionato), NON salvare
+            if (model.K_Corso == null)
+            {
+                //Se model.K_Corso è nullo (nessun corso selezionato), si assume che l'utente stia cercando solo di cambiare la facoltà.
+                //In questo caso, vengono ripopolate le dropdown e restituita la vista senza fare modifiche.
+                model.FacoltaList = PopolaFacolta();
+                model.CorsiList = PopolaCorsi(model.K_Facolta);
+                model.ImmagineProfilo = studente.ImmagineProfilo; // Mantieni l'immagine del profilo
+                return View(model);
+            }
+
+            //Se un corso è selezionato, vengono aggiornati i dettagli dello studente.
+
+            //studente.Corso.K_Facolta = model.K_Facolta;
+            //studente.K_Corso = model.K_Corso;
+            //studente.DataImmatricolazione = DateTime.Now;
+
+            // Salva i cambiamenti nel database
+            await dbContext.SaveChangesAsync();
+
+            TempData["PopupConferma"] = "Dati aggiornati con successo!";
+            return RedirectToAction("Index");
+        }
 
     }
-
+    
 
 
 }
@@ -454,3 +571,57 @@ namespace AreaStudente.Controllers
 
 
 
+
+        //public IActionResult PopolaCorsi()
+
+        //{
+        //    var dati=(
+        //        from corsi in dbContext.Corsi
+        //        join facolta in dbContext.Facolta on corsi.K_Facolta  equals facolta.K_Facolta
+        //        select new { 
+        //        Facolta = facolta.TitoloFacolta,
+        //        Corso= corsi.TitoloCorso                
+        //        }
+
+        //        ).ToList<dynamic> ();
+        //    ViewBag.PopolaCorsi= dati;
+        //    return View(dati);
+
+        //    //IEnumerable<SelectListItem> listaCorsi = dbContext.Corsi
+
+        //        //.Where(c => c.K_Facolta == K_Facolta)
+        //        //.Select(i => new SelectListItem
+        //        //{
+        //        //    Text = i.TitoloCorso,
+        //        //    Value = i.K_Corso.ToString()
+        //        //})
+        //        //.ToList();
+
+        //    //ViewBag.listaCorsi = listaCorsi;
+        //}
+        //public void PopolaFacolta()
+        //{
+        //    IEnumerable<SelectListItem> listaFacolta = dbContext.Facolta
+        //        .Select(i => new SelectListItem
+        //        {
+        //            Text = i.TitoloFacolta,
+        //            Value = i.K_Facolta.ToString()                    
+        //        })
+        //        .ToList()
+        //        ;
+
+        //    ViewBag.FacoltaList = listaFacolta;
+
+        //}
+        //public void PopolaCorsi() 
+        //{
+        //    IEnumerable<SelectListItem> listaCorsi = dbContext.Corsi
+        //        .Select(i => new SelectListItem
+        //        {
+        //            Text = i.TitoloCorso,
+        //            Value = i.K_Corso.ToString()
+        //        })
+        //        .ToList()
+        //        ;
+
+        //    ViewBag.CorsiList = listaCorsi;

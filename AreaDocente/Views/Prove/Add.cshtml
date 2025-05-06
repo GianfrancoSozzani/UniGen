@@ -1,4 +1,56 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-<h1>testing</h1>
+﻿@{
+    ViewData["Title"] = "Pagina con Accordion";
+}
+
+<div class="container mt-5">
+    <h2>Aggiungi Sezioni</h2>
+
+    <form method="post" id="accordionForm">
+        <div class="accordion" id="accordionContainer">
+            <!-- Sezioni aggiunte dinamicamente qui -->
+        </div>
+
+        <button type="button" class="btn btn-primary mt-3" onclick="aggiungiSezione()">Aggiungi sezione</button>
+        <button type="submit" class="btn btn-success mt-3">Invia</button>
+    </form>
+
+</div>
+
+@section Scripts {
+    <script>
+        let indice = 0;
+
+        function aggiungiSezione() {
+            const container = document.getElementById("accordionContainer");
+
+            const sezione = document.createElement("div");
+            sezione.classList.add("accordion-item");
+
+            const headerId = `heading${indice}`;
+            const collapseId = `collapse${indice}`;
+
+            sezione.innerHTML = `
+                <h2 class="accordion-header" id="${headerId}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
+                        Sezione ${indice + 1}
+                    </button>
+                </h2>
+                <div id="${collapseId}" class="accordion-collapse collapse" aria-labelledby="${headerId}" data-bs-parent="#accordionContainer">
+                    <div class="accordion-body">
+                        <div class="mb-3">
+                            <label class="form-label">Titolo</label>
+                            <input type="text" name="Sezioni[${indice}].Titolo" class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Descrizione</label>
+                            <textarea name="Sezioni[${indice}].Descrizione" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            container.appendChild(sezione);
+            indice++;
+        }
+    </script>
+}
