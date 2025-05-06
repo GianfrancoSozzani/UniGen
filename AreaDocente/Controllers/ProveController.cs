@@ -16,6 +16,7 @@ namespace AreaDocente.Controllers
             this.dbContext = dbContext;
         }
 
+        // Add Prove
         [HttpPost]
         public ActionResult SelezionaEsame(AddProveViewModel model)
         {
@@ -31,8 +32,27 @@ namespace AreaDocente.Controllers
                 })
                 .ToList();
 
-
             return View("Add", model); // restituisci la stessa view "Add"
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SelezionaStudenti(Guid? K_Prova)
+        {
+            //ViewBag.ProvaSelezionata = K_Prova;
+
+            PopolaProve(K_Prova);
+
+            if (K_Prova == null)
+                return View(new List<MVCStudente>());
+
+            //K_Prova = Guid.Parse("4B2E9FD5-23A5-4994-8AE4-00C927AB052B");
+
+            var studenti = await dbContext.valutazioni
+                .Where(v => v.K_Prova == K_Prova)
+                .Select(v => v.Studente)
+                .ToListAsync();
+
+            return View("Valutazione", studenti);
         }
 
         public void PopolaProve()
@@ -40,11 +60,28 @@ namespace AreaDocente.Controllers
             IEnumerable<SelectListItem> ListaProve = dbContext.prove
                 .Include(p => p.Appello)
                 .Include(p => p.Appello.Esame)
+                .Where(p => p.Appello.Esame.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
                 .ToList()
                 .Select(p => new SelectListItem
                 {
                     Value = p.K_Prova.ToString(),
                     Text = p.Appello?.Esame?.TitoloEsame + " - " + p.Appello?.DataAppello?.ToString("dd/MM/yyyy")
+                });
+            ViewBag.ProveList = ListaProve;
+        }
+        
+        public void PopolaProve(Guid? K_Prova)
+        {
+            IEnumerable<SelectListItem> ListaProve = dbContext.prove
+                .Include(p => p.Appello)
+                .Include(p => p.Appello.Esame)
+                .Where(p => p.Appello.Esame.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
+                .ToList()
+                .Select(p => new SelectListItem
+                {
+                    Value = p.K_Prova.ToString(),
+                    Text = p.Appello?.Esame?.TitoloEsame + " - " + p.Appello?.DataAppello?.ToString("dd/MM/yyyy"),
+                    Selected = (p.K_Prova == K_Prova)
                 });
             ViewBag.ProveList = ListaProve;
         }
@@ -72,11 +109,6 @@ namespace AreaDocente.Controllers
         [HttpPost]
         public async Task<ActionResult> Add(AddProveViewModel viewModel)
         {
-            if (!ModelState.IsValid)
-            {
-
-            }
-
             var prova = new MVCPROVA
             {
                 K_Prova = viewModel.K_Prova != Guid.Empty ? viewModel.K_Prova : Guid.NewGuid(),
@@ -161,34 +193,6 @@ namespace AreaDocente.Controllers
             return View(prove);
         }
 
-        [HttpPost]
-        public ActionResult SelezionaStudenti(Guid provaId)
-        {
-            PopolaProve();
-
-            if (provaId == null)
-                return View(new List<MVCStudente>());
-
-            var studenti = dbContext.valutazioni
-                .Where(v => v.K_Prova == provaId)
-                .Select(v => v.Studente)
-                .Distinct()
-                .ToList();
-
-            // Popola appelli in base all'esame selezionato
-            //ViewBag.AppelliList = dbContext.appelli
-            //    .Where(a => a.K_Esame == model.K_Esame)
-            //    .Select(a => new SelectListItem
-            //    {
-            //        Value = a.K_Appello.ToString(),
-            //        Text = $"{a.DataAppello:dd/MM/yyyy} - {(a.Tipo == "Or" ? "Orale" : a.Tipo == "Sc" ? "Scritto" : a.Tipo == "La" ? "Laurea" : a.Tipo)}"
-            //    })
-            //    .ToList();
-
-
-            return View("Valutazione", studenti); // restituisci la stessa view "Add"
-        }
-
         [HttpGet]
         public IActionResult Valutazione()
         {
@@ -208,7 +212,7 @@ namespace AreaDocente.Controllers
             PopolaProve();
 
 
-            return View();
+            return View(new List<MVCStudente>());
         }
     }
 }
