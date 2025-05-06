@@ -4,32 +4,26 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
-    <style>
-        .mio_width {
-            width: 200px;
-        }
-    </style>
-
     <div class="container mt-3">
         <h1>Gestione Corsi</h1>
 
         <div class="mb-4">
-            <div id="icona" class="row g-3">
+            <div id="icona" class="row g-3 align-items-center justify-content-end">
                 <div class="col-auto">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalInserimentoCorso">
-                        <i class="bi bi-plus-circle"></i>
-                    </button>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRicercaCorso">
                         <i class="bi bi-search"></i>
                     </button>
                 </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalInserimentoCorso">
+                        <i class="bi bi-plus-circle"></i>
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div>
         <asp:Repeater ID="rpCorso" runat="server">
-            <headertemplate>
+            <HeaderTemplate>
                 <table class="table table-striped shadow">
                     <thead>
                         <tr>
@@ -42,9 +36,9 @@
                         </tr>
                     </thead>
                     <tbody>
-            </headertemplate>
+            </HeaderTemplate>
 
-            <itemtemplate>
+            <ItemTemplate>
                 <tr>
                     <td><%# Eval("TitoloCorso") %></td>
                     <td><%# Eval("TitoloFacolta") %></td>
@@ -61,12 +55,12 @@
                                 '<%# Eval("CostoAnnuale") %>',)">Modifica</a>
                     </td>
                 </tr>
-            </itemtemplate>
+            </ItemTemplate>
 
-            <footertemplate>
+            <FooterTemplate>
                 </tbody>
             </table>
-            </footertemplate>
+            </FooterTemplate>
         </asp:Repeater>
     </div>
 
