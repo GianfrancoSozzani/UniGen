@@ -129,7 +129,9 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="btn btn-light btn-sm" href='<%# "https://localhost:7050/Studenti/Show?cod=" + Eval("K_Studente") + "&usr=" + Eval("Email") + "&r=s" %>'>Logout</a>
+                                    <asp:Button ID="Button1" runat="server" Text="Logout" class="btn btn-light btn-sm" OnClick="btnLogout_Click" />
+
+
                                 </li>
                             </ul>
                         </div>
