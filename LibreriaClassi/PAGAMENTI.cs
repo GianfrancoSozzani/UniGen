@@ -28,13 +28,17 @@ namespace LibreriaClassi
 
         }
 
+        //PAGAMENTO NUOVO CHE SI INSERISCE DOPO AVER PAGATO IL PRIMO
         public void Inserimento()
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", Anno);
-            db.cmd.Parameters.AddWithValue("", DataPagamento);
-            db.cmd.Parameters.AddWithValue("", Importo);
+            db.query = "Pagamenti_Insert";
+            db.cmd.Parameters.AddWithValue("@k_pagamento", K_Pagamento);
+            db.cmd.Parameters.AddWithValue("@k_studente", K_Studente);
+            db.cmd.Parameters.AddWithValue("@anno", Anno);
+            db.cmd.Parameters.AddWithValue("@datapagamento", DataPagamento);
+            db.cmd.Parameters.AddWithValue("@importo", Importo);
+            db.cmd.Parameters.AddWithValue("@stato", Stato);
             db.SQLcommand();
         }
 
@@ -45,11 +49,11 @@ namespace LibreriaClassi
             return dB.SQLselect();
         }
 
-        public DataTable SelezionaChiavePagamento()
+        public DataTable SelezionaChiave()
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", K_Pagamento);
+            db.query = "Pagamenti_SelectKey";
+            db.cmd.Parameters.AddWithValue("@chiave", K_Pagamento);
             return db.SQLselect();
         }
 
@@ -88,7 +92,24 @@ namespace LibreriaClassi
             DB db = new DB();
             db.query = "PagamentiEffettuati_SelectMat";
             db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
-             return db.SQLselect();
+            return db.SQLselect();
+        }
+
+        //richiamo anno, importo, data
+        public DataTable PagamentiDatiMancanti(Guid K_Pagamento)
+        {
+            DB db = new DB();
+            db.query = "Pagamenti_DatiMancanti";
+            db.cmd.Parameters.AddWithValue("@k_pagamento", K_Pagamento);
+            return db.SQLselect();
+        }
+
+        public DataTable Pagamenti_VerificaPagamenti(int Matricola)
+        {
+            DB db = new DB();
+            db.query = "Pagamenti_VerificaTasse";
+            db.cmd.Parameters.AddWithValue("@matricola", Matricola);
+            return db.SQLselect();
         }
 
         //---------------AGGIUNTA PER HOME AMMINISTRAZIONE
@@ -145,5 +166,7 @@ namespace LibreriaClassi
             db.query = "Pagamenti_SelectStimatiCorso";
             return db.SQLselect();
         }
+
+
     }
 }
