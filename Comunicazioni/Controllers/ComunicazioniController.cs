@@ -27,7 +27,7 @@ namespace Comunicazioni.Controllers
             List<IGrouping<Guid, Comunicazione>> comunicazioni;
             
             PopolaEsami(null);
-            PopolaStudenti(null);
+            PopolaStudenti();
             PopolaDocenti();
 
             var viewModel = new ListAndAddViewModel();
@@ -165,7 +165,7 @@ namespace Comunicazioni.Controllers
             ViewBag.EsamiList = listaEsami;
         }
 
-        public void PopolaStudenti(Guid? K_Esame)
+        public void PopolaStudenti()
         {
             string ruolo = HttpContext.Session.GetString("r");
             if (ruolo == "a")
@@ -178,20 +178,26 @@ namespace Comunicazioni.Controllers
                     });
                 ViewBag.StudentiList = listaStudenti;
             }
-            else if (ruolo == "d" && K_Esame.HasValue)
+            else if (ruolo == "d")
             {
-                var pianiDiStudio = dbContext.PianiStudioPersonali
-                .Where(ps => ps.K_Esame == K_Esame.Value)
-                .Select(ps => ps.K_Studente); // Ottieni solo gli ID degli studenti
+                // Ottieni l'ID del docente loggato
+                Guid docenteId = Guid.Parse(HttpContext.Session.GetString("cod"));
 
-                // Recupera gli studenti che hanno un K_Studente presente nei piani di studio trovati
+                // Ottieni gli esami associati al docente loggato
+                var esamiDocente = dbContext.Esami
+                    .Where(e => e.K_Docente == docenteId)
+                    .Select(e => e.K_Esame); // Ottieni solo gli ID degli esami
+
+                // Recupera gli studenti che hanno un K_Esame nei piani di studio che corrisponde a uno degli esami del docente
                 IEnumerable<SelectListItem> listaStudenti = dbContext.Studenti
-                    .Where(s => pianiDiStudio.Contains(s.K_Studente))
+                    .Where(s => dbContext.PianiStudioPersonali
+                        .Any(ps => ps.K_Esame.HasValue && esamiDocente.Contains(ps.K_Esame.Value) && ps.K_Studente == s.K_Studente))
                     .Select(s => new SelectListItem
                     {
                         Text = s.Nome + " " + s.Cognome,
                         Value = s.K_Studente.ToString()
                     });
+
                 ViewBag.StudentiList = listaStudenti;
             }
         }
@@ -235,7 +241,7 @@ namespace Comunicazioni.Controllers
         public IActionResult Add()
         {
             PopolaEsami(null);
-            PopolaStudenti(null);
+            PopolaStudenti();
             PopolaDocenti();
             return View();
         }
@@ -252,7 +258,7 @@ namespace Comunicazioni.Controllers
         public IActionResult AddStudente(Guid? K_Esame)
         {
             PopolaEsami(null);
-            PopolaStudenti(K_Esame);
+            PopolaStudenti();
             return View("List");
         }
 
