@@ -49,11 +49,11 @@ namespace LibreriaClassi
             return dB.SQLselect();
         }
 
-        public DataTable SelezionaChiavePagamento()
+        public DataTable SelezionaChiave()
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", K_Pagamento);
+            db.query = "Pagamenti_SelectKey";
+            db.cmd.Parameters.AddWithValue("@chiave", K_Pagamento);
             return db.SQLselect();
         }
 
@@ -96,11 +96,11 @@ namespace LibreriaClassi
         }
 
         //richiamo anno, importo, data
-        public DataTable PagamentiDatiMancanti(int Matricola)
+        public DataTable PagamentiDatiMancanti(Guid K_Pagamento)
         {
             DB db = new DB();
             db.query = "Pagamenti_DatiMancanti";
-            db.cmd.Parameters.AddWithValue("@matricola", Matricola);
+            db.cmd.Parameters.AddWithValue("@k_pagamento", K_Pagamento);
             return db.SQLselect();
         }
 
