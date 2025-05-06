@@ -134,6 +134,24 @@ namespace AreaDocente.Controllers
                 .Where(a => a.Appello.Esame.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
                 .ToListAsync();
 
+            foreach (var prova in prove)
+            {
+                if (prova.Tipologia == "Da")
+                {
+                    var domandeAperte = await dbContext.test_DA
+                        .Where(d => d.K_Prova == prova.K_Prova)
+                        .ToListAsync();
+                    prova.DomandeAperte = domandeAperte;
+                }
+                else if (prova.Tipologia == "Dc")
+                {
+                    var domandeChiuse = await dbContext.test_DC
+                        .Where(d => d.K_Prova == prova.K_Prova)
+                        .ToListAsync();
+                    prova.DomandeChiuse = domandeChiuse;
+                }
+            }
+
             return View(prove);
         }
     }

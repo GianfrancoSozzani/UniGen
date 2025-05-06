@@ -2,7 +2,7 @@
 {
     public class AddDomandeViewModel
     {
-        public int? Numero_Domanda { get; set; }
+        public byte? Numero_Domanda { get; set; }
         public string? Domanda { get; set; }
         public string? Risposte { get; set; }
         public string? RispostaCorretta { get; set; }
