@@ -54,9 +54,9 @@
     <div class="d-flex text-start gap-2 flex-wrap fs-6 mb-2">
         <asp:Label ID="lblAnno" runat="server"></asp:Label>
         <span>-</span>
-        <asp:Label ID="lblCorso" runat="server"></asp:Label>
-        <span>-</span>
         <asp:Label ID="lblFacolta" runat="server"></asp:Label>
+        <span>-</span>
+        <asp:Label ID="lblCorso" runat="server"></asp:Label>
     </div>
 
     <!-- Testo di benvenuto più grande -->
