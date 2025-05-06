@@ -6,7 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-    <div class="container mt-4 mb-4">
+    <div class="container mt-2 mb-4">
         <!-- TITOLO E ETICHETTE -->
         <div class="py-4 mb-4 border-bottom">
             <h2 class="text-start mb-1">Prenotazione Appelli</h2>

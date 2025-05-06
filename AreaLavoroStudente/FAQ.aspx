@@ -4,7 +4,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <div class="container mt-5">
+    <div class="container mt-2">
         <!-- HEADER -->
         <div class="py-4 mb-3 border-bottom">
             <h2 class="text-start mb-1">FAQ</h2>

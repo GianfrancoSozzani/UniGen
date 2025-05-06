@@ -4,7 +4,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <div class="container">
+    <div class="container mt-2">
         <div class="row">
             <div class="col-12 col-lg-8">
                 <h1 style="font-size: 60px;">Informativa sulla Privacy</h1>
