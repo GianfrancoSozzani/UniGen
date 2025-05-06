@@ -25,6 +25,12 @@ namespace Comunicazioni.Controllers
         {
             string ruolo = HttpContext.Session.GetString("r");
             List<IGrouping<Guid, Comunicazione>> comunicazioni;
+            
+            PopolaEsami(null);
+            PopolaStudenti(null);
+            PopolaDocenti();
+
+            var viewModel = new ListAndAddViewModel();
 
             if (ruolo == "s")
             {
@@ -55,7 +61,9 @@ namespace Comunicazioni.Controllers
                     }
                 }
 
-                return View(comunicazioni);
+                viewModel.Comunicazioni = comunicazioni;
+
+                return View(viewModel);
             }
             // ... Logica simile per il ruolo "Docente" e "Altro" ...
             else if (ruolo == "d")
@@ -87,7 +95,10 @@ namespace Comunicazioni.Controllers
                     }
                 }
 
-                return View(comunicazioni);
+
+                viewModel.Comunicazioni = comunicazioni;
+
+                return View(viewModel);
             }
             else
             {
@@ -127,7 +138,12 @@ namespace Comunicazioni.Controllers
                     }
                 }
 
-                return View(comunicazioni);
+               
+
+
+                viewModel.Comunicazioni = comunicazioni;
+
+                return View(viewModel);
 
             }
 
@@ -234,9 +250,9 @@ namespace Comunicazioni.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddComunicazioneViewModel viewModel)
+        public async Task<IActionResult> Add(ListAndAddViewModel listAndAddViewModel)
         {
-
+            var viewModel = listAndAddViewModel.AddComunicazione;
             string ruolo = HttpContext.Session.GetString("r");
 
             var comunicazione = new Comunicazione
