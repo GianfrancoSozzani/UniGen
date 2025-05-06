@@ -522,7 +522,7 @@ namespace AreaStudente.Controllers
 
             if (corso == null)
             {
-                ModelState.AddModelError("", "Corso non trovato.");
+                ModelState.AddModelError("", "Devi selezionare un corso per poterti immatricolare.");
                 model.FacoltaList = PopolaFacolta();
                 model.CorsiList = PopolaCorsi(model.K_Facolta);
                 model.ImmagineProfilo = studente.ImmagineProfilo;
@@ -589,10 +589,6 @@ namespace AreaStudente.Controllers
 
             return RedirectToAction("Show", "Studenti", new { cod = HttpContext.Session.GetString("cod") });
         }
-
-
-
-
     }
 }
 
@@ -600,56 +596,3 @@ namespace AreaStudente.Controllers
 
 
 
-//public IActionResult PopolaCorsi()
-
-//{
-//    var dati=(
-//        from corsi in dbContext.Corsi
-//        join facolta in dbContext.Facolta on corsi.K_Facolta  equals facolta.K_Facolta
-//        select new { 
-//        Facolta = facolta.TitoloFacolta,
-//        Corso= corsi.TitoloCorso                
-//        }
-
-//        ).ToList<dynamic> ();
-//    ViewBag.PopolaCorsi= dati;
-//    return View(dati);
-
-//    //IEnumerable<SelectListItem> listaCorsi = dbContext.Corsi
-
-//        //.Where(c => c.K_Facolta == K_Facolta)
-//        //.Select(i => new SelectListItem
-//        //{
-//        //    Text = i.TitoloCorso,
-//        //    Value = i.K_Corso.ToString()
-//        //})
-//        //.ToList();
-
-//    //ViewBag.listaCorsi = listaCorsi;
-//}
-//public void PopolaFacolta()
-//{
-//    IEnumerable<SelectListItem> listaFacolta = dbContext.Facolta
-//        .Select(i => new SelectListItem
-//        {
-//            Text = i.TitoloFacolta,
-//            Value = i.K_Facolta.ToString()                    
-//        })
-//        .ToList()
-//        ;
-
-//    ViewBag.FacoltaList = listaFacolta;
-
-//}
-//public void PopolaCorsi() 
-//{
-//    IEnumerable<SelectListItem> listaCorsi = dbContext.Corsi
-//        .Select(i => new SelectListItem
-//        {
-//            Text = i.TitoloCorso,
-//            Value = i.K_Corso.ToString()
-//        })
-//        .ToList()
-//        ;
-
-//    ViewBag.CorsiList = listaCorsi;
