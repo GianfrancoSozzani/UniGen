@@ -3,6 +3,7 @@ using AreaDocente.Models;
 using AreaDocente.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace AreaDocente.Controllers
 {
@@ -123,10 +124,17 @@ namespace AreaDocente.Controllers
             return RedirectToAction("List");
         }
 
+        //LISTA
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            return View();
+            var prove = await dbContext.prove
+                .Include(a => a.Appello)
+                .Include(a => a.Appello.Esame)
+                .Where(a => a.Appello.Esame.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
+                .ToListAsync();
+
+            return View(prove);
         }
     }
 }
