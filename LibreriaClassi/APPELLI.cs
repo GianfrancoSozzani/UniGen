@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace LibreriaClassi
 {
     /// <summary>
@@ -24,7 +25,7 @@ namespace LibreriaClassi
         public string Link { get; set; }
         public DateTime DataOrale { get; set; }
 
-        public void Inserimento()
+        public void Inserimento()                                     //GESTIONE APPELLI TRAMITE API
         {
             DB dB = new DB();
             dB.query = "APPELLI_Inserimento";
@@ -60,5 +61,24 @@ namespace LibreriaClassi
             dB.cmd.Parameters.AddWithValue("@K_Appello", K_Appello);
             return dB.SQLselect();
         }
+        
+
+
+        //lista appelli 
+        public DataTable ListaAppelli(int Matricola)
+        {
+            
+            DB db = new DB();
+            db.query = "Appelli_SelectMat";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+        public DataTable CaricaEsamiMeseCorrente()
+        {
+            DB dB = new DB();
+            dB.query = "APPELLI_CountEsamiMeseCorrente";
+            return dB.SQLselect();
+        }
+
     }
 }
