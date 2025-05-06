@@ -253,8 +253,6 @@ namespace Comunicazioni.Controllers
         {
             PopolaEsami(null);
             PopolaStudenti(K_Esame);
-            ViewBag.SelectedKEsame = K_Esame;
-            ViewBag.RiapriModal = true; // <-- FLAG PER RIAPRIRE IL MODAL
             return View("List");
         }
 
@@ -269,7 +267,7 @@ namespace Comunicazioni.Controllers
             {
                 Codice_Comunicazione = Guid.NewGuid(),
                 DataOraComunicazione = DateTime.Now,
-                Testo = viewModel.Testo,
+                Testo = viewModel.Testo.Trim(),
                 K_Studente = viewModel.K_Studente,
                 K_Docente = viewModel.K_Docente
             };
@@ -461,7 +459,7 @@ hai ricevuto una comunicazione dall'Amministrazione.
             {
                 Codice_Comunicazione = viewModel.Codice_Comunicazione,
                 DataOraComunicazione = DateTime.Now,
-                Testo = viewModel.Testo,
+                Testo = viewModel.Testo.Trim(),
                 K_Soggetto = chiaveUtente,
             };
 

@@ -153,7 +153,64 @@
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						@Html.Partial("ModalAddComunicazione", Model)
+						@{
+							var ruolo = Context.Session.GetString("r");
+						}
+						<form method="post" asp-action="Add">
+							@if (ruolo == "d")
+							{
+								<div class="mt-3">
+									<label class="form-label">Esame</label>
+									<select asp-for="AddComunicazione.K_Esame" asp-items="@ViewBag.EsamiList" class="form-select" onchange="this.form.submit()">
+										<option disabled selected>-- Seleziona un esame --</option>
+									</select>
+									<span asp-validation-for="AddComunicazione.K_Esame" class="text-danger"></span>
+								</div>
+							}
+
+							@if (ruolo == "d" && ViewBag.SelectedKEsame != null)
+							{
+								<input type="hidden" asp-for="AddComunicazione.K_Esame" value="@ViewBag.SelectedKEsame" />
+							}
+
+							@if (ruolo == "d" || ruolo == "a")
+							{
+								<div class="mt-3">
+									<label class="form-label">Studenti</label>
+									<select asp-for="AddComunicazione.K_Studente" asp-items="@ViewBag.StudentiList" class="form-select" required>
+										<option selected disabled>-- Seleziona uno studente --</option>
+										@if (Context.Session.GetString("r") == "d")
+										{
+											<option value="">Amministrazione</option>
+										}
+									</select>
+									<span asp-validation-for="AddComunicazione.K_Studente" class="text-danger"></span>
+								</div>
+							}
+
+							@if (ruolo == "s" || ruolo == "a")
+							{
+								<div class="mt-3">
+									<label class="form-label">Docenti</label>
+									<select asp-for="AddComunicazione.K_Docente" asp-items="@ViewBag.DocentiList" class="form-select" required>
+										<option selected disabled>-- Seleziona un docente --</option>
+										@if (ruolo == "s")
+										{
+											<option value="">Amministrazione</option>
+										}
+									</select>
+									<span asp-validation-for="AddComunicazione.K_Docente" class="text-danger"></span>
+								</div>
+							}
+
+							<div class="mt-4">
+								<label class="form-label">Testo:</label>
+								<textarea asp-for="AddComunicazione.Testo" class="form-control" rows="6" required></textarea>
+								<span asp-validation-for="AddComunicazione.Testo" class="text-danger"></span>
+							</div>
+
+							<button type="submit" class="btn btn-primary mt-3">Inserisci Comunicazione</button>
+						</form>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
@@ -161,17 +218,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+    </div>
 </div>
-@section Scripts {
-	<script>
-		window.onload = function () {
-			var riapri = '@ViewBag.RiapriModal';
-			if (riapri === 'True') {
-				var modal = new bootstrap.Modal(document.getElementById('staticBackdropAdd'));
-				modal.show();
-			}
-		};
-	</script>
-}
+
 

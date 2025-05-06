@@ -18,7 +18,7 @@ namespace Comunicazioni.Models.Entities
         [ValidateNever]
         public Studente? Studente { get; set; }
         public Guid? K_Docente { get; set; }
-        [ForeignKey("K_Studente")]
+        [ForeignKey("K_Docente")]
         [ValidateNever]
         public Docente? Docente{ get; set; }
 
