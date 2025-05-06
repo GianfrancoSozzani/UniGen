@@ -182,15 +182,20 @@ namespace Comunicazioni.Controllers
             {
                 Guid docenteId = Guid.Parse(HttpContext.Session.GetString("cod"));
 
-                // Recupera gli studenti legati agli esami del docente
-                var listaStudenti = dbContext.PianiStudioPersonali
-                    .Where(ps => ps.K_Esame.HasValue &&
-                                 dbContext.Esami
-                                     .Where(e => e.K_Docente == docenteId)
-                                     .Select(e => e.K_Esame)
-                                     .Contains(ps.K_Esame.Value))
-                    .Select(ps => ps.Studente)
-                    .Distinct()
+                // Ottieni gli ID degli esami del docente
+                var esamiDelDocente = dbContext.Esami
+                    .Where(e => e.K_Docente == docenteId)
+                    .Select(e => e.K_Esame);
+
+                // Ottieni solo gli studenti che hanno almeno un esame del docente in PianiStudioPersonali
+                var studentiFiltrati = dbContext.PianiStudioPersonali
+                    .Where(ps => ps.K_Esame.HasValue && esamiDelDocente.Contains(ps.K_Esame.Value))
+                    .Select(ps => ps.K_Studente)
+                    .Distinct();
+
+                // Carica solo questi studenti dalla tabella Studenti
+                var listaStudenti = dbContext.Studenti
+                    .Where(s => studentiFiltrati.Contains(s.K_Studente))
                     .Select(s => new SelectListItem
                     {
                         Text = s.Nome + " " + s.Cognome,
