@@ -72,8 +72,6 @@
                     </div>
 
                     <div class="modal-body">
-                        <asp:HiddenField ID="hiddenIdMatricola" runat="server" />
-
                         <div class="mb-3">
                             <label for="txtRicercaMatricola" class="form-label fw-bold">Matricola</label>
                             <asp:TextBox ID="txtRicercaMatricola" runat="server" CssClass="form-control"></asp:TextBox>

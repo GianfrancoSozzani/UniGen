@@ -81,8 +81,6 @@
                 </div>
 
                 <div class="modal-body">
-                    <asp:HiddenField ID="hiddenIdCorsoFind" runat="server" />
-
                     <div class="mb-3">
                         <label for="txtRicercaCorso" class="form-label fw-bold">Corso</label>
                         <asp:TextBox ID="txtRicercaCorso" runat="server" CssClass="form-control"></asp:TextBox>
