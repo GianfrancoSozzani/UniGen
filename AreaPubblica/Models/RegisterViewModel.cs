@@ -19,12 +19,13 @@ namespace AreaPubblica.Models
         public string? Password { get; set; }
 
         [Required(ErrorMessage = "Il nome è obbligatorio")]
-        [RegularExpression(@"^[A-Z][a-z]+(?:\s[A-Z][a-z]+)*$", ErrorMessage = "Il nome deve iniziare con lettera maiuscola.")]
+        [RegularExpression(@"^([A-Z][a-z]+)(\s[A-Z][a-z]+)*$", ErrorMessage = "Inserire solo lettere, ogni parola deve iniziare con una maiuscola.")]
         public string? Nome { get; set; }
 
         [Required(ErrorMessage = "Il cognome è obbligatorio")]
-        [RegularExpression(@"^[A-Z][a-z]+(?:\s[A-Z][a-z]+)*$", ErrorMessage = "Il cognome deve iniziare con lettera maiuscola.")]
+        [RegularExpression(@"^([A-Z][a-z]+)(\s[A-Z][a-z]+)*$", ErrorMessage = "Inserire solo lettere, ogni parola deve iniziare con una maiuscola.")]
         public string? Cognome { get; set; }
+
 
         [Required(ErrorMessage = "La data di nascita è obbligatoria")]
         [DataType(DataType.Date)]
@@ -34,14 +35,14 @@ namespace AreaPubblica.Models
         public string? Indirizzo { get; set; }
 
         [Required(ErrorMessage = "Il CAP è obbligatorio")]
-        [RegularExpression(@"^\d{5}$", ErrorMessage = "Il CAP deve contenere esattamente 5 cifre.")]
+        [RegularExpression(@"^\d{5}$", ErrorMessage = "Il CAP deve contenere 5 cifre.")]
         public string? CAP { get; set; }
 
         [Required(ErrorMessage = "La città è obbligatoria")]
         public string? Citta { get; set; }
 
         [Required(ErrorMessage = "La provincia è obbligatoria")]
-        [RegularExpression(@"^[A-Z]{2}$", ErrorMessage = "La provincia deve contenere esattamente due lettere maiuscole.")]
+        [RegularExpression(@"^[A-Z]{2}$", ErrorMessage = "La provincia deve contenere due lettere maiuscole.")]
         public string? Provincia { get; set; }
 
         [Display(Name = "Immagine profilo")]
