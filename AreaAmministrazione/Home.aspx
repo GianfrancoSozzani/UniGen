@@ -37,9 +37,9 @@
         }
 
         .btn:hover {
-            box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);
-            -webkit-box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);
-            -moz-box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);
+          box-shadow: 14px 10px 5px -3px rgba(0,0,0,0.06);
+-webkit-box-shadow: 14px 10px 5px -3px rgba(0,0,0,0.06);
+-moz-box-shadow: 14px 10px 5px -3px rgba(0,0,0,0.06);
         }
     </style>
 </asp:Content>
@@ -55,7 +55,10 @@
             <h1>Area Amministrazione</h1>
 
             <%-----------------RIEPILOGO STUDENTI ISCRITTI, INCASSO ANNO CORRENTE E CORSI ATTIVI---------------------%>
-            <div class="row mt-5">
+            <div class="aggiorna mt-5 text-end">
+                <asp:Button runat="server" Text="Aggiorna" class="btn btn-outline-primary" ID="btnAggiorna" OnClick="btnAggiorna_OnClick" />
+            </div>
+            <div class="row mt-2">
                 <div class="col-md-4 mb-3">
                     <div class="card border-primary shadow-sm">
                         <div class="card-body">
@@ -118,9 +121,6 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <asp:Button runat="server" Text="Aggiorna" class="btn btn-outline-primary" ID="btnAggiorna" OnClick="btnAggiorna_OnClick" />
-            </div>
 
             <%----------------SHORTCUT PER AZIONI FREQUENTI---------------------%>
             <div class="mt-5">
@@ -128,7 +128,7 @@
                 <div class="btn-group">
                     <a class="btn btn-outline-primary" href="GesioneCorso.aspx"><i class="bi bi-plus-circle me-1"></i>Nuovo corso</a>
                     <a class="btn btn-outline-info" href="AbilitaStudente.aspx"><i class="bi bi-person-plus me-1"></i>Nuovo studente</a>
-                    <a class="btn btn-outline-success" href="IncassoAnnuale.aspx"><i class="bi bi-file-earmark-arrow-down me-1"></i>Esporta dati</a>
+                    <a class="btn btn-outline-success" href="IncassoAnnuale.aspx"><i class="bi bi-file-earmark-arrow-down me-1"></i>Incasso Annuale</a>
                 </div>
             </div>
 
