@@ -1,5 +1,161 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<AreaDocente.Models.Entities.MVCPROVA>
+
 @{
+    ViewData["Title"] = "Elenco Prove";
+    var accordionId = 0;
+    var proveOrali = Model.Where(p => p.Tipologia == "Or").ToList();
+    var proveConDomande = Model.Where(p => p.Tipologia == "Da" || p.Tipologia == "Dc").ToList();
+}
+
+<div class="container my-5">
+    <h1>Elenco Prove</h1>
+
+    <!-- Select filtro -->
+    <div class="mb-4">
+        <label class="form-label fw-semibold">Filtra per tipo di prova:</label>
+        <select class="form-select w-auto d-inline-block" onchange="filtraProve(this.value)">
+            <option value="tutte">Tutte</option>
+            <option value="scritti">Solo scritti (Da / Dc)</option>
+            <option value="orali">Solo orali</option>
+        </select>
+    </div>
+
+    <!-- PROVE ORALI -->
+    @if (proveOrali.Any())
+    {
+        <div class="sezione-prova sezione-orali">
+            <h4>Prove Orali</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Esame</th>
+                        <th>Data Appello</th>
+                        <th>Tipo</th>
+                        <th>Link</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var prova in proveOrali)
+                    {
+                        <tr>
+                            <td>@prova.Appello?.Esame?.TitoloEsame</td>
+                            <td>@prova.Appello?.DataAppello?.ToString("dd/MM/yyyy")</td>
+                            <td>Orale</td>
+                            <td>
+                                <a target="_blank" href="@prova.Link" class="btn btn-outline-info btn-sm">
+                                    <i class="bi bi-link-45deg me-1"></i> Link
+                                </a>
+                            </td>
+                            <td>
+                                <a class="btn btn-warning btn-sm" asp-controller="Prove" asp-action="Edit" asp-route-id="@prova.K_Prova">
+                                    <i class="bi bi-pencil-square me-1"></i> Modifica
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    <!-- PROVE SCRITTE (Da / Dc) -->
+    @if (proveConDomande.Any())
+    {
+        <div class="sezione-prova sezione-scritti">
+            <h4 class="mt-5">Prove Scritte</h4>
+            <div class="accordion" id="proveAccordion">
+                @foreach (var prova in proveConDomande)
+                {
+                    var collapseId = $"collapse{accordionId}";
+                    var headingId = $"heading{accordionId}";
+                    accordionId++;
+
+                    <div class="accordion-item mb-3">
+                        <h2 class="accordion-header" id="@headingId">
+                            <button class="accordion-button collapsed" type="button" onclick="toggleAccordion('@collapseId', this)">
+                                @prova.Appello?.Esame?.TitoloEsame - @prova.Appello?.DataAppello?.ToString("dd/MM/yyyy") - Tipo:
+                                @(prova.Tipologia == "Da" ? "Domande Aperte" : prova.Tipologia == "Dc" ? "Domande Chiuse" : prova.Tipologia)
+                            </button>
+                        </h2>
+                        <div id="@collapseId" class="accordion-collapse collapse" aria-labelledby="@headingId">
+                            <div class="accordion-body">
+                                <a target="_blank" href="@prova.Link" class="btn btn-outline-info btn-sm mb-2">
+                                    <i class="bi bi-link-45deg me-1"></i> Link
+                                </a>
+
+                                @if (prova.Tipologia == "Da" && prova.DomandeAperte != null)
+                                {
+                                    <h5>Domande Aperte</h5>
+                                    <ul class="list-group">
+                                        @foreach (var domanda in prova.DomandeAperte)
+                                        {
+                                            <li class="list-group-item">
+                                                <strong>Domanda @domanda.Numero_Domanda:</strong> @domanda.Domanda
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                                else if (prova.Tipologia == "Dc" && prova.DomandeChiuse != null)
+                                {
+                                    <h5>Domande Chiuse</h5>
+                                    <ul class="list-group">
+                                        @foreach (var domanda in prova.DomandeChiuse)
+                                        {
+                                            <li class="list-group-item">
+                                                <p><strong>Domanda @domanda.Numero_Domanda:</strong> @domanda.Domanda</p>
+                                                <p><strong>Risposte:</strong> @domanda.Risposte</p>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+
+                                <div class="mt-3">
+                                    <a class="btn btn-warning btn-sm" asp-controller="Prove" asp-action="Edit" asp-route-id="@prova.K_Prova">
+                                        <i class="bi bi-pencil-square me-1"></i> Modifica
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    <div class="mt-4">
+        <a class="btn btn-success" asp-controller="Prove" asp-action="Add">
+            <i class="bi bi-plus-circle me-1"></i> Inserisci nuova prova
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function filtraProve(valore) {
+            document.querySelectorAll('.sezione-prova').forEach(sezione => sezione.style.display = 'none');
+
+            if (valore === 'tutte') {
+                document.querySelectorAll('.sezione-prova').forEach(s => s.style.display = '');
+            } else if (valore === 'scritti') {
+                document.querySelector('.sezione-scritti')?.style?.setProperty('display', '');
+            } else if (valore === 'orali') {
+                document.querySelector('.sezione-orali')?.style?.setProperty('display', '');
+            }
+        }
+
+        function toggleAccordion(id, button) {
+            const target = document.getElementById(id);
+            const collapse = bootstrap.Collapse.getOrCreateInstance(target);
+
+            if (target.classList.contains('show')) {
+                collapse.hide();
+                button.classList.add('collapsed');
+            } else {
+                collapse.show();
+                button.classList.remove('collapsed');
+            }
+        }
+    </script>
 }

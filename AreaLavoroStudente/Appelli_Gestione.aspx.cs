@@ -16,11 +16,17 @@ public partial class _Default : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            //string Matricola = Request.QueryString["mat"];
-            string Matricola = Session["mat"].ToString();
+            string Cod = Session["cod"] as string;
+            string Usr = Session["usr"] as string;
+            string Matricola = Session["mat"] as string;
+            string Abilitato = Session["ab"] as string;
+            
             Session["mat"] = Matricola;
             CaricaAA(int.Parse(Matricola));
             CaricaAppelli(int.Parse(Matricola));
+
+            //salvo nella session 
+
 
         }
         
@@ -113,6 +119,7 @@ public partial class _Default : System.Web.UI.Page
             lblMessaggio.CssClass = "alert alert-success mt-3";
             lblMessaggio.Visible = true;
         }
-
+        
     }
+    
 }

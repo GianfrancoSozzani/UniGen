@@ -57,7 +57,7 @@
                                 <span style="width: 99.25px;"></span> @* Segnaposto per allineamento Visualizza *@
                             }
 
-                            <a asp-action="Download" asp-route-id="@mat.K_Materiale" class="btn btn-outline-secondary btn-sm">
+                            <a asp-action="Download" asp-route-id="@mat.K_Materiale" class="btn btn-secondary btn-sm">
                                 <i class="bi bi-download me-1"></i> Scarica
                             </a>
                         </div>
@@ -68,7 +68,7 @@
 
                     <td>@mat.esame?.TitoloEsame</td>
                     <td>
-                        <a class="btn btn-warning btn-sm" asp-controller="Materiali" asp-action="Edit" asp-route-id="@mat.K_Materiale">
+                        <a class="btn btn-primary btn-sm" asp-controller="Materiali" asp-action="Edit" asp-route-id="@mat.K_Materiale">
                             <i class="bi bi-pencil-square me-1"></i> Modifica
                         </a>
                     </td>
