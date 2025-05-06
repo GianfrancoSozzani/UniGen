@@ -1,4 +1,4 @@
-﻿@model List<AreaDocente.Models.Entities.MVCStudente>
+﻿@model List<AreaDocente.Models.Entities.MVCValutazione>
 
 <div class="container my-2">
     <h1 class="mb-4">Valutazione Prove</h1>
@@ -32,16 +32,17 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var studente in Model)
+                @foreach (var valutazione in Model)
                 {
                     <tr>
-                        <td>@studente.Cognome</td>
-                        <td>@studente.Nome</td>
-                        <td>@studente.DataNascita?.ToString("dd/MM/yyyy")</td>
-                        <td>@studente.Matricola</td>
+                        <td>@valutazione.Studente.Cognome</td>
+                        <td>@valutazione.Studente.Nome</td>
+                        <td>@valutazione.Studente.DataNascita?.ToString("dd/MM/yyyy")</td>
+                        <td>@valutazione.Studente.Matricola</td>
                         <td>
                             <a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#valutazioneModal"
-                               data-studente="@studente.K_Studente" data-nome="@studente.Nome" data-cognome="@studente.Cognome">
+                               data-studente="@valutazione.K_Studente" data-nome="@valutazione.Studente.Nome"
+                               data-cognome="@valutazione.Studente.Cognome" data-appello="@valutazione.Prova?.K_Appello">
                                 <i class="bi bi-pencil-square me-1"></i> Valuta
                             </a>
                         </td>
@@ -65,7 +66,7 @@
                     </div>
                     <div class="modal-body">
                         <input type="hidden" name="K_Studente" id="modalKStudente" />
-                        <input type="hidden" name="K_Studente" id="modalKStudente" />
+                        <input type="hidden" name="K_Appello" id="modalKAppello" />
                         <p id="modalNomeStudente" class="fw-semibold"></p>
                         <div class="mb-3">
                             <label for="Voto" class="form-label">Voto (1-30)</label>
@@ -91,9 +92,11 @@
             const studenteId = button.getAttribute('data-studente');
             const nome = button.getAttribute('data-nome');
             const cognome = button.getAttribute('data-cognome');
+            const appelloId = button.getAttribute('data-appello');
 
             // Set fields in modal
             document.getElementById('modalKStudente').value = studenteId;
+            document.getElementById('modalKAppello').value = appelloId;
             document.getElementById('modalNomeStudente').textContent = `${cognome} ${nome}`;
             document.getElementById('modalVoto').value = '';
         });

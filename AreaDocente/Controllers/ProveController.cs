@@ -47,18 +47,16 @@ namespace AreaDocente.Controllers
 
             //K_Prova = Guid.Parse("4B2E9FD5-23A5-4994-8AE4-00C927AB052B");
 
+            //var studenti = await dbContext.valutazioni
+            //    .Where(v => v.K_Prova == K_Prova)
+            //    .Select(v => v.Studente)
+            //    .ToListAsync();
+
             var studenti = await dbContext.valutazioni
                 .Where(v => v.K_Prova == K_Prova)
-                .Select(v => v.Studente)
+                .Include(v => v.Studente)
+                .Include(v => v.Prova)
                 .ToListAsync();
-
-            //var valutazioni = await dbContext.valutazioni
-            //    .Where(v => v.K_Prova == K_Prova)
-            //    .Include(v => v.Studente)
-            //    .Include(v => v.Prova)
-            //        .ThenInclude(p => p.Appello)
-            //            .ThenInclude(a => a.Esame)
-            //    .ToListAsync();
 
 
 
@@ -79,7 +77,7 @@ namespace AreaDocente.Controllers
                 });
             ViewBag.ProveList = ListaProve;
         }
-        
+
         public void PopolaProve(Guid? K_Prova)
         {
             IEnumerable<SelectListItem> ListaProve = dbContext.prove
@@ -212,16 +210,21 @@ namespace AreaDocente.Controllers
         }
 
         [HttpPost]
-        public IActionResult SalvaValutazione(int K_Studente, int Voto)
+        public async Task<IActionResult> SalvaValutazione(Guid K_Studente, Guid K_Appello, byte Voto)
         {
-            //// Salvataggio valutazione...
-            //var valutazione = dbContext.libretti.FirstOrDefault(v => v.K_Studente == K_Studente);
-            //if (valutazione != null)
-            //{
-            //    valutazione.Voto = Voto;
-            //    dbContext.SaveChanges();
-            //    TempData["SuccessMessage"] = "Valutazione salvata con successo.";
-            //}
+            var libretto = await dbContext.libretti.FirstOrDefaultAsync(l => l.K_Studente == K_Studente && l.K_Appello == K_Appello);
+
+            if (libretto != null)
+            {
+                libretto.VotoEsame = Voto;
+                if (Voto >= 18)
+                    libretto.Esito = 'S';
+                else
+                    libretto.Esito = 'N';
+
+                await dbContext.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Valutazione salvata con successo.";
+            }
 
             return RedirectToAction("Valutazione");
         }
