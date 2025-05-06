@@ -22,6 +22,5 @@ namespace AreaDocente.Models.Entities
         public Guid? K_Corso { get; set; }
         public char? Abilitato { get; set; }
         public int? Matricola { get; set; }
-        //public Guid? K_Prova { get; set; }
     }
 }

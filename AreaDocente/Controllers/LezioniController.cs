@@ -55,12 +55,12 @@ namespace AreaDocente.Controllers
                 PopoloDDL();
                 return View(viewModel);
             }
-            if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
-            {
-                TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
-                PopoloDDL();
-                return View(viewModel);
-            }
+            //if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
+            //{
+            //    TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
+            //    PopoloDDL();
+            //    return View(viewModel);
+            //}
             if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare l'esame!";
@@ -117,12 +117,12 @@ namespace AreaDocente.Controllers
                 PopoloDDL();
                 return View(viewModel);
             }
-            if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
-            {
-                TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
-                PopoloDDL();
-                return View(viewModel);
-            }
+            //if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
+            //{
+            //    TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
+            //    PopoloDDL();
+            //    return View(viewModel);
+            //}
             if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare l'esame!";

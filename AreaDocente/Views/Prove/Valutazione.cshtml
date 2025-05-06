@@ -5,7 +5,7 @@
 
     <form method="post" class="mb-3" id="proveForm">
         <label class="form-label fw-semibold">Prova</label>
-        <select asp-items="ViewBag.ProveList" class="form-select" id="K_Prova"
+        <select asp-items="ViewBag.ProveList" class="form-select" name="K_Prova" id="K_Prova"
                 onchange=" document.getElementById('proveForm').action='@Url.Action("SelezionaStudenti")' ; document.getElementById('proveForm').submit();" ()" required>
             <option disabled selected>== Seleziona una prova ==</option>
         </select>

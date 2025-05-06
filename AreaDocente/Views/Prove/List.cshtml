@@ -7,7 +7,7 @@
     var proveConDomande = Model.Where(p => p.Tipologia == "Da" || p.Tipologia == "Dc").ToList();
 }
 
-<div class="container my-5">
+<div class="container my-2">
     <h1>Elenco Prove</h1>
 
     <!-- Select filtro -->
@@ -131,7 +131,6 @@
 </div>
 
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function filtraProve(valore) {
             document.querySelectorAll('.sezione-prova').forEach(sezione => sezione.style.display = 'none');

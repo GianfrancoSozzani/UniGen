@@ -16,6 +16,7 @@ namespace AreaDocente.Controllers
             this.dbContext = dbContext;
         }
 
+        // Add Prove
         [HttpPost]
         public ActionResult SelezionaEsame(AddProveViewModel model)
         {
@@ -35,18 +36,21 @@ namespace AreaDocente.Controllers
         }
 
         [HttpPost]
-        public ActionResult SelezionaStudenti(Guid provaId)
+        public async Task<IActionResult> SelezionaStudenti(Guid? K_Prova)
         {
-            PopolaProve();
+            //ViewBag.ProvaSelezionata = K_Prova;
 
-            if (provaId == null)
+            PopolaProve(K_Prova);
+
+            if (K_Prova == null)
                 return View(new List<MVCStudente>());
 
-            var studenti = dbContext.valutazioni
-                .Where(v => v.K_Prova == provaId)
+            //K_Prova = Guid.Parse("4B2E9FD5-23A5-4994-8AE4-00C927AB052B");
+
+            var studenti = await dbContext.valutazioni
+                .Where(v => v.K_Prova == K_Prova)
                 .Select(v => v.Studente)
-                .Distinct()
-                .ToList();
+                .ToListAsync();
 
             return View("Valutazione", studenti);
         }
@@ -56,11 +60,28 @@ namespace AreaDocente.Controllers
             IEnumerable<SelectListItem> ListaProve = dbContext.prove
                 .Include(p => p.Appello)
                 .Include(p => p.Appello.Esame)
+                .Where(p => p.Appello.Esame.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
                 .ToList()
                 .Select(p => new SelectListItem
                 {
                     Value = p.K_Prova.ToString(),
                     Text = p.Appello?.Esame?.TitoloEsame + " - " + p.Appello?.DataAppello?.ToString("dd/MM/yyyy")
+                });
+            ViewBag.ProveList = ListaProve;
+        }
+        
+        public void PopolaProve(Guid? K_Prova)
+        {
+            IEnumerable<SelectListItem> ListaProve = dbContext.prove
+                .Include(p => p.Appello)
+                .Include(p => p.Appello.Esame)
+                .Where(p => p.Appello.Esame.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
+                .ToList()
+                .Select(p => new SelectListItem
+                {
+                    Value = p.K_Prova.ToString(),
+                    Text = p.Appello?.Esame?.TitoloEsame + " - " + p.Appello?.DataAppello?.ToString("dd/MM/yyyy"),
+                    Selected = (p.K_Prova == K_Prova)
                 });
             ViewBag.ProveList = ListaProve;
         }
@@ -88,11 +109,6 @@ namespace AreaDocente.Controllers
         [HttpPost]
         public async Task<ActionResult> Add(AddProveViewModel viewModel)
         {
-            if (!ModelState.IsValid)
-            {
-
-            }
-
             var prova = new MVCPROVA
             {
                 K_Prova = viewModel.K_Prova != Guid.Empty ? viewModel.K_Prova : Guid.NewGuid(),
