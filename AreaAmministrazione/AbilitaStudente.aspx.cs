@@ -107,7 +107,10 @@ public partial class _Default : System.Web.UI.Page
         STUDENTI s = new STUDENTI();
         s.Matricola = int.Parse(matricola);
         DataTable dt = s.Attiva();
+
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Studente abilitato con successo')", true);        
         return dt != null && dt.Rows.Count > 0;
+
     }
 
     protected bool DisattivaStudente(string matrico)
@@ -115,6 +118,8 @@ public partial class _Default : System.Web.UI.Page
         STUDENTI s = new STUDENTI();
         s.Matricola = int.Parse(matrico);
         DataTable dt = s.Disattiva();
+
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Studente disabilitato con successo')", true);        
         return dt != null && dt.Rows.Count > 0;
     }
 
