@@ -180,23 +180,30 @@ namespace Comunicazioni.Controllers
             }
             else if (ruolo == "d")
             {
-                // Ottieni l'ID del docente loggato
                 Guid docenteId = Guid.Parse(HttpContext.Session.GetString("cod"));
 
-                // Ottieni gli esami associati al docente loggato
-                var esamiDocente = dbContext.Esami
+                // Ottieni gli ID degli esami del docente
+                var esamiDelDocenteList = dbContext.Esami
                     .Where(e => e.K_Docente == docenteId)
-                    .Select(e => e.K_Esame); // Ottieni solo gli ID degli esami
+                    .Select(e => e.K_Esame)
+                    .ToList(); // Esegui subito la query e materializza i risultati
 
-                // Recupera gli studenti che hanno un K_Esame nei piani di studio che corrisponde a uno degli esami del docente
-                IEnumerable<SelectListItem> listaStudenti = dbContext.Studenti
-                    .Where(s => dbContext.PianiStudioPersonali
-                        .Any(ps => ps.K_Esame.HasValue && esamiDocente.Contains(ps.K_Esame.Value) && ps.K_Studente == s.K_Studente))
+                // Ottieni solo gli studenti che hanno almeno un esame del docente in PianiStudioPersonali
+                var studentiFiltrati = dbContext.PianiStudioPersonali
+                    .Where(ps => ps.K_Esame.HasValue && esamiDelDocenteList.Contains(ps.K_Esame.Value))
+                    .Select(ps => ps.K_Studente)
+                    .Distinct()
+                    .ToList(); // Esegui subito la query e materializza i risultati
+
+                // Carica solo questi studenti dalla tabella Studenti
+                var listaStudenti = dbContext.Studenti
+                    .Where(s => studentiFiltrati.Contains(s.K_Studente) && s.Matricola != null)
                     .Select(s => new SelectListItem
                     {
                         Text = s.Nome + " " + s.Cognome,
                         Value = s.K_Studente.ToString()
-                    });
+                    })
+                    .ToList(); // Esegui subito la query e materializza i risultati
 
                 ViewBag.StudentiList = listaStudenti;
             }
