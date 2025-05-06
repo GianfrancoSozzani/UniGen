@@ -4,7 +4,7 @@
     <style>
         .layout-wrapper {
             display: flex;
-            min-height: calc(100vh - 230px); /* Adatta in base all'altezza di header+footer */
+            /*min-height: calc(100vh - 230px);*/
         }
 
         .sidebar {
