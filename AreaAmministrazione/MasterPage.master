@@ -63,7 +63,7 @@
                 <a href="Gestione_Facolta.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-mortarboard-fill me-2"></i>Gestione Facoltà</a>
                 <a href="Gestione_Corsi.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-clipboard2 me-2"></i>Gestione Corsi</a>
                 <a href="Gestione_Esami.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-clipboard2 me-2"></i>Gestione Esami</a>
-                <a href="Gestione_PianoStudi.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-book me-2"></i>Gestione Piano Studi</a>
+                <a href="Gestione_PianoStudi.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-book me-2"></i>Gestione Piani di Studio</a>
                 <a href="GestioneDocenti.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-people-fill me-2"></i>Gestione Docenti</a>
 
                 <div class="dropdown-sidebar">

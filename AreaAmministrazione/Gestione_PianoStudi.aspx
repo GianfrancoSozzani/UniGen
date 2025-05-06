@@ -3,15 +3,24 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.js"></script>
     <style>
         #container {
             margin-left: 50px;
         }
 
         .btn:hover {
-            box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);
-            -webkit-box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);
-            -moz-box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);
+            box-shadow: 14px 10px 5px -3px rgba(0,0,0,0.06);
+            -webkit-box-shadow: 14px 10px 5px -3px rgba(0,0,0,0.06);
+            -moz-box-shadow: 14px 10px 5px -3px rgba(0,0,0,0.06);
+        }
+
+        .btn-icon::before {
+            content: "\f4d8"; /* codice icona "plus" in Bootstrap Icons */
+            font-family: "Bootstrap Icons";
+            font-weight: normal;
+            padding-right: 6px;
         }
     </style>
 </asp:Content>
@@ -19,18 +28,16 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
     <div class="container">
-        <h1 class="mb-5">Gestione Piano di Studi</h1>
-
-        <h2>Cerca e modifica Piani di studio</h2>
+        <h1 class="mb-5">Gestione Piani di Studio</h1>
 
         <div class="row">
             <%-- Dropdown Facoltà --%>
-            <div class="col-4 mt-4 col-sm-8 col-md-4">
+            <div class="col-4 col-sm-8 col-md-4">
                 <asp:Label ID="lblFacolta" runat="server" Text="Facoltà"></asp:Label>
                 <asp:DropDownList ID="ddlFacolta" runat="server" CssClass="form-control" OnSelectedIndexChanged="ddlFacolta_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
             </div>
             <%-- Dropdown Corso --%>
-            <div class="col-5 mt-4 col-sm-8 col-md-4">
+            <div class="col-5 col-sm-8 col-md-4">
                 <asp:Label ID="lblCorso" runat="server" Text="Corso di laurea"></asp:Label>
                 <asp:DropDownList ID="ddlCorso" runat="server" CssClass="form-control" OnSelectedIndexChanged="ddlCorso_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
             </div>
@@ -48,7 +55,7 @@
             </div>
             <%-- Dropdown Anno accademico --%>
             <div class="col-5 mt-4 col-sm-8 col-md-4">
-                <asp:Label ID="Label1" runat="server" Text="Anno accademico"></asp:Label>
+                <asp:Label ID="Label1" runat="server" Text="Anno Accademico"></asp:Label>
                 <asp:DropDownList ID="ddlAnnoAccademico" runat="server" CssClass="form-control">
                     <asp:ListItem Text="2024/2025" Value="2024/2025"></asp:ListItem>
                     <asp:ListItem Text="2025/2026" Value="2025/2026"></asp:ListItem>
@@ -56,21 +63,25 @@
                     <asp:ListItem Text="2027/2028" Value="2027/2028"></asp:ListItem>
                 </asp:DropDownList>
             </div>
-        </div>
+            <%-- BOTTONE Cerca Esami  --%>
 
-
-        <%-- BOTTONE Cerca Esami  --%>
-        <div class="row">
-            <div class="col-4">
-                <asp:Button ID="btnCerca" runat="server" Text="Cerca" CssClass="btn btn-primary mt-4" OnClick="btnCerca_Click" />
+            <div class="col-2 mt-5">
+                <asp:Label ID="Label3" runat="server" Text=""></asp:Label>
+                <asp:Button ID="btnCerca" runat="server" Text="Cerca" CssClass="btn btn-primary" OnClick="btnCerca_Click" />
             </div>
         </div>
 
+
+        <div style="height: 1px; background-color: midnightblue; width: 100%; margin: 30px 0;"></div>
+
         <%-- BOTTONE Aggiungi Esami  --%>
-        <div class="row">
-            <div class="col-7 mb-3">
+        <div class="row  ">
+            <div class="col-6">
+                <h3>Elenco Esami</h3>
+            </div>
+            <div class="col-6 mb-3 text-end">
                 <asp:Button ID="btnApriModalEsami" runat="server"
-                    CssClass="btn btn-outline-success mt-4"
+                    CssClass="btn btn-primary btn-icon"
                     Text="Aggiungi Esami"
                     OnClick="btnApriModalEsami_Click" />
             </div>
@@ -107,6 +118,7 @@
                             CommandArgument='<%# Eval("K_PianoStudio") %>'>
                             Rimuovi
                         </asp:LinkButton>
+                        
                     </td>
                 </tr>
             </ItemTemplate>
@@ -201,13 +213,6 @@
                             Text="Chiudi" />
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <%--       Bottone per tornare alla Home--%>
-        <div class="row w-25">
-            <div class="col-text-end">
-                <a class="btn btn-primary mt-4 mb-3 ms-50" id="tornahome" href="Home.aspx" role="button">Torna alla Home</a>
             </div>
         </div>
 
