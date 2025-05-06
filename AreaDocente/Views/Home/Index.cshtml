@@ -71,7 +71,7 @@
 
         </div>
 
-		<div class="card shadow">
+		<div class="card shadow mt-3">
 			<div class="card-body">
 				<div class="d-flex justify-content-lg-between">
 					<h1>LE TUE COMUNICAZIONI</h1>
@@ -89,11 +89,11 @@
 
 										<div class="mt-3">
 											<label class="form-label">Destinatari</label>
-											<select asp-for="AddComunicazione.K_Docente" asp-items="@ViewBag.DocentiList" class="form-select" required>
-												@* 	<option selected>-- Seleziona un destinatario --</option> *@
+											<select asp-for="AddComunicazione.K_Studente" asp-items="@ViewBag.StudentiList" class="form-select" required>
+													<option selected>-- Seleziona un destinatario --</option>
 												<option selected value="Amministrazione">Amministrazione</option>
 											</select>
-											<span asp-validation-for="AddComunicazione.K_Docente" class="text-danger"></span>
+											<span asp-validation-for="AddComunicazione.K_Studente" class="text-danger"></span>
 										</div>
 
 										<div class="mt-4">
@@ -184,7 +184,7 @@
 																</li>
 															}
 															<li class="bg-white">
-																<form method="post" asp-action="AddRisposta">
+																<form method="post" asp-controller="Comunicazioni" asp-action="AddRisposta">
 																	<input type="hidden" name="Codice_Comunicazione" value="@gruppo.Key" />
 																	<div class="form-outline">
 																		<textarea class="form-control bg-body-tertiary" id="textArea_@gruppo.Key" rows="4" name="Testo" required></textarea>
