@@ -40,7 +40,7 @@ public partial class Default2 : System.Web.UI.Page
         studente.Matricola = Matricola;
         DataTable dt = studente.SelezionaAnnoAccademico(Matricola);
 
-        if (dt.Rows.Count == 1)
+        if (dt.Rows.Count >= 1)
         {
             string annoAccademico = dt.Rows[0]["AnnoAccademico"].ToString();
             string corso = dt.Rows[0]["TitoloCorso"].ToString();
