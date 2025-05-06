@@ -337,7 +337,7 @@ namespace AreaStudente.Controllers
                 if (tipo != "image/jpeg" && tipo != "image/jpg" && tipo != "image/png")
                 {
                     TempData["AlertMessage"] = "Formato non valido. Sono accettati solo JPG, JPEG e PNG.";
-                    return RedirectToAction("ModificaProfilo");
+                    return RedirectToAction("ModificaProfilo", "Studenti", new { cod = model.K_Studente });
                 }
 
                 using (var memoryStream = new MemoryStream())
@@ -364,7 +364,7 @@ namespace AreaStudente.Controllers
 
                     TempData["ApriModalePassword"] = true;
 
-                    return RedirectToAction("ModificaProfilo");
+                    return RedirectToAction("ModificaProfilo", "Studenti", new { cod = model.K_Studente });
                 }
 
                 // 2. Password vecchia errata
@@ -375,7 +375,7 @@ namespace AreaStudente.Controllers
                     TempData["PopupErrore"] = "La password vecchia inserita non risulta essere corretta.";
                     TempData["ApriModalePassword"] = true;
 
-                    return RedirectToAction("ModificaProfilo");
+                    return RedirectToAction("ModificaProfilo", "Studenti", new { cod = model.K_Studente });
                 }
 
                 // 3. Password nuova e conferma non coincidono
@@ -383,7 +383,7 @@ namespace AreaStudente.Controllers
                 {
                     TempData["PopupErrore"] = "La nuova password e la conferma non coincidono.";
                     TempData["ApriModalePassword"] = true;
-                    return RedirectToAction("ModificaProfilo");
+                    return RedirectToAction("ModificaProfilo", "Studenti", new { cod = model.K_Studente });
                 }
 
                 // 4. Tutto corretto, aggiorna
@@ -397,7 +397,7 @@ namespace AreaStudente.Controllers
             await dbContext.SaveChangesAsync();
             TempData["DisplaySuccessMsg"] = true;
             TempData["PopupSuccesso"] = "I dati sono stati salvati correttamente.";
-            return RedirectToAction("ModificaProfilo", "Studenti");
+            return RedirectToAction("ModificaProfilo", "Studenti", new { cod = model.K_Studente });
         }
 
         private string CapitalizeWords(string input)
@@ -498,20 +498,22 @@ namespace AreaStudente.Controllers
         {
             ViewData["studente_id"] = cod;
 
-            // Dichiarazione della variabile 'studente' prima del suo utilizzo
             var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == model.K_Studente);
-
             if (studente == null)
                 return NotFound();
 
-            // Correzione: Sposta la dichiarazione di 'modelp' dopo che 'studente' è stato inizializzato
+            // Submit parziale: aggiornamento solo dei corsi
+
             var modelp = await dbContext.Pagamenti.FirstOrDefaultAsync(p => p.K_Studente == studente.K_Studente);
 
             ViewData["email"] = studente.Email;
             ViewData["matricola"] = studente.Matricola;
             ViewData["abilitato"] = studente.Abilitato;
 
-            if (model.K_Corso == null)
+            var corso = await dbContext.Corsi.FirstOrDefaultAsync(c => c.K_Corso == model.K_Corso);
+            model.Importo = corso?.CostoAnnuale / 2; // Calcolo anticipato per la view, anche se il corso è null
+
+            if (Request.Form.ContainsKey("updateFacolta"))
             {
                 model.FacoltaList = PopolaFacolta();
                 model.CorsiList = PopolaCorsi(model.K_Facolta);
@@ -519,24 +521,18 @@ namespace AreaStudente.Controllers
                 return View(model);
             }
 
-            string mat = studente.Matricola.ToString();
-
-            if (string.IsNullOrEmpty(mat))
+            if (corso == null)
             {
-                var anno = DateTime.Now.Year.ToString(); // Es: "2025"
-
-                // Conta quanti studenti hanno già una matricola che inizia con l'anno
-                var count = await dbContext.Studenti
-                    .CountAsync(s => s.Matricola.HasValue && s.Matricola.Value.ToString().StartsWith(anno));
-
-                // Aggiungi 1 al contatore per il nuovo studente
-                var nuovaMatricola = $"{anno}{(count + 1):D4}"; // es: 20250001
-
-                studente.Matricola = int.Parse(nuovaMatricola);
+                ModelState.AddModelError("", "Corso non trovato.");
+                model.FacoltaList = PopolaFacolta();
+                model.CorsiList = PopolaCorsi(model.K_Facolta);
+                model.ImmagineProfilo = studente.ImmagineProfilo;
+                return View(model);
             }
 
-            // 🔒 Controllo: già immatricolato a quel corso?
-            if (studente.K_Corso != model.K_Corso && studente.Abilitato == "S" || studente.K_Corso == model.K_Corso && studente.Abilitato == "S")
+            // 🔒 Controllo: già immatricolato?
+            if (studente.Abilitato == "S" &&
+                (studente.K_Corso == model.K_Corso || studente.K_Corso != null))
             {
                 ModelState.AddModelError("", "Risulti già immatricolato. Se desideri procedere con una nuova immatricolazione, è necessario presentare prima la rinuncia agli studi.");
                 model.FacoltaList = PopolaFacolta();
@@ -545,24 +541,32 @@ namespace AreaStudente.Controllers
                 return View(model);
             }
 
+            // Generazione della matricola, se assente
+            if (!studente.Matricola.HasValue)
+            {
+                var anno = DateTime.Now.Year.ToString(); // es: "2025"
+                var count = await dbContext.Studenti
+                    .CountAsync(s => s.Matricola.HasValue && s.Matricola.Value.ToString().StartsWith(anno));
+
+                studente.Matricola = int.Parse($"{anno}{(count + 1):D4}"); // es: 20250001
+            }
+
+            // Calcolo importo rata (già assegnato sopra a model.Importo)
+            decimal? importoCalcolato = model.Importo;
+
+            // Primo pagamento
             var pagamento = new Pagamento
             {
                 K_Pagamento = modelp?.K_Pagamento ?? Guid.NewGuid(),
                 K_Studente = studente.K_Studente,
                 DataPagamento = DateTime.Now,
                 Anno = DateTime.Now.Year.ToString(),
-                Importo = modelp?.Importo ?? 0,
+                Importo = importoCalcolato,
                 Stato = modelp?.Stato ?? "S"
             };
-
-            // Procedi con l'immatricolazione
-            studente.Abilitato = "S";
-            studente.K_Corso = model.K_Corso;
-            studente.DataImmatricolazione = DateTime.Now;
-
             await dbContext.Pagamenti.AddAsync(pagamento);
 
-            // Se il primo pagamento è andato a buon fine (stato "S"), crea quello futuro
+            // Secondo pagamento (futuro)
             if (pagamento.Stato == "S" && pagamento.Importo >= 0)
             {
                 var pagamentoFuturo = new Pagamento
@@ -571,17 +575,22 @@ namespace AreaStudente.Controllers
                     K_Studente = studente.K_Studente,
                     DataPagamento = DateTime.Now.AddMonths(6),
                     Anno = DateTime.Now.AddMonths(6).Year.ToString(),
-                    Importo = pagamento.Importo,
+                    Importo = importoCalcolato,
                     Stato = "N"
                 };
-
                 await dbContext.Pagamenti.AddAsync(pagamentoFuturo);
             }
+
+            // Aggiorna lo studente
+            studente.Abilitato = "S";
+            studente.K_Corso = model.K_Corso;
+            studente.DataImmatricolazione = DateTime.Now;
+
             await dbContext.SaveChangesAsync();
 
-            TempData["PopupConferma"] = "Pagamento effettuato con successo!";
             return RedirectToAction("Show", "Studenti", new { cod = HttpContext.Session.GetString("cod") });
         }
+
 
 
 
