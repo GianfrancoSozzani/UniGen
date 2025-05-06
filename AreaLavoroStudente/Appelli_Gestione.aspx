@@ -30,7 +30,7 @@
                             <th class="fw-bold">Obbligatorio</th>
                             <th class="fw-bold">Data Appello</th>
                             <th class="fw-bold">Tipo</th>
-                            <th class="fw-bold">Link</th>
+                            <th class="fw-bold">Link Esame</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -44,7 +44,7 @@
                                     <td><%# Eval("TitoloEsame") %></td>
                                     <td><%# Eval("Obbligatorio").ToString().ToLower() == "true" ? "Obbligatorio" : "Facoltativo" %></td>
                                     <td><%# Eval("DataAppello", "{0:dd/MM/yyyy}") %></td>
-                                    <td><%# Eval("Tipo") %></td>
+                                    <td><%# Eval("Tipo").ToString() == "Sc" ? "Scritto" : "Orale" %></td>
                                     <td>
                                         <a href='<%# Eval("Link") %>' target="_blank" class="link-primary">Vai al link</a>
                                     </td>
