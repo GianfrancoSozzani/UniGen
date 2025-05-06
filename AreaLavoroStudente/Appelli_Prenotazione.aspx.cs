@@ -26,7 +26,7 @@ public partial class _Default : System.Web.UI.Page
             string Matricola = Session["mat"].ToString();
             Session["mat"] = Matricola;
             CaricaAA(int.Parse(Matricola));
-            CaricaAppelli(int.Parse(Matricola));
+            CaricaAppelli();
 
         }
     }
@@ -49,11 +49,11 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
-    protected void CaricaAppelli(int Matricola)
+    protected void CaricaAppelli()
     {
         
         APPELLI m = new APPELLI();
-        rptAppelli.DataSource = m.ListaAppelli(Matricola);
+        rptAppelli.DataSource = m.ListaAppelli((Guid)Session["cod"]);
         rptAppelli.DataBind();
 
     }
