@@ -43,7 +43,7 @@ namespace AreaDocente.Controllers
             PopolaProve(K_Prova);
 
             if (K_Prova == null)
-                return View(new List<MVCStudente>());
+                return View(new List<MVCValutazione>());
 
             //K_Prova = Guid.Parse("4B2E9FD5-23A5-4994-8AE4-00C927AB052B");
 
@@ -57,8 +57,6 @@ namespace AreaDocente.Controllers
                 .Include(v => v.Studente)
                 .Include(v => v.Prova)
                 .ToListAsync();
-
-
 
             return View("Valutazione", studenti);
         }
@@ -206,7 +204,7 @@ namespace AreaDocente.Controllers
         {
             PopolaProve();
 
-            return View(new List<MVCStudente>());
+            return View(new List<MVCValutazione>());
         }
 
         [HttpPost]
@@ -217,6 +215,7 @@ namespace AreaDocente.Controllers
             if (libretto != null)
             {
                 libretto.VotoEsame = Voto;
+
                 if (Voto >= 18)
                     libretto.Esito = 'S';
                 else
