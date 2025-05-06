@@ -54,9 +54,15 @@
 								<label class="form-label form-control-label">Nome</label>
 								<input type="text" asp-for="Nome" class="form-control form-control-alternative" required />
 							</div>
+							@{
+								var oggi = DateTime.Today.ToString("yyyy-MM-dd");
+								var oggi2 = DateTime.Now.Year.ToString("yyyy-MM-dd");
+								var maxData = DateTime.Now.AddYears(-18).ToString("yyyy-MM-dd");
+							}
 							<div class="col-12 col-lg-4 mb-2">
 								<label class="form-label form-control-label">Data di Nascita</label>
-								<input type="date" asp-for="DataNascita" class="form-control form-control-alternative" required />
+								<input type="date" asp-for="DataNascita" class="form-control form-control-alternative" max="@maxData" required />
+								<span asp-validation-for="DataNascita" class="text-danger"></span>
 							</div>
 						</div>
 
@@ -103,22 +109,24 @@
 			<!-- Modal -->
 
 			<div class="modal fade" id="confermaModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-				<div class="modal-dialog">
+				<div class="modal-dialog ">
 					<div class="modal-content">
 						<div class="modal-header justify-content-center">
 							<h5 class="modal-title text-center w-100" id="modalLabel">Conferma Iscrizione</h5>
 							<button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Chiudi"></button>
 						</div>
-						<div class="modal-body">
-							Vuoi confermare l'immatricolazione? L'importo è: €@Model.Importo
+						<div class="modal-body text-center">
+							Vuoi confermare l'immatricolazione?
+							<p>L'importo è: €@Model.Importo</p>
 						</div>
-						<div class="modal-footer">
+						<div class="modal-footer d-flex justify-content-center">
 							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
 							<button type="button" class="btn btn-primary" id="conferma-btn">Conferma</button>
 						</div>
 					</div>
 				</div>
 			</div>
+
 			<div class="col-12 col-xl-4 px-0 px-lg-2 mt-xl-0 order-xl-2 mt--7">
 				<div class="card shadow">
 					<div class="card-body">
