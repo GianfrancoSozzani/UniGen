@@ -24,13 +24,15 @@ public partial class _Default : System.Web.UI.Page
         DateTime DataDiNascita;
         if (!DateTime.TryParse(dataNascitaString, out DataDiNascita))
         {
-            Response.Write("Data non valida.");
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Data non valida')", true);
+            //Response.Write("Data non valida.");
             return;
         }
         // Controllo che la data di nascita non sia futura
         if (DataDiNascita > DateTime.Now)
         {
-            Response.Write("Data di nascita non valida.");
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Data di nascita non valida')", true);
+            //Response.Write("Data di nascita non valida.");
             return;
         }
         DataDiNascita = DateTime.Parse(dataNascitaString).Date;
@@ -39,19 +41,22 @@ public partial class _Default : System.Web.UI.Page
         string CAP = txtCAP.Text.Trim();
         if (CAP.Length != 5) 
         {
-            Response.Write("CAP non valido.");
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('CAP non valido')", true);
+            //Response.Write("CAP non valido.");
             return;
         }
         string Provincia = txtProvincia.Text.Trim().ToUpper();
         if (Provincia.Length != 2)
         {
-            Response.Write("Provincia non valida.");
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Provincia non valida')", true);
+            //Response.Write("Provincia non valida.");
             return;
         }
         byte[] imgData = fuFotoProfilo.FileBytes;
         if (!fuFotoProfilo.HasFile)
         {
-            Response.Write("Inserire una foto profilo valida.");
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Inserire una foto profilo valida')", true);
+            //Response.Write("Inserire una foto profilo valida.");
             return;
         }
         string Tipo = fuFotoProfilo.PostedFile.ContentType;

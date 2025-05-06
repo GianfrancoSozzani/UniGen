@@ -148,7 +148,7 @@ namespace Comunicazioni.Controllers
             {
                 Codice_Comunicazione = Guid.NewGuid(),
                 DataOraComunicazione = DateTime.Now,
-                Testo = viewModel.NuovaComunicazione.Testo,
+                Testo = viewModel.NuovaComunicazione.Testo.Trim(),
                 K_Studente = viewModel.NuovaComunicazione.K_Studente,
                 K_Docente = viewModel.NuovaComunicazione.K_Docente
             };

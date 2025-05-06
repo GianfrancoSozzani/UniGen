@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <div class="container mt-4 mb-4">
+    <div class="container mt-2 mb-4">
         <div class="py-4 mb-4 border-bottom">
             <h2 class="text-start mb-1">Rinuncia agli studi</h2>
         </div>

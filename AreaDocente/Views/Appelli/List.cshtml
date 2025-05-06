@@ -21,7 +21,7 @@
 					<td>@Html.DisplayFor(Model => appello.Esame.TitoloEsame)</td>
 					<td>@appello.DataAppello?.ToString("dd/MM/yyyy")</td>
 					<td>@appello.DataVerbalizzazione?.ToString("dd/MM/yyyy")</td>
-					<td>@appello.Tipo</td>
+					<td>@(appello.Tipo == "Sc" ? "Scritto" : appello.Tipo == "Or" ? "Orale" : appello.Tipo == "La" ? "Laurea" :appello.Tipo)</td>
 					<td>
 						<a target="_blank" href="@appello.Link" class="btn btn-info btn-sm">
 							<i class="bi bi-link-45deg me-1"></i> Link
