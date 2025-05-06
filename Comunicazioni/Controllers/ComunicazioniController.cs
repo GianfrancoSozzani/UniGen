@@ -183,15 +183,17 @@ namespace Comunicazioni.Controllers
                 Guid docenteId = Guid.Parse(HttpContext.Session.GetString("cod"));
 
                 // Ottieni gli ID degli esami del docente
-                var esamiDelDocente = dbContext.Esami
+                var esamiDelDocenteList = dbContext.Esami
                     .Where(e => e.K_Docente == docenteId)
-                    .Select(e => e.K_Esame);
+                    .Select(e => e.K_Esame)
+                    .ToList(); // Esegui subito la query e materializza i risultati
 
                 // Ottieni solo gli studenti che hanno almeno un esame del docente in PianiStudioPersonali
                 var studentiFiltrati = dbContext.PianiStudioPersonali
-                    .Where(ps => ps.K_Esame.HasValue && esamiDelDocente.Contains(ps.K_Esame.Value))
+                    .Where(ps => ps.K_Esame.HasValue && esamiDelDocenteList.Contains(ps.K_Esame.Value))
                     .Select(ps => ps.K_Studente)
-                    .Distinct();
+                    .Distinct()
+                    .ToList(); // Esegui subito la query e materializza i risultati
 
                 // Carica solo questi studenti dalla tabella Studenti
                 var listaStudenti = dbContext.Studenti
@@ -200,7 +202,8 @@ namespace Comunicazioni.Controllers
                     {
                         Text = s.Nome + " " + s.Cognome,
                         Value = s.K_Studente.ToString()
-                    });
+                    })
+                    .ToList(); // Esegui subito la query e materializza i risultati
 
                 ViewBag.StudentiList = listaStudenti;
             }
