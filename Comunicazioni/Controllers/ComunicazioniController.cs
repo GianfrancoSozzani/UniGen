@@ -180,18 +180,17 @@ namespace Comunicazioni.Controllers
             }
             else if (ruolo == "d")
             {
-                // Ottieni l'ID del docente loggato
                 Guid docenteId = Guid.Parse(HttpContext.Session.GetString("cod"));
 
-                // Ottieni gli esami associati al docente loggato
-                var esamiDocente = dbContext.Esami
-                    .Where(e => e.K_Docente == docenteId)
-                    .Select(e => e.K_Esame); // Ottieni solo gli ID degli esami
-
-                // Recupera gli studenti che hanno un K_Esame nei piani di studio che corrisponde a uno degli esami del docente
-                IEnumerable<SelectListItem> listaStudenti = dbContext.Studenti
-                    .Where(s => dbContext.PianiStudioPersonali
-                        .Any(ps => ps.K_Esame.HasValue && esamiDocente.Contains(ps.K_Esame.Value) && ps.K_Studente == s.K_Studente))
+                // Recupera gli studenti legati agli esami del docente
+                var listaStudenti = dbContext.PianiStudioPersonali
+                    .Where(ps => ps.K_Esame.HasValue &&
+                                 dbContext.Esami
+                                     .Where(e => e.K_Docente == docenteId)
+                                     .Select(e => e.K_Esame)
+                                     .Contains(ps.K_Esame.Value))
+                    .Select(ps => ps.Studente)
+                    .Distinct()
                     .Select(s => new SelectListItem
                     {
                         Text = s.Nome + " " + s.Cognome,
