@@ -1,83 +1,68 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@* @model List<AreaPubblica.Models.Entities.PianoStudio> *@
-@{
+﻿@{
 	var dati = ViewBag.PianiStudi as List<dynamic>;
 }
 
-<div style="height: 3vh;"></div>
-<div class="container" style="padding-top: 100px; padding-bottom: 100px;">
-    <div class="row">
-            <h1 class="mb-4 mt-5">Piano di Studi</h1>
-        <div class="col-md-8">
-            <div class="mt-2 mb-4">
-                Organizza al meglio il tuo<b> percorso accademico</b> consultando l'elenco dettagliato degli esami previsti per ogni corso di tuo interesse.
-                Scopri le materie fondamentali, gli approfondimenti disponibili e le modalità di valutazione,
-                così da pianificare con consapevolezza il tuo cammino universitario e ottimizzare il tuo tempo di studio!
-            </div>
+<div class="container" style="padding-top: 120px; padding-bottom: 100px;">
+	<div class="row">
+		<h1 class="mb-4">Piano di Studi</h1>
+		<div class="col-md-8">
+			<div class="mb-4">
+				Organizza al meglio il tuo<b> percorso accademico</b> consultando l'elenco dettagliato degli esami previsti per ogni corso di tuo interesse.
+			</div>
 
-            @if (dati != null && dati.Any())
-            {
-                var facoltaGruppi = dati.GroupBy(d => d.Facolta);
+			@if (dati != null && dati.Any())
+			{
+				var facoltaGruppi = dati.GroupBy(d => d.Facolta);
+				<div class="accordion" id="accordionPiano">
+					@foreach (var facolta in facoltaGruppi)
+					{
+						string facoltaId = "facolta_" + facolta.Key.Replace(" ", "").ToLower();
 
-                foreach (var facolta in facoltaGruppi)
-                {
-                    string facoltaId = facolta.Key.Replace(" ", "");
-
-                    <div class="card mt-3">
-                        <div class="card-header" style="cursor: pointer;" onclick="toggleSezione('@facoltaId')">
-                            <h4 class="mb-0">@facolta.Key</h4>
-                        </div>
-
-                        <div class="card-body d-none" id="sezione-@facoltaId">
-                            @{
-                                var corsi = facolta.GroupBy(f => f.Corso);
-                            }
-
-                            @foreach (var corso in corsi)
-                            {
-                                <div class="card mt-2 border border-secondary p-3">
-                                    <h5>@corso.Key</h5>
-                                    <ul class="list-group">
-                                        @foreach (var esame in corso)
-                                        {
-                                            <li class="list-group-item">
-                                                <strong>Esame:</strong> @esame.Esame <br />
-                                                <strong>Anno Accademico:</strong> @esame.AnnoAccademico <br />
-                                                <strong>CFU:</strong> @esame.CFU <br />
-                                                <strong>Obbligatorio:</strong> @(esame.Obbligatorio == "S" ? "Sì" : "No")
-                                            </li>
-                                        }
-                                    </ul>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                }
-            }
-            else
-            {
-                <p>Nessun dato disponibile.</p>
-            }
-        </div>
-
-        <div class="col-md-4 d-flex align-items-start">
-            <img src="~/sources/plan.jpg" class="img-fluid rounded shadow" alt="Piano di studi" />
-        </div>
-    </div>
-</div>
-
-
-<div style="height:42vh;">
-</div>
-@section Scripts {
-	<script>
-		function toggleSezione(id) {
-			const section = document.getElementById("sezione-" + id);
-			if (section) {
-				section.classList.toggle("d-none");
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="heading-@facoltaId">
+								<button class="accordion-button collapsed" type="button"
+										data-bs-toggle="collapse"
+										data-bs-target="#@facoltaId"
+										aria-expanded="false"
+										aria-controls="@facoltaId">
+									<strong>@facolta.Key</strong>
+								</button>
+							</h2>
+							<div id="@facoltaId" class="accordion-collapse collapse"
+								 aria-labelledby="heading-@facoltaId"
+								 data-bs-parent="#accordionPiano">
+								<div class="accordion-body">
+									@foreach (var corso in facolta.GroupBy(f => f.Corso))
+									{
+										<div class="mb-3">
+											<h5>@corso.Key</h5>
+											<ul class="list-group">
+												@foreach (var esame in corso)
+												{
+													<li class="list-group-item">
+														<nobr>Esame:</nobr> <a class="text-primary">@esame.Esame</a> <br />
+														Anno Accademico: <strong>@esame.AnnoAccademico</strong> <br />
+														<nobr>CFU:</nobr> <strong> @esame.CFU </strong> <br />
+														<nobr>Obbligatorio:</nobr> <strong>@(esame.Obbligatorio == "S" ? "Sì" : "No")</strong>
+													</li>
+												}
+											</ul>
+										</div>
+									}
+								</div>
+							</div>
+						</div>
+					}
+				</div>
 			}
-		}
-	</script>
-}
+			else
+			{
+				<p><b></b>Nessun dato disponibile.</p>
+			}
+		</div>
+
+		<div class="col-md-4 d-flex align-items-start">
+			<img src="~/sources/study plan.jpg" class="img-fluid rounded shadow" alt="Piano di studi" />
+		</div>
+	</div>
+</div>

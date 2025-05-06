@@ -63,6 +63,8 @@ public partial class _Default : System.Web.UI.Page
         d.K_Docente = K_Docente;
         d.Abilita();
         rpDocenti.DataBind();
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Docente abilitato con successo')", true);
+        return;
     }
 
     protected void DisabilitaDocente(Guid K_Docente)
@@ -71,6 +73,8 @@ public partial class _Default : System.Web.UI.Page
         d.K_Docente = K_Docente;
         d.Disabilita();
         rpDocenti.DataBind();
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Docente disabilitato con successo')", true);
+        return;
     }
 
     protected void btnNuovaPagina_Click(object sender, EventArgs e)

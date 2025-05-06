@@ -63,7 +63,7 @@
                 <a href="Gestione_Facolta.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-mortarboard-fill me-2"></i>Gestione Facoltà</a>
                 <a href="Gestione_Corsi.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-clipboard2 me-2"></i>Gestione Corsi</a>
                 <a href="Gestione_Esami.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-clipboard2 me-2"></i>Gestione Esami</a>
-                <a href="Gestione_PianoStudi.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-book me-2"></i>Gestione Piano Studi</a>
+                <a href="Gestione_PianoStudi.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-book me-2"></i>Gestione Piani di Studio</a>
                 <a href="GestioneDocenti.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-people-fill me-2"></i>Gestione Docenti</a>
 
                 <div class="dropdown-sidebar">
@@ -72,7 +72,7 @@
                     </a>
                     <div class="collapse" id="submenuEconomica">
                         <a class="submenu-item" href="IncassoAnnuale.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-cash-stack me-2"></i>Incasso Annuale</a>
-                        <a class="submenu-item" href="IncassoPerCorso.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-receipt me-2"></i>Incasso per corso</a>
+                        <a class="submenu-item" href="IncassoPerCorso.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-receipt me-2"></i>Incasso per Facoltà</a>
                         <a class="submenu-item" href="IncassoStimato.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-piggy-bank me-2"></i>Stima incassi dell'anno</a>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
             <main class="main-content">
                 <div class="d-flex justify-content-end">
                     <asp:Label ID="lblNomeUtente" runat="server" CssClass="fw-bold"></asp:Label>   
-                    <a href="Logout.aspx" class="btn btn-danger ms-4"><i class="bi bi-box-arrow-right"></i>Logout</a>
+                    <a href="https://localhost:7272/" class="btn btn-danger ms-4"><i class="bi bi-box-arrow-right"></i>Logout</a>
                 </div>
                 <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                 </asp:ContentPlaceHolder>

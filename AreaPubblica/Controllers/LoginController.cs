@@ -29,7 +29,7 @@ namespace AreaPubblica.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(viewModel);
+                return RedirectToAction("Index", "Home");
             }
 
             // Controllo login Studente
@@ -96,7 +96,7 @@ namespace AreaPubblica.Controllers
                 //HttpContext.Session.SetString("Ruolo", "D");
                 if (docente.Abilitato == "N")
                 {
-                    return Redirect("https://localhost:7245/Docenti/ModificaProfilo?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=d");
+                    return Redirect("https://localhost:7245/Home/Index?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=d");
                     //return RedirectToAction("AREA DOCENTE (NON ABILITATO)", "Home");
                 }
                 return Redirect("https://localhost:7245/Home/Index?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=d");
@@ -121,8 +121,9 @@ namespace AreaPubblica.Controllers
             }
 
             // Nessun utente trovato
-            ModelState.AddModelError("", "Credenziali non valide.");
-            return RedirectToAction("Privacy", "Home");
+            //ModelState.AddModelError("", "Credenziali non valide.");
+            TempData["LoginMessage"] = "Credenziali non valide.";
+            return RedirectToAction("Index", "Home");
         }
 
 
@@ -131,6 +132,26 @@ namespace AreaPubblica.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult VerificaImmagine(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return Json(new { success = false, message = "Nessun file selezionato." });
+
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+            var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+
+            if (!allowedExtensions.Contains(extension))
+                return Json(new { success = false, message = "Formato non valido. Usa JPG, JPEG o PNG." });
+
+            if (file.Length > 10 * 1024 * 1024)
+                return Json(new { success = false, message = "Il file supera i 10 MB." });
+
+            return Json(new { success = true, message = "Immagine valida!" });
+        }
+
+
 
 
         [HttpPost]
@@ -142,20 +163,14 @@ namespace AreaPubblica.Controllers
             }
 
             // Elaborazione immagine profilo
-            if (viewModel.ImmagineFile != null)
-            {
-                using var ms = new MemoryStream();
-                await viewModel.ImmagineFile.CopyToAsync(ms);
-                viewModel.ImmagineProfilo = ms.ToArray();
-                viewModel.Tipo = Path.GetExtension(viewModel.ImmagineFile.FileName).ToLowerInvariant();
-            }
 
-            var corso = await dbContext.Corsi.FirstOrDefaultAsync(); // solo per k_corso
-            if (corso == null)
-            {
-                ModelState.AddModelError("", "Nessun corso disponibile.");
-                return View(viewModel);
-            }
+
+            //var corso = await dbContext.Corsi.FirstOrDefaultAsync(); // solo per k_corso
+            //if (corso == null)
+            //{
+            //    ModelState.AddModelError("", "Nessun corso disponibile.");
+            //    return View(viewModel);
+            //}
 
             var studente = new Studente
             {
@@ -170,16 +185,38 @@ namespace AreaPubblica.Controllers
                 Provincia = viewModel.Provincia,
                 ImmagineProfilo = viewModel.ImmagineProfilo,
                 Tipo = viewModel.Tipo,
-                Abilitato = "No",
+                Abilitato = "N",
                 DataImmatricolazione = null,
-                K_Corso = corso.K_Corso
+                //K_Corso =  null
             };
 
+            if (viewModel.ImmagineFile != null)
+            {
+                var estensione = Path.GetExtension(viewModel.ImmagineFile.FileName).ToLowerInvariant();
+                var estensioniConsentite = new[] { ".jpg", ".jpeg", ".png" };
+
+                if (!estensioniConsentite.Contains(estensione))
+                {
+                    ModelState.AddModelError("ImmagineFile", "Formato immagine non valido. Sono consentiti solo JPG, JPEG e PNG.");
+                    TempData["ErroreUpload"] = "Il file caricato non è un'immagine valida.";
+                    return View(viewModel);
+                }
+
+                using var ms = new MemoryStream();
+                await viewModel.ImmagineFile.CopyToAsync(ms);
+                viewModel.ImmagineProfilo = ms.ToArray();
+                viewModel.Tipo = estensione;
+
+                TempData["SuccessoUpload"] = "Immagine caricata correttamente.";
+            }
             await dbContext.Studenti.AddAsync(studente);
             await dbContext.SaveChangesAsync();
 
-            return RedirectToAction("Index", "FAQ");
+            TempData["SuccessMessage"] = "Registrazione avvenuta con successo!";
+
+            return RedirectToAction("Index", "Home"); 
         }
+
         [HttpPost]
         public async Task<IActionResult> RecoverPassword(string email)
         {
