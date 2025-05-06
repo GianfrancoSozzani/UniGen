@@ -25,6 +25,12 @@ namespace Comunicazioni.Controllers
         {
             string ruolo = HttpContext.Session.GetString("r");
             List<IGrouping<Guid, Comunicazione>> comunicazioni;
+            
+            PopolaEsami(null);
+            PopolaStudenti(null);
+            PopolaDocenti();
+
+            var viewModel = new ListAndAddViewModel();
 
             if (ruolo == "s")
             {
@@ -55,7 +61,9 @@ namespace Comunicazioni.Controllers
                     }
                 }
 
-                return View(comunicazioni);
+                viewModel.Comunicazioni = comunicazioni;
+
+                return View(viewModel);
             }
             // ... Logica simile per il ruolo "Docente" e "Altro" ...
             else if (ruolo == "d")
@@ -87,7 +95,10 @@ namespace Comunicazioni.Controllers
                     }
                 }
 
-                return View(comunicazioni);
+
+                viewModel.Comunicazioni = comunicazioni;
+
+                return View(viewModel);
             }
             else
             {
@@ -127,7 +138,12 @@ namespace Comunicazioni.Controllers
                     }
                 }
 
-                return View(comunicazioni);
+               
+
+
+                viewModel.Comunicazioni = comunicazioni;
+
+                return View(viewModel);
 
             }
 
@@ -224,26 +240,34 @@ namespace Comunicazioni.Controllers
             return View();
         }
 
+        //[HttpPost]
+        //public IActionResult AddStudente(Guid? K_Esame) // Riceve l'ID dell'esame selezionato
+        //{
+        //    PopolaEsami(null);
+        //    PopolaStudenti(K_Esame);
+        //    return View("Add");
+        //}
+
         [HttpPost]
-        public IActionResult AddStudente(Guid? K_Esame) // Riceve l'ID dell'esame selezionato
+        public IActionResult AddStudente(Guid? K_Esame)
         {
             PopolaEsami(null);
             PopolaStudenti(K_Esame);
-            return View("Add");
+            return View("List");
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddComunicazioneViewModel viewModel)
+        public async Task<IActionResult> Add(ListAndAddViewModel listAndAddViewModel)
         {
-
+            var viewModel = listAndAddViewModel.AddComunicazione;
             string ruolo = HttpContext.Session.GetString("r");
 
             var comunicazione = new Comunicazione
             {
                 Codice_Comunicazione = Guid.NewGuid(),
                 DataOraComunicazione = DateTime.Now,
-                Testo = viewModel.Testo,
+                Testo = viewModel.Testo.Trim(),
                 K_Studente = viewModel.K_Studente,
                 K_Docente = viewModel.K_Docente
             };
@@ -269,7 +293,7 @@ namespace Comunicazioni.Controllers
                 comunicazione.K_Soggetto = Guid.Parse(HttpContext.Session.GetString("cod"));
                 comunicazione.K_Docente = null;
                 comunicazione.Soggetto = "D";
-                if (viewModel.K_Studente == null || viewModel.K_Studente.ToString() == "Amministrazione")  // Se "Amministrazione"
+                if (viewModel.K_Studente == null || viewModel.K_Studente == Guid.Empty)  // Se "Amministrazione"
                 {
                     comunicazione.K_Studente = null;  // Non associato a uno studente
                 }
@@ -279,7 +303,7 @@ namespace Comunicazioni.Controllers
                 comunicazione.K_Soggetto = Guid.Parse(HttpContext.Session.GetString("cod"));
                 comunicazione.K_Studente = null;
                 comunicazione.Soggetto = "S";
-                if (viewModel.K_Docente == null || viewModel.K_Docente.ToString() == "Amministrazione")  // Se "Amministrazione"
+                if (viewModel.K_Docente == null || viewModel.K_Docente == Guid.Empty)  // Se "Amministrazione"
                 {
                     comunicazione.K_Docente = null;  // Non associato a uno studente
                 }
@@ -435,7 +459,7 @@ hai ricevuto una comunicazione dall'Amministrazione.
             {
                 Codice_Comunicazione = viewModel.Codice_Comunicazione,
                 DataOraComunicazione = DateTime.Now,
-                Testo = viewModel.Testo,
+                Testo = viewModel.Testo.Trim(),
                 K_Soggetto = chiaveUtente,
             };
 

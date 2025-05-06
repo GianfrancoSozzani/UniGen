@@ -5,7 +5,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <h1 class="ms-5 mb-5">Incassi Annuali</h1>
+    <h1 class="ms-5 mb-5">Incassi per Facoltà</h1>
 
     <div class="row align-items-center">
         <!-- Colonna per il grafico (a sinistra) -->
@@ -27,7 +27,7 @@
         <div class="col-md-6 d-flex justify-content-center">
             <div class="border p-5 rounded shadow w-75">
                 <div class="row justify-content-center mb-4">
-                    <div class="col-4">
+                    <div class="col-5">
                         <h5 class="mb-4">Seleziona Anno</h5>
                         <asp:DropDownList
                             ID="ddlAnno"
@@ -37,8 +37,8 @@
                             OnSelectedIndexChanged="ddlAnno_SelectedIndexChanged">
                         </asp:DropDownList>
                     </div>
-                    <div class="col-8">
-                                        <h5 class="mb-4">Seleziona Facoltà</h5>
+                    <div class="col-6">
+                        <h5 class="mb-4">Seleziona Facoltà</h5>
                         <asp:DropDownList
                             ID="ddlFacolta"
                             runat="server"
@@ -49,7 +49,7 @@
                     </div>
                 </div>
 
-                <div class="text-center">
+                <%--<div class="text-center">
                     <asp:Button
                         ID="btnRiepilogo"
                         runat="server"
@@ -57,7 +57,7 @@
                         CssClass="btn btn-primary px-5 py-2"
                         OnClick="btnRiepilogo_Click"
                         Style="box-shadow: 0px 4px 12px rgba(0,0,0,0.2); border-radius: 8px;" />
-                </div>
+                </div>--%>
                 <div class="text-center mt-4">
                     <asp:Repeater ID="rptIncassiFacolta" runat="server">
                         <HeaderTemplate>

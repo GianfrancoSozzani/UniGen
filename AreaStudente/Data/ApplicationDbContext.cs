@@ -33,6 +33,7 @@ namespace AreaStudente.Data
       
         public DbSet<Pagamento> Pagamenti { get; set; }
 
+        public DbSet<Operatore> Operatori { get; set; }
 
 
 

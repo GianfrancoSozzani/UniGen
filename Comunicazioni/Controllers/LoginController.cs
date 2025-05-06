@@ -53,7 +53,7 @@ namespace Comunicazioni.Controllers
                 }
 
                 //return RedirectToAction("AREA LAVORO STUDENTE (IMMATRICOLATO)", "Home");
-                return Redirect("https://localhost:7050/Studenti/Show?cod=" + studente.K_Studente.ToString() + "&&usr=" + studente.Email + "&&r=s");
+                return Redirect("https://localhost:7098/Home/Index?cod=" + studente.K_Studente.ToString() + "&&usr=" + studente.Email + "&&r=s");
 
             }
             //if (studente != null)
@@ -87,7 +87,7 @@ namespace Comunicazioni.Controllers
                     return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=d");
                     //return RedirectToAction("AREA DOCENTE (NON ABILITATO)", "Home");
                 }
-                return Redirect("https://localhost:7245/?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=d");
+                return Redirect("https://localhost:7098/Home/Index?cod=" + docente.K_Docente.ToString() + "&&usr=" + docente.Email + "&&r=d");
                 //return RedirectToAction("AREA DOCENTE (ABILITATO)", "Home");
             }
 
@@ -104,7 +104,7 @@ namespace Comunicazioni.Controllers
                 //HttpContext.Session.SetString("Ruolo", "O");
 
 
-                return Redirect("http://localhost:5201/Studenti/ModificaProfilo?cod=" + operatore.K_Operatore.ToString() + "&&usr=" + operatore.USR + "&&r=a");
+                return Redirect("https://localhost:7098/Home/Index?cod=" + operatore.K_Operatore.ToString() + "&&usr=" + operatore.USR + "&&r=a");
 
                 //return RedirectToAction("AREA AMMINISTRAZIONE", "Home");
             }

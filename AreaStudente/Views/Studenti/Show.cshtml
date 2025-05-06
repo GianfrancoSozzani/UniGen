@@ -39,7 +39,7 @@
 							}
 
 							<div id="img-container" class="position-absolute top-0 start-50 translate-middle mb-5 d-flex justify-content-center align-items-center"
-							style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background-color: #f0f0f0; font-size: 4rem;">
+								 style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background-color: #f0f0f0; font-size: 4rem;">
 								@if (hasImage)
 								{
 									<img src="@imgSrc" alt="Immagine Profilo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
@@ -97,14 +97,48 @@
 				<div class="col-xl-8 order-xl-1 mt--7">
 					<div class="card shadow">
 						<div class="card-body">
-							<h1>LE TUE COMUNICAZIONI</h1>
+							<div class="d-flex justify-content-lg-between">
+								<h1>LE TUE COMUNICAZIONI</h1>
+
+								<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuovaComunicazioneModal">Nuova Comunicazione</button>
+								<div class="modal fade" id="nuovaComunicazioneModal" tabindex="-1" aria-labelledby="nuovaComunicazioneModalLabel" aria-hidden="true">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h1 class="modal-title fs-5" id="exampleModalLabel">Scrivi una nuova comunicazione all'Amministrazione'</h1>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												<form method="post" asp-controller="Comunicazioni" asp-action="Add">
+
+													<div class="mt-3">
+														<label class="form-label">Destinatari</label>
+														<select asp-for="NuovaComunicazione.K_Docente" asp-items="@ViewBag.DocentiList" class="form-select" required>
+														@* 	<option selected>-- Seleziona un destinatario --</option> *@
+															<option selected value="Amministrazione">Amministrazione</option>
+														</select>
+														<span asp-validation-for="NuovaComunicazione.K_Docente" class="text-danger"></span>
+													</div>
+
+													<div class="mt-4">
+														<label class="form-label">Testo:</label>
+														<textarea asp-for="NuovaComunicazione.Testo" class="form-control" rows="6" required></textarea>
+														<span asp-validation-for="NuovaComunicazione.Testo" class="text-danger"></span>
+														<button type="submit" class="btn btn-primary mt-3">Inserisci Comunicazione</button>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 							<hr class="my-4" />
 							@if (Model.Comunicazioni != null && Model.Comunicazioni.Count > 0)
 							{
 								<table class="table">
 									<thead>
 										<tr>
-											<th>Ruolo Mittente</th>
+											<th>Mittente</th>
 											<th>Comunicazione</th>
 										</tr>
 									</thead>
@@ -119,15 +153,15 @@
 														{
 															if (primaComunicazione.Studente != null && primaComunicazione.K_Soggetto == primaComunicazione.Studente.K_Studente)
 															{
-																<span class="text-primary">@($"{primaComunicazione.Studente.Nome} {primaComunicazione.Studente.Cognome} - {primaComunicazione.Soggetto}")</span>
+																<span class="text-primary">@($"{primaComunicazione.Studente.Nome} {primaComunicazione.Studente.Cognome}")</span>
 															}
 															else if (primaComunicazione.Docente != null && primaComunicazione.K_Soggetto == primaComunicazione.Docente.K_Docente)
 															{
-																<span class="text-danger">@($"{primaComunicazione.Docente.Nome} {primaComunicazione.Docente.Cognome} - {primaComunicazione.Soggetto}")</span>
+																<span class="text-primary">@($"{primaComunicazione.Docente.Nome} {primaComunicazione.Docente.Cognome}")</span>
 															}
 															else
 															{
-																<span class="text-success">Amministrazione</span>
+																<span class="text-primary">Amministrazione</span>
 															}
 														}
 													}

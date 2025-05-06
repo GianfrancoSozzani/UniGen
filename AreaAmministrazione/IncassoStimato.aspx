@@ -25,18 +25,21 @@
 
         <!-- Sezione a destra -->
         <div class="col-md-6">
-            <div class="border p-5 rounded shadow mb-4">
+            <div class="border p-5 rounded shadow mb-4 ">
                 <h5 class="text-center mb-4">Seleziona Facoltà</h5>
-                <asp:DropDownList
-                    ID="ddlFacolta"
-                    runat="server"
-                    CssClass="form-control form-control-sm mb-3"
-                    AutoPostBack="true"
-                    OnSelectedIndexChanged="ddlFacolta_SelectedIndexChanged">
-                </asp:DropDownList>
+                <div class="d-flex justify-content-center">
+                    <asp:DropDownList
+                        ID="ddlFacolta"
+                        runat="server"
+                        CssClass="form-select form-select-sm mb-3"
+                        Style="width: 200px;"
+                        AutoPostBack="true"
+                        OnSelectedIndexChanged="ddlFacolta_SelectedIndexChanged">
+                    </asp:DropDownList>
+                </div>
 
 
-                <div class="text-center">
+                <%--<div class="text-center">
                     <asp:Button
                         ID="btnRiepilogo"
                         runat="server"
@@ -44,7 +47,7 @@
                         CssClass="btn btn-primary px-5 py-2"
                         OnClick="btnRiepilogo_Click"
                         Style="box-shadow: 0px 4px 12px rgba(0,0,0,0.2); border-radius: 8px;" />
-                </div>
+                </div>--%>
                 <div class="mt-4">
                     <asp:Repeater ID="rptIncassiFacolta" runat="server">
                         <HeaderTemplate>

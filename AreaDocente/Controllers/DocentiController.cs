@@ -48,7 +48,8 @@ namespace AreaDocente.Controllers
 
             if (docente == null)
                 return NotFound();
-
+            if (model.DataNascita > docente.DataNascita)
+                return NotFound();
             // Aggiorna i dati anagrafici
             docente.Nome = model.Nome;
             docente.Cognome = model.Cognome;

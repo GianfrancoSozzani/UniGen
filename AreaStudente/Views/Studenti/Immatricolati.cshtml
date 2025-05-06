@@ -8,6 +8,15 @@
 				<div class="card shadow">
 					<div class="card-body">
 						<h3 class="text-center mb-2">Procedura di Immatricolazione</h3>
+						@if (!ViewData.ModelState.IsValid)
+						{
+							<div class="alert alert-danger text-center" role="alert">
+								@foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+								{
+									<div>@error.ErrorMessage</div>
+								}
+							</div>
+						}
 						<p class="text-black px-1">
 							In quest’area personale puoi scegliere la facoltà di tuo interesse, selezionare il corso di laurea e completare il primo pagamento per l’immatricolazione.
 							Ti ricordiamo che, una volta confermate, le scelte relative alla facoltà e al corso non potranno essere modificate senza una nuova procedura di iscrizione.
@@ -15,23 +24,23 @@
 
 						<h4 class="heading-small text-muted">SELEZIONA UNA FACOLTÀ</h4>
 						<div class="row mb-0 mb-lg-3 align-items-end">
-							<div class="col-12 col-lg-9 mb-2 mb-lg-0">				
-								<select asp-for="K_Facolta" asp-items="Model.FacoltaList" class="form-select" onchange="this.form.submit()">
-									<option disabled selected >-- Selezionare una Facoltà --</option>
+							<div class="col-12 col-lg-9 mb-2 mb-lg-0">
+								<select asp-for="K_Facolta" asp-items="Model.FacoltaList" class="form-control" id="facolta-select">
+									<option disabled selected required>-- Selezionare una Facoltà --</option>
 								</select>
-							</div>							
+							</div>
 						</div>
 
 						<hr class="my-4">
 						<h4 class="heading-small text-muted">SELEZIONA UNA CORSO</h4>
 						<div class="row mb-0 mb-lg-3 align-items-end">
 							<div class="col-12 col-lg-9 mb-2 mb-lg-0">
-								<select asp-for="K_Corso" asp-items="Model.CorsiList" class="form-select">
-									<option disabled selected>-- Selezionare un Corso --</option>
+								<select asp-for="K_Corso" asp-items="Model.CorsiList" class="form-control" id="corso-select">
+									<option disabled selected required>-- Selezionare un Corso --</option>
 								</select>
 							</div>
 						</div>
-																							
+
 
 
 						<hr class="my-4">
@@ -45,9 +54,15 @@
 								<label class="form-label form-control-label">Nome</label>
 								<input type="text" asp-for="Nome" class="form-control form-control-alternative" required />
 							</div>
+							@{
+								var oggi = DateTime.Today.ToString("yyyy-MM-dd");
+								var oggi2 = DateTime.Now.Year.ToString("yyyy-MM-dd");
+								var maxData = DateTime.Now.AddYears(-18).ToString("yyyy-MM-dd");
+							}
 							<div class="col-12 col-lg-4 mb-2">
 								<label class="form-label form-control-label">Data di Nascita</label>
-								<input type="date" asp-for="DataNascita" class="form-control form-control-alternative" required />
+								<input type="date" asp-for="DataNascita" class="form-control form-control-alternative" max="@maxData" required />
+								<span asp-validation-for="DataNascita" class="text-danger"></span>
 							</div>
 						</div>
 
@@ -76,7 +91,28 @@
 							</div>
 						</div>
 						<div class="text-center">
-							<button type="submit" class="btn btn-primary" style="width: 179px;">Salva</button>
+							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confermaModal">Procedi</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal -->
+		
+			<div class="modal fade" id="confermaModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+				<div class="modal-dialog ">
+					<div class="modal-content">
+						<div class="modal-header justify-content-center">
+							<h5 class="modal-title text-center w-100" id="modalLabel">Conferma Iscrizione</h5>
+							<button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+						</div>
+						<div class="modal-body text-center">
+							Vuoi confermare l'immatricolazione?
+							<p>L'importo è: €@Model.Importo</p>
+						</div>
+						<div class="modal-footer d-flex justify-content-center">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+							<button type="button" class="btn btn-primary" id="conferma-btn">Conferma</button>
 						</div>
 					</div>
 				</div>
@@ -157,5 +193,41 @@
 	</div>
 </div>
 
+@section Scripts {
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			const form = document.getElementById("modifica-form");
+			const facoltaSelect = document.getElementById("facolta-select");
+			const corsoSelect = document.getElementById("corso-select")
+			const confermaBtn = document.getElementById("conferma-btn");
+
+			facoltaSelect.addEventListener("change", function () {
+				// Aggiunge un campo nascosto per identificare il submit parziale
+				const input = document.createElement("input");
+				input.type = "hidden";
+				input.name = "updateFacolta";
+				input.value = "true";
+				form.appendChild(input);
+
+				form.submit();
+			});
+
+			corsoSelect.addEventListener("change", function(){
+				const input = document.createElement("input");
+				input.type = "hidden";
+				input.name = "updateFacolta";
+				input.value = "true";
+				form.appendChild(input);
+
+				form.submit();
+			})
+
+
+			confermaBtn.addEventListener("click", function () {
+				form.submit();
+			});
+		});
+	</script>
+}
 
 

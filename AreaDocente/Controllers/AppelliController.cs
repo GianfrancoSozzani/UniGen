@@ -63,21 +63,25 @@ namespace AreaDocente.Controllers
             if (viewModel.DataAppello == null)
             {
                 TempData["ErrorMessage"] = "Data appello mancante!";
+                PopoloDDL();
                 return View(viewModel);
             }
             if (viewModel.Tipo == null)
             {
                 TempData["ErrorMessage"] = "Tipo appello mancante!";
+                PopoloDDL();
                 return View(viewModel);
             }
             if (viewModel.Link == null)
             {
                 TempData["ErrorMessage"] = "Link appello mancante!";
+                PopoloDDL();
                 return View(viewModel);
             }
-            if (viewModel.K_Esame == Guid.Empty)
+            if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare l'esame!";
+                PopoloDDL();
                 return View(viewModel);
             }
 
@@ -87,7 +91,6 @@ namespace AreaDocente.Controllers
                 DataVerbalizzazione = viewModel.DataVerbalizzazione,
                 Tipo = viewModel.Tipo,
                 Link = viewModel.Link,
-                DataOrale = viewModel.DataOrale,
                 K_Esame = viewModel.K_Esame
             };
             await dbContext.appelli.AddAsync(appello);
@@ -111,37 +114,41 @@ namespace AreaDocente.Controllers
             if (viewModel.DataAppello == null)
             {
                 TempData["ErrorMessage"] = "Inserire la data dell'appello!";
+                PopoloDDL();
                 return View(viewModel);
             }
             if (viewModel.Tipo == null)
             {
                 TempData["ErrorMessage"] = "Inserire il tipo dell'appello!";
+                PopoloDDL();
                 return View(viewModel);
             }
             if (viewModel.Link == null)
             {
                 TempData["ErrorMessage"] = "Inserire il link dell'appello!";
+                PopoloDDL();
                 return View(viewModel);
             }
-            if (viewModel.Tipo == "Or" && viewModel.DataOrale == null)
-            {
-                TempData["ErrorMessage"] = "Inserire la data dell'rale!";
-                return View(viewModel);
-            }
-            if (viewModel.K_Esame == Guid.Empty)
+            if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare l'esame!";
+                PopoloDDL();
                 return View(viewModel);
             }
+            if (viewModel.DataVerbalizzazione < viewModel.DataAppello)
+            {
+                TempData["ErrorMessage"] = "La data di verbalizzazione non può essere precedente alla data dell'appello.";
+                PopoloDDL();
+                return View(viewModel);
+            }
+
+
 
             var appello = await dbContext.appelli.FindAsync(viewModel.K_Appello);
             if (appello is not null)
             {
                 appello.DataAppello = viewModel.DataAppello;
                 appello.Tipo = viewModel.Tipo;
-
-                if (appello.Tipo == "Or")
-                    appello.DataOrale = viewModel.DataOrale;
 
                 if (viewModel.DataVerbalizzazione != null)
                     appello.DataVerbalizzazione = viewModel.DataVerbalizzazione;
@@ -165,6 +172,10 @@ namespace AreaDocente.Controllers
                 await dbContext.SaveChangesAsync();
             }
             return RedirectToAction("List");
+        }
+        public async Task<IActionResult> Annulla()
+        {
+            return RedirectToAction("List", "Appelli");
         }
     }
 }
