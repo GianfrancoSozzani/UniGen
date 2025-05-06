@@ -1,132 +1,160 @@
 ﻿<div style="height:15vh;"></div>
-	@* <div class="col-2"></div> *@
-<div class="ms-5 mt-4">
-	<div>
 
+<div class="container mt-2 mb-5">
+	<div class="row">
+		<!-- Colonna testo -->
+		<div class="col-lg-8 col-md-12">
+			<h1>Come Funziona?</h1>
+			<p>
+				Studiare con la nostra università online è semplice e flessibile. <br>
+				Una volta iscritto, accedi a una piattaforma digitale dove trovi video lezioni, materiali didattici e supporto costante da parte di tutor qualificati. <br />
+				Puoi organizzare lo studio secondo i tuoi ritmi e sostenere gli esami secondo le modalità previste dal tuo corso.
+				Tutto è pensato per offrirti un’esperienza formativa completa, accessibile e sempre al passo con le tue esigenze.
+			</p>
 
-		<h1 style="font-size:60px;"> Come Funziona?</h1>
+			<div class="accordion shadow-sm rounded mt-4" id="accordionFunziona">
+				<!-- Punto 1 -->
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="heading1">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+							1. Come funzionano le lauree e le magistrali
+						</button>
+					</h2>
+					<div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#accordionFunziona">
+						<div class="accordion-body">
+							<p class="fw-bold">L’organizzazione degli studi universitari si articola in tre cicli:</p>
+							<ul>
+								<li>Laurea, Laurea Magistrale a ciclo unico</li>
+								<li>Laurea Magistrale</li>
+								<li>Dottorati di Ricerca e Scuole di Specializzazione</li>
+							</ul>
 
-		<p>
-			Studiare con la nostra università online è semplice e flessibile. <br>
-			Una volta iscritto, accedi a una piattaforma digitale dove trovi video lezioni, materiali didattici e supporto costante da parte di tutor qualificati. <br />
-			Puoi organizzare lo studio secondo i tuoi ritmi e sostenere gli esami secondo le modalità previste dal tuo corso.
-			Tutto è pensato per offrirti un’esperienza formativa completa, accessibile e sempre al passo con le tue esigenze.
-		</p>
+							<p class="fw-bold">Requisiti per Lauree e Magistrali a ciclo unico:</p>
+							<ul>
+								<li>Diploma di maturità quinquennale</li>
+								<li>Diploma quadriennale con anno integrativo (o contattare la segreteria)</li>
+								<li>Titolo estero valido</li>
+							</ul>
 
-			@* punto 1*@
+							<p class="fw-bold">Per Lauree Magistrali:</p>
+							<ul>
+								<li>Laurea o diploma universitario</li>
+								<li>Titoli accademici artistici accompagnati da diploma di maturità</li>
+								<li>Titolo estero valido</li>
+							</ul>
 
-		<div class="mb-5">
-			<h3><strong>1. Come funzionano le lauree e le magistrali</strong></h3><br>
-			<p class="fw-bold">L’organizzazione degli studi universitari si articola in tre cicli:</p>
-			<ul>
-				<li class="">Corsi di Studio di primo ciclo e ciclo unico: Laurea, Laurea Magistrale a ciclo unico.</li>
-				<li>Corsi di studio di secondo ciclo: Laurea Magistrale.
-				<li>Corsi di Studio di terzo ciclo: Dottorati di Ricerca e Scuole di Specializzazione.</li>
-			</ul>
+							<p><strong>Accesso:</strong> libero o a numero programmato. L’iscrizione avviene in due fasi: registrazione e immatricolazione.</p>
+						</div>
+					</div>
+				</div>
 
-			<p class="fw-bold">Per iscriversi alle Lauree e Lauree Magistrali a ciclo unico è richiesto uno dei seguenti titoli:</p>
+				<!-- Punto 2 -->
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="heading2">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+							2. Scelta piano di studi personale
+						</button>
+					</h2>
+					<div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#accordionFunziona">
+						<div class="accordion-body">
+							La UniGen offre una vasta gamma di corsi per costruire un piano di studi su misura, in base ai tuoi interessi e obiettivi. Ogni studente può personalizzare il percorso selezionando gli insegnamenti opzionali più affini alle proprie aspirazioni.
+						</div>
+					</div>
+				</div>
 
-			<ul>
+				<!-- Punto 3 -->
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="heading3">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+							3. Iscrizione nell'area pubblica
+						</button>
+					</h2>
+					<div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#accordionFunziona">
+						<div class="accordion-body">
+							Per iscriversi è necessario compilare un modulo online. Servono nome, cognome, email e numero di telefono. <br />
+							Puoi registrarti da questo <a class="text-primary" asp-area="" asp-controller="Login" asp-action="Register">link</a>. <br />
+							La registrazione non è vincolante per l'immatricolazione.
+						</div>
+					</div>
+				</div>
 
-				<li>Diploma di maturità quinquennale;</li>
-				<li>
-					Diploma di maturità quadriennale con anno integrativo.
-					Nel caso in cui il diploma sia rilasciato da istituti che non prevedevano l’anno integrativo, contatta la Segreteria studenti;
-				</li>
-				<li>Titolo estero valido.</li>
-			</ul>
+				<!-- Punto 4 -->
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="heading4">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+							4. Immatricolazione
+						</button>
+					</h2>
+					<div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#accordionFunziona">
+						<div class="accordion-body">
+							L'immatricolazione si effettua online dopo la registrazione. Una volta caricati i documenti e pagata la rata, la segreteria confermerà l’iscrizione. Dopo l’esito positivo, potrai accedere all’area lavoro per seguire le lezioni e prenotare esami.
+						</div>
+					</div>
+				</div>
 
+				<!-- Punto 5 -->
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="heading5">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+							5. Come funzionano le videolezioni
+						</button>
+					</h2>
+					<div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5" data-bs-parent="#accordionFunziona">
+						<div class="accordion-body">
+							Le lezioni saranno caricate in modalità teledidattica e potranno essere consultate in differita. Si possono filtrare per docente o per esame.
+						</div>
+					</div>
+				</div>
 
+				<!-- Punto 6 -->
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="heading6">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+							6. Come funzionano gli esami
+						</button>
+					</h2>
+					<div id="collapse6" class="accordion-collapse collapse" aria-labelledby="heading6" data-bs-parent="#accordionFunziona">
+						<div class="accordion-body">
+							Gli esami si prenotano dalla propria area lavoro. Le modalità possono essere orali, scritte a domande chiuse o aperte, a seconda del docente.
+						</div>
+					</div>
+				</div>
 
-
-			<p class="fw-bold">Per le Lauree Magistrali è richiesto uno dei seguenti titoli:</p>
-
-			<ul>
-
-				<li>Laurea;</li>
-				<li>Diploma universitario;</li>
-				<li>
-					Titolo rilasciato da: Accademie di Belle Arti, Accademia Nazionale di Danza,<br />
-					Accademia Nazionale di Arte Drammatica, Istituti Superiori per le Industrie Artistiche, Conservatori di musica, <br />
-					Istituti musicali pareggiati (secondo l’ordinamento previgente all’entrata in vigore della L. 21/12/99 n.508), accompagnato dal diploma di maturità;
-				</li>
-				<li>Titolo estero valido.</li>
-			</ul>
-
-			Modalità di accesso:<br />
-			I corsi (Lauree, Lauree Magistrali a ciclo unico, Lauree Magistrali) possono essere a numero programmato (a livello locale o nazionale) oppure ad accesso libero <br />
-
-
-			<p class="fw-bold">L’iscrizione avviene in due fasi successive:</p>
-			<ul>
-				<li>La registrazione</li>
-				<li>L’immatricolazione</li>
-			</ul>
+				<!-- Punto 7 -->
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="heading7">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+							7. Come funziona la scelta dei corsi?
+						</button>
+					</h2>
+					<div id="collapse7" class="accordion-collapse collapse" aria-labelledby="heading7" data-bs-parent="#accordionFunziona">
+						<div class="accordion-body">
+							Ogni studente può selezionare gli insegnamenti opzionali più in linea con le proprie aspirazioni. Questo consente di costruire una formazione su misura, centrata sulle ambizioni individuali.
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
-			@* punto 2 *@
-
-		<div class="mb-5">
-			<h3><strong>2. Scelta piano di studi personale</strong></h3><br>
-			La UniGen di Generation propone una <strong>vasta gamma di corsi</strong> che ti permettono di costruire <strong>un piano di studi su misura</strong>,
-			in base ai tuoi interessi,obiettivi professionali e percorso accademico. Che tu scelga una <strong>laurea triennale</strong>, <strong>magistrale</strong> o <strong>a ciclo unico</strong>,
-			hai la possibilità di <strong>personalizzare</strong> il tuo percorso selezionando gli <strong>insegnamenti opzionali</strong> più affini alle tue aspirazioni.
-			In questo modo, ogni studente può costruire una <strong>formazione realmente centrata </strong>sulle proprie ambizioni future.
-
-		</div>
-
-			@* punto 3 *@
-
-		<div class="mb-5">
-			<h3><strong>3. Iscrizione nell'area pubblica</strong></h3><br>
-			<h5>Come registrarsi?</h5>
-			Per iscriversi all’UniGen è <strong>necessario compilare</strong> un modulo di registrazione online.
-			Durante la registrazione, ti verrà chiesto di fornire alcune informazioni personali, come <strong></strong> nome, <strong></strong>cognome, <strong></strong>indirizzo email e <strong></strong>numero di telefono.
-			Queste informazioni sono <strong>necessarie</strong>  per creare il <strong>tuo profilo studente</strong> e per <strong>comunicare con te</strong> durante il tuo percorso accademico.<br>
-			È possibile effettuare la registrazione al sito UniGen direttamente da questo <a class="text-primary" asp-area="" asp-controller="Login" asp-action="Register">link</a>
-			La registrazione <strong>non implica</strong> alcun impegno <strong>vincolante per l'immatricolazione</strong>.
-
-
-		</div>
-
-			@* punto 4 *@
-
-		<div class="mb-5">
-			<h3><strong>4. Immatricolazione</strong></h3><br>
-			<h5>Come immatricolarsi?</h5>
-			È possibile <strong>immatricolarsi</strong> ai corsi di Laurea dell’UniGen direttamente dal
-			pc di casa utilizzando la procedura online disponibile sul sito dell'Ateneo. <br>
-			Dopo essersi <strong>registrati</strong>, occorre <strong>accedere al proprio</strong> profilo per effettuare l'immatricolazione. <br />
-			Una volta caricarti i file richiesti e pagata la rata di iscrizione,si verrà contattati dalla segreteria per la conferma dell'iscrizione al corso di laurea scelto.<br />
-			In caso di esito positivo, dalla propria area profilo, sarà possibile accedere all'area lavoro per seguire le lezione e per la prenotazione degli esami.
-		</div>
-
-			@* punto 5 *@
-		<div class="mb-5">
-			<h3><strong>5.Come funzionano le videolezioni</strong></h3><br>
-			Le lezioni saranno disponibili in <strong>modalità teledidattica </strong>e verranno <strong>registrate e caricate dai docenti</strong> per la fruizione in differita. <br />
-			Sarà possibile filtrare le lezioni del proprio corso per docente e per esame
-		</div>
-
-
-			@* punto 6 *@
-		<div class="mb-5">
-			<h3><strong>6. Come funzionano gli esami</strong></h3><br>
-			Sarà possibile iscriversi agli esami <strong>dalla propria area lavoro</strong>. <br />
-			Gli esami potranno essere <strong>orali</strong>, <strong>scritti</strong> a <strong>domande aperte </strong>o a <strong>domande chiuse</strong>, a discrezione del docente e dell'esame in questione. <br />
-		</div>
-
-			@* punto 7 *@
-
-		<div class="mb-5">
-			<h3><strong>7. Come funziona la scelta dei corsi?</strong></h3><br>
-			La UniGen di Generation propone una <strong>vasta gamma di corsi</strong> che ti permettono di costruire un piano di studi su misura, in base ai tuoi
-			<strong>interessi</strong>, <strong>obiettivi professionali</strong> e <strong>percorso accademico</strong>.
-			Che tu scelga una <strong>laurea triennale</strong>, <strong>magistrale</strong> o <strong>a ciclo unico</strong>, hai la possibilità di <strong>personalizzare il tuo percorso</strong> selezionando gli
-			<strong>insegnamenti opzionali</strong> più affini alle tue aspirazioni. <br />In questo modo, ogni studente può <strong>valorizzare le proprie inclinazioni</strong>
-			e costruire una <strong>formazione realmente centrata sulle proprie ambizioni future</strong>.
-
+		<!-- Colonna immagine -->
+		<div class="col-lg-4 col-md-12 mt-4 text-center">
+			<img src="~/sources/gettyimages-1177384544-2048x2048.jpg" class="img-fluid rounded shadow-sm"
+				 style="max-height:500px; object-fit:cover;" alt="Università online" />
 		</div>
 	</div>
 </div>
 
+<style>
+	.accordion-button:not(.collapsed) {
+		background-color: #f8f9fa !important;
+		color: #212529 !important;
+		box-shadow: none !important;
+	}
+</style>
