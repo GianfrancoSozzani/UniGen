@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
-namespace Comunicazioni.Models.Entities
+namespace AreaDocente.Models.Entities
 {
     public class Comunicazione
     {
@@ -16,11 +16,11 @@ namespace Comunicazioni.Models.Entities
         public Guid? K_Studente { get; set; }
         [ForeignKey("K_Studente")]
         [ValidateNever]
-        public Studente? Studente { get; set; }
+        public MVCStudente? Studente { get; set; }
         public Guid? K_Docente { get; set; }
         [ForeignKey("K_Docente")]
         [ValidateNever]
-        public Docente? Docente{ get; set; }
+        public MVCDOCENTE? Docente{ get; set; }
 
     }
 }

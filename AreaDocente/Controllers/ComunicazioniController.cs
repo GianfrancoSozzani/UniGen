@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Net.Mail;
-using Comunicazioni.Data;
-using Comunicazioni.Models;
-using Comunicazioni.Models.Entities;
+using AreaDocente.Data;
+using AreaDocente.Models;
+using AreaDocente.Models.Entities;
 using LibreriaClassi;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -49,13 +49,13 @@ namespace Comunicazioni.Controllers
                         // Carica il mittente (se è uno studente)
                         if (comunicazione.K_Soggetto.HasValue)
                         {
-                            comunicazione.Studente = await dbContext.Studenti
+                            comunicazione.Studente = await dbContext.studenti
                                 .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
                         }
                         // Carica il mittente (se è un docente) - Potrebbe essere necessario un controllo aggiuntivo se K_Soggetto può essere sia studente che docente
                         if (comunicazione.K_Soggetto.HasValue && comunicazione.Studente == null)
                         {
-                            comunicazione.Docente = await dbContext.Docenti
+                            comunicazione.Docente = await dbContext.docenti
                                 .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
                         }
                     }
@@ -83,13 +83,13 @@ namespace Comunicazioni.Controllers
                         // Carica il mittente (se è un docente)
                         if (comunicazione.K_Soggetto.HasValue)
                         {
-                            comunicazione.Docente = await dbContext.Docenti
+                            comunicazione.Docente = await dbContext.docenti
                                 .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
                         }
                         // Carica il mittente (se è uno studente) 
                         if (comunicazione.K_Soggetto.HasValue && comunicazione.Docente == null)
                         {
-                            comunicazione.Studente = await dbContext.Studenti
+                            comunicazione.Studente = await dbContext.studenti
                                 .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
                         }
                     }
@@ -126,13 +126,13 @@ namespace Comunicazioni.Controllers
                         // Carica il mittente (se è un docente)
                         if (comunicazione.K_Soggetto.HasValue)
                         {
-                            comunicazione.Docente = await dbContext.Docenti
+                            comunicazione.Docente = await dbContext.docenti
                                 .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
                         }
                         // Carica il mittente (se è uno studente) 
                         if (comunicazione.K_Soggetto.HasValue && comunicazione.Docente == null)
                         {
-                            comunicazione.Studente = await dbContext.Studenti
+                            comunicazione.Studente = await dbContext.studenti
                                 .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
                         }
                     }
@@ -154,7 +154,7 @@ namespace Comunicazioni.Controllers
         //----------------------------------------------//
         public void PopolaEsami(Guid? IDEsame)
         {
-            IEnumerable<SelectListItem> listaEsami = dbContext.Esami
+            IEnumerable<SelectListItem> listaEsami = dbContext.esami
                 .Where(e => e.K_Docente == Guid.Parse(HttpContext.Session.GetString("cod")))
                 .Select(e => new SelectListItem
                 {
@@ -170,7 +170,7 @@ namespace Comunicazioni.Controllers
             string ruolo = HttpContext.Session.GetString("r");
             if (ruolo == "a")
             {
-                IEnumerable<SelectListItem> listaStudenti = dbContext.Studenti
+                IEnumerable<SelectListItem> listaStudenti = dbContext.studenti
                     .Select(i => new SelectListItem
                     {
                         Text = i.Nome + " " + i.Cognome,
@@ -183,7 +183,7 @@ namespace Comunicazioni.Controllers
                 Guid docenteId = Guid.Parse(HttpContext.Session.GetString("cod"));
 
                 // Ottieni gli ID degli esami del docente
-                var esamiDelDocenteList = dbContext.Esami
+                var esamiDelDocenteList = dbContext.esami
                     .Where(e => e.K_Docente == docenteId)
                     .Select(e => e.K_Esame)
                     .ToList(); // Esegui subito la query e materializza i risultati
@@ -196,7 +196,7 @@ namespace Comunicazioni.Controllers
                     .ToList(); // Esegui subito la query e materializza i risultati
 
                 // Carica solo questi studenti dalla tabella Studenti
-                var listaStudenti = dbContext.Studenti
+                var listaStudenti = dbContext.studenti
                     .Where(s => studentiFiltrati.Contains(s.K_Studente) && s.Matricola != null)
                     .Select(s => new SelectListItem
                     {
@@ -214,7 +214,7 @@ namespace Comunicazioni.Controllers
             string ruolo = HttpContext.Session.GetString("r");
             if (ruolo == "a")
             {
-                IEnumerable<SelectListItem> listaDocenti = dbContext.Docenti
+                IEnumerable<SelectListItem> listaDocenti = dbContext.docenti
                     .Select(i => new SelectListItem
                     {
                         Text = i.Nome + " " + i.Cognome,
@@ -229,7 +229,7 @@ namespace Comunicazioni.Controllers
                 .Where(ps => ps.K_Studente == Idstudente)
                 .Select(ps => ps.K_Esame);
 
-                var listaDocenti = dbContext.Esami
+                var listaDocenti = dbContext.esami
                        .Where(e => pianiDiStudio.Contains(e.K_Esame))
                        .Select(e => e.Docente)
                        .Distinct()
@@ -323,8 +323,8 @@ namespace Comunicazioni.Controllers
             }
 
             //collegamento tra comunicazioni e studente-docente
-            comunicazione.Studente = dbContext.Studenti.FirstOrDefault(s => s.K_Studente == comunicazione.K_Studente); //una join
-            comunicazione.Docente = dbContext.Docenti.FirstOrDefault(d => d.K_Docente == comunicazione.K_Docente); //una join
+            comunicazione.Studente = dbContext.studenti.FirstOrDefault(s => s.K_Studente == comunicazione.K_Studente); //una join
+            comunicazione.Docente = dbContext.docenti.FirstOrDefault(d => d.K_Docente == comunicazione.K_Docente); //una join
 
             await dbContext.Comunicazioni.AddAsync(comunicazione);
             await dbContext.SaveChangesAsync();
@@ -394,7 +394,7 @@ namespace Comunicazioni.Controllers
                 
                 if (ruolo == "d")
                 {
-                    comunicazione.Docente = await dbContext.Docenti
+                    comunicazione.Docente = await dbContext.docenti
                               .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
 
                     mail.Body = @$"In data {comunicazione.DataOraComunicazione}  
@@ -404,7 +404,7 @@ hai ricevuto una comunicazione da {comunicazione.Docente?.Nome} {comunicazione.D
                 }
                 else if (ruolo == "s")
                 {
-                    comunicazione.Studente = await dbContext.Studenti
+                    comunicazione.Studente = await dbContext.studenti
                               .FirstOrDefaultAsync(d => d.K_Studente == comunicazione.K_Soggetto);
 
                     mail.Body = @$"In data {comunicazione.DataOraComunicazione}  
@@ -435,7 +435,7 @@ hai ricevuto una comunicazione dall'Amministrazione.
 
 
 
-            return RedirectToAction("List", "Comunicazioni");
+            return RedirectToAction("Index", "Home");
 
         }
 
@@ -506,8 +506,8 @@ hai ricevuto una comunicazione dall'Amministrazione.
             }
 
             // Assegna chi riceverà la risposta
-            nuovaRisposta.Docente = dbContext.Docenti.FirstOrDefault(d => d.K_Docente == nuovaRisposta.K_Docente);
-            nuovaRisposta.Studente = dbContext.Studenti.FirstOrDefault(s => s.K_Studente == nuovaRisposta.K_Studente);
+            nuovaRisposta.Docente = dbContext.docenti.FirstOrDefault(d => d.K_Docente == nuovaRisposta.K_Docente);
+            nuovaRisposta.Studente = dbContext.studenti.FirstOrDefault(s => s.K_Studente == nuovaRisposta.K_Studente);
 
             await dbContext.Comunicazioni.AddAsync(nuovaRisposta);
             await dbContext.SaveChangesAsync();
