@@ -37,9 +37,9 @@
         }
 
         .btn:hover {
-            box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);
-            -webkit-box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);
-            -moz-box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);
+            box-shadow: 0px 4px 12px 0px rgba(0,0,0,0.23);
+            /*-webkit-box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);
+            -moz-box-shadow: 13px 6px 5px 0px rgba(0,0,0,0.23);*/
         }
     </style>
 </asp:Content>
@@ -56,6 +56,9 @@
 
             <%-----------------RIEPILOGO STUDENTI ISCRITTI, INCASSO ANNO CORRENTE E CORSI ATTIVI---------------------%>
             <div class="row mt-5">
+                <div>
+                    <asp:Button runat="server" Text="Aggiorna" class="btn btn-outline-primary" ID="btnAggiorna" OnClick="btnAggiorna_OnClick" />
+                </div>
                 <div class="col-md-4 mb-3">
                     <div class="card border-primary shadow-sm">
                         <div class="card-body">
@@ -118,9 +121,7 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <asp:Button runat="server" Text="Aggiorna" class="btn btn-outline-primary" ID="btnAggiorna" OnClick="btnAggiorna_OnClick" />
-            </div>
+
 
             <%----------------SHORTCUT PER AZIONI FREQUENTI---------------------%>
             <div class="mt-5">

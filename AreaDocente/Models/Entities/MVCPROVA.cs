@@ -11,8 +11,15 @@ namespace AreaDocente.Models.Entities
         public Guid? K_Appello { get; set; }
 
         [ForeignKey("K_Appello")]
+        [ValidateNever]
         public MVCAPPELLO? Appello { get; set; }
         public string? Link { get; set; }
         public string? Tipologia { get; set; }
+
+        [ValidateNever]
+        public List<MVCTest_DA>? DomandeAperte { get; set; }
+
+        [ValidateNever]
+        public List<MVCTest_DC>? DomandeChiuse { get; set; }
     }
 }

@@ -6,7 +6,7 @@
 		.OrderBy(g => g.Key);
 }
 
-<div class="container mb-5" style="padding-top: 120px;">
+<div class="container" style="padding-top: 120px;">
 	<div class="row">
 		<h1 class="mb-4">Corsi di Laurea</h1>
 
@@ -53,8 +53,8 @@
 											@foreach (var corso in facolta)
 											{
 												<li class="list-group-item">
-													<nobr class="text-primary">Corso:</nobr> @corso.TitoloCorso <br />
-													<strong>Durata:</strong> @corso.Durata
+													<nobr>Corso:</nobr> <a class ="text-primary">@corso.TitoloCorso</a> <br />
+													Durata: <strong>@corso.Durata</strong>
 												</li>
 											}
 										</ul>

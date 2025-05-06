@@ -15,9 +15,9 @@
             <div class="d-flex text-start gap-2 flex-wrap fs-6 mb-2">
                 <asp:Label ID="lblAnno" runat="server"></asp:Label>
                 <span>-</span>
-                <asp:Label ID="lblC" runat="server"></asp:Label>
-                <span>-</span>
                 <asp:Label ID="lblF" runat="server"></asp:Label>
+                <span>-</span>
+                <asp:Label ID="lblC" runat="server"></asp:Label>
             </div>
 
             <!-- Separatore mantenuto -->

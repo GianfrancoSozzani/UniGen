@@ -4,55 +4,20 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
-    <div class="container mt-5">
+    <div class="container mt-3">
         <h1>Gestione Esami</h1>
 
         <div class="mb-4">
-            <div id="icona" class="row g-3">
+            <div id="icona" class="row g-3 align-items-center justify-content-end">
                 <div class="col-auto">
-                    <asp:Label ID="Label2" runat="server" Text="Inserisci un nuovo esame" CssClass="fw-bold fs-5"></asp:Label>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRicercaEsame">
+                        <i class="bi bi-search"></i>
+                    </button>
                 </div>
                 <div class="col-auto">
-                    <i class="bi bi-plus-circle btn btn-sm btn-primary"></i>
-                </div>
-            </div>
-
-            <div id="insert" class="d-none row" runat="server">
-                <div class="col-auto">
-                    <asp:Label ID="Label3" runat="server" Text="Esame"></asp:Label>
-                    <asp:TextBox ID="txtEsami" CssClass="form-control" runat="server"></asp:TextBox>
-                </div>
-                <div class="col-auto">
-                    <asp:Label ID="Label1" runat="server" Text="Docente"></asp:Label>
-                    <asp:DropDownList ID="ddlDocente" CssClass="form-select" runat="server"></asp:DropDownList>
-                </div>
-                <div class="col-auto">
-                    <asp:Label ID="Label5" runat="server" Text="CFU"></asp:Label>
-                    <asp:TextBox ID="txtCFU" CssClass="form-control" runat="server"></asp:TextBox>
-                </div>
-                <div class="col-auto d-flex align-items-end">
-                    <asp:Button CssClass="btn btn-primary" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
-                </div>
-            </div>
-        </div>
-
-        <div class="form mb-3">
-            <div class="row g-3 align-items-center">
-                <div class="col-auto">
-                    <label class="mr-2" for="lblRicercaEsame">Ricerca Esame</label>
-                </div>
-                <div class="col-auto">
-                    <asp:TextBox ID="txtRicercaEsame" runat="server" CssClass="form-control mr-2"></asp:TextBox>
-                </div>
-                <div class="col-auto">
-                    <asp:LinkButton ID="btnRicerca" runat="server" CssClass="btn btn-primary" Style="box-shadow: 0px 4px 12px #21212115;" OnClick="btnRicerca_Click">
-  <i class="bi bi-search"></i>
-                    </asp:LinkButton>
-                </div>
-                <div class="col-auto">
-                    <span style="margin-left: 1em;">
-                        <asp:Label ID="lblErrore" runat="server" CssClass="text-danger mt-3" Text="" Visible="False"></asp:Label>
-                    </span>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalInserimentoEsame">
+                        <i class="bi bi-plus-circle"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -95,7 +60,76 @@
         </div>
     </div>
 
-    <%--Modal--%>
+    <%--Modal ricerca--%>
+    <div class="modal fade" id="modalRicercaEsame" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="exampleModalLabel1">Ricerca Esame</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="txtRicercaEsame" class="form-label fw-bold">Esame</label>
+                        <asp:TextBox ID="txtRicercaEsame" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                    <div class="mb-3">
+                        <span style="margin-left: 1em;">
+                            <asp:Label ID="lblErrore" runat="server" CssClass="text-danger mt-3" Text="" Visible="False"></asp:Label>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <asp:LinkButton ID="btnRicerca" runat="server" CssClass="btn btn-primary" Style="box-shadow: 0px 4px 12px #21212115;" OnClick="btnRicerca_Click">
+                        Cerca
+                    </asp:LinkButton>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <%--Modal inserimento--%>
+    <div class="modal fade" id="modalInserimentoEsame" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="example2ModalLabel">Inserisci Esame</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label for="txtEsami" class="form-label fw-bold">Esame</label>
+                        <asp:TextBox ID="txtEsami" CssClass="form-control" runat="server"></asp:TextBox>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ddlDocente" class="form-label fw-bold">Docente</label>
+                        <asp:DropDownList ID="ddlDocente" CssClass="form-select" runat="server"></asp:DropDownList>
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtCFU" class="form-label fw-bold">CFU</label>
+                        <asp:TextBox ID="txtCFU" CssClass="form-control" runat="server"></asp:TextBox>
+                    </div>                   
+
+                </div>
+
+                <div class="modal-footer">
+                    <asp:Button CssClass="btn btn-primary" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <%--Modal modifica--%>
     <div class="modal fade" id="modalModificaEsame" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -133,21 +167,7 @@
         </div>
     </div>
 
-
-    <%--Script per nascondere l'icona e rendere visibili gli elementi per l'inserimento--%>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var btnMostra = document.getElementById("icona");
-            var divInsert = document.getElementById("<%= insert.ClientID %>");
-
-            btnMostra.addEventListener("click", function () {
-                btnMostra.classList.add("d-none");
-                divInsert.classList.remove("d-none");
-            });
-        });
-    </script>
-
-    <%--Script per il modal--%>
+    <%--Script per il modal modifica--%>
     <script>
         function apriModal(kesame, kdocente, esame, cfu) {
             document.getElementById('<%= hiddenIdEsame.ClientID %>').value = kesame;

@@ -44,7 +44,6 @@
             flex-direction: column;
             min-height: 100vh;
         }
-
     </style>
 
     <asp:ContentPlaceHolder ID="head" runat="server" />
@@ -74,7 +73,7 @@
             <div class="sticky-top">
                 <nav class="navbar navbar-expand-lg navbar-custom">
                     <div class="container">
-                        <a class="navbar-brand me-3" href="#">
+                        <a class="navbar-brand me-3" href="Homepage.aspx">
                             <img src="resources/logonobg.png" height="50px" alt="Logo">
                         </a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -110,7 +109,7 @@
                                 <li id="li2" runat="server" class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Pagamenti</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="Pagamenti.aspx">Pagamenti in Debito</a></li>
+                                        <li><a class="dropdown-item" href="Pagamenti.aspx">Pagamenti in Scadenza</a></li>
                                         <li><a class="dropdown-item" href="PagamentiEffettuati.aspx">Pagamenti Effettuati</a></li>
                                     </ul>
                                 </li>
@@ -129,7 +128,9 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="btn btn-light btn-sm" href="#">Logout</a>
+                                    <asp:Button ID="Button1" runat="server" Text="Logout" class="btn btn-light btn-sm" OnClick="btnLogout_Click" />
+
+
                                 </li>
                             </ul>
                         </div>
@@ -158,10 +159,9 @@
                     <div>
                         <p class="fs-6">Chi Siamo</p>
                         <ul class="list-unstyled ms-3 fs-6">
-                            <li><a href="PagineFooter/Contatti.aspx" class="text-white">Contatti</a></li>
-                            <li><a href="PagineFooter/Comefunziona.aspx" class="text-white">Come Funziona</a></li>
+                            <li><a href="Contatti.aspx" class="text-white">Contatti</a></li>
                             <li><a href="FAQ.aspx" class="text-white">FAQ</a></li>
-                            <li><a href="PagineFooter/Privacy.aspx" class="text-white">Privacy</a></li>
+                            <li><a href="Privacy.aspx" class="text-white">Privacy</a></li>
                         </ul>
                     </div>
                 </div>
