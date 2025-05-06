@@ -42,7 +42,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
     <!--TITOLO-->
-    <div class="container my-5">
+    <div class="container mt-2">
         <%--<div class="mt-1" style="margin-top: -50px !important;">
         </div>--%>
 

@@ -44,7 +44,6 @@
             flex-direction: column;
             min-height: 100vh;
         }
-
     </style>
 
     <asp:ContentPlaceHolder ID="head" runat="server" />
@@ -110,7 +109,7 @@
                                 <li id="li2" runat="server" class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Pagamenti</a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="Pagamenti.aspx">Pagamenti in Debito</a></li>
+                                        <li><a class="dropdown-item" href="Pagamenti.aspx">Pagamenti in Scadenza</a></li>
                                         <li><a class="dropdown-item" href="PagamentiEffettuati.aspx">Pagamenti Effettuati</a></li>
                                     </ul>
                                 </li>
@@ -160,10 +159,9 @@
                     <div>
                         <p class="fs-6">Chi Siamo</p>
                         <ul class="list-unstyled ms-3 fs-6">
-                            <li><a href="PagineFooter/Contatti.aspx" class="text-white">Contatti</a></li>
-                            <li><a href="PagineFooter/Comefunziona.aspx" class="text-white">Come Funziona</a></li>
+                            <li><a href="Contatti.aspx" class="text-white">Contatti</a></li>
                             <li><a href="FAQ.aspx" class="text-white">FAQ</a></li>
-                            <li><a href="PagineFooter/Privacy.aspx" class="text-white">Privacy</a></li>
+                            <li><a href="Privacy.aspx" class="text-white">Privacy</a></li>
                         </ul>
                     </div>
                 </div>
