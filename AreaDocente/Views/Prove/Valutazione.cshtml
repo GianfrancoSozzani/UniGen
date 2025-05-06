@@ -3,10 +3,10 @@
 <div class="container my-2">
     <h1 class="mb-4">Valutazione Prove</h1>
 
-    <form method="get" class="mb-3" id="proveForm">
+    <form method="post" class="mb-3" id="proveForm">
         <label class="form-label fw-semibold">Prova</label>
-        <select asp-items="ViewBag.ProveList" name="provaId" class="form-select"
-                onchange=" document.getElementById('proveForm').action='@Url.Action("SelezionaEsame")' ; document.getElementById('proveForm').submit();" ()" required>
+        <select asp-items="ViewBag.ProveList" class="form-select" id="K_Prova"
+                onchange=" document.getElementById('proveForm').action='@Url.Action("SelezionaStudenti")' ; document.getElementById('proveForm').submit();" ()" required>
             <option disabled selected>== Seleziona una prova ==</option>
         </select>
     </form>

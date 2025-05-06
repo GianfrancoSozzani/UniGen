@@ -31,8 +31,24 @@ namespace AreaDocente.Controllers
                 })
                 .ToList();
 
-
             return View("Add", model); // restituisci la stessa view "Add"
+        }
+
+        [HttpPost]
+        public ActionResult SelezionaStudenti(Guid provaId)
+        {
+            PopolaProve();
+
+            if (provaId == null)
+                return View(new List<MVCStudente>());
+
+            var studenti = dbContext.valutazioni
+                .Where(v => v.K_Prova == provaId)
+                .Select(v => v.Studente)
+                .Distinct()
+                .ToList();
+
+            return View("Valutazione", studenti);
         }
 
         public void PopolaProve()
@@ -161,34 +177,6 @@ namespace AreaDocente.Controllers
             return View(prove);
         }
 
-        [HttpPost]
-        public ActionResult SelezionaStudenti(Guid provaId)
-        {
-            PopolaProve();
-
-            if (provaId == null)
-                return View(new List<MVCStudente>());
-
-            var studenti = dbContext.valutazioni
-                .Where(v => v.K_Prova == provaId)
-                .Select(v => v.Studente)
-                .Distinct()
-                .ToList();
-
-            // Popola appelli in base all'esame selezionato
-            //ViewBag.AppelliList = dbContext.appelli
-            //    .Where(a => a.K_Esame == model.K_Esame)
-            //    .Select(a => new SelectListItem
-            //    {
-            //        Value = a.K_Appello.ToString(),
-            //        Text = $"{a.DataAppello:dd/MM/yyyy} - {(a.Tipo == "Or" ? "Orale" : a.Tipo == "Sc" ? "Scritto" : a.Tipo == "La" ? "Laurea" : a.Tipo)}"
-            //    })
-            //    .ToList();
-
-
-            return View("Valutazione", studenti); // restituisci la stessa view "Add"
-        }
-
         [HttpGet]
         public IActionResult Valutazione()
         {
@@ -208,7 +196,7 @@ namespace AreaDocente.Controllers
             PopolaProve();
 
 
-            return View();
+            return View(new List<MVCStudente>());
         }
     }
 }

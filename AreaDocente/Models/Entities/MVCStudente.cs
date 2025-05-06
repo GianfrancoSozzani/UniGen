@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace AreaDocente.Models.Entities
 {
@@ -21,5 +22,6 @@ namespace AreaDocente.Models.Entities
         public Guid? K_Corso { get; set; }
         public char? Abilitato { get; set; }
         public int? Matricola { get; set; }
+        //public Guid? K_Prova { get; set; }
     }
 }
