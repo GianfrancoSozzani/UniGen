@@ -9,28 +9,17 @@
     <div class="container mt-3">
         <h1>Gestione Studenti</h1>
 
-        <div class="form mb-3">
-            <div class="row g-3 align-items-center">
+        <div class="mb-4">
+            <div class="row g-3 align-items-center justify-content-end">
                 <div class="col-auto">
-                    <label class="mr-2" for="txtRicercaMatricola">Ricerca Matricola</label>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRicercaMatricola">
+                        <i class="bi bi-search"></i>
+                    </button>
                 </div>
-                <div class="col-auto">
-                    <asp:TextBox ID="txtRicercaMatricola" runat="server" CssClass="form-control mr-2" TextMode="Number"></asp:TextBox>
-                </div>
-                <div class="col-auto">
-                    <asp:LinkButton ID="btnRicerca" runat="server" CssClass="btn btn-primary" OnClick="btnRicerca_Click" Style="box-shadow: 0px 4px 12px #21212115;">
-                <i class="bi bi-search"></i>
-                    </asp:LinkButton>
-                </div>
-                <div class="col-auto">
-                    <span style="margin-left: 1em;">
-                        <asp:Label ID="lblErrore" runat="server" CssClass="text-danger mt-3" Text="" Visible="False"></asp:Label>
-                    </span>
-                </div>
+
             </div>
         </div>
 
-        <h3>Elenco Studenti</h3>
         <asp:Repeater ID="rptStudenti" runat="server" OnItemCommand="rptStudenti_ItemCommand">
             <HeaderTemplate>
                 <table class="table table-striped shadow">
@@ -72,7 +61,41 @@
             </FooterTemplate>
         </asp:Repeater>
 
+        <%--Modal--%>
+        <div class="modal fade" id="modalRicercaMatricola" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
 
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold" id="exampleModalLabel">Ricerca Matricola</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <asp:HiddenField ID="hiddenIdMatricola" runat="server" />
+
+                        <div class="mb-3">
+                            <label for="txtRicercaMatricola" class="form-label fw-bold">Matricola</label>
+                            <asp:TextBox ID="txtRicercaMatricola" runat="server" CssClass="form-control"></asp:TextBox>
+                        </div>
+                        <div class="mb-3">
+                            <span style="margin-left: 1em;">
+                                <asp:Label ID="lblErrore" runat="server" CssClass="text-danger mt-3" Text="" Visible="False"></asp:Label>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <asp:LinkButton ID="btnRicerca" runat="server" CssClass="btn btn-primary" OnClick="btnRicerca_Click" Style="box-shadow: 0px 4px 12px #21212115;">
+                            Cerca
+                        </asp:LinkButton>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
+
 </asp:Content>
 

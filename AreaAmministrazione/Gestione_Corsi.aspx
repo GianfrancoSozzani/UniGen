@@ -10,120 +10,147 @@
         }
     </style>
 
-    <div class="container mt-5">
+    <div class="container mt-3">
         <h1>Gestione Corsi</h1>
 
         <div class="mb-4">
             <div id="icona" class="row g-3">
                 <div class="col-auto">
-                    <asp:Label ID="Label2" runat="server" Text="Inserisci un nuovo corso" CssClass="fw-bold fs-5"></asp:Label>
-                </div>
-                <div class="col-auto">
-                    <i class="bi bi-plus-circle btn btn-sm btn-primary"></i>
-                </div>
-            </div>
-
-            <div id="insert" class="d-none" runat="server">
-                <div class="row mb-3">
-                    <div class="col-auto">
-                        <asp:Label ID="Label1" runat="server" Text="Facoltà"></asp:Label>
-                        <asp:DropDownList ID="ddlFacolta" CssClass="form-select mio_width" runat="server"></asp:DropDownList>
-                    </div>
-                    <div class="col-auto">
-                        <asp:Label ID="Label3" runat="server" Text="Tipo&nbsp;Corso"></asp:Label>
-                        <asp:DropDownList ID="ddlTipoCorso" CssClass="form-select mio_width" runat="server"></asp:DropDownList>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-auto">
-                        <asp:Label ID="Label4" runat="server" Text="Corso"></asp:Label>
-                        <asp:TextBox ID="txtCorso" CssClass="form-control mio_width" runat="server"></asp:TextBox>
-                    </div>
-                    <div class="col-auto">
-                        <asp:Label ID="Label5" runat="server" Text="Minimo CFU"></asp:Label>
-                        <asp:TextBox ID="txtMinimoCFU" CssClass="form-control mio_width" runat="server"></asp:TextBox>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-auto">
-                        <asp:Label ID="Label6" runat="server" Text="Costo Annuale"></asp:Label>
-                        <asp:TextBox ID="txtCostoAnnuale" CssClass="form-control mio_width" runat="server"></asp:TextBox>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-auto">
-                        <asp:Button CssClass="btn btn-primary" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
-                    </div>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalInserimentoCorso">
+                        <i class="bi bi-plus-circle"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRicercaCorso">
+                        <i class="bi bi-search"></i>
+                    </button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="form mb-3">
-            <div class="row g-3 align-items-center">
-                <div class="col-auto">
-                    <label class="mr-2" for="lblRicercaCorso">Ricerca Corso</label>
-                </div>
-                <div class="col-auto">
-                    <asp:TextBox ID="txtRicercaCorso" runat="server" CssClass="form-control mr-2"></asp:TextBox>
-                </div>
-                <div class="col-auto">
-                    <asp:LinkButton ID="btnRicerca" runat="server" CssClass="btn btn-primary"  Style="box-shadow: 0px 4px 12px #21212115;" OnClick="btnRicerca_Click">
-         <i class="bi bi-search"></i>
-                    </asp:LinkButton>
-                </div>
-                <div class="col-auto">
-                    <span style="margin-left: 1em;">
-                        <asp:Label ID="lblErrore" runat="server" CssClass="text-danger mt-3" Text="" Visible="False"></asp:Label>
-                    </span>
-                </div>
-            </div>
-        </div>
+    <div>
+        <asp:Repeater ID="rpCorso" runat="server">
+            <headertemplate>
+                <table class="table table-striped shadow">
+                    <thead>
+                        <tr>
+                            <th>Corsi</th>
+                            <th>Facoltà</th>
+                            <th>Tipo corso</th>
+                            <th>Minimo CFU</th>
+                            <th>Costi annuali</th>
+                            <th>Azioni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            </headertemplate>
 
-        <div>
-            <asp:Repeater ID="rpCorso" runat="server">
-                <HeaderTemplate>
-                    <table class="table table-striped shadow">
-                        <thead>
-                            <tr>
-                                <th>Corsi</th>
-                                <th>Facoltà</th>
-                                <th>Tipo corso</th>
-                                <th>Minimo CFU</th>
-                                <th>Costi annuali</th>
-                                <th>Azioni</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                </HeaderTemplate>
-
-                <ItemTemplate>
-                    <tr>
-                        <td><%# Eval("TitoloCorso") %></td>
-                        <td><%# Eval("TitoloFacolta") %></td>
-                        <td><%# Eval("Tipo") %></td>
-                        <td><%# Eval("MinimoCFU") %></td>
-                        <td><%# Eval("CostoAnnuale") %></td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-primary" onclick="apriModal(
+            <itemtemplate>
+                <tr>
+                    <td><%# Eval("TitoloCorso") %></td>
+                    <td><%# Eval("TitoloFacolta") %></td>
+                    <td><%# Eval("Tipo") %></td>
+                    <td><%# Eval("MinimoCFU") %></td>
+                    <td><%# Eval("CostoAnnuale") %></td>
+                    <td>
+                        <a href="#" class="btn btn-sm btn-primary" onclick="apriModal(
                                 '<%# Eval("K_Corso") %>',
                                 '<%# Eval("K_Facolta") %>',
                                 '<%# Eval("K_TipoCorso") %>',
                                 '<%# Eval("TitoloCorso") %>',
                                 '<%# Eval("MinimoCFU") %>',
                                 '<%# Eval("CostoAnnuale") %>',)">Modifica</a>
-                        </td>
-                    </tr>
-                </ItemTemplate>
+                    </td>
+                </tr>
+            </itemtemplate>
 
-                <FooterTemplate>
-                    </tbody>
+            <footertemplate>
+                </tbody>
             </table>
-                </FooterTemplate>
-            </asp:Repeater>
+            </footertemplate>
+        </asp:Repeater>
+    </div>
+
+    <%--Modal ricerca--%>
+    <div class="modal fade" id="modalRicercaCorso" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="exampleModalLabel1">Ricerca Corso</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                </div>
+
+                <div class="modal-body">
+                    <asp:HiddenField ID="hiddenIdCorsoFind" runat="server" />
+
+                    <div class="mb-3">
+                        <label for="txtRicercaCorso" class="form-label fw-bold">Corso</label>
+                        <asp:TextBox ID="txtRicercaCorso" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                    <div class="mb-3">
+                        <span style="margin-left: 1em;">
+                            <asp:Label ID="lblErrore" runat="server" CssClass="text-danger mt-3" Text="" Visible="False"></asp:Label>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <asp:LinkButton ID="btnRicerca" runat="server" CssClass="btn btn-primary" Style="box-shadow: 0px 4px 12px #21212115;" OnClick="btnRicerca_Click">
+                        Cerca
+                    </asp:LinkButton>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                </div>
+
+            </div>
         </div>
     </div>
 
-    <%--Modal--%>
+    <%--Modal inserimento--%>
+    <div class="modal fade" id="modalInserimentoCorso" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="example2ModalLabel">Inserisci Corso</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                </div>
+
+                <div class="modal-body">
+                    <asp:HiddenField ID="hiddenCorsoIns" runat="server" />
+
+                    <div class="mb-3">
+                        <label for="ddlFacolta" class="form-label fw-bold">Facoltà</label>
+                        <asp:DropDownList ID="ddlFacolta" CssClass="form-select" runat="server"></asp:DropDownList>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ddlTipoCorso" class="form-label fw-bold">Tipo Corso</label>
+                        <asp:DropDownList ID="ddlTipoCorso" CssClass="form-select" runat="server"></asp:DropDownList>
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtCorso" class="form-label fw-bold">Corso</label>
+                        <asp:TextBox ID="txtCorso" CssClass="form-control mio_width" runat="server"></asp:TextBox>
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtMinimoCFU" class="form-label fw-bold">Minimo CFU</label>
+                        <asp:TextBox ID="txtMinimoCFU" CssClass="form-control" runat="server"></asp:TextBox>
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtCostoAnnuale" class="form-label fw-bold">Costo Annuale</label>
+                        <asp:TextBox ID="txtCostoAnnuale" CssClass="form-control" runat="server"></asp:TextBox>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <asp:Button CssClass="btn btn-primary" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <%--Modal modifica--%>
     <div class="modal fade" id="modalModificaCorso" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -170,20 +197,6 @@
             </div>
         </div>
     </div>
-
-
-    <%--Script per nascondere l'icona e rendere visibili gli elementi per l'inserimento--%>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var btnMostra = document.getElementById("icona");
-            var divInsert = document.getElementById("<%= insert.ClientID %>");
-
-            btnMostra.addEventListener("click", function () {
-                btnMostra.classList.add("d-none");
-                divInsert.classList.remove("d-none");
-            });
-        });
-    </script>
 
     <%--Script per il modal--%>
     <script>

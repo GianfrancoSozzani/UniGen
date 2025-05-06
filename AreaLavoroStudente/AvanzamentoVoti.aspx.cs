@@ -12,6 +12,7 @@ public partial class _Default : System.Web.UI.Page
             //string Matricola = Request.QueryString["mat"];
             string Matricola = Session["mat"].ToString();
             Session["mat"] = Matricola;
+            CaricaAA(int.Parse(Matricola));
             CaricaEsami(int.Parse(Matricola));
             CaricaMedia(int.Parse(Matricola));
             CaricaCFU(int.Parse(Matricola));
@@ -37,6 +38,23 @@ public partial class _Default : System.Web.UI.Page
 
         rptVoti.DataBind();
     }
+    public void CaricaAA(int Matricola)
+    {
+        STUDENTI studente = new STUDENTI();
+        studente.Matricola = Matricola;
+        DataTable dt = studente.SelezionaAnnoAccademico(Matricola);
+
+        if (dt.Rows.Count == 1)
+        {
+            string annoAccademico = dt.Rows[0]["AnnoAccademico"].ToString();
+            string corso = dt.Rows[0]["TitoloCorso"].ToString();
+            string facolta = dt.Rows[0]["TitoloFacolta"].ToString();
+
+            lblAnno.Text = "Anno Accademico " + annoAccademico;
+            lblFacolta.Text = "Facoltà " + facolta;
+            lblCorso.Text = "Corso " + corso;
+        }
+    }
 
     private void CaricaMedia(int Matricola)
     {
@@ -47,13 +65,13 @@ public partial class _Default : System.Web.UI.Page
         {
             formMedia.DataSource = dt;
             formMedia.DataBind();
-            //lblMediaVuota.Visible = false;
+            lblMediaVuota.Visible = false;
         }
         else
         {
             formMedia.DataSource = null;
             formMedia.DataBind();
-            //lblMediaVuota.Visible = true;
+            lblMediaVuota.Visible = true;
         }
     }
 
@@ -66,13 +84,13 @@ public partial class _Default : System.Web.UI.Page
         {
             formCFU.DataSource = dt;
             formCFU.DataBind();
-            //lblCFUVuota.Visible = false;
+            lblCFUVuota.Visible = false;
         }
         else
         {
             formCFU.DataSource = null;
             formCFU.DataBind();
-            //lblCFUVuota.Visible = true;
+            lblCFUVuota.Visible = true;
         }
     }
 

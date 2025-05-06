@@ -27,15 +27,15 @@
 									{
 										if (primaComunicazione.Studente != null && primaComunicazione.K_Soggetto == primaComunicazione.Studente.K_Studente)
 										{
-											<span>@($"{primaComunicazione.Studente.Nome} {primaComunicazione.Studente.Cognome} - {primaComunicazione.Soggetto}")</span>
+											<span class="text-primary">@($"{primaComunicazione.Studente.Nome} {primaComunicazione.Studente.Cognome}")</span>
 										}
 										else if (primaComunicazione.Docente != null && primaComunicazione.K_Soggetto == primaComunicazione.Docente.K_Docente)
 										{
-											<span>@($"{primaComunicazione.Docente.Nome} {primaComunicazione.Docente.Cognome} - {primaComunicazione.Soggetto}")</span>
+											<span class="text-primary">@($"{primaComunicazione.Docente.Nome} {primaComunicazione.Docente.Cognome}")</span>
 										}
 										else
 										{
-											<span>Amministrazione</span>
+											<span class="text-primary">Amministrazione</span>
 										}
 									}
 								}
@@ -104,14 +104,14 @@
 				
 		</div>
 
-		<div class="col-2 col-md-3">
-			<div class="shadow p-3 bg-body-tertiary rounded d-none d-md-block mt-4 position-fixed me-5">
+		<div class="col-2 col-md-3 position-fixed">
+			<div class="shadow p-3 bg-body-tertiary rounded d-none d-md-block mt-4 me-5">
 				<p>Nella pagina corrente, l'utente può leggere e rispondere alle sue comunicazioni.</p>
 			</div>
 
 			<div class="d-block d-md-none mt-4">
 				<!-- Button trigger modal -->
-				<button type="button" class="btn text-muted position-fixed" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+				<button type="button" class="btn text-muted" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
 					Info
 				</button>
 
@@ -120,7 +120,7 @@
 					<div class="modal-dialog modal-dialog-scrollable">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h1 class="modal-title fs-5" id="staticBackdropLabel">infromazioni d'uso</h1>
+								<h1 class="modal-title fs-5" id="staticBackdropLabel">informazioni d'uso</h1>
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
@@ -133,6 +133,8 @@
 					</div>
 				</div>
 			</div>
+
+
 		</div>
 	</div>
 

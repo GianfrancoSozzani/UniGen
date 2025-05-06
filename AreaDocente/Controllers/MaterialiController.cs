@@ -43,21 +43,25 @@ namespace AreaDocente.Controllers
             if (viewModel.Titolo == null)
             {
                 TempData["ErrorMessage"] = "Titolo mancante!";
+                PopolaEsame();
                 return View(viewModel);
             }
             if (viewModel.materiale == null || viewModel.materiale.Length == 0)
             {
                 TempData["ErrorMessage"] = "Materiale mancante!";
+                PopolaEsame();
                 return View(viewModel);
             }
             if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
             {
                 TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
+                PopolaEsame();
                 return View(viewModel);
             }
             if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare l'esame!";
+                PopolaEsame();
                 return View(viewModel);
             }
 
@@ -119,16 +123,19 @@ namespace AreaDocente.Controllers
             if (viewModel.Titolo == null)
             {
                 TempData["ErrorMessage"] = "Inserire un titolo!";
+                PopolaEsame();
                 return View(viewModel);
             }
             if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
             {
                 TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
+                PopolaEsame();
                 return View(viewModel);
             }
             if (viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare l'esame!";
+                PopolaEsame();
                 return View(viewModel);
             }
 
