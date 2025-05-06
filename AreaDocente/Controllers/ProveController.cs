@@ -52,6 +52,16 @@ namespace AreaDocente.Controllers
                 .Select(v => v.Studente)
                 .ToListAsync();
 
+            //var valutazioni = await dbContext.valutazioni
+            //    .Where(v => v.K_Prova == K_Prova)
+            //    .Include(v => v.Studente)
+            //    .Include(v => v.Prova)
+            //        .ThenInclude(p => p.Appello)
+            //            .ThenInclude(a => a.Esame)
+            //    .ToListAsync();
+
+
+
             return View("Valutazione", studenti);
         }
 
@@ -196,23 +206,25 @@ namespace AreaDocente.Controllers
         [HttpGet]
         public IActionResult Valutazione()
         {
-            //// Carica lista per la select
-            //var proveList = dbContext.prove
-            //    .Include(p => p.Appello)
-            //    .Include(p => p.Appello.Esame)
-            //    .ToList()
-            //    .Select(p => new SelectListItem
-            //    {
-            //        Value = p.K_Prova.ToString(),
-            //        Text = p.Appello?.Esame?.TitoloEsame + " - " + p.Appello?.DataAppello?.ToString("dd/MM/yyyy")
-            //    }).ToList();
-
-            //ViewBag.ProveList = proveList;
-
             PopolaProve();
-
 
             return View(new List<MVCStudente>());
         }
+
+        [HttpPost]
+        public IActionResult SalvaValutazione(int K_Studente, int Voto)
+        {
+            //// Salvataggio valutazione...
+            //var valutazione = dbContext.libretti.FirstOrDefault(v => v.K_Studente == K_Studente);
+            //if (valutazione != null)
+            //{
+            //    valutazione.Voto = Voto;
+            //    dbContext.SaveChanges();
+            //    TempData["SuccessMessage"] = "Valutazione salvata con successo.";
+            //}
+
+            return RedirectToAction("Valutazione");
+        }
+
     }
 }
