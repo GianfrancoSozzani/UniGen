@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
-    <div class="container mt-5">
+    <div class="container mt-3">
         <h1>Gestione Facoltà</h1>
 
         <div class="mb-4">
@@ -60,8 +60,6 @@
                 </div>
 
                 <div class="modal-body">
-                    <asp:HiddenField ID="hiddenFacoltaIns" runat="server" />
-
                     <div class="mb-3">
                         <label for="txtTitoloFacoltaIns" class="form-label fw-bold">Facoltà</label>
                         <asp:TextBox ID="txtTitoloFacoltaIns" runat="server" CssClass="form-control"></asp:TextBox>
@@ -104,18 +102,7 @@
             </div>
         </div>
     </div>
-
-    <%--Script per il modal inserimento--%>
-    <script>
-        function apriModalIns(id, titolo) {
-            document.getElementById('<%= hiddenFacoltaIns.ClientID %>').value = id;
-            document.getElementById('<%= txtTitoloFacoltaIns.ClientID %>').value = titolo;
-
-            var myModal = new bootstrap.Modal(document.getElementById('modalInserimentoFacolta'));
-            myModal.show();
-        }
-    </script>
-
+   
     <%--Script per il modal modifica--%>
     <script>
         function apriModal(id, titolo) {
