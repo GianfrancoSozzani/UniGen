@@ -72,7 +72,7 @@
                     </a>
                     <div class="collapse" id="submenuEconomica">
                         <a class="submenu-item" href="IncassoAnnuale.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-cash-stack me-2"></i>Incasso Annuale</a>
-                        <a class="submenu-item" href="IncassoPerCorso.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-receipt me-2"></i>Incasso per corso</a>
+                        <a class="submenu-item" href="IncassoPerCorso.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-receipt me-2"></i>Incasso per Facoltà</a>
                         <a class="submenu-item" href="IncassoStimato.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-piggy-bank me-2"></i>Stima incassi dell'anno</a>
                     </div>
                 </div>

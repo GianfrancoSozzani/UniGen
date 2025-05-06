@@ -5,7 +5,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <h1 class="ms-5 mb-5">Incassi Annuali</h1>
+    <h1 class="ms-5 mb-5">Incassi per Facoltà</h1>
 
     <div class="row align-items-center">
         <!-- Colonna per il grafico (a sinistra) -->
@@ -49,7 +49,7 @@
                     </div>
                 </div>
 
-                <div class="text-center">
+                <%--<div class="text-center">
                     <asp:Button
                         ID="btnRiepilogo"
                         runat="server"
@@ -57,7 +57,7 @@
                         CssClass="btn btn-primary px-5 py-2"
                         OnClick="btnRiepilogo_Click"
                         Style="box-shadow: 0px 4px 12px rgba(0,0,0,0.2); border-radius: 8px;" />
-                </div>
+                </div>--%>
                 <div class="text-center mt-4">
                     <asp:Repeater ID="rptIncassiFacolta" runat="server">
                         <HeaderTemplate>

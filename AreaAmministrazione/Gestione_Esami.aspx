@@ -20,17 +20,6 @@
                     </button>
                 </div>
             </div>
-
-
-
-            <div class="d-none row" runat="server">
-
-                <div class="col-auto">
-                    <asp:Label ID="Label5" runat="server" Text="CFU"></asp:Label>
-                </div>
-                <div class="col-auto d-flex align-items-end">
-                </div>
-            </div>
         </div>
 
         <div>

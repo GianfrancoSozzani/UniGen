@@ -39,7 +39,7 @@
                 </div>
 
 
-                <div class="text-center">
+                <%--<div class="text-center">
                     <asp:Button
                         ID="btnRiepilogo"
                         runat="server"
@@ -47,7 +47,7 @@
                         CssClass="btn btn-primary px-5 py-2"
                         OnClick="btnRiepilogo_Click"
                         Style="box-shadow: 0px 4px 12px rgba(0,0,0,0.2); border-radius: 8px;" />
-                </div>
+                </div>--%>
                 <div class="mt-4">
                     <asp:Repeater ID="rptIncassiFacolta" runat="server">
                         <HeaderTemplate>
