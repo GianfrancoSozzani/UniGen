@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net.Mail;
 using Comunicazioni.Data;
 using Comunicazioni.Models;
@@ -21,10 +22,12 @@ namespace Comunicazioni.Controllers
         //LIST------------------------------------------//
         //----------------------------------------------//
         [HttpGet]
-        public async Task<IActionResult> List(string r, string cod)
+        public async Task<IActionResult> List(string r, string cod, string mat, string a)
         {
             HttpContext.Session.SetString("r", r);
             HttpContext.Session.SetString("cod", cod);
+            HttpContext.Session.SetString("mat", mat);
+            HttpContext.Session.SetString("a", a);
 
             string ruolo = HttpContext.Session.GetString("r");
             List<IGrouping<Guid, Comunicazione>> comunicazioni;

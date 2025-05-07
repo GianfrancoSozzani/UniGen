@@ -57,6 +57,7 @@ namespace AreaStudente.Controllers
             ViewData["abilitato"] = studente.Abilitato;
             HttpContext.Session.SetString("cod", studente.K_Studente.ToString());
             HttpContext.Session.SetString("r", "s");
+            ViewData["ruolo"] = HttpContext.Session.GetString("r");
 
             // Mappa dall'entità Studente (dal DB) a ShowStudenteViewModel
             // Dentro l'action Show() nel StudentiController.cs, dopo aver recuperato 'studente'
@@ -83,7 +84,7 @@ namespace AreaStudente.Controllers
             };
 
             var comunicazioni = await dbContext.Comunicazioni
-                .Where(c => c.K_Studente == studente.K_Studente && c.K_Docente == null || c.K_Soggetto == studente.K_Studente && c.K_Docente == null || dbContext.Operatori.Any(o => o.K_Operatore == c.K_Soggetto))
+                .Where(c => c.K_Soggetto == studente.K_Studente && c.K_Docente == null || c.K_Studente == studente.K_Studente && dbContext.Operatori.Any(o => o.K_Operatore == c.K_Soggetto))
                 .Select(c => new ComunicazioneViewModel
                 {
                     K_Comunicazione = c.K_Comunicazione,
