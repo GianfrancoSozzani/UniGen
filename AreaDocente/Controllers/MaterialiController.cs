@@ -28,18 +28,10 @@ namespace AreaDocente.Controllers
             ViewBag.EsamiList = ListaEsami;
         }
 
-        [HttpGet]
-        public ActionResult Add()
-        {
-            PopolaEsami();
-            return View();
-        }
-
         [HttpPost]
         public async Task<ActionResult> Add(AddMaterialiViewModel viewModel)
         {
-            PopolaEsami();
-            //CONTROLLI FORMALI
+            // CONTROLLI FORMALI --------------------------------------------------//
             if (viewModel.Titolo == null)
             {
                 TempData["ErrorMessage"] = "Titolo mancante!";
@@ -52,18 +44,13 @@ namespace AreaDocente.Controllers
                 PopolaEsami();
                 return View(viewModel);
             }
-            //if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
-            //{
-            //    TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
-            //    PopolaEsame();
-            //    return View(viewModel);
-            //}
             if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare l'esame!";
                 PopolaEsami();
                 return View(viewModel);
             }
+            //---------------------------------------------------------------------//
 
             var materiali = new MVCMateriali
             {
@@ -84,11 +71,11 @@ namespace AreaDocente.Controllers
             }
 
             await dbContext.materiali.AddAsync(materiali);
-
             await dbContext.SaveChangesAsync();
 
             return RedirectToAction("List");
         }
+
         [HttpGet]
         public async Task<IActionResult> List()
         {
@@ -102,44 +89,23 @@ namespace AreaDocente.Controllers
             return View(materiali);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Edit(Guid id)
-        {
-            var materiale = await dbContext.materiali.FindAsync(id);
-            var mat = new EditMaterialiViewModel
-            {
-                K_Materiale = materiale.K_Materiale,
-                Titolo = materiale.Titolo,
-                K_Esame = materiale.K_Esame,
-                Materiale = materiale.Materiale,
-                Tipo = materiale.Tipo
-            };
-            PopolaEsami();
-            return View(mat);
-        }
-
         [HttpPost]
         public async Task<IActionResult> Edit(EditMaterialiViewModel viewModel)
         {
-            //CONTROLLI FORMALI
+            // CONTROLLI FORMALI --------------------------------------------------//
             if (viewModel.Titolo == null)
             {
                 TempData["ErrorMessage"] = "Inserire un titolo!";
                 PopolaEsami();
                 return View(viewModel);
             }
-            //if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
-            //{
-            //    TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
-            //    PopolaEsame();
-            //    return View(viewModel);
-            //}
             if (viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare l'esame!";
                 PopolaEsami();
                 return View(viewModel);
             }
+            //---------------------------------------------------------------------//
 
             var materiale = await dbContext.materiali.FindAsync(viewModel.K_Materiale);
             if (materiale is not null)
@@ -174,11 +140,7 @@ namespace AreaDocente.Controllers
             }
             return RedirectToAction("List");
         }
-        
-        public async Task<IActionResult> Annulla()
-        {
-            return RedirectToAction("List", "Materiali");
-        }
+
         private string EstensioneDaContentType(string contentType)
         {
             return contentType switch
@@ -245,7 +207,6 @@ namespace AreaDocente.Controllers
                 _ => ""
             };
         }
-
 
         public async Task<IActionResult> Download(Guid id)
         {

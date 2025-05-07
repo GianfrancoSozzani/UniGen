@@ -68,9 +68,11 @@
 
                     <td>@mat.esame?.TitoloEsame</td>
                     <td>
-                        <a class="btn btn-primary btn-sm" asp-controller="Materiali" asp-action="Edit" asp-route-id="@mat.K_Materiale">
+                        <button type="button" class="btn btn-primary btn-sm"
+                                onclick='openEditModal(@Html.Raw(Json.Serialize(mat.K_Materiale)), @Html.Raw(Json.Serialize(mat.Titolo)), @Html.Raw(Json.Serialize(mat.K_Esame)))'
+                                data-bs-toggle="modal" data-bs-target="#editMaterialModal">
                             <i class="bi bi-pencil-square me-1"></i> Modifica
-                        </a>
+                        </button>
                     </td>
                 </tr>
             }
@@ -129,5 +131,79 @@
             </div>
         </div>
     </div>
+
+    <!-- Modale Modifica Materiale -->
+    <div class="modal fade" id="editMaterialModal" tabindex="-1" aria-labelledby="editMaterialModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form method="post" enctype="multipart/form-data" action="/Materiali/Edit">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editMaterialModalLabel">Modifica Materiale</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="edit_K_Materiale" name="K_Materiale" />
+
+                        <div class="mb-3">
+                            <label class="form-label">Titolo</label>
+                            <input type="text" class="form-control" id="edit_Titolo" name="Titolo" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Nuovo file</label>
+                            <input type="file" id="edit_MaterialeDA" name="MaterialeDA" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Esame</label>
+                            <select id="edit_K_Esame" name="K_Esame" class="form-select" required>
+                                <option disabled selected value="">== Selezionare un esame ==</option>
+                                @foreach (var esame in ViewBag.EsamiList)
+                                {
+                                    <option value="@esame.Value">@esame.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-end">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-pencil-square me-1"></i> Modifica
+                        </button>
+                        <button type="submit" formaction="/Materiali/Delete" formmethod="post" class="btn btn-danger">
+                            <i class="bi bi-trash me-1"></i> Elimina
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle me-1"></i> Annulla
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script>
+            function openEditModal(kMateriale, titolo, kEsame) {
+                try {
+                    console.log("ID:", kMateriale);
+                    console.log("Titolo:", titolo);
+                    console.log("Esame:", kEsame);
+
+                    document.getElementById('edit_K_Materiale').value = kMateriale;
+                    document.getElementById('edit_Titolo').value = titolo;
+
+                    const selectEsame = document.getElementById('edit_K_Esame');
+                    if (selectEsame) {
+                        for (let i = 0; i < selectEsame.options.length; i++) {
+                            selectEsame.options[i].selected = (selectEsame.options[i].value == kEsame);
+                        }
+                    }
+                } catch (e) {
+                    console.error("Errore in openEditModal:", e);
+                }
+            }
+        </script>
+    }
+
 
 </div>
