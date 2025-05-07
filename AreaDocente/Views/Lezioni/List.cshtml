@@ -34,11 +34,73 @@
         <tfoot>
             <tr>
                 <td colspan="4">
-                    <a class="btn btn-primary" asp-controller="Lezioni" asp-action="Add">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addLezioneModal">
                         <i class="bi bi-plus-circle me-1"></i> Inserisci nuova lezione
-                    </a>
+                    </button>
                 </td>
             </tr>
         </tfoot>
     </table>
+
+    <!-- Modale Inserimento Lezione -->
+    <div class="modal fade" id="addLezioneModal" tabindex="-1" aria-labelledby="addLezioneModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" asp-action="Add" asp-controller="Lezioni" class="needs-validation" novalidate>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addLezioneModalLabel">Inserimento Lezione</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Esame</label>
+                            <select name="K_Esame" class="form-select" required>
+                                <option disabled selected value="">== Seleziona un esame ==</option>
+                                @foreach (var item in ViewBag.EsamiDDl)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Titolo lezione</label>
+                            <input type="text" name="Titolo" class="form-control" placeholder="Inserisci il titolo della lezione" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Link video</label>
+                            <input type="text" name="Video" class="form-control" placeholder="Inserisci il link del video" required />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save me-1"></i> Salva
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle me-1"></i> Chiudi
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Errore',
+                    text: '@TempData["ErrorMessage"]'
+                });
+            </script>
+        }
+    }
 </div>

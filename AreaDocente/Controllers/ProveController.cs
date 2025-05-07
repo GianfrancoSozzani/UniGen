@@ -216,9 +216,11 @@ namespace AreaDocente.Controllers
         public async Task<IActionResult> SalvaValutazione(Guid K_Studente, Guid K_Appello, byte Voto)
         {
             var libretto = await dbContext.libretti.FirstOrDefaultAsync(l => l.K_Studente == K_Studente && l.K_Appello == K_Appello);
+            var appello = await dbContext.appelli.FirstOrDefaultAsync(a => a.K_Appello == K_Appello);
 
-            if (libretto != null)
+            if (libretto is not null && appello is not null)
             {
+                appello.DataVerbalizzazione = DateTime.Now;
                 libretto.VotoEsame = Voto;
 
                 if (Voto >= 18)

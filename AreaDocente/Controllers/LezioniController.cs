@@ -20,6 +20,8 @@ namespace AreaDocente.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
+            PopoloDDL();
+
             var lez = await dbContext.lezioni
                 .Include(a => a.Esame)
                 .Where(a => a.Esame.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
@@ -28,18 +30,11 @@ namespace AreaDocente.Controllers
             return View(lez);
         }
 
-        //ADD
-        [HttpGet]
-        public IActionResult Add()
-        {
-            PopoloDDL();
-            return View();
-        }
-
         [HttpPost]
         public async Task<IActionResult> Add(AddLezioniViewModel viewModel)
         {
-            PopoloDDL();
+            //PopoloDDL();
+
             //CONTROLLI FORMALI
             if (viewModel.Titolo == null)
             {
