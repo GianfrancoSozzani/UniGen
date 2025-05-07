@@ -517,6 +517,7 @@ namespace AreaStudente.Controllers
                 model.FacoltaList = PopolaFacolta();
                 model.CorsiList = PopolaCorsi(model.K_Facolta);
                 model.ImmagineProfilo = studente.ImmagineProfilo;
+                model.Matricola = studente.Matricola;
                 return View(model);
             }
 
@@ -526,6 +527,7 @@ namespace AreaStudente.Controllers
                 model.FacoltaList = PopolaFacolta();
                 model.CorsiList = PopolaCorsi(model.K_Facolta);
                 model.ImmagineProfilo = studente.ImmagineProfilo;
+                model.Matricola = studente.Matricola;
                 return View(model);
             }
 
@@ -537,6 +539,7 @@ namespace AreaStudente.Controllers
                 model.FacoltaList = PopolaFacolta();
                 model.CorsiList = PopolaCorsi(model.K_Facolta);
                 model.ImmagineProfilo = studente.ImmagineProfilo;
+                model.Matricola = studente.Matricola;
                 return View(model);
             }
 
