@@ -19,12 +19,11 @@ public partial class _Default : System.Web.UI.Page
             CaricaFacolta();
         }
     }
-
     protected void CaricaFacolta()
     {
         FACOLTA f = new FACOLTA();
-        rpFacolta.DataSource = f.SelezionaTutto(); // Funzione che carica tutte le facoltà
-        rpFacolta.DataBind();
+        DataTable dt = f.SelezionaTutto();
+        PopolaListaConPaginazione(dt, rpFacolta);
     }
 
     protected void btnSalvaInserimento_Click(object sender, EventArgs e)
@@ -102,9 +101,56 @@ public partial class _Default : System.Web.UI.Page
         f.Modifica();
 
         CaricaFacolta();
-
-        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Modifica avvenuta con successo')", true);
-        return;
+    }
+        // Proprietà che gestisce l'indice corrente di pagina (ViewState)
+private int PaginaCorrente
+    {
+        get { return ViewState["PaginaCorrente"] != null ? (int)ViewState["PaginaCorrente"] : 0; }
+        set { ViewState["PaginaCorrente"] = value; }
     }
 
+    // Metodo helper per usarlo nel markup ASPX
+    public int GetPaginaCorrente()
+    {
+        return PaginaCorrente;
+    }
+
+    // Metodo per caricare la lista e gestire la paginazione
+    protected void PopolaListaConPaginazione(DataTable dati, Repeater rptDati)
+    {
+        PagedDataSource paged = new PagedDataSource();
+        paged.DataSource = dati.DefaultView;
+        paged.AllowPaging = true;
+        paged.PageSize = 10;
+        paged.CurrentPageIndex = PaginaCorrente;
+
+        rptDati.DataSource = paged;
+        rptDati.DataBind();
+
+        // Pagine numeriche
+        List<int> pagine = new List<int>();
+        for (int i = 0; i < paged.PageCount; i++)
+        {
+            pagine.Add(i + 1); // 1-based
+        }
+
+        rptPaginazione.DataSource = pagine;
+        rptPaginazione.DataBind();
+    }
+
+    // Evento richiamato quando clicchi su una pagina
+    protected void rptPaginazione_ItemCommand(object source, RepeaterCommandEventArgs e)
+    {
+        if (e.CommandName == "CambiaPagina")
+        {
+            PaginaCorrente = Convert.ToInt32(e.CommandArgument) - 1; // 0-based
+                                                                     // Ricarica i dati
+            CaricaFacolta();
+        }
+    }
+
+   
+
 }
+
+

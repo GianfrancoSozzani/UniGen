@@ -37,9 +37,9 @@
         }
 
         .btn:hover {
-          box-shadow: 14px 10px 5px -3px rgba(0,0,0,0.06);
--webkit-box-shadow: 14px 10px 5px -3px rgba(0,0,0,0.06);
--moz-box-shadow: 14px 10px 5px -3px rgba(0,0,0,0.06);
+            box-shadow: 14px 10px 5px -3px rgba(0,0,0,0.06);
+            -webkit-box-shadow: 14px 10px 5px -3px rgba(0,0,0,0.06);
+            -moz-box-shadow: 14px 10px 5px -3px rgba(0,0,0,0.06);
         }
     </style>
 </asp:Content>
@@ -52,12 +52,12 @@
 
         <!-- Contenuto principale -->
         <main class="main-content">
-            <h1>Area Amministrazione</h1>
-
-            <%-----------------RIEPILOGO STUDENTI ISCRITTI, INCASSO ANNO CORRENTE E CORSI ATTIVI---------------------%>
-            <div class="aggiorna mt-5 text-end">
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <h1>Area Amministrazione</h1>
                 <asp:Button runat="server" Text="Aggiorna" class="btn btn-outline-primary" ID="btnAggiorna" OnClick="btnAggiorna_OnClick" />
             </div>
+
+            <%-----------------RIEPILOGO STUDENTI ISCRITTI, INCASSO ANNO CORRENTE E CORSI ATTIVI---------------------%>
             <div class="row mt-2">
                 <div class="col-md-4 mb-3">
                     <div class="card border-primary shadow-sm">

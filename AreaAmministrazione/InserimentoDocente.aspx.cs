@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using LibreriaClassi;
 
-public partial class _Default : System.Web.UI.Page
+public partial class Default2 : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -39,7 +38,7 @@ public partial class _Default : System.Web.UI.Page
         string Indirizzo = txtIndirizzo.Text.Trim();
         string Citta = txtCitta.Text.Trim();
         string CAP = txtCAP.Text.Trim();
-        if (CAP.Length != 5) 
+        if (CAP.Length != 5)
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('CAP non valido')", true);
             //Response.Write("CAP non valido.");
@@ -59,9 +58,11 @@ public partial class _Default : System.Web.UI.Page
             //Response.Write("Inserire una foto profilo valida.");
             return;
         }
-        string Tipo = fuFotoProfilo.PostedFile.ContentType;
-        txtTipo.Text = Tipo;
-        string Abilitato = CheckBoxAbilitato.Checked ? "S" : "N"; 
+
+        //string Tipo = fuFotoProfilo.PostedFile.ContentType;
+        //txtTipo.Text = Tipo;
+
+        string Abilitato = CheckBoxAbilitato.Checked ? "S" : "N";
         if (String.IsNullOrEmpty(Cognome) ||
             String.IsNullOrEmpty(Nome) ||
             String.IsNullOrEmpty(txtDataDiNascita.Text) ||
@@ -80,9 +81,6 @@ public partial class _Default : System.Web.UI.Page
         Nome = char.ToUpper(Nome[0]) + Nome.Substring(1);
         Citta = char.ToUpper(Citta[0]) + Citta.Substring(1);
 
-
-
-        
 
         // Controllo che non permette l'uso di numeri o caratteri speciali
         if (!System.Text.RegularExpressions.Regex.IsMatch(Cognome, @"^[a-zA-Z\s]+$") ||
@@ -105,18 +103,9 @@ public partial class _Default : System.Web.UI.Page
         d.Citta = Citta;
         d.Provincia = Provincia;
         d.ImmagineProfilo = imgData;
-        d.Tipo = Tipo;
+        //d.Tipo = Tipo;
         d.DataRegistrazione = DateTime.Now;
         d.Abilitato = Abilitato;
-
-        //DataTable dt = d.VerificaDoppione();
-
-        //// Controllo duplicato
-        //if (dt.Rows.Count != 0)
-        //{
-        //    ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Docente già registrato')", true);
-        //    return;
-        //}
 
         d.Inserimento();
         Response.Redirect("GestioneDocenti.aspx");

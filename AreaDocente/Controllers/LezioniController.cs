@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using AreaDocente.Data;
+﻿using AreaDocente.Data;
 using AreaDocente.Models;
 using AreaDocente.Models.Entities;
-using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
-using LibreriaClassi;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace AreaDocente.Controllers
 {
@@ -63,7 +61,7 @@ namespace AreaDocente.Controllers
             //}
             if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
-                TempData["ErrorMessage"] = "Selezionare l'esame!";
+                TempData["ErrorMessage"] = "Selezionare un esame!";
                 PopoloDDL();
                 return View(viewModel);
             }
@@ -125,7 +123,7 @@ namespace AreaDocente.Controllers
             //}
             if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
-                TempData["ErrorMessage"] = "Selezionare l'esame!";
+                TempData["ErrorMessage"] = "Selezionare un esame!";
                 PopoloDDL();
                 return View(viewModel);
             }
