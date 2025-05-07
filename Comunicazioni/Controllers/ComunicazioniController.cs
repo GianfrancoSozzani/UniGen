@@ -21,17 +21,21 @@ namespace Comunicazioni.Controllers
         //----------------------------------------------//
         //LIST------------------------------------------//
         //----------------------------------------------//
+
         [HttpGet]
-        public async Task<IActionResult> List(string r, string cod, string mat, string a)
+        public async Task<IActionResult> List(string r, string cod, string? mat, string? a)
         {
             HttpContext.Session.SetString("r", r);
             HttpContext.Session.SetString("cod", cod);
-            HttpContext.Session.SetString("mat", mat);
-            HttpContext.Session.SetString("a", a);
+            if (r == "s")
+            {
+                HttpContext.Session.SetString("mat", mat);
+                HttpContext.Session.SetString("a", a);
+            }
 
             string ruolo = HttpContext.Session.GetString("r");
             List<IGrouping<Guid, Comunicazione>> comunicazioni;
-            
+
             PopolaEsami(null);
             PopolaStudenti();
             PopolaDocenti();
@@ -109,9 +113,9 @@ namespace Comunicazioni.Controllers
             else
             {
 
-                // Recupera i Codice_Comunicazione dei messaggi inviati dall'amministrazione
+                // Recupera i Codice_Comunicazione dei messaggi inviati e ricevuti dall'amministrazione
                 var codiciComunicazioneAmministrazione = await dbContext.Comunicazioni
-                    .Where(c => c.K_Studente == null && c.K_Docente == null)
+                    .Where(c => (c.K_Studente == null && c.K_Docente == null)|| dbContext.Operatori.Any(o => o.K_Operatore == c.K_Soggetto))
                     .Select(c => c.Codice_Comunicazione)
                     .Distinct()
                     .ToListAsync();
@@ -144,7 +148,7 @@ namespace Comunicazioni.Controllers
                     }
                 }
 
-               
+
 
 
                 viewModel.Comunicazioni = comunicazioni;
@@ -335,7 +339,7 @@ namespace Comunicazioni.Controllers
             await dbContext.Comunicazioni.AddAsync(comunicazione);
             await dbContext.SaveChangesAsync();
 
-//------------------------------------------------------------------------------------------//
+            //------------------------------------------------------------------------------------------//
             //EMAIL
 
             List<string> destinatariEmail = new List<string>();
@@ -397,7 +401,7 @@ namespace Comunicazioni.Controllers
                 }
 
                 mail.Subject = "Nuova comunicazione";
-                
+
                 if (ruolo == "d")
                 {
                     comunicazione.Docente = await dbContext.Docenti
@@ -441,7 +445,19 @@ hai ricevuto una comunicazione dall'Amministrazione.
 
 
 
-            return RedirectToAction("List", "Comunicazioni");
+            string r = HttpContext.Session.GetString("r");
+            string cod = HttpContext.Session.GetString("cod");
+            string mat = HttpContext.Session.GetString("mat");
+            string a = HttpContext.Session.GetString("a");
+
+            if (r == "s")
+            {
+                return RedirectToAction("List", "Comunicazioni", new { r, cod, mat, a });
+            }
+            else
+            {
+                return RedirectToAction("List", "Comunicazioni", new { r, cod });
+            }
 
         }
 
@@ -585,7 +601,19 @@ hai ricevuto una risposta a una comunicazione precedente.
                 }
             }
 
-            return RedirectToAction("List", "Comunicazioni");
+            string r = HttpContext.Session.GetString("r");
+            string cod = HttpContext.Session.GetString("cod");
+            string mat = HttpContext.Session.GetString("mat");
+            string a = HttpContext.Session.GetString("a");
+
+            if (r == "s")
+            {
+                return RedirectToAction("List", "Comunicazioni", new { r, cod, mat, a });
+            }
+            else
+            {
+                return RedirectToAction("List", "Comunicazioni", new { r, cod });
+            }
         }
     }
 }

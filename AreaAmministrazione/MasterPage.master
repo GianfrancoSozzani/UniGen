@@ -88,7 +88,7 @@
                     </div>
                 </div>
 
-                <a href='http://localhost:7098/Comunicazioni/List?r=<%=Request.QueryString["r"]%>&cod=<%=Request.QueryString["cod"]%>'>
+                <a href='https://localhost:7098/Comunicazioni/List?r=<%=Request.QueryString["r"]%>&cod=<%=Request.QueryString["cod"]%>&usr=<%=Request.QueryString["usr"]%>'>
                     <i class="bi bi-envelope me-2"></i>Comunicazioni
                 </a>
             </nav>
