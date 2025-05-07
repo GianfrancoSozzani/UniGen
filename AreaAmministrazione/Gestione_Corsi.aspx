@@ -67,7 +67,7 @@
                     <asp:TextBox ID="txtRicercaCorso" runat="server" CssClass="form-control mr-2"></asp:TextBox>
                 </div>
                 <div class="col-auto">
-                    <asp:LinkButton ID="btnRicerca" runat="server" CssClass="btn btn-primary"  Style="box-shadow: 0px 4px 12px #21212115;" OnClick="btnRicerca_Click">
+                    <asp:LinkButton ID="btnRicerca" runat="server" CssClass="btn btn-primary" Style="box-shadow: 0px 4px 12px #21212115;" OnClick="btnRicerca_Click">
          <i class="bi bi-search"></i>
                     </asp:LinkButton>
                 </div>
@@ -120,6 +120,22 @@
             </table>
                 </FooterTemplate>
             </asp:Repeater>
+
+
+            <%--        repeater per la paginazione--%>
+            <asp:Repeater ID="rptPaginazione" runat="server" OnItemCommand="rptPaginazione_ItemCommand">
+                <ItemTemplate>
+                    <asp:LinkButton ID="lnkPagina" runat="server"
+                        CommandName="CambiaPagina"
+                        CommandArgument='<%# Container.DataItem %>'
+                        CssClass='<%# (Convert.ToInt32(Container.DataItem) == GetPaginaCorrente() + 1) 
+                ? "btn btn-primary btn-sm m-1 active" 
+                : "btn btn-outline-primary btn-sm m-1" %>'>
+            <%# Container.DataItem %>
+                    </asp:LinkButton>
+                </ItemTemplate>
+            </asp:Repeater>
+
         </div>
     </div>
 

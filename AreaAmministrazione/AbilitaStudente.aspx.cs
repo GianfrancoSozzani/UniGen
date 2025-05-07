@@ -20,7 +20,7 @@ public partial class _Default : System.Web.UI.Page
     protected void PopolaList()
     {
         STUDENTI s = new STUDENTI();
-        DataTable dt = s.SelezionaTutto(); // CORRETTO: prendi i dati veri
+        DataTable dt = s.SelezionaTutto(); 
 
         PagedDataSource paged = new PagedDataSource();
         paged.DataSource = dt.DefaultView;
