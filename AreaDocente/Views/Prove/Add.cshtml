@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-md-3">
                     <label class="form-label fw-semibold">Tipo Prova</label>
-                    <select asp-for="Tipologia" class="form-select" id="TipoProva" required>
+                    <select asp-for="Tipologia" class="form-select" id="TipoProva" onchange="tipoProvaCambiata()" required>
                         <option disabled selected value="">== Seleziona il tipo della prova ==</option>
                         <option value="Da">Domande Aperte</option>
                         <option value="Dc">Domande Chiuse</option>
@@ -46,7 +46,7 @@
             </div>
 
             <div>
-                <button type="button" class="btn btn-primary mt-3" onclick="aggiungiDomanda()">
+                <button type="button" class="btn btn-primary mt-3" id="btnAggiungiDomanda" onclick="aggiungiDomanda()">
                     <i class="bi bi-plus-circle me-1"></i> Aggiungi Domanda
                 </button>
                 <button type="submit" class="btn btn-success mt-3" formaction="@Url.Action("Add")">
@@ -59,6 +59,20 @@
 
 @section Scripts {
     <script>
+        function tipoProvaCambiata() {
+            const container = document.getElementById("accordionContainer");
+            container.innerHTML = ""; // Svuota tutte le domande
+
+            const tipoProva = document.getElementById("TipoProva").value;
+            const btnAggiungi = document.getElementById("btnAggiungiDomanda");
+
+            if (tipoProva === "Or") {
+                btnAggiungi.disabled = true;
+            } else {
+                btnAggiungi.disabled = false;
+            }
+        }
+
         function aggiornaNumerazione() {
             const container = document.getElementById("accordionContainer");
             const items = container.querySelectorAll(".accordion-item");

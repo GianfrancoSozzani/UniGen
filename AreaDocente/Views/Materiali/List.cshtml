@@ -6,9 +6,9 @@
         return contentType switch
         {
             "application/pdf" => "bi-file-earmark-pdf-fill text-danger",
-            "application/msword" or "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => "bi-file-earmark-word-fill text-primary",
-            "application/vnd.ms-excel" or "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => "bi-file-earmark-excel-fill text-success",
-            "image/jpeg" or "image/png" => "bi-file-earmark-image-fill text-info",
+            "application/msword" or "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => "bi-file-earmark-word-fill text-black",
+            "application/vnd.ms-excel" or "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => "bi-file-earmark-excel-fill text-black",
+            "image/jpeg" or "image/png" => "bi-file-earmark-image-fill text-black",
             _ => "bi-file-earmark-fill"
         };
     }
@@ -49,7 +49,7 @@
                             @if (IsViewableInBrowser(mat.Tipo))
                             {
                                 <a asp-action="View" target="_blank" asp-route-id="@mat.K_Materiale" class="btn btn-info btn-sm" style="min-width: 99.25px">
-                                    <i class="bi bi-file-earmark-image-fill me-1"></i> Visualizza
+                                    <i class="bi-file-earmark-arrow-down-fill @iconClass me-1"></i> Visualizza
                                 </a>
                             }
                             else
