@@ -5,40 +5,42 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <h1 class="ms-5 mb-5">Incassi Annuali</h1>
 
-    <div class="row align-items-center">
-        <!-- Colonna per il grafico (a sinistra) -->
-        <div class="col-md-6 d-flex justify-content-center mb-4 mb-md-0">
-            <div class="p-3 bg-white rounded shadow" style="border-radius: 12px;">
-                <asp:Chart ID="Chart1" runat="server" Width="500px" Height="380px">
-                    <ChartAreas>
-                        <asp:ChartArea Name="ChartArea1" />
-                    </ChartAreas>
-                    <Series>
-                        <asp:Series Name="Series1" ChartType="Column" />
-                    </Series>
-                </asp:Chart>
-            </div>
-        </div>
+    <div class="container mt-3">
+        <h1>Incassi Annuali</h1>
 
-
-        <!-- Sezione a destra -->
-        <div class="col-md-6 d-flex justify-content-center">
-            <div class="border p-5 rounded shadow w-75">
-                <h5 class="text-center mb-4">Seleziona Anno</h5>
-
-                <div class="text-center mb-4">
-                    <asp:DropDownList
-                        ID="ddlAnno"
-                        runat="server"
-                        CssClass="form-control w-25 d-inline-block py-1 px-1"
-                        AutoPostBack="true"
-                        OnSelectedIndexChanged="ddlAnno_SelectedIndexChanged">
-                    </asp:DropDownList>
+        <div class="row mt-5">
+            <!-- Colonna per il grafico (a sinistra) -->
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="p-3 w-100 d-flex justify-content-center bg-white rounded shadow" style="border-radius: 12px;">
+                    <asp:Chart ID="Chart1" runat="server" style="width: 100%; height: 100%;" Width="700px" Height="600px">
+                        <chartareas>
+                            <asp:ChartArea Name="ChartArea1" />
+                        </chartareas>
+                        <series>
+                            <asp:Series Name="Series1" ChartType="Column" />
+                        </series>
+                    </asp:Chart>
                 </div>
+            </div>
 
-                <%--<div class="text-center">
+
+            <!-- Sezione a destra -->
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="border d-flex flex-column p-5 rounded shadow w-100">
+                    <h5 class="text-center mb-4">Seleziona Anno</h5>
+
+                    <div class="text-center mb-4">
+                        <asp:DropDownList
+                            ID="ddlAnno"
+                            runat="server"
+                            CssClass="form-control w-25 d-inline-block py-1 px-1"
+                            AutoPostBack="true"
+                            OnSelectedIndexChanged="ddlAnno_SelectedIndexChanged">
+                        </asp:DropDownList>
+                    </div>
+
+                    <%--<div class="text-center">
                     <asp:Button
                         ID="btnRiepilogo"
                         runat="server"
@@ -47,33 +49,34 @@
                         OnClick="btnRiepilogo_Click"
                         Style="box-shadow: 0px 4px 12px rgba(0,0,0,0.2); border-radius: 8px;" />
                 </div>--%>
-                <div class="text-center mt-4">
-                    <asp:Repeater ID="rptIncassiFacolta" runat="server">
-                        <HeaderTemplate>
-                            <table class="table table-bordered table-striped table-hover">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Facoltà</th>
-                                        <th>Incasso</th>
-                                        <th>Iscritti</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                        </HeaderTemplate>
+                    <div class="text-center mt-4">
+                        <asp:Repeater ID="rptIncassiFacolta" runat="server">
+                            <headertemplate>
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Facoltà</th>
+                                            <th>Incasso</th>
+                                            <th>Iscritti</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                            </headertemplate>
 
-                        <ItemTemplate>
-                            <tr>
-                                <td><%# Eval("Facolta") %></td>
-                                <td><%# String.Format("{0:C}", Eval("Importo")) %></td>
-                                <td><%# Eval("Iscritti") %></td>
-                            </tr>
-                        </ItemTemplate>
+                            <itemtemplate>
+                                <tr>
+                                    <td><%# Eval("Facolta") %></td>
+                                    <td><%# String.Format("{0:C}", Eval("Importo")) %></td>
+                                    <td><%# Eval("Iscritti") %></td>
+                                </tr>
+                            </itemtemplate>
 
-                        <FooterTemplate>
-                            </tbody>
+                            <footertemplate>
+                                </tbody>
                           </table>
-                        </FooterTemplate>
-                    </asp:Repeater>
+                            </footertemplate>
+                        </asp:Repeater>
+                    </div>
                 </div>
             </div>
         </div>
