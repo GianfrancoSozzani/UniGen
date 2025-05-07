@@ -1,17 +1,17 @@
-﻿@{
+﻿@* @{
     ViewData["Title"] = "Aggiungi Prova";
 }
-@model AreaDocente.Models.AddProveViewModel
+@model AreaDocente.Models.Entities.MVCPROVA
 
 <div class="container ">
-    <h1 class="mb-4">Aggiunta Prova</h1>
+    <h1 class="mb-4">Modifica Prova</h1>
 
     <div class="card shadow-sm p-4">
         <form method="post" id="accordionForm">
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label class="form-label fw-semibold">Esame di appartenenza</label>
-                    <select asp-for="K_Esame" asp-items="@ViewBag.EsamiList" class="form-select" id="K_Esame"
+                    <select asp-for="Appello.K_Esame" asp-items="@ViewBag.EsamiList" class="form-select" id="K_Esame"
                             onchange="document.getElementById('accordionForm').action='@Url.Action("SelezionaEsame")'; document.getElementById('accordionForm').submit();" required>
                         <option disabled selected value="">== Selezionare un esame ==</option>
                     </select>
@@ -49,7 +49,7 @@
                 <button type="button" class="btn btn-info" id="btnAggiungiDomanda" onclick="aggiungiDomanda()">
                     <i class="bi bi-plus-circle me-1"></i> Aggiungi Domanda
                 </button>
-                <button type="submit" class="btn btn-primary" formaction="@Url.Action("Add")">
+                <button type="submit" class="btn btn-primary" asp-action="Edit" asp-route-K_Prova="@item.K_Prova">
                     <i class="bi bi-save me-1"></i> Salva
                 </button>
                 <a class="btn btn-secondary" asp-controller="Prove" asp-action="List">
@@ -94,18 +94,20 @@
             });
         }
 
-        function aggiungiDomanda() {
+        document.addEventListener("DOMContentLoaded", function () {
+            const tipo = '@Model.Tipologia';
+            const domande = @Html.Raw(Json.Serialize(Model.Tipologia == "Da" ? Model.DomandeAperte : (Model.Tipologia == "Dc" ? Model.DomandeChiuse : new List<object>())));
+
+            document.getElementById("TipoProva").value = tipo;
+            tipoProvaCambiata(); // abilita/disabilita pulsanti
+
+            domande.forEach(d => {
+                aggiungiDomanda(d);
+            });
+        });
+
+        function aggiungiDomanda(dati = null) {
             const tipoProva = document.getElementById("TipoProva").value;
-            if (!tipoProva) {
-                alert("Seleziona prima un tipo di prova.");
-                return;
-            }
-
-            if (tipoProva === "Or") {
-                alert("Non è possibile aggiungere domande per prove orali.");
-                return;
-            }
-
             const container = document.getElementById("accordionContainer");
             const index = container.children.length;
             const headerId = `heading${Date.now()}`;
@@ -118,7 +120,7 @@
                 <input type="number" class="form-control" data-name="Numero_Domanda" hidden readonly />
                 <div class="mb-3">
                     <label class="form-label">Domanda</label>
-                    <input type="text" class="form-control" required data-name="Domanda" />
+                    <input type="text" class="form-control" required data-name="Domanda" value="${dati ? dati.Domanda : ''}" />
                 </div>
             `;
 
@@ -126,14 +128,14 @@
                 bodyHtml += `
                     <div class="mb-3">
                         <label class="form-label">Risposte</label>
-                        <textarea class="form-control" data-name="Risposte" placeholder="Risposte separate da punto e virgola"></textarea>
+                        <textarea class="form-control" data-name="Risposte" placeholder="Risposte separate da punto e virgola">${dati ? dati.Risposte : ''}</textarea>
                     </div>
                 `;
             }
 
             bodyHtml += `
                 <button type="button" class="btn btn-danger btn-sm" onclick="rimuoviDomanda(this)">
-                <i class="bi bi-trash me-1"></i> Rimuovi
+                    <i class="bi bi-trash me-1"></i> Rimuovi
                 </button>
             `;
 
@@ -163,3 +165,4 @@
         }
     </script>
 }
+ *@
