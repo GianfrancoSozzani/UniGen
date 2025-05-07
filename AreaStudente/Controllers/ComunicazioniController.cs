@@ -21,18 +21,18 @@ namespace Comunicazioni.Controllers
         //----------------------------------------------//
         //ADD-------------------------------------------//
         //----------------------------------------------//
-        public void PopolaEsami(Guid? IDEsame)
-        {
-            IEnumerable<SelectListItem> listaEsami = dbContext.Esami
-                .Where(e => e.K_Docente == Guid.Parse(HttpContext.Session.GetString("cod")))
-                .Select(e => new SelectListItem
-                {
-                    Text = e.TitoloEsame,
-                    Value = e.K_Esame.ToString(),
-                    Selected = (IDEsame.HasValue && e.K_Esame == IDEsame.Value)
-                });
-            ViewBag.EsamiList = listaEsami;
-        }
+        //public void PopolaEsami(Guid? IDEsame)
+        //{
+        //    IEnumerable<SelectListItem> listaEsami = dbContext.Esami
+        //        .Where(e => e.K_Docente == Guid.Parse(HttpContext.Session.GetString("cod")))
+        //        .Select(e => new SelectListItem
+        //        {
+        //            Text = e.TitoloEsame,
+        //            Value = e.K_Esame.ToString(),
+        //            Selected = (IDEsame.HasValue && e.K_Esame == IDEsame.Value)
+        //        });
+        //    ViewBag.EsamiList = listaEsami;
+        //}
 
         public void PopolaStudenti(Guid? K_Esame)
         {
@@ -122,7 +122,7 @@ namespace Comunicazioni.Controllers
             {
                 ViewBag.StudenteId = "ID non trovato nella sessione.";
             }
-            PopolaEsami(null);
+            //PopolaEsami(null);
             PopolaStudenti(null);
             //PopolaDocenti();
             return View();
@@ -131,7 +131,7 @@ namespace Comunicazioni.Controllers
         [HttpPost]
         public IActionResult AddStudente(Guid? K_Esame) // Riceve l'ID dell'esame selezionato
         {
-            PopolaEsami(null);
+            //PopolaEsami(null);
             PopolaStudenti(K_Esame);
             return View("Add");
         }

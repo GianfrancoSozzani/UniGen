@@ -85,7 +85,7 @@
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body">
-									<form method="post" asp-controller="Comunicazioni" asp-action="Add">
+									<form method="post" asp-controller="Comunicazioni" asp-action="Add" id="form-insert">
 
 										<div class="mt-3">
 											<label class="form-label">Destinatario</label>
@@ -98,7 +98,7 @@
 
 										<div class="mt-4">
 											<label class="form-label">Testo:</label>
-											<textarea asp-for="AddComunicazione.Testo" class="form-control" rows="6" required></textarea>
+											<textarea asp-for="AddComunicazione.Testo" class="form-control" rows="6" required id="testoComunicazioneAdd"></textarea>
 											<span asp-validation-for="AddComunicazione.Testo" class="text-danger"></span>
 											<button type="submit" class="btn btn-primary mt-3">Inserisci Comunicazione</button>
 										</div>
