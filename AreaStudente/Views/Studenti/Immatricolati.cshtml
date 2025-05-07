@@ -1,10 +1,44 @@
 ﻿@using System.Globalization
 @model AreaStudente.Models.ModificaStudenteViewModel
+
 <div class="main-content">
 	<div class="container-fluid">
 		<form class="row" method="post" id="modifica-form" enctype="multipart/form-data">
 			<input type="hidden" asp-for="K_Studente" />
-			<div class="col-xl-8 order-xl-1 mt--7">
+
+			<!-- CARD IMMAGINE PROFILO: SOPRA su mobile/tablet, A DESTRA su XL -->
+			<div class="col-12 col-md-12 col-xl-4 order-1 order-xl-2 px-0 px-lg-2 mt--7">
+				<div class="card shadow">
+					<div class="card-body">
+						@{
+							bool hasImage = Model?.ImmagineProfilo != null && Model.ImmagineProfilo.Length > 0;
+							string imgSrc = null;
+							if (hasImage)
+							{
+								var base64 = Convert.ToBase64String(Model.ImmagineProfilo);
+								imgSrc = $"data:image/jpeg;base64,{base64}";
+							}
+						}
+						<div id="img-container" class="position-absolute top-0 start-50 translate-middle mb-5 d-flex justify-content-center align-items-center"
+							 style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background-color: #f0f0f0; font-size: 4rem;">
+							@if (hasImage)
+							{
+								<img src="@imgSrc" alt="Immagine Profilo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
+							}
+							else
+							{
+								<i class="bi bi-person-circle rounded img-icon text-black bg-white" style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; font-size: 6rem; border-radius: 50%;"></i>
+							}
+						</div>
+						<h4 class="text-center mt-5">@(Model?.Nome ?? "Studente") @(Model?.Cognome ?? "Cognome")</h4>
+						<p class="text-center">@Model?.Email</p>
+						<hr class="my-4">
+					</div>
+				</div>
+			</div>
+
+			<!-- CARD FORM PRINCIPALE: SOTTO su mobile/tablet, A SINISTRA su XL -->
+			<div class="col-12 col-md-12 col-xl-8 order-2 order-xl-1 mt--7">
 				<div class="card shadow">
 					<div class="card-body">
 						<h3 class="text-center mb-2">Procedura di Immatricolazione</h3>
@@ -32,7 +66,7 @@
 						</div>
 
 						<hr class="my-4">
-						<h4 class="heading-small text-muted">SELEZIONA UNA CORSO</h4>
+						<h4 class="heading-small text-muted">SELEZIONA UN CORSO</h4>
 						<div class="row mb-0 mb-lg-3 align-items-end">
 							<div class="col-12 col-lg-9 mb-2 mb-lg-0">
 								<select asp-for="K_Corso" asp-items="Model.CorsiList" class="form-control" id="corso-select">
@@ -40,8 +74,6 @@
 								</select>
 							</div>
 						</div>
-
-
 
 						<hr class="my-4">
 						<h4 class="heading-small text-muted">Dati Anagrafici</h4>
@@ -55,8 +87,6 @@
 								<input type="text" asp-for="Nome" class="form-control form-control-alternative" required />
 							</div>
 							@{
-								var oggi = DateTime.Today.ToString("yyyy-MM-dd");
-								var oggi2 = DateTime.Now.Year.ToString("yyyy-MM-dd");
 								var maxData = DateTime.Now.AddYears(-18).ToString("yyyy-MM-dd");
 							}
 							<div class="col-12 col-lg-4 mb-2">
@@ -67,7 +97,6 @@
 						</div>
 
 						<hr class="my-4">
-
 						<h4 class="heading-small text-muted mt-0">Informazioni di contatto</h4>
 						<div class="row mb-0 mb-lg-3">
 							<div class="col-12 col-lg-9 mb-2 mb-lg-0">
@@ -90,6 +119,7 @@
 								<input type="text" asp-for="Provincia" class="form-control text-uppercase form-control-alternative" maxlength="2" required />
 							</div>
 						</div>
+
 						<div class="text-center">
 							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confermaModal">Procedi</button>
 						</div>
@@ -97,7 +127,7 @@
 				</div>
 			</div>
 
-			<!-- Modal -->
+			<!-- Modal Conferma -->
 			<div class="modal fade" id="confermaModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -117,98 +147,48 @@
 					</div>
 				</div>
 			</div>
-
 		</form>
 	</div>
-
-
-
-	<div class="col-12 col-xl-4 px-0 px-lg-2 mt-xl-0 order-xl-2 mt--7">
-		<div class="card shadow">
-			<div class="card-body">
-				@* <div class="bg-white border border-1 border-black shadow rounded-5 p-4 position-relative"> *@
-
-				@{
-					bool hasImage = Model?.ImmagineProfilo != null && Model.ImmagineProfilo.Length > 0;
-					string imgSrc = null;
-
-					if (hasImage)
-					{
-						var base64 = Convert.ToBase64String(Model.ImmagineProfilo);
-						imgSrc = $"data:image/jpeg;base64,{base64}";
-					}
-				}
-
-				<div id="img-container" class="position-absolute top-0 start-50 translate-middle mb-5 d-flex justify-content-center align-items-center"
-					 style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background-color: #f0f0f0; font-size: 4rem;">
-					@if (hasImage)
-					{
-						<img src="@imgSrc" alt="Immagine Profilo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
-					}
-					else
-					{
-						<!-- Imposta le dimensioni dell'icona per essere uguali all'immagine -->
-						<i class="bi bi-person-circle rounded img-icon text-black bg-white" style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; font-size: 6rem; border-radius: 50%;"></i>
-					}
-				</div>
-				<h4 class="text-center mt-5">
-					<!-- Mostra il nome solo se il modello non è null/vuoto -->
-					@(Model?.Nome ?? "Studente") @(Model?.Cognome ?? "Cognome")
-				</h4>
-				<p class="text-center">@Model?.Email</p>
-
-				<hr class="my-4">
-			</div>
-		</div>
-
-	</div>
-
 </div>
 
-
 @section Scripts {
-	<!-- PayPal SDK: caricato PRIMA del codice paypal.Buttons -->
 	<script src="https://www.paypal.com/sdk/js?client-id=Adbf7fTtUU3GWVxRgKRn4-68S8X52d2nyyh7pJ4eEKdNPXgP6GGlVP8Zuomr1OsJUoSWjYLRe23jgyaN&currency=EUR"></script>
 	<script>
 		document.addEventListener("DOMContentLoaded", function () {
 			const form = document.getElementById("modifica-form");
 			const facoltaSelect = document.getElementById("facolta-select");
-			const corsoSelect = document.getElementById("corso-select")
+			const corsoSelect = document.getElementById("corso-select");
 			const confermaBtn = document.getElementById("conferma-btn");
 
 			facoltaSelect.addEventListener("change", function () {
-				// Aggiunge un campo nascosto per identificare il submit parziale
 				const input = document.createElement("input");
 				input.type = "hidden";
 				input.name = "updateFacolta";
 				input.value = "true";
 				form.appendChild(input);
-
 				form.submit();
 			});
 
-			corsoSelect.addEventListener("change", function(){
+			corsoSelect.addEventListener("change", function () {
 				const input = document.createElement("input");
 				input.type = "hidden";
 				input.name = "updateFacolta";
 				input.value = "true";
 				form.appendChild(input);
-
 				form.submit();
-			})
-
+			});
 
 			confermaBtn.addEventListener("click", function () {
 				form.submit();
 			});
 		});
 
-							paypal.Buttons({
+		paypal.Buttons({
 			createOrder: function (data, actions) {
 				return actions.order.create({
 					purchase_units: [{
 						amount: {
-							value: '@Model.Importo?.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)' // Importo dinamico
+							value: '@Model.Importo?.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)'
 						}
 					}]
 				});
@@ -222,9 +202,8 @@
 						alert("Form non trovato!");
 						return;
 					}
-
 					const formData = new FormData(form);
-					formData.append("cod", "@Model.K_Studente"); // se il controller lo richiede
+					formData.append("cod", "@Model.K_Studente");
 
 					fetch("@Url.Action("Immatricolati", "Studenti")", {
 						method: "POST",
@@ -253,5 +232,3 @@
 		}).render('#paypal-button-container');
 	</script>
 }
-
-
