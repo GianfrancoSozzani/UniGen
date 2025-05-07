@@ -90,7 +90,7 @@
 										<div class="mt-3">
 											<label class="form-label">Destinatari</label>
 											<select asp-for="AddComunicazione.K_Studente" asp-items="@ViewBag.StudentiList" class="form-select" required>
-													<option selected>-- Seleziona un destinatario --</option>
+													<option disabled selected>-- Seleziona un destinatario --</option>
 												<option selected value="Amministrazione">Amministrazione</option>
 											</select>
 											<span asp-validation-for="AddComunicazione.K_Studente" class="text-danger"></span>
