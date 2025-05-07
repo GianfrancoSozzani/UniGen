@@ -456,7 +456,7 @@ namespace AreaStudente.Controllers
 
 
             };
-            
+
 
 
             return View(model);
@@ -529,18 +529,14 @@ namespace AreaStudente.Controllers
                 return View(model);
             }
 
-
-
             // 🔒 Controllo: già immatricolato?
             if (studente.Abilitato == "S" &&
                 (studente.K_Corso == model.K_Corso || studente.K_Corso != null))
             {
                 ModelState.AddModelError("", "Risulti già immatricolato. Se desideri procedere con una nuova immatricolazione, è necessario presentare prima la rinuncia agli studi.");
-                return View(model);
-            }
-            
-            if (!ModelState.IsValid)
-            {
+                model.FacoltaList = PopolaFacolta();
+                model.CorsiList = PopolaCorsi(model.K_Facolta);
+                model.ImmagineProfilo = studente.ImmagineProfilo;
                 return View(model);
             }
 
@@ -593,7 +589,7 @@ namespace AreaStudente.Controllers
 
             return RedirectToAction("Show", "Studenti", new { cod = HttpContext.Session.GetString("cod") });
         }
-       
+
     }
 }
 
@@ -601,3 +597,4 @@ namespace AreaStudente.Controllers
 
 
 
+git
