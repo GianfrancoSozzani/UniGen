@@ -15,57 +15,42 @@ public partial class _Default : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            // 1. Prova a recuperare i dati dalla Session
+            //// 1. Prova a recuperare i dati dalla Session
             string K_Studente = Session["cod"] as string;
             string Matricola = Session["mat"] as string;
             string Abilitazione = Session["a"] as string;
             string Ruolo = Session["r"] as string;
 
 
-            // 2. Se mancano, prova dalla QueryString
-            if (string.IsNullOrEmpty(K_Studente) || string.IsNullOrEmpty(Matricola) || string.IsNullOrEmpty(Abilitazione) || string.IsNullOrEmpty(Ruolo))
+            //// 2. Se mancano, prova dalla QueryString
+            if (!string.IsNullOrEmpty(K_Studente) || !string.IsNullOrEmpty(Matricola) || !string.IsNullOrEmpty(Abilitazione) || !string.IsNullOrEmpty(Ruolo))
             {
-                K_Studente = Request.QueryString["cod"];
-                Matricola = Request.QueryString["mat"];
-                Abilitazione = Request.QueryString["a"];
-                Ruolo = Request.QueryString["r"];
-
-
-                // Se ora li trovi, salvali nella sessione
-                if (!string.IsNullOrEmpty(K_Studente) && !string.IsNullOrEmpty(Matricola) && !string.IsNullOrEmpty(Abilitazione) || string.IsNullOrEmpty(Ruolo))
+                STUDENTI s = new STUDENTI();
+                s.Matricola = int.Parse(Session["mat"].ToString());
+                DataTable dt = s.SelezionaPerMatricola();
+                if (dt.Rows.Count != 1 || dt.Rows[0]["K_Studente"].ToString() != Session["cod"].ToString())
                 {
-                    Session["cod"] = K_Studente;
-                    Session["mat"] = Matricola;
-                    Session["a"] = Abilitazione;
-                    Session["r"] = Ruolo;
+                    ClientScript.RegisterStartupScript(this.GetType(), "authError", "showAuthErrorModal();", true);
+                    return;
                 }
             }
-
-            // 3. Se ancora mancanti, mostra errore
-            if (string.IsNullOrEmpty(K_Studente) || string.IsNullOrEmpty(Matricola) || string.IsNullOrEmpty(Abilitazione))
+            else
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "authError", "showAuthErrorModal();", true);
-                return;
+                Matricola = Request.QueryString["mat"];
+                Abilitazione = Request.QueryString["a"];
             }
 
-            // 4. Verifica che matricola e K_Studente corrispondano
-            STUDENTI s = new STUDENTI();
-            s.Matricola = int.Parse(Matricola);
-            DataTable dt = s.SelezionaPerMatricola();
-            if (dt.Rows.Count != 1 || dt.Rows[0]["K_Studente"].ToString() != K_Studente)
+            if (!string.IsNullOrEmpty(Matricola))
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "authError", "showAuthErrorModal();", true);
-                return;
+                // 5. Carica dati dello studente
+                CaricaLBL(int.Parse(Matricola));
+
+                // 6. Visibilità delle sezioni in base all'abilitazione
+                bool abilitato = Abilitazione == "S";
+                divLezioni.Visible = abilitato;
+                divComunicazioni.Visible = abilitato;
+                divAppelli.Visible = abilitato;
             }
-
-            // 5. Carica dati dello studente
-            CaricaLBL(int.Parse(Matricola));
-
-            // 6. Visibilità delle sezioni in base all'abilitazione
-            bool abilitato = Abilitazione == "S";
-            divLezioni.Visible = abilitato;
-            divComunicazioni.Visible = abilitato;
-            divAppelli.Visible = abilitato;
         }
     }
 
