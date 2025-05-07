@@ -118,7 +118,7 @@
                                     </ul>
                                 </li>
                                 <li id="liComunicazioni" runat="server" class="nav-item">
-                                    <a class="nav-link" href="#">Comunicazioni</a>
+                                    <asp:Button ID="btnComunicazioni" runat="server" Text="Comunicazioni" OnClick="btnComunicazioni_Click"/>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="FAQ.aspx">FAQ</a>
