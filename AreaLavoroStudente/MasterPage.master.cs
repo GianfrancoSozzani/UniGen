@@ -76,12 +76,12 @@ public partial class MasterPage : System.Web.UI.MasterPage
         string Cod = Session["cod"] as string;
         string Usr = Session["usr"] as string;
         string Matricola = Session["mat"] as string;
-        string Abilitato = Session["ab"] as string;
+        string Abilitato = Session["a"] as string;
 
         string url = "https://localhost:7050/Studenti/Show?cod=" + Cod +
                      "&usr=" + Usr +
                      "&mat=" + Matricola +
-                     "&ab=" + Abilitato;
+                     "&a=" + Abilitato;
 
         Response.Redirect(url);
 
@@ -89,11 +89,19 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
     protected void btnComunicazioni_Click(object sender, EventArgs e)
     {
-        string Cod = Session["cod"] as string;
-        string Ruolo = Session["r"] as string;
+        string Ruolo = "";
+        string Cod = "";
+
+        if (Session["r"] != null && Session["cod"] != null)
+        {
+            string chiave = Session["r"].ToString(); // Es. "ruolo"
+            Ruolo = Request.QueryString[chiave];     // Es. valore da ?ruolo=admin
+            Cod = Session["cod"].ToString();         // Es. "12345"
+        }
 
         string url = "https://localhost:7098/Comunicazioni/List?cod=" + Cod +
-        "&r=" + Ruolo;
+                     "&r=" + Ruolo;
+
         Response.Redirect(url);
     }
 }
