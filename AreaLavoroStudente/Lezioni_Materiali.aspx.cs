@@ -40,7 +40,7 @@ public partial class Default2 : System.Web.UI.Page
         studente.Matricola = Matricola;
         DataTable dt = studente.SelezionaAnnoAccademico(Matricola);
 
-        if (dt.Rows.Count == 1)
+        if (dt.Rows.Count >= 1)
         {
             string annoAccademico = dt.Rows[0]["AnnoAccademico"].ToString();
             string corso = dt.Rows[0]["TitoloCorso"].ToString();
@@ -165,47 +165,6 @@ public partial class Default2 : System.Web.UI.Page
 
         }
     }
-
-
-
-    //protected void btnScarica_Command(object sender, CommandEventArgs e)
-    //{
-
-    //    // Recupera K_Esame dal ViewState
-    //    if (ViewState["K_Esame"] != null)
-    //        K_Esame = new Guid((string)ViewState["K_Esame"]);
-    //    else
-    //    {
-    //        lblMessaggio2.Visible = true;
-    //        lblMessaggio2.Text = "Errore: esame non selezionato.";
-    //        return;
-    //    }
-
-    //    string SalvaK_Materiale = e.CommandArgument.ToString();
-    //    MATERIALI m = new MATERIALI();
-    //    Guid K_Studente = new Guid((string)Session["cod"]);
-    //    DataTable dt = m.DispensaPerMatricola(K_Studente, K_Esame);
-
-    //    if (dt != null && dt.Rows.Count > 0)
-    //    {
-    //        byte[] fileData = (byte[])dt.Rows[0]["Materiale"];
-    //        string fileName = dt.Rows[0]["Titolo"].ToString();
-
-    //        if (fileData != null)
-    //        {
-    //            Response.Clear();
-    //            Response.ContentType = "application/pdf";
-    //            Response.AddHeader("Content-Disposition", "attachment; filename=" + fileName);
-    //            Response.BinaryWrite(fileData);
-    //            Response.End();
-    //        }
-    //    }
-    //    else
-    //    {
-    //        lblMessaggio2.Visible = true;
-    //        lblMessaggio2.Text = "Il materiale richiesto non è disponibile.";
-    //    }
-    //}
 
     protected void btnScarica_Command(object sender, CommandEventArgs e)
     {

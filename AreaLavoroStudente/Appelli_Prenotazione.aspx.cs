@@ -13,7 +13,6 @@ using LibreriaClassi;
 
 public partial class _Default : System.Web.UI.Page
 {
-    
 
 
     protected void Page_Load(object sender, EventArgs e)
@@ -37,7 +36,7 @@ public partial class _Default : System.Web.UI.Page
         studente.Matricola = Matricola;
         DataTable dt = studente.SelezionaAnnoAccademico(Matricola);
 
-        if (dt.Rows.Count == 1)
+        if (dt.Rows.Count >= 1)
         {
             string annoAccademico = dt.Rows[0]["AnnoAccademico"].ToString();
             string corso = dt.Rows[0]["TitoloCorso"].ToString();
@@ -53,7 +52,8 @@ public partial class _Default : System.Web.UI.Page
     {
         
         APPELLI m = new APPELLI();
-        rptAppelli.DataSource = m.ListaAppelli((Guid)Session["cod"]);
+        Guid k_stu = Guid.Parse(Session["cod"].ToString());
+        rptAppelli.DataSource = m.ListaAppelli(k_stu);
         rptAppelli.DataBind();
 
     }

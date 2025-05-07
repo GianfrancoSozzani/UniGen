@@ -56,7 +56,7 @@ public partial class _Default : System.Web.UI.Page
             }
 
             // 5. Carica dati dello studente
-            CaricaAA(int.Parse(Matricola));
+            CaricaLBL(int.Parse(Matricola));
 
             // 6. Visibilità delle sezioni in base all'abilitazione
             bool abilitato = Abilitazione == "S";
@@ -66,17 +66,17 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
-    public void CaricaAA(int Matricola)
+    public void CaricaLBL(int Matricola)
     {
         STUDENTI studente = new STUDENTI();
         studente.Matricola = Matricola;
-        DataTable dt = studente.SelezionaAnnoAccademico(Matricola);
+        DataTable dt2 = studente.SelezionaAnnoAccademico(Matricola);
 
-        if (dt.Rows.Count == 1)
+        if (dt2.Rows.Count >= 1)
         {
-            string annoAccademico = dt.Rows[0]["AnnoAccademico"].ToString();
-            string corso = dt.Rows[0]["TitoloCorso"].ToString();
-            string facolta = dt.Rows[0]["TitoloFacolta"].ToString();
+            string annoAccademico = dt2.Rows[0]["AnnoAccademico"].ToString();
+            string corso = dt2.Rows[0]["TitoloCorso"].ToString();
+            string facolta = dt2.Rows[0]["TitoloFacolta"].ToString();
 
             lblAnno.Text = "Anno Accademico " + annoAccademico;
             lblFacolta.Text = "Facoltà: " + facolta;
