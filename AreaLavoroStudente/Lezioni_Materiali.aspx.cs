@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Activities.Expressions;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -11,27 +9,23 @@ using LibreriaClassi;
 public partial class Default2 : System.Web.UI.Page
 {
     Guid K_Esame;
+
     protected void Page_Load(object sender, EventArgs e)
     {
-
         if (!IsPostBack)
         {
-            //Simulazione della session
             string Matricola = Session["mat"].ToString();
             Session["mat"] = Matricola;
+
             string K_Studente = Session["cod"].ToString();
-            Session["cod"]= K_Studente;
-            
+            Session["cod"] = K_Studente;
 
             CaricaDdl();
             CaricaFacoltaECorso();
             CaricaVideolezioni();
             CaricaDispense();
-
-            //Carica dati dello studente
             CaricaAA(int.Parse(Matricola));
         }
-
     }
 
     public void CaricaAA(int Matricola)
@@ -54,8 +48,6 @@ public partial class Default2 : System.Web.UI.Page
 
     private void CaricaDdl()
     {
-        
-
         Guid K_Studente = new Guid((string)Session["cod"]);
         ESAMI e = new ESAMI();
         ddlCaricaEsami.DataSource = e.SelezionaPsp(K_Studente);
@@ -68,47 +60,24 @@ public partial class Default2 : System.Web.UI.Page
             K_Esame = new Guid(ddlCaricaEsami.SelectedValue);
             ViewState["K_Esame"] = ddlCaricaEsami.SelectedValue;
         }
-
     }
-
 
     private void CaricaFacoltaECorso()
     {
-        //Recupero matricola da session
         if (Session["mat"] == null)
         {
-            // Se non c'è la session reindirizza al login
             Response.Redirect("Login.aspx");
             return;
         }
 
         int matricola = Convert.ToInt32(Session["mat"]);
 
-
         DB db = new DB();
         db.query = "GetFacoltaCorsoByMatricola";
         db.cmd.Parameters.Clear();
         db.cmd.Parameters.AddWithValue("@Matricola", matricola);
         DataTable dt = db.SQLselect();
-
-        //if (dt.Rows.Count > 0)
-        //{
-        //    //Prendo i valori e li carico nelle label
-        //    lblFacolta.Text = dt.Rows[0]["Facolta"].ToString();
-        //    lblCorso.Text = dt.Rows[0]["Corso"].ToString();
-        //}
-        //else
-        //{
-        //    lblFacolta.Text = "Facoltà non trovata";
-        //    lblCorso.Text = "Corso non trovato";
-        //}
     }
-
-    private System.Web.SessionState.HttpSessionState GetSession()
-    {
-        return Session;
-    }
-
 
     private void CaricaVideolezioni()
     {
@@ -133,10 +102,8 @@ public partial class Default2 : System.Web.UI.Page
             rptVideolezioni.DataSource = null;
             rptVideolezioni.DataBind();
             lblMessaggio1.Visible = true;
-            
         }
     }
-
 
     private void CaricaDispense()
     {
@@ -154,15 +121,13 @@ public partial class Default2 : System.Web.UI.Page
         {
             rptDispense.DataSource = dt;
             rptDispense.DataBind();
-            lblMessaggio2.Visible = false; // Nascondi la label se ci sono dispense
+            lblMessaggio2.Visible = false;
         }
         else
-        {      
-
-            rptDispense.DataSource = null; // Svuota il Repeater
+        {
+            rptDispense.DataSource = null;
             rptDispense.DataBind();
-            lblMessaggio2.Visible = true;  // Mostra il messaggio
-
+            lblMessaggio2.Visible = true;
         }
     }
 
@@ -177,25 +142,29 @@ public partial class Default2 : System.Web.UI.Page
             return;
         }
 
-        string SalvaK_Materiale = e.CommandArgument.ToString();
+        Guid kMateriale = new Guid(e.CommandArgument.ToString());
         MATERIALI m = new MATERIALI();
         Guid K_Studente = new Guid((string)Session["cod"]);
         DataTable dt = m.DispensaPerMatricola(K_Studente, K_Esame);
 
-        if (dt != null && dt.Rows.Count > 0)
-        {
-            byte[] fileData = (byte[])dt.Rows[0]["Materiale"];
-            string fileNameWithoutExt = dt.Rows[0]["Titolo"].ToString();
-            string mimeType = dt.Rows[0]["Tipo"].ToString();
+        DataRow[] rows = dt.Select("K_Materiale = '" + kMateriale + "'");
 
-            string fileExtension = MimeTypeToExtension(mimeType); // funzione definita sotto
+        if (rows.Length > 0)
+        {
+            DataRow r = rows[0];
+            byte[] fileData = (byte[])r["Materiale"];
+            string fileNameWithoutExt = r["Titolo"].ToString();
+            string mimeType = r["Tipo"].ToString();
+
+            string fileExtension = MimeTypeToExtension(mimeType);
             string fullFileName = fileNameWithoutExt + fileExtension;
 
             if (fileData != null)
             {
                 Response.Clear();
                 Response.ContentType = mimeType;
-                Response.AddHeader("Content-Disposition", "attachment; filename=" + fullFileName);
+                string encodedFileName = HttpUtility.UrlPathEncode(fullFileName);
+                Response.AddHeader("Content-Disposition", "attachment; filename=\"" + encodedFileName + "\"");
                 Response.BinaryWrite(fileData);
                 Response.End();
             }
@@ -218,7 +187,7 @@ public partial class Default2 : System.Web.UI.Page
             case "application/msword": return ".doc";
             case "application/vnd.openxmlformats-officedocument.wordprocessingml.document": return ".docx";
             case "application/rtf": return ".rtf";
-            default: return ".bin"; // estensione di fallback
+            default: return ".bin";
         }
     }
 
@@ -230,6 +199,7 @@ public partial class Default2 : System.Web.UI.Page
         CaricaDispense();
     }
 }
+
 
 
 
