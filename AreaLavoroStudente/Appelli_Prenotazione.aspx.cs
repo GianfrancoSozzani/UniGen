@@ -51,8 +51,8 @@ public partial class _Default : System.Web.UI.Page
 
     protected void CaricaAppelli()
     {
-        
         APPELLI m = new APPELLI();
+        Guid k_stu = Guid.Parse(Session["cod"].ToString());
         rptAppelli.DataSource = m.ListaAppelli((Guid)Session["cod"]);
         rptAppelli.DataBind();
 
@@ -126,7 +126,7 @@ public partial class _Default : System.Web.UI.Page
             lblMessaggio.Visible = true;
             string Matricola = Session["mat"].ToString();
             //RICARICA GLI APPELLI DISPONIBILI
-            CaricaAppelli(int.Parse(Matricola));
+            CaricaAppelli();
         }
         else
         {
