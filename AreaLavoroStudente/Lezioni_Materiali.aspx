@@ -54,7 +54,7 @@
                                         <ItemTemplate>
                                             <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-2">
                                                 <h5 class="card-title custom-subtitle mb-0"><%# Eval("Titolo") %></h5>
-                                                <a href='<%# ResolveUrl(Eval("Video").ToString()) %>' target="_blank" class="btn btn-sm btn-primary">Guarda lezione</a>
+                                                <a href='<%# ResolveUrl(Eval("Video").ToString()) %>' target="_blank" class="btn btn-sm btn-primary">Guarda</a>
                                             </div>
                                         </ItemTemplate>
                                     </asp:Repeater>

@@ -33,20 +33,12 @@ public partial class MasterPage : System.Web.UI.MasterPage
                 Mat = Request.QueryString["mat"];
                 A = Request.QueryString["a"];
                 Ruolo = Request.QueryString["r"];
+                Session["cod"] = K_Studente;
+                Session["mat"] = Mat;
+                Session["a"] = A;
+                Session["r"] = Ruolo;
 
-
-                // Se ora li trovi, salvali nella sessione
-                if (!string.IsNullOrEmpty(K_Studente) || string.IsNullOrEmpty(Ruolo))
-                {
-                    Session["cod"] = K_Studente;
-                    Session["mat"] = Mat;
-                    Session["a"] = A;
-                    Session["r"] = Ruolo;
-
-                }
             }
-
-
 
             // Controlliamo se la sessione contiene i dati necessari (matricola e abilitazione)
             if (Session["mat"] == null || Session["a"] == null)
@@ -133,8 +125,6 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
 
     }
-
-    
 }
 
 
