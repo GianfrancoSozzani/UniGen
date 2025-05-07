@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace AreaDocente.Models.Entities
 {
@@ -20,7 +20,7 @@ namespace AreaDocente.Models.Entities
         public Guid? K_Docente { get; set; }
         [ForeignKey("K_Docente")]
         [ValidateNever]
-        public MVCDOCENTE? Docente{ get; set; }
+        public MVCDOCENTE? Docente { get; set; }
 
     }
 }

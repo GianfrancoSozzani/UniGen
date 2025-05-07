@@ -1,12 +1,10 @@
-﻿using System.Linq;
-using System.Net.Mail;
-using AreaDocente.Data;
+﻿using AreaDocente.Data;
 using AreaDocente.Models;
 using AreaDocente.Models.Entities;
-using LibreriaClassi;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Mail;
 
 namespace Comunicazioni.Controllers
 {
