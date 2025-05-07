@@ -1,204 +1,12 @@
-﻿<%--<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
 
 <!DOCTYPE html>
 <html>
 <head runat="server">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <title></title>
-
-    <style>
-        .navbar-nav .nav-item {
-            margin-left: 10px; /* Ridurre il margine se troppo largo */
-        }
-
-        .navbar-custom {
-            background-color: #12304F;
-        }
-
-            .navbar-custom .nav-link,
-            .navbar-custom .navbar-brand {
-                color: white !important;
-            }
-
-        .dropdown-menu > li:hover > .dropdown-submenu {
-            display: block;
-        }
-
-        .navbar-nav.navbar-right {
-            margin-left: auto;
-        }
-
-        .navbar-nav .nav-item {
-            margin-left: 15px;
-        }
-
-            .navbar-nav .nav-item .btn-light {
-                margin-top: 5px;
-            }
-
-                .navbar-nav .nav-item .btn-light i {
-                    margin-right: 10px;
-                }
-
-        .flex-wrapper {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-    </style>
-
-    <asp:ContentPlaceHolder ID="head" runat="server" />
-</head>
-
-<body class="m-0">
-    <%-- Modal per errore autenticazione --%>
-    <%--<div class="modal fade" id="authErrorModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Errore autenticazione</h5>
-                </div>
-                <div class="modal-body">
-                    Non sei autenticato correttamente. Verrai reindirizzato al login.
-                </div>
-                <div class="modal-footer">
-                    <a href="Login.aspx" class="btn btn-primary">Torna al login</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <form id="form1" runat="server" class="flex-wrapper">
-        <!-- Header -->
-        <header>
-            <div class="sticky-top">
-                <nav class="navbar navbar-expand-lg navbar-custom">
-                    <div class="container">
-                        <a class="navbar-brand me-3" href="Homepage.aspx">
-                            <img src="resources/logonobg.png" height="50px" alt="Logo">
-                        </a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav mb-2 mb-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="Homepage.aspx">Home</a>
-                                </li>
-                                <li id="liMateriali" runat="server" class="nav-item">
-                                    <a class="nav-link" href="Lezioni_Materiali.aspx">Lezioni</a>
-                                </li>
-                                <li id="liAppelli" runat="server" class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Appelli</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="Appelli_Prenotazione.aspx">Prenotazione Appelli</a></li>
-                                        <li><a class="dropdown-item" href="Appelli_Gestione.aspx">Gestione Appelli</a></li>
-                                    </ul>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="PianoStudiPersonale.aspx">Piano di Studio</a>
-                                </li>
-                                <li id="li1" runat="server" class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Carriera</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="AvanzamentoVoti.aspx">Libretto</a></li>
-                                        <li><a class="dropdown-item" href="RinunciaStudi.aspx">Rinuncia agli studi</a></li>
-                                    </ul>
-                                </li>
-                                <li id="li2" runat="server" class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Pagamenti</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="Pagamenti.aspx">Pagamenti in Scadenza</a></li>
-                                        <li><a class="dropdown-item" href="PagamentiEffettuati.aspx">Pagamenti Effettuati</a></li>
-                                    </ul>
-                                </li>
-                                <!-- ✅ Comunicazioni corretta -->
-                                <li class="nav-item d-flex align-items-center">
-                                    <asp:LinkButton ID="liComunicazioni" runat="server"
-                                        CssClass="nav-link p-0 text-white"
-                                        OnClick="btnComunicazioni_Click">
-                                         Comunicazioni
-                                    </asp:LinkButton>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="FAQ.aspx">FAQ</a>
-                                </li>
-                            </ul>
-
-                            <ul class="navbar-nav navbar-right">
-                                <li class="nav-item">
-                                    <a class="btn btn-light btn-sm disabled me-2"><i class="bi bi-person-circle"></i>
-                                        <asp:Label ID="lblStudente" runat="server"></asp:Label>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <asp:Button ID="Button1" runat="server" Text="Area Studente" class="btn btn-light btn-sm" OnClick="btnLogout_Click" />
-
-
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-        </header>
-
-        <!-- Contenuto dinamico -->
-        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" />
-
-        <!-- Footer -->
-        <footer>
-            <div class="bg-dark text-white  h-100 mt-5">
-                <div class="container d-flex justify-content-between align-items-end flex-wrap">
-
-
-                    <div>
-                        <img src="https://italy.generation.org/wp-content/uploads/2019/05/Generation_Italy_logo_WHITE.svg" alt="Logo UNIGen" class="img-fluid my-3" width="150px">
-                        <p class="fs-4 mb-0">Università UNIGen</p>
-                        <p class="fs-6">Milano, MI 20100, IT</p>
-                    </div>
-                    <div>
-                        <p class="fs-6">© 2024 Generation: You Employed, Inc.</p>
-                    </div>
-                    <div>
-                        <p class="fs-6">Chi Siamo</p>
-                        <ul class="list-unstyled ms-3 fs-6">
-                            <li><a href="Contatti.aspx" class="text-white">Contatti</a></li>
-                            <li><a href="FAQ.aspx" class="text-white">FAQ</a></li>
-                            <li><a href="Privacy.aspx" class="text-white">Privacy</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </form>
-
-    <script>
-        function showAuthErrorModal() {
-            const modal = new bootstrap.Modal(document.getElementById('authErrorModal'));
-            modal.show();
-            setTimeout(function () {
-                window.location.href = 'Login.aspx';
-            }, 8000);
-        }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
-</body>
-</html>--%>
-<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
-
-<!DOCTYPE html>
-<html>
-<head runat="server">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <title></title>
 
     <style>
@@ -219,7 +27,7 @@
             flex-direction: column;
         }
 
-        asp\\:ContentPlaceHolder {
+        .main-content {
             flex: 1;
         }
 
@@ -240,10 +48,6 @@
             color: white !important;
         }
 
-        .dropdown-menu > li:hover > .dropdown-submenu {
-            display: block;
-        }
-
         .navbar-nav.navbar-right {
             margin-left: auto;
         }
@@ -261,7 +65,7 @@
 </head>
 
 <body>
-    <!-- Modal per errore autenticazione -->
+    <!-- Modal autenticazione -->
     <div class="modal fade" id="authErrorModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -284,19 +88,15 @@
             <nav class="navbar navbar-expand-lg navbar-custom">
                 <div class="container">
                     <a class="navbar-brand me-3" href="Homepage.aspx">
-                        <img src="resources/logonobg.png" height="50px" alt="Logo">
+                        <img src="resources/logonobg.png" height="50px" alt="Logo" />
                     </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mb-2 mb-lg-0">
                             <li class="nav-item"><a class="nav-link active" href="Homepage.aspx">Home</a></li>
-                            <li id="liMateriali" runat="server" class="nav-item">
-                                <a class="nav-link" href="Lezioni_Materiali.aspx">Lezioni</a>
-                            </li>
+                            <li id="liMateriali" runat="server" class="nav-item"><a class="nav-link" href="Lezioni_Materiali.aspx">Lezioni</a></li>
                             <li id="liAppelli" runat="server" class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Appelli</a>
                                 <ul class="dropdown-menu">
@@ -304,29 +104,26 @@
                                     <li><a class="dropdown-item" href="Appelli_Gestione.aspx">Gestione Appelli</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="PianoStudiPersonale.aspx">Piano di Studio</a>
-                            </li>
+                            <li class="nav-item"><a class="nav-link" href="PianoStudiPersonale.aspx">Piano di Studio</a></li>
                             <li id="li1" runat="server" class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Carriera</a>
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Carriera</a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="AvanzamentoVoti.aspx">Libretto</a></li>
                                     <li><a class="dropdown-item" href="RinunciaStudi.aspx">Rinuncia agli studi</a></li>
                                 </ul>
                             </li>
                             <li id="li2" runat="server" class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Pagamenti</a>
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Pagamenti</a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="Pagamenti.aspx">Pagamenti in Scadenza</a></li>
                                     <li><a class="dropdown-item" href="PagamentiEffettuati.aspx">Pagamenti Effettuati</a></li>
                                 </ul>
                             </li>
                             <li id="liComunicazioni" runat="server" class="nav-item">
-                                <asp:Button ID="btnComunicazioni" runat="server" Text="Comunicazioni" OnClick="btnComunicazioni_Click" CssClass="btn btn-link nav-link" />
+                                <asp:Button ID="btnComunicazioni" runat="server" Text="Comunicazioni" CssClass="btn btn-link nav-link" OnClick="btnComunicazioni_Click" />
                             </li>
                             <li class="nav-item"><a class="nav-link" href="FAQ.aspx">FAQ</a></li>
                         </ul>
-
                         <ul class="navbar-nav navbar-right">
                             <li class="nav-item">
                                 <a class="btn btn-light btn-sm disabled me-2"><i class="bi bi-person-circle"></i>
@@ -342,8 +139,10 @@
             </nav>
         </header>
 
-        <!-- Contenuto dinamico -->
-        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" />
+        <!-- Main Content -->
+        <div class="main-content">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" />
+        </div>
 
         <!-- Footer -->
         <footer>
@@ -351,7 +150,7 @@
                 <div class="container d-flex justify-content-between align-items-end flex-wrap">
                     <div>
                         <img src="https://italy.generation.org/wp-content/uploads/2019/05/Generation_Italy_logo_WHITE.svg"
-                             alt="Logo UNIGen" class="img-fluid my-3" width="150px">
+                             alt="Logo UNIGen" class="img-fluid my-3" width="150px" />
                         <p class="fs-4 mb-0">Università UNIGen</p>
                         <p class="fs-6">Milano, MI 20100, IT</p>
                     </div>
@@ -375,12 +174,9 @@
         function showAuthErrorModal() {
             const modal = new bootstrap.Modal(document.getElementById('authErrorModal'));
             modal.show();
-            setTimeout(function () {
-                window.location.href = 'Login.aspx';
-            }, 8000);
+            setTimeout(() => { window.location.href = 'Login.aspx'; }, 8000);
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
-
