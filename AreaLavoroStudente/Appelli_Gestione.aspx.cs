@@ -112,8 +112,8 @@ public partial class _Default : System.Web.UI.Page
 
         if (eliminato)
         {
-            string Matricola = Session["mat"].ToString();
-            CaricaAppelli(int.Parse(Matricola));
+            Guid Cod = Guid.Parse(Session["cod"].ToString());
+            CaricaAppelli(Cod);
             lblMessaggio.Text = "Prenotazione eliminata con successo.";
             lblMessaggio.CssClass = "alert alert-success mt-3";
             lblMessaggio.Visible = true;
