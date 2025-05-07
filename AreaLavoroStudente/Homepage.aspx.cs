@@ -38,7 +38,6 @@ public partial class _Default : System.Web.UI.Page
                     Session["mat"] = Matricola;
                     Session["a"] = Abilitazione;
                     Session["r"] = Ruolo;
-
                 }
             }
 
