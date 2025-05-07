@@ -1,5 +1,5 @@
-﻿@using System.Globalization
-@model AreaStudente.Models.ModificaStudenteViewModel
+﻿@model AreaStudente.Models.ModificaStudenteViewModel
+
 <div class="main-content">
 	<div class="container-fluid">
 		<form class="row" method="post" id="modifica-form" enctype="multipart/form-data">
@@ -108,10 +108,8 @@
 
 			<!-- Modal -->
 
-
-
 			<div class="modal fade" id="confermaModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-				<div class="modal-dialog">
+				<div class="modal-dialog ">
 					<div class="modal-content">
 						<div class="modal-header justify-content-center">
 							<h5 class="modal-title text-center w-100" id="modalLabel">Conferma Iscrizione</h5>
@@ -120,68 +118,91 @@
 						<div class="modal-body text-center">
 							Vuoi confermare l'immatricolazione?
 							<p>L'importo è: €@Model.Importo</p>
-							<div id="paypal-button-container" class="mt-3"></div>
 						</div>
 						<div class="modal-footer d-flex justify-content-center">
 							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-							<!-- Bottone Conferma disabilitato, il pagamento avvia l'immatricolazione -->
-							<button type="button" class="btn btn-primary d-none" id="conferma-btn">Conferma</button>
+							<button type="button" class="btn btn-primary" id="conferma-btn">Conferma</button>
 						</div>
 					</div>
 				</div>
 			</div>
 
+			<div class="col-12 col-xl-4 px-0 px-lg-2 mt-xl-0 order-xl-2 mt--7">
+				<div class="card shadow">
+					<div class="card-body">
+						@* <div class="bg-white border border-1 border-black shadow rounded-5 p-4 position-relative"> *@
+
+						@{
+							bool hasImage = Model?.ImmagineProfilo != null && Model.ImmagineProfilo.Length > 0;
+							string imgSrc = null;
+
+							if (hasImage)
+							{
+								var base64 = Convert.ToBase64String(Model.ImmagineProfilo);
+								imgSrc = $"data:image/jpeg;base64,{base64}";
+							}
+						}
+
+						<div id="img-container" class="position-absolute top-0 start-50 translate-middle mb-5 d-flex justify-content-center align-items-center"
+							 style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background-color: #f0f0f0; font-size: 4rem;">
+							@if (hasImage)
+							{
+								<img src="@imgSrc" alt="Immagine Profilo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
+							}
+							else
+							{
+								<!-- Imposta le dimensioni dell'icona per essere uguali all'immagine -->
+								<i class="bi bi-person-circle rounded img-icon text-black bg-white" style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; font-size: 6rem; border-radius: 50%;"></i>
+							}
+						</div>
+						<h4 class="text-center mt-5">
+							<!-- Mostra il nome solo se il modello non è null/vuoto -->
+							@(Model?.Nome ?? "Studente") @(Model?.Cognome ?? "Cognome")
+						</h4>
+						<p class="text-center">@Model?.Email</p>
+						@* <p class="fs-3 text-center">Riepilogo Profilo</p>
+						<hr class="my-4">
+						<h6 class="heading-small text-muted mb-4 text-center">Informazioni di Immatricolazione</h6>
+						<div class="pl-lg-4">
+							<div class="row g-3">
+								<div class="col-md-6">
+									<div class="form-group focused">
+										<label class="form-control-label" for="input-matriculation-number">Matricola</label>
+										<input id="input-matriculation-number" class="form-control form-control-alternative" placeholder="Numero Matricola" value="@(Model?.Matricola?.ToString() ?? "N/A")" type="text" readonly>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group focused">
+										<label class="form-control-label" for="input-date-matriculation">Data di Immatricolazione</label>
+										<input id="input-date-matriculation" class="form-control form-control-alternative" placeholder="Data di Immatricolazione" value="@(Model?.DataImmatricolazione?.ToString("dd/MM/yyyy") ?? "N/A")" type="text" readonly>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group focused">
+										<label class="form-control-label" for="input-enabled">Corso</label>
+										<input id="input-enabled" class="form-control form-control-alternative" value="@(Model?.Corso?.TitoloCorso?? "N/A")" type="text" readonly>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group focused">
+										<label class="form-control-label" for="input-course">Facoltà</label>
+										<input id="input-course" class="form-control form-control-alternative" value="@(Model?.Corso?.Facolta?.TitoloFacolta?? "N/A")" type="text" readonly>
+									</div>
+								</div>
+							</div>
+						</div> *@
+						<hr class="my-4">
+					</div>
+				</div>
+				@* </div> *@
+			</div>
 		</form>
 	</div>
-
-
-
-	<div class="col-12 col-xl-4 px-0 px-lg-2 mt-xl-0 order-xl-2 mt--7">
-		<div class="card shadow">
-			<div class="card-body">
-				@* <div class="bg-white border border-1 border-black shadow rounded-5 p-4 position-relative"> *@
-
-				@{
-					bool hasImage = Model?.ImmagineProfilo != null && Model.ImmagineProfilo.Length > 0;
-					string imgSrc = null;
-
-					if (hasImage)
-					{
-						var base64 = Convert.ToBase64String(Model.ImmagineProfilo);
-						imgSrc = $"data:image/jpeg;base64,{base64}";
-					}
-				}
-
-				<div id="img-container" class="position-absolute top-0 start-50 translate-middle mb-5 d-flex justify-content-center align-items-center"
-					 style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background-color: #f0f0f0; font-size: 4rem;">
-					@if (hasImage)
-					{
-						<img src="@imgSrc" alt="Immagine Profilo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" />
-					}
-					else
-					{
-						<!-- Imposta le dimensioni dell'icona per essere uguali all'immagine -->
-						<i class="bi bi-person-circle rounded img-icon text-black bg-white" style="display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; font-size: 6rem; border-radius: 50%;"></i>
-					}
-				</div>
-				<h4 class="text-center mt-5">
-					<!-- Mostra il nome solo se il modello non è null/vuoto -->
-					@(Model?.Nome ?? "Studente") @(Model?.Cognome ?? "Cognome")
-				</h4>
-				<p class="text-center">@Model?.Email</p>
-
-				<hr class="my-4">
-			</div>
-		</div>
-
-	</div>
-
 </div>
 
-
 @section Scripts {
-	<!-- PayPal SDK: caricato PRIMA del codice paypal.Buttons -->
-	<script src="https://www.paypal.com/sdk/js?client-id=Adbf7fTtUU3GWVxRgKRn4-68S8X52d2nyyh7pJ4eEKdNPXgP6GGlVP8Zuomr1OsJUoSWjYLRe23jgyaN&currency=EUR"></script>
 	<script>
 		document.addEventListener("DOMContentLoaded", function () {
 			const form = document.getElementById("modifica-form");
@@ -215,55 +236,6 @@
 				form.submit();
 			});
 		});
-
-							paypal.Buttons({
-			createOrder: function (data, actions) {
-				return actions.order.create({
-					purchase_units: [{
-						amount: {
-							value: '@Model.Importo?.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)' // Importo dinamico
-						}
-					}]
-				});
-			},
-			onApprove: function (data, actions) {
-				return actions.order.capture().then(function (details) {
-					alert('Pagamento effettuato da: ' + details.payer.name.given_name);
-
-					const form = document.getElementById("modifica-form");
-					if (!form) {
-						alert("Form non trovato!");
-						return;
-					}
-
-					const formData = new FormData(form);
-					formData.append("cod", "@Model.K_Studente"); // se il controller lo richiede
-
-					fetch("@Url.Action("Immatricolati", "Studenti")", {
-						method: "POST",
-						body: formData
-					})
-					.then(response => {
-						if (!response.ok) throw new Error("Errore lato server");
-						return response.text();
-					})
-					.then(result => {
-						window.location.href = "@Url.Action("Show", "Studenti", new { cod = Model.K_Studente })";
-					})
-					.catch(error => {
-						console.error("Errore durante l'immatricolazione:", error);
-						alert("Errore durante l'immatricolazione.");
-					});
-				});
-			},
-			onCancel: function (data) {
-				alert("Pagamento annullato.");
-			},
-			onError: function (err) {
-				console.error("Errore PayPal:", err);
-				alert("Errore durante il pagamento.");
-			}
-		}).render('#paypal-button-container');
 	</script>
 }
 
