@@ -40,7 +40,15 @@
 
         body {
             background-color: #f8f9fe;
-        }     
+        }  
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            right: 0;
+            left: 0;
+            bottom: 0;
+        }
     </style>
 
 </head>
@@ -58,7 +66,7 @@
                         @if (@ViewData["matricola"] != null)
                         {
 
-                            <a class="btn btn-sm text-white" style="background-color: #12304F;" href="@($"http://localhost:54399/Homepage.aspx?cod={ViewData["studente_id"]}&usr={ViewData["email"]}&mat={ViewData["matricola"]}&a={ViewData["abilitato"]}")">Area Lavoro</a>
+                            <a class="btn btn-sm text-white" style="background-color: #12304F;" href="@($"http://localhost:54399/Homepage.aspx?cod={ViewData["studente_id"]}&usr={ViewData["email"]}&mat={ViewData["matricola"]}&a={ViewData["abilitato"]}&r={ViewData["ruolo"]}")">Area Lavoro</a>
 
                         } else
                         {
@@ -131,32 +139,39 @@
         @RenderBody()
     </main>
     @* </div> *@
+    <div class="mt-3 mb-3" style="height: 15vh;"></div>
 
-
-    <footer>
-        <div class="bg-dark text-white  h-100 mt-5">
-            <div class="container d-flex justify-content-between align-items-end flex-wrap">
-                <div>
-                    <img src="https://italy.generation.org/wp-content/uploads/2019/05/Generation_Italy_logo_WHITE.svg" alt="Logo UNIGen" class="img-fluid my-3" width="150px">
-                    <p class="fs-4  mb-0">Università UNIGen</p>
-                    <p class="fs-6">Milano, Milano, MI 20100, IT</p>
-                </div>
-                <div>
-                    <p class="fs-6">© 2024 Generation: You Employed, Inc.</p>
-                </div>
-                <div>
-                    <p class="fs-5">Chi Siamo</p>
-                    <ul class="list-unstyled ms-3">
-                        <li><a href="#" class="text-white">Contatti</a></li>
-                        <li><a href="#" class="text-white">Come Funziona</a></li>
-                        <li><a href="#" class="text-white">FAQ</a></li>
-                        <li><a href="#" class="text-white">Privacy</a></li>
-                    </ul>
+        <footer class="bg-dark text-white mt-auto">
+            <div class="bg-dark text-white mt-auto">
+                <div class="container d-flex justify-content-between align-items-end flex-wrap">
+                    <div>
+                        <img src="https://italy.generation.org/wp-content/uploads/2019/05/Generation_Italy_logo_WHITE.svg" alt="Logo UNIGen" class="img-fluid my-3" width="150px">
+                        <p class="fs-4">Università UNIGen</p>
+                        <p class="fs-6">Milano, MI 20100, IT</p>
+                    </div>
+                    <div>
+                        <p class="fs-6">© 2024 Generation: You Employed, Inc.</p>
+                    </div>
+                    <div>
+                        <p class="fs-5 mb-1">Chi Siamo</p>
+                        <ul class="list-unstyled ms-3">
+                            <li>
+                                <a class="text-white" asp-area="" asp-controller="Contatti" asp-action="Index">Contatti</a>
+                            </li>
+                            <li>
+                                <a class="text-white" asp-area="" asp-controller="ComeFunziona" asp-action="Index">Come Funziona</a>
+                            </li>
+                            <li>
+                                <a class="text-white" asp-area="" asp-controller="FAQ" asp-action="Index">FAQ</a>
+                            </li>
+                            <li>
+                                <a class="text-white" asp-area="" asp-controller="Privacy" asp-action="Index">Privacy</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    </footer>
-
+        </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
