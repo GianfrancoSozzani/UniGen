@@ -91,22 +91,16 @@ public partial class _Default : System.Web.UI.Page
 
     protected void btnComunicazioni_Click(object sender, EventArgs e)
     {
-        string Ruolo = "";
-        string Cod = "";
-
-        if (Session["r"] != null && Session["cod"] != null)
-        {
-            string chiave = Session["r"].ToString(); // Es. "ruolo"
-            Ruolo = Request.QueryString[chiave];     // Es. valore da ?ruolo=admin
-            Cod = Session["cod"].ToString();         // Es. "12345"
-        }
+        string Ruolo;
+        string Cod;
+        string Mat;
+        string A;
+        Ruolo = Session["r"].ToString();
+        Cod = Session["cod"].ToString();
+        Mat = Session["mat"].ToString();
+        A = Session["a"].ToString();
 
         string url = "https://localhost:7098/Comunicazioni/List?cod=" + Cod +
-
-                     "&r=" + Ruolo;
-
-        Response.Redirect(url);
-
                  "&r=" + Ruolo + "&mat=" + Mat + "&a=" + A;
         Response.Redirect(url);
 
