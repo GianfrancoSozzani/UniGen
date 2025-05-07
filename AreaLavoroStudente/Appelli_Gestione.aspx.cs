@@ -11,32 +11,32 @@ using LibreriaClassi;
 
 public partial class _Default : System.Web.UI.Page
 {
-  
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            string Cod = Session["cod"] as string;
+            Guid Cod = Guid.Parse(Session["cod"].ToString());
             string Usr = Session["usr"] as string;
             string Matricola = Session["mat"] as string;
             string Abilitato = Session["ab"] as string;
-            
+
             Session["mat"] = Matricola;
             CaricaAA(int.Parse(Matricola));
-            CaricaAppelli(int.Parse(Matricola));
+            CaricaAppelli(Cod);
 
             //salvo nella session 
 
 
         }
-        
+
     }
 
 
     //mostra identificativo studente per trovare la matricola
     public void CaricaAA(int Matricola)
     {
-        
+
         STUDENTI studente = new STUDENTI();
         studente.Matricola = Matricola;
         DataTable dt = studente.SelezionaAnnoAccademico(Matricola);
@@ -52,13 +52,36 @@ public partial class _Default : System.Web.UI.Page
             lblCorso.Text = "Corso " + corso;
         }
     }
-   
+
     //mostrami le prenotazioni fatte in base alla matricola
-    private void CaricaAppelli(int Matricola)
+    private void CaricaAppelli(Guid Cod)
     {
         LIBRETTI m = new LIBRETTI();
-        m.Matricola = Matricola;
-        rptAppelli.DataSource = m.ListaPrenotazioni(Matricola);
+        DataTable dt = m.ListaPrenotazioni(Cod);
+        Guid k_stu = Guid.Parse(Session["cod"].ToString());
+        int i = 0;
+        foreach (DataRow dr in dt.Rows)
+        {
+            if (dr["K_Prova"] == DBNull.Value || dr["K_Prova"] == null)
+            {
+                i++;
+            }
+            else
+            {
+                Guid k_Prova = Guid.Parse(dr["K_Prova"].ToString());
+                DB db = new DB();
+                db.query = "Valutazioni_SelectByStudente";
+                db.cmd.Parameters.AddWithValue("@k_prova", k_Prova);
+                db.cmd.Parameters.AddWithValue("@k_stu", k_stu);
+                DataTable dt2 = db.SQLselect();
+                if (dt2.Rows.Count != 0)
+                {
+                    dt.Rows[i]["Link"] = "superato";
+                }
+                i++;
+            }
+        }
+        rptAppelli.DataSource = dt;
         rptAppelli.DataBind();
     }
 
@@ -113,13 +136,38 @@ public partial class _Default : System.Web.UI.Page
 
         if (eliminato)
         {
-            string Matricola = Session["mat"].ToString();
-            CaricaAppelli(int.Parse(Matricola));
+            Guid Cod = Guid.Parse(Session["cod"].ToString());
+            CaricaAppelli(Cod);
             lblMessaggio.Text = "Prenotazione eliminata con successo.";
             lblMessaggio.CssClass = "alert alert-success mt-3";
             lblMessaggio.Visible = true;
         }
-        
+
     }
-    
+
+
+    protected void btnProva_Command(object sender, CommandEventArgs e)
+    {
+        string[] commandArgs = e.CommandArgument.ToString().Split(new char[] { ',' });
+        DateTime data = DateTime.Parse(commandArgs[1]);
+        DB db = new DB();
+        Guid k_Prova;
+        if (!Guid.TryParse(commandArgs[0], out k_Prova))
+        {
+            lblMessaggio.Text = "Prova momentaneamente non disponibile.";
+            lblMessaggio.CssClass = "alert alert-danger mt-3";
+            lblMessaggio.Visible = true;
+            return;
+        }
+        else if (data < DateTime.Now)
+        {
+            lblMessaggio.Text = "Attenzione: non è più possibile eseguire la prova.";
+            lblMessaggio.CssClass = "alert alert-danger mt-3";
+            lblMessaggio.Visible = true;
+            return;
+        }
+        k_Prova = Guid.Parse(commandArgs[0]);
+        Response.Redirect("Prova.aspx?prova=" + k_Prova);
+    }
 }
+

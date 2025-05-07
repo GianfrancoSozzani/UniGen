@@ -38,15 +38,25 @@
                             <ItemTemplate>
                                 <tr>
                                     <td>
-                                        <asp:CheckBox ID="chkSeleziona" runat="server" />
+                                        <asp:CheckBox ID="chkSeleziona" runat="server" Visible='<%# Eval("Link").ToString() != "superato" %>'/>
                                         <asp:HiddenField ID="hfKLibretto" runat="server" Value='<%# Eval("K_Libretto") %>' />
                                     </td>
                                     <td><%# Eval("TitoloEsame") %></td>
                                     <td><%# Eval("Obbligatorio").ToString().ToLower() == "true" ? "Obbligatorio" : "Facoltativo" %></td>
                                     <td><%# Eval("DataAppello", "{0:dd/MM/yyyy}") %></td>
                                     <td><%# Eval("Tipo").ToString() == "Sc" ? "Scritto" : "Orale" %></td>
-                                    <td>
-                                        <a href='<%# Eval("Link") %>' target="_blank" class="link-primary">Vai al link</a>
+                                    <td class="text-center">
+                                        <asp:LinkButton ID="btnProva" 
+                                            runat="server"
+                                            CssClass="text-primary"
+                                            Text="Vai alla prova"
+                                            Style="box-shadow: 0px 4px 12px #21212115;" 
+                                            CommandArgument='<%# Eval("K_Prova") + "," + Eval("DataAppello")%>' 
+                                            OnCommand="btnProva_Command"
+                                             Visible='<%# Eval("Link").ToString() != "superato" %>'>
+                                        </asp:LinkButton>
+                                        <i class="bi bi-check2-square" runat="server"
+                                            Visible='<%# Eval("Link").ToString() == "superato" %>'></i>
                                     </td>
                                 </tr>
                             </ItemTemplate>
