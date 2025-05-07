@@ -98,26 +98,25 @@
 			</div>
 
 			<!-- Modal -->
-			<div class="modal fade" id="confermaModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header justify-content-center">
-							<h5 class="modal-title text-center w-100" id="modalLabel">Conferma Iscrizione</h5>
-							<button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Chiudi"></button>
-						</div>
-						<div class="modal-body text-center">
-							Vuoi confermare l'immatricolazione?
-							<p>L'importo è: €@Model.Importo</p>
-							<div id="paypal-button-container" class="mt-3"></div>
-						</div>
-						<div class="modal-footer d-flex justify-content-center">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-							<!-- Bottone Conferma disabilitato, il pagamento avvia l'immatricolazione -->
-							<button type="button" class="btn btn-primary d-none" id="conferma-btn">Conferma</button>
-						</div>
-					</div>
-				</div>
-			</div>
+            <div class="modal fade" id="confermaModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header justify-content-center">
+															<h5 class="modal-title text-center w-100" id="modalLabel">Conferma Iscrizione</h5>
+															<button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+														</div>
+														<div class="modal-body text-center">
+															Vuoi confermare l'immatricolazione?
+															<p>L'importo è: €@Model.Importo</p>
+															<div id="paypal-button-container" class="mt-3"></div>
+														</div>
+														<div class="modal-footer d-flex justify-content-between">
+															<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+															<button type="button" class="btn btn-primary d-none" id="conferma-btn">Conferma</button>
+														</div>
+													</div>
+            </div>
+            </div>
 
 		</form>
 	</div>
