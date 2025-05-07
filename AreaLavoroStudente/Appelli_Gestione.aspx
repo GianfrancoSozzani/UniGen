@@ -38,17 +38,18 @@
                             <ItemTemplate>
                                 <tr>
                                     <td>
-                                        <asp:CheckBox ID="chkSeleziona" runat="server" />
+                                        <asp:CheckBox ID="chkSeleziona" runat="server" Visible='<%# Eval("Link").ToString() != "superato" %>'/>
                                         <asp:HiddenField ID="hfKLibretto" runat="server" Value='<%# Eval("K_Libretto") %>' />
                                     </td>
                                     <td><%# Eval("TitoloEsame") %></td>
                                     <td><%# Eval("Obbligatorio").ToString().ToLower() == "true" ? "Obbligatorio" : "Facoltativo" %></td>
                                     <td><%# Eval("DataAppello", "{0:dd/MM/yyyy}") %></td>
                                     <td><%# Eval("Tipo").ToString() == "Sc" ? "Scritto" : "Orale" %></td>
-                                    <td>
+                                    <td class="text-center">
                                         <asp:LinkButton ID="btnProva" 
                                             runat="server"
-                                            CssClass="btn btn-primary"  
+                                            CssClass="text-primary"
+                                            Text="Vai alla prova"
                                             Style="box-shadow: 0px 4px 12px #21212115;" 
                                             CommandArgument='<%# Eval("K_Prova") + "," + Eval("DataAppello")%>' 
                                             OnCommand="btnProva_Command"

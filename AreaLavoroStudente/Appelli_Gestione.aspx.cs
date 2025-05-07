@@ -59,24 +59,26 @@ public partial class _Default : System.Web.UI.Page
         LIBRETTI m = new LIBRETTI();
         DataTable dt = m.ListaPrenotazioni(Cod);
         Guid k_stu = Guid.Parse(Session["cod"].ToString());
+        int i = 0;
         foreach (DataRow dr in dt.Rows)
         {
-            int i = 0;
             if (dr["K_Prova"] == DBNull.Value || dr["K_Prova"] == null)
             {
                 i++;
-            } else
-            {
-            Guid k_Prova = Guid.Parse(dr["K_Prova"].ToString());
-            DB db = new DB();
-            db.query = "Valutazioni_SelectByStudente";
-            db.cmd.Parameters.AddWithValue("@k_prova", k_Prova);
-            db.cmd.Parameters.AddWithValue("@k_stu", k_stu);
-            DataTable dt2 = db.SQLselect();
-            if (dt2.Rows.Count != 0) {
-                dt.Rows[i]["Link"] = "superato";
             }
-            i++;
+            else
+            {
+                Guid k_Prova = Guid.Parse(dr["K_Prova"].ToString());
+                DB db = new DB();
+                db.query = "Valutazioni_SelectByStudente";
+                db.cmd.Parameters.AddWithValue("@k_prova", k_Prova);
+                db.cmd.Parameters.AddWithValue("@k_stu", k_stu);
+                DataTable dt2 = db.SQLselect();
+                if (dt2.Rows.Count != 0)
+                {
+                    dt.Rows[i]["Link"] = "superato";
+                }
+                i++;
             }
         }
         rptAppelli.DataSource = dt;

@@ -25,7 +25,7 @@
                 <ItemTemplate>
                     <div class="card mb-3 shadow-sm">
                         <div class="card-body">
-                            <h6 class="card-subtitle mb-2 text-muted">Domanda <%# Eval("NumeroDomanda") %></h6>
+                            <h6 class="card-subtitle mb-2 fw-bold">Domanda <%# Eval("Numero_Domanda") %></h6>
                             <p class="card-text"><%# Eval("Domanda") %></p>
 
                             <asp:TextBox

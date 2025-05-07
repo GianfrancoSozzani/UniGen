@@ -14,7 +14,7 @@ public partial class _Default : System.Web.UI.Page
         if (!IsPostBack)
         {
             Guid K_Prova = Guid.Parse(Request.QueryString["prova"]);
-            string Cod = Session["Cod"].ToString();
+            Guid Cod = Guid.Parse(Session["Cod"].ToString());
             // Carica i dati necessari per la pagina
             CaricaDati(K_Prova);
             CaricaStudente(K_Prova, Cod);
@@ -34,13 +34,16 @@ public partial class _Default : System.Web.UI.Page
     protected void btnInviaRisposte_Click(object sender, EventArgs e)
     {
         DB db = new DB();
+        Guid K_Prova = Guid.Parse(Request.QueryString["prova"]);
+        Guid Cod = Guid.Parse(Session["Cod"].ToString());
         db.query = "Valutazioni_Insert";
-        db.cmd.Parameters.AddWithValue("@prova", Guid.Parse(Request.QueryString["prova"]));
-        db.cmd.Parameters.AddWithValue("@studente", Guid.Parse(Session["Cod"].ToString()));
+        db.cmd.Parameters.AddWithValue("@prova", K_Prova);
+        db.cmd.Parameters.AddWithValue("@studente", Cod);
         db.SQLcommand();
+        Response.Redirect("Appelli_Gestione.aspx");
     }
 
-    public void CaricaStudente(Guid K_Prova, string Cod)
+    public void CaricaStudente(Guid K_Prova, Guid Cod)
     {
         // Carica i dati dello studente
         DB db = new DB();
