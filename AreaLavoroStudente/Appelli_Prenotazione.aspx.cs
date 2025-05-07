@@ -53,7 +53,7 @@ public partial class _Default : System.Web.UI.Page
     {
         APPELLI m = new APPELLI();
         Guid k_stu = Guid.Parse(Session["cod"].ToString());
-        rptAppelli.DataSource = m.ListaAppelli((Guid)Session["cod"]);
+        rptAppelli.DataSource = m.ListaAppelli(k_stu);
         rptAppelli.DataBind();
 
     }

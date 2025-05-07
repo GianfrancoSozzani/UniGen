@@ -46,7 +46,16 @@
                                     <td><%# Eval("DataAppello", "{0:dd/MM/yyyy}") %></td>
                                     <td><%# Eval("Tipo").ToString() == "Sc" ? "Scritto" : "Orale" %></td>
                                     <td>
-                                        <a href='<%# Eval("Link") %>' target="_blank" class="link-primary">Vai al link</a>
+                                        <asp:LinkButton ID="btnProva" 
+                                            runat="server"
+                                            CssClass="btn btn-primary"  
+                                            Style="box-shadow: 0px 4px 12px #21212115;" 
+                                            CommandArgument='<%# Eval("K_Prova") + "," + Eval("DataAppello")%>' 
+                                            OnCommand="btnProva_Command"
+                                             Visible='<%# Eval("Link").ToString() != "superato" %>'>
+                                        </asp:LinkButton>
+                                        <i class="bi bi-check2-square" runat="server"
+                                            Visible='<%# Eval("Link").ToString() == "superato" %>'></i>
                                     </td>
                                 </tr>
                             </ItemTemplate>
