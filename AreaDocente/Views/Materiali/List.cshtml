@@ -48,8 +48,8 @@
                         <div class="d-flex justify-content-start gap-2" style="min-width: 180px;">
                             @if (IsViewableInBrowser(mat.Tipo))
                             {
-                                <a asp-action="View" target="_blank" asp-route-id="@mat.K_Materiale" class="btn btn-outline-info btn-sm" style="min-width: 99.25px">
-                                    <i class="bi-file-earmark-arrow-down-fill @iconClass me-1"></i> Visualizza
+                                <a asp-action="View" target="_blank" asp-route-id="@mat.K_Materiale" class="btn btn-info btn-sm" style="min-width: 99.25px">
+                                    <i class="bi bi-file-earmark-image-fill me-1"></i> Visualizza
                                 </a>
                             }
                             else
