@@ -216,6 +216,7 @@ public partial class _Default : System.Web.UI.Page
             rpCorso.DataSource = dt.DefaultView; //la datasource del repeater diventa dt 
             rpCorso.DataBind();
 
+            PopolaListaConPaginazione(dt, rpCorso);
             lblErrore.Visible = false;
         }
         else
