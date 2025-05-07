@@ -206,18 +206,22 @@ public partial class _Default : System.Web.UI.Page
 
     protected void btnRicerca_Click(object sender, EventArgs e)
     {
-        //avendo creato la variabile matricolaRicerca la poniamo uguale alla matricola della classe
+        ViewState["PaginaCorrente"] = 0;
+
         CORSI corsi = new CORSI();
         corsi.TitoloCorso = txtRicercaCorso.Text.Trim();
         DataTable dt = corsi.SelezionaPerNome();
-        if (dt != null && dt.Rows.Count > 0) //se la matricola esiste allora dt è maggiore di 0 e non è null
+        if (dt != null && dt.Rows.Count > 0) //se il corso esiste allora dt è maggiore di 0 e non è null
         {
 
-            rpCorso.DataSource = dt.DefaultView; //la datasource del repeater diventa dt 
-            rpCorso.DataBind();
+            //rpCorso.DataSource = dt.DefaultView; //la datasource del repeater diventa dt 
+            //rpCorso.DataBind();
 
+            //PopolaListaConPaginazione(dt, rpCorso);
+            //lblErrore.Visible = false;
+
+            ViewState["RisultatiRicerca"] = dt;
             PopolaListaConPaginazione(dt, rpCorso);
-            lblErrore.Visible = false;
         }
         else
         {
@@ -236,7 +240,8 @@ public partial class _Default : System.Web.UI.Page
     }
     public int GetPaginaCorrente()
     {
-        return PaginaCorrente;
+        return ViewState["PaginaCorrente"] != null ? (int)ViewState["PaginaCorrente"] : 0;
+        //return PaginaCorrente;
     }
     protected void PopolaListaConPaginazione(DataTable dati, Repeater rptDati)
     {
@@ -261,10 +266,29 @@ public partial class _Default : System.Web.UI.Page
     }
     protected void rptPaginazione_ItemCommand(object source, RepeaterCommandEventArgs e)
     {
+        //if (e.CommandName == "CambiaPagina")
+        //{
+        //    PaginaCorrente = Convert.ToInt32(e.CommandArgument) - 1;
+        //    CaricaCorsi();
+        //}
         if (e.CommandName == "CambiaPagina")
         {
-            PaginaCorrente = Convert.ToInt32(e.CommandArgument) - 1;
-            CaricaCorsi();
+            int nuovaPagina = Convert.ToInt32(e.CommandArgument) - 1;
+            ViewState["PaginaCorrente"] = nuovaPagina;
+
+            DataTable dt;
+
+            if (ViewState["RisultatiRicerca"] != null)
+            {
+                dt = (DataTable)ViewState["RisultatiRicerca"];
+            }
+            else
+            {
+                CORSI c = new CORSI();
+                dt = c.SelezionaTutto();
+            }
+
+            PopolaListaConPaginazione(dt, rpCorso);
         }
     }
 }
