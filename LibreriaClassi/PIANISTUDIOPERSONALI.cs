@@ -34,6 +34,7 @@ namespace LibreriaClassi
             DB db = new DB();
             db.query = "PianoStudioPersonale_Insert";
             db.cmd.Parameters.AddWithValue("@K_PianoStudioPersonale", K_PianoStudioPersonale);
+            db.cmd.Parameters.AddWithValue("@Obbligatorio", Obbligatorio);
             db.cmd.Parameters.AddWithValue("@AnnoAccademico", AnnoAccademico);
             db.cmd.Parameters.AddWithValue("@K_Esame", K_Esame);
             db.cmd.Parameters.AddWithValue("@K_Studente", K_Studente);
@@ -87,6 +88,14 @@ namespace LibreriaClassi
             DB db = new DB();
             db.query = "Esami_SelectDisponibili";
             db.cmd.Parameters.AddWithValue("@K_Studente", K_Studente);
+            return db.SQLselect();
+        }
+
+        public DataTable GetDatiEsame()
+        {
+            DB db = new DB();
+            db.query = "PianiStudio_GetByEsame";
+            db.cmd.Parameters.AddWithValue("@K_Esame", K_Esame);
             return db.SQLselect();
         }
 
