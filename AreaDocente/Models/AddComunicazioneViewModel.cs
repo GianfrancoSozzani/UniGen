@@ -1,8 +1,4 @@
-﻿using AreaDocente.Models.Entities;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace AreaDocente.Models
+﻿namespace AreaDocente.Models
 {
     public class AddComunicazioneViewModel
     {

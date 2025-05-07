@@ -1,13 +1,9 @@
-using AreaDocente.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using System.Net.Mail;
 using AreaDocente.Data;
 using AreaDocente.Models;
 using AreaDocente.Models.Entities;
-using LibreriaClassi;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Diagnostics;
 
 namespace AreaDocente.Controllers
 {

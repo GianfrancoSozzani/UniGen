@@ -1,7 +1,4 @@
-﻿using AreaDocente.Models.Entities;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace AreaDocente.Models
+﻿namespace AreaDocente.Models
 {
     public class AddAppelliViewModel
     {
