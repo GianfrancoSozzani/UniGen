@@ -117,8 +117,13 @@
                                         <li><a class="dropdown-item" href="PagamentiEffettuati.aspx">Pagamenti Effettuati</a></li>
                                     </ul>
                                 </li>
-                                <li id="liComunicazioni" runat="server" class="nav-item">
-                                    <asp:Button ID="btnComunicazioni" runat="server" Text="Comunicazioni" OnClick="btnComunicazioni_Click"/>
+                                <!-- ✅ Comunicazioni corretta -->
+                                <li class="nav-item d-flex align-items-center">
+                                    <asp:LinkButton ID="liComunicazioni" runat="server"
+                                        CssClass="nav-link p-0 text-white"
+                                        OnClick="btnComunicazioni_Click">
+                                         Comunicazioni
+                                    </asp:LinkButton>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="FAQ.aspx">FAQ</a>
