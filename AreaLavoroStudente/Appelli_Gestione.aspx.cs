@@ -110,14 +110,14 @@ public partial class _Default : System.Web.UI.Page
             }
         }
 
-        if (eliminato)
-        {
-            string Matricola = Session["mat"].ToString();
-            CaricaAppelli(int.Parse(Matricola));
-            lblMessaggio.Text = "Prenotazione eliminata con successo.";
-            lblMessaggio.CssClass = "alert alert-success mt-3";
-            lblMessaggio.Visible = true;
-        }
+        //if (eliminato)
+        //{
+        //    string Matricola = Session["mat"].ToString();
+        //    CaricaAppelli(int.Parse(Matricola));
+        //    lblMessaggio.Text = "Prenotazione eliminata con successo.";
+        //    lblMessaggio.CssClass = "alert alert-success mt-3";
+        //    lblMessaggio.Visible = true;
+        //}
         
     }
     
