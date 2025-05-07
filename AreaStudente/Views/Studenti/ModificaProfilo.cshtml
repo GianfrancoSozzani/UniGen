@@ -216,11 +216,16 @@
 						<h5 class="text-center">Modifica Immagine Profilo</h5>
 						<p class="text-center">Qualora volessi aggiornare il tuo profilo, carica una nuova immagine scegliendo un file dal tuo dispositivo.</p> <p class="text-center"><strong>Formati supportati:</strong> JPEG, JPG, PNG. </p>
 
-						<div class="input-group mt-5">
+						@* <div class="input-group mt-5">
 							<input type="file" class="form-control" asp-for="ImmagineProfiloFile" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
 							<span asp-validation-for="ImmagineProfiloFile" class="text-danger d-block mt-2 text-center"></span>
+						</div> *@
+						@* <button type="submit" class="btn btn-primary" style="width: 179px;">Registrati</button> *@
+						<div class="input-group mt-5">
+							<input asp-for="ImmagineProfiloFile" type="file" class="form-control" id="inputGroupFile04" aria-label="Upload" />
 							<button type="submit" class="btn btn-primary">Salva</button>
 						</div>
+						<span asp-validation-for="ImmagineProfiloFile" class="text-danger d-block mt-2 text-center"></span>
 					</div>
 				</div>
 				@* </div> *@
