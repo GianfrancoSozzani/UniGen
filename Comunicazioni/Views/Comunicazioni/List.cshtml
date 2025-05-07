@@ -156,7 +156,7 @@
 						@{
 							var ruolo = Context.Session.GetString("r");
 						}
-						<form method="post" asp-action="Add">
+						<form method="post" asp-action="Add" id="form-insert">
 							@* @if (ruolo == "d")
 							{
 								<div class="mt-3">
@@ -205,7 +205,7 @@
 
 							<div class="mt-4">
 								<label class="form-label">Testo:</label>
-								<textarea asp-for="AddComunicazione.Testo" class="form-control" rows="6" required></textarea>
+								<textarea asp-for="AddComunicazione.Testo" class="form-control" rows="6" required id="testoComunicazioneAdd"></textarea>
 								<span asp-validation-for="AddComunicazione.Testo" class="text-danger"></span>
 							</div>
 

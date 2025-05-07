@@ -45,24 +45,21 @@ namespace AreaDocente.Controllers
             if (K_Prova == null)
                 return View(new List<MVCValutazione>());
 
-            //K_Prova = Guid.Parse("4B2E9FD5-23A5-4994-8AE4-00C927AB052B");
-
             //var studenti = await dbContext.valutazioni
-            //    .Where(v => v.K_Prova == K_Prova)
-            //    .Select(v => v.Studente)
-            //    .ToListAsync();
-
-            //var studenti = await dbContext.valutazioni
-            //    .Where(v => v.K_Prova == K_Prova)
+            //    .Where(v => v.K_Prova == K_Prova &&
+            //                dbContext.libretti.Any(l => l.K_Studente == v.K_Studente && l.K_Appello == v.Prova.K_Appello && l.VotoEsame == null))
             //    .Include(v => v.Studente)
             //    .Include(v => v.Prova)
             //    .ToListAsync();
 
             var studenti = await dbContext.valutazioni
-                .Where(v => v.K_Prova == K_Prova &&
-                            dbContext.libretti.Any(l => l.K_Studente == v.K_Studente && l.VotoEsame == null))
+                .Where(v => v.K_Prova == K_Prova)
                 .Include(v => v.Studente)
                 .Include(v => v.Prova)
+                .Where(v => dbContext.libretti.Any(l =>
+                    l.K_Studente == v.K_Studente &&
+                    l.K_Appello == v.Prova.K_Appello &&
+                    l.VotoEsame == null))
                 .ToListAsync();
 
             return View("Valutazione", studenti);
@@ -78,7 +75,7 @@ namespace AreaDocente.Controllers
                 .Select(p => new SelectListItem
                 {
                     Value = p.K_Prova.ToString(),
-                    Text = p.Appello?.Esame?.TitoloEsame + " - " + p.Appello?.DataAppello?.ToString("dd/MM/yyyy")
+                    Text = p.Appello?.Esame?.TitoloEsame + " - " + p.Appello?.DataAppello?.ToString("dd/MM/yyyy") + " - " + (p.Tipologia == "Or" ? "Orale" : p.Tipologia == "Da" ? "Domande Aperte" : p.Tipologia == "Dc" ? "Domande Chiuse" : p.Tipologia)
                 });
             ViewBag.ProveList = ListaProve;
         }
@@ -93,7 +90,7 @@ namespace AreaDocente.Controllers
                 .Select(p => new SelectListItem
                 {
                     Value = p.K_Prova.ToString(),
-                    Text = p.Appello?.Esame?.TitoloEsame + " - " + p.Appello?.DataAppello?.ToString("dd/MM/yyyy"),
+                    Text = p.Appello?.Esame?.TitoloEsame + " - " + p.Appello?.DataAppello?.ToString("dd/MM/yyyy") + " - " + (p.Tipologia == "Or" ? "Orale" : p.Tipologia == "Da" ? "Domande Aperte" : p.Tipologia == "Dc" ? "Domande Chiuse" : p.Tipologia),
                     Selected = (p.K_Prova == K_Prova)
                 });
             ViewBag.ProveList = ListaProve;
@@ -179,6 +176,7 @@ namespace AreaDocente.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
+
             var prove = await dbContext.prove
                 .Include(a => a.Appello)
                 .Include(a => a.Appello.Esame)

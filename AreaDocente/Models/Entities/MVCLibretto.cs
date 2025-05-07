@@ -13,7 +13,7 @@ namespace AreaDocente.Models.Entities
         [ForeignKey("K_Studente")]
         [ValidateNever]
         public MVCStudente? Studente { get; set; }
-        public byte? VotoEsame { get; set; }
+        public short? VotoEsame { get; set; }
         public char? Esito { get; set; }
         public Guid? K_Appello { get; set; }
 

@@ -1,7 +1,27 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿document.getElementById("form-insert").addEventListener("submit", function (event) {
+    const testoInput = document.getElementById("testoComunicazioneAdd");
+    if (testoInput.value.trim() === "") {
+        alert("Il testo della comunicazione non può contenere solo spazi.");
+        event.preventDefault(); // Prevent form submission
+    }
+});
 
-// Write your JavaScript code.
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const forms = document.querySelectorAll("form");
+
+    forms.forEach(form => {
+        form.addEventListener("submit", function (e) {
+            const textarea = form.querySelector("textarea[name='Testo']");
+            if (textarea && textarea.value.trim() === "") {
+                e.preventDefault();
+                alert("Il messaggio non può contenere solo spazi.");
+            }
+        });
+    });
+});
+
 
 
 

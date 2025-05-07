@@ -4,15 +4,15 @@
 
 @model AreaDocente.Models.ListAndAddViewModel
 
-<div class="container pb-3 mt-2">
-    <div class="container-fluid my-5">
+<div class="container">
+    <div class="container-fluid ">
         <div class="mb-3">
             <h2 class="text-start">Pannello del docente</h2>
             <h5></h5>
         </div>
          <hr />
 
-        <div class="row gy-4 gx-md-2 gx-lg-0 justify-content-around">
+		<div class="row gy-4 gx-md-2 gx-lg-0 justify-content-md-around justify-content-lg-between">
 
             <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
                 <div class="card shadow">
@@ -81,16 +81,16 @@
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h1 class="modal-title fs-5" id="exampleModalLabel">Scrivi una nuova comunicazione all'Amministrazione'</h1>
+									<h1 class="modal-title fs-5" id="exampleModalLabel">Scrivi una nuova comunicazione</h1>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body">
-									<form method="post" asp-controller="Comunicazioni" asp-action="Add">
+									<form method="post" asp-controller="Comunicazioni" asp-action="Add" id="form-insert">
 
 										<div class="mt-3">
-											<label class="form-label">Destinatari</label>
+											<label class="form-label">Destinatario</label>
 											<select asp-for="AddComunicazione.K_Studente" asp-items="@ViewBag.StudentiList" class="form-select" required>
-													<option selected>-- Seleziona un destinatario --</option>
+													<option disabled selected>-- Seleziona un destinatario --</option>
 												<option selected value="Amministrazione">Amministrazione</option>
 											</select>
 											<span asp-validation-for="AddComunicazione.K_Studente" class="text-danger"></span>
@@ -98,9 +98,9 @@
 
 										<div class="mt-4">
 											<label class="form-label">Testo:</label>
-											<textarea asp-for="AddComunicazione.Testo" class="form-control" rows="6" required></textarea>
+											<textarea asp-for="AddComunicazione.Testo" class="form-control" rows="6" required id="testoComunicazioneAdd"></textarea>
 											<span asp-validation-for="AddComunicazione.Testo" class="text-danger"></span>
-											<button type="submit" class="btn btn-primary mt-3">Inserisci Comunicazione</button> 
+											<button type="submit" class="btn btn-primary mt-3">Inserisci Comunicazione</button>
 										</div>
 									</form>
 								</div>

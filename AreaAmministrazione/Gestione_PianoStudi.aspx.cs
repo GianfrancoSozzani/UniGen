@@ -10,7 +10,6 @@ using LibreriaClassi;
 
 public partial class _Default : System.Web.UI.Page
 {
-
     protected void Page_Load(object sender, EventArgs e)
     {
         //carica le ddl con le facoltà e i corsi disponibili
@@ -26,15 +25,9 @@ public partial class _Default : System.Web.UI.Page
 
         }
         //metodo per mostrare il Popup con gli esami disponibili da aggiungere (TUTTI)
-
-
     }
-
-
-
     protected void MostraTuttiEsami()
     {
-
         ESAMI es = new ESAMI();
         DataTable dt = es.SelezionaEsami();
 
@@ -65,7 +58,6 @@ public partial class _Default : System.Web.UI.Page
         }
 
         ddlCorso.Items.Insert(0, new ListItem("Seleziona un corso di laurea...", ""));
-
     }
     protected void btnCerca_Click(object sender, EventArgs e)
     {
@@ -88,7 +80,7 @@ public partial class _Default : System.Web.UI.Page
     //Visualizza esami inseriti nel piano di studi
     protected void CaricaEsamiPianiStudio()
     {
-
+        
         {
             // Verifica che l'utente abbia selezionato tutti i filtri
             if (!string.IsNullOrEmpty(ddlFacolta.SelectedValue) &&
@@ -112,8 +104,7 @@ public partial class _Default : System.Web.UI.Page
 
                 if (esami != null && esami.Rows.Count > 0)
                 {
-                    rpEsamiInseriti.DataSource = esami;
-                    rpEsamiInseriti.DataBind();
+                    PopolaListaConPaginazione(esami, rpEsamiInseriti);                  
                 }
                 else
                 {
@@ -128,9 +119,6 @@ public partial class _Default : System.Web.UI.Page
                 ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Seleziona tutti i filtri prima di caricare gli esami');", true);
             }
         }
-
-
-
     }
     //apri il modale con gli esami disponibili
     protected void btnApriModalEsami_Click(object sender, EventArgs e)
@@ -152,7 +140,6 @@ public partial class _Default : System.Web.UI.Page
            
             MostraTuttiEsami();
         }
-
     }
     //Cerca gli esami in base al titolo inserito dall'utente
     protected void btnCercaEsame_Click(object sender, EventArgs e)
@@ -181,7 +168,6 @@ public partial class _Default : System.Web.UI.Page
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Esame non trovato');", true);
             txtSearchEsame.Text = "";
         }
-
     }
     protected void btnChiudiModal_Click(object sender, EventArgs e)
     {
@@ -248,9 +234,7 @@ public partial class _Default : System.Web.UI.Page
                 MostraTuttiEsami();
             }
         }
-
     }
-
     protected void btnRimuoviEsame_OnClick(object sender, EventArgs e)
     {
         LinkButton btn = (LinkButton)sender;
@@ -262,8 +246,7 @@ public partial class _Default : System.Web.UI.Page
         //ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Esame rimosso correttamente dal Piano di Studi');", true);
         CaricaEsamiPianiStudio();
     }
-
-    protected void ddlCorso_SelectedIndexChanged(object sender, EventArgs e)
+   protected void ddlCorso_SelectedIndexChanged(object sender, EventArgs e)
     {
         ddlTipoCorso.Items.Clear(); // Pulisce la lista dei corsi
         if (!string.IsNullOrEmpty(ddlCorso.SelectedValue))
@@ -284,4 +267,44 @@ public partial class _Default : System.Web.UI.Page
         ddlTipoCorso.Items.Insert(0, new ListItem("Seleziona un tipo di corso...", ""));
 
     }
+    //PAGINAZIONE LISTA ESAMI INSERITI
+    private int PaginaCorrente
+    {
+        get { return ViewState["PaginaCorrente"] != null ? (int)ViewState["PaginaCorrente"] : 0; }
+        set { ViewState["PaginaCorrente"] = value; }
+    }
+    public int GetPaginaCorrente()
+    {
+        return PaginaCorrente;
+    }
+    protected void PopolaListaConPaginazione(DataTable dati, Repeater rptDati)
+    {
+        PagedDataSource paged = new PagedDataSource();
+        paged.DataSource = dati.DefaultView;
+        paged.AllowPaging = true;
+        paged.PageSize = 10;
+        paged.CurrentPageIndex = PaginaCorrente;
+
+        rptDati.DataSource = paged;
+        rptDati.DataBind();
+
+        // Pagine numeriche
+        List<int> pagine = new List<int>();
+        for (int i = 0; i < paged.PageCount; i++)
+        {
+            pagine.Add(i + 1); // Le pagine partono da 1
+        }
+
+        rptPaginazione.DataSource = pagine;
+        rptPaginazione.DataBind();
+    }
+    protected void rptPaginazione_ItemCommand(object source, RepeaterCommandEventArgs e)
+    {
+        if (e.CommandName == "CambiaPagina")
+        {
+            PaginaCorrente = Convert.ToInt32(e.CommandArgument) - 1;
+            CaricaEsamiPianiStudio();
+        }
+    }
+
 }
