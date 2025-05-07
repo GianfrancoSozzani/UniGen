@@ -20,6 +20,8 @@ namespace AreaDocente.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
+            PopoloDDL();
+
             var lez = await dbContext.lezioni
                 .Include(a => a.Esame)
                 .Where(a => a.Esame.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
@@ -29,41 +31,24 @@ namespace AreaDocente.Controllers
         }
 
         //ADD
-        [HttpGet]
-        public IActionResult Add()
-        {
-            PopoloDDL();
-            return View();
-        }
-
         [HttpPost]
         public async Task<IActionResult> Add(AddLezioniViewModel viewModel)
         {
-            PopoloDDL();
             //CONTROLLI FORMALI
             if (viewModel.Titolo == null)
             {
                 TempData["ErrorMessage"] = "Titolo mancante!";
-                PopoloDDL();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
             if (viewModel.Video == null)
             {
                 TempData["ErrorMessage"] = "Video mancante!";
-                PopoloDDL();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
-            //if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
-            //{
-            //    TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
-            //    PopoloDDL();
-            //    return View(viewModel);
-            //}
             if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare un esame!";
-                PopoloDDL();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
 
             var lez = new MVCLezioni
@@ -92,13 +77,6 @@ namespace AreaDocente.Controllers
         }
 
         //EDIT
-        [HttpGet]
-        public async Task<IActionResult> Edit(Guid id)
-        {
-            var lez = await dbContext.lezioni.FindAsync(id);
-            PopoloDDL();
-            return View(lez);
-        }
         [HttpPost]
         public async Task<IActionResult> Edit(MVCLezioni viewModel)
         {
@@ -106,26 +84,17 @@ namespace AreaDocente.Controllers
             if (viewModel.Titolo == null)
             {
                 TempData["ErrorMessage"] = "Inserire un titolo!";
-                PopoloDDL();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
             if (viewModel.Video == null)
             {
                 TempData["ErrorMessage"] = "Inserire un video!";
-                PopoloDDL();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
-            //if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
-            //{
-            //    TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
-            //    PopoloDDL();
-            //    return View(viewModel);
-            //}
             if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare un esame!";
-                PopoloDDL();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
 
             var lez = await dbContext.lezioni.FindAsync(viewModel.K_Lezione);
@@ -152,10 +121,6 @@ namespace AreaDocente.Controllers
                 await dbContext.SaveChangesAsync();
             }
             return RedirectToAction("List");
-        }
-        public async Task<IActionResult> Annulla()
-        {
-            return RedirectToAction("List", "Lezioni");
         }
     }
 }

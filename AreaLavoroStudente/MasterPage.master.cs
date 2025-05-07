@@ -37,10 +37,8 @@ public partial class MasterPage : System.Web.UI.MasterPage
                 Session["mat"] = Mat;
                 Session["a"] = A;
                 Session["r"] = Ruolo;
-
-
             }
-            
+
             // Controlliamo se la sessione contiene i dati necessari (matricola e abilitazione)
             if (Session["mat"] == null || Session["a"] == null)
             {
@@ -126,8 +124,6 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
 
     }
-
-
 }
 
 

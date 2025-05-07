@@ -154,7 +154,7 @@
 				</div>
 				<div class="col-12 col-lg-3 mb-2 mb-lg-0">
 					<label class="form-label form-control-label">CAP</label>
-					<input type="text" asp-for="CAP" class="form-control form-control-alternative" pattern="\d*" inputmode="numeric" maxlength="5" required />
+					<input type="text" asp-for="CAP" class="form-control form-control-alternative" pattern="[\d]{5}" maxlength="5" required />
 				</div>
 			</div>
 
@@ -165,7 +165,7 @@
 				</div>
 				<div class="col-12 col-lg-3 mb-2 mb-lg-0">
 					<label class="form-label form-control-label">Provincia</label>
-					<input type="text" asp-for="Provincia" class="form-control text-uppercase form-control-alternative" maxlength="2" required />
+					<input type="text" asp-for="Provincia" class="form-control text-uppercase form-control-alternative" pattern="[A-Za-z]{2}" maxlength="2" required />
 				</div>
 			</div>
 			<div class="text-center">

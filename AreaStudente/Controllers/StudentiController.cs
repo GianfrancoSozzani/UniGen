@@ -2,16 +2,11 @@
 using AreaStudente.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Net.NetworkInformation;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using AreaStudente.Models.Entities;
 using System.Data;
 using System.Net.Mail;
-using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.IdentityModel.Tokens;
+
 
 
 namespace AreaStudente.Controllers
@@ -436,7 +431,7 @@ namespace AreaStudente.Controllers
 
             var selectedFacolta = K_Facolta;
 
-            var model = new ModificaStudenteViewModel
+            var model = new ImmatricolazioneViewModel
             {
                 K_Studente = studente.K_Studente,
                 Nome = studente.Nome,
@@ -495,7 +490,7 @@ namespace AreaStudente.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Immatricolati(ModificaStudenteViewModel model, Guid cod)
+        public async Task<IActionResult> Immatricolati(ImmatricolazioneViewModel model, Guid cod)
         {
             ViewData["studente_id"] = cod;
 
@@ -519,6 +514,7 @@ namespace AreaStudente.Controllers
                 model.FacoltaList = PopolaFacolta();
                 model.CorsiList = PopolaCorsi(model.K_Facolta);
                 model.ImmagineProfilo = studente.ImmagineProfilo;
+                model.Matricola = studente.Matricola;
                 return View(model);
             }
 
@@ -528,6 +524,7 @@ namespace AreaStudente.Controllers
                 model.FacoltaList = PopolaFacolta();
                 model.CorsiList = PopolaCorsi(model.K_Facolta);
                 model.ImmagineProfilo = studente.ImmagineProfilo;
+                model.Matricola = studente.Matricola;
                 return View(model);
             }
 
@@ -539,6 +536,7 @@ namespace AreaStudente.Controllers
                 model.FacoltaList = PopolaFacolta();
                 model.CorsiList = PopolaCorsi(model.K_Facolta);
                 model.ImmagineProfilo = studente.ImmagineProfilo;
+                model.Matricola = studente.Matricola;
                 return View(model);
             }
 

@@ -15,10 +15,8 @@ public partial class Default2 : System.Web.UI.Page
         if (!IsPostBack)
         {
             string Matricola = Session["mat"].ToString();
-            Session["mat"] = Matricola;
-
+            
             string K_Studente = Session["cod"].ToString();
-            Session["cod"] = K_Studente;
 
             CaricaDdl();
             CaricaFacoltaECorso();

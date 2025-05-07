@@ -1,25 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using AreaStudente.Models.Entities;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using AreaStudente.Models.Attributes;
-
+using AreaStudente.Models.Entities;
 
 namespace AreaStudente.Models
 {
-    public class ModificaStudenteViewModel
+    public class ImmatricolazioneViewModel
     {
         [Key]
         public Guid K_Studente { get; set; }
 
-        [Required(ErrorMessage = "L'email è obbligatoria")]
-        [EmailAddress(ErrorMessage = "Formato email non valido")]
         public string? Email { get; set; }
 
-        [Required(ErrorMessage = "La password è obbligatoria")]
-        [MinLength(5, ErrorMessage = "La password deve contenere almeno 5 caratteri")]
-        [DataType(DataType.Password)]
         public string? PWD { get; set; }
 
         [Required(ErrorMessage = "Il cognome è obbligatorio")]
@@ -68,6 +62,5 @@ namespace AreaStudente.Models
         public Corso? Corso { get; set; }
 
         public decimal? Importo { get; set; }
-
     }
 }
