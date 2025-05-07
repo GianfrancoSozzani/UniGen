@@ -178,7 +178,7 @@
 								<div class="mt-3">
 									<label class="form-label">Studenti</label>
 									<select asp-for="AddComunicazione.K_Studente" asp-items="@ViewBag.StudentiList" class="form-select" required>
-										<option selected disabled>-- Seleziona uno studente --</option>
+										<option selected disabled>-- Seleziona un destinatario --</option>
 										@if (Context.Session.GetString("r") == "d")
 										{
 											<option value="">Amministrazione</option>
@@ -193,7 +193,7 @@
 								<div class="mt-3">
 									<label class="form-label">Docenti</label>
 									<select asp-for="AddComunicazione.K_Docente" asp-items="@ViewBag.DocentiList" class="form-select" required>
-										<option selected disabled>-- Seleziona un docente --</option>
+										<option selected disabled>-- Seleziona un destinatario --</option>
 										@if (ruolo == "s")
 										{
 											<option value="">Amministrazione</option>
