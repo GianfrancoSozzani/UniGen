@@ -20,6 +20,8 @@ namespace AreaDocente.Data
         public DbSet<MVCStudente> studenti { get; set; }
         public DbSet<MVCLibretto> libretti { get; set; }
         public DbSet<MVCValutazione> valutazioni { get; set; }
+        public DbSet<Comunicazione> Comunicazioni { get; set; }
+        public DbSet<PianoStudioPersonale> PianiStudioPersonali { get; set; }
 
     }
 }

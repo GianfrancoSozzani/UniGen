@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.DynamicData;
@@ -55,7 +56,9 @@ public partial class _Default : System.Web.UI.Page
             litIncassoC.Text = "0";
             return;
         }
-        litIncassoC.Text = dt.Rows[0][0].ToString();
+        decimal incasso = Convert.ToDecimal(dt.Rows[0][0]);
+        litIncassoC.Text = incasso.ToString("N2");
+        //litIncassoC.Text = dt.Rows[0][0].ToString();
 
     }
     protected void CaricaNumCorsi()
@@ -109,8 +112,12 @@ public partial class _Default : System.Web.UI.Page
             litTassaM.Text = "0";
             return;
         }
+
+        decimal tassa = Convert.ToDecimal(dt.Rows[0][0]);
+        litTassaM.Text = tassa.ToString("N2");
+
         //Massimo due cifre decimali
-        litTassaM.Text = Decimal.Parse(dt.Rows[0][0].ToString()).ToString("0.00");
+        //litTassaM.Text = Decimal.Parse(dt.Rows[0][0].ToString()).ToString("0.00");
         //litTassaM.Text = String.Format("{0:0,##}", dt.Rows[0][0].ToString());
 
 
