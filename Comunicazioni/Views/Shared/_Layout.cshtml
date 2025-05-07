@@ -107,17 +107,13 @@
 							//solo se qualcuno ha fatto accesso apparirà la dorpdownlist
 							{
 								<li class="nav-item">
-									<a class="nav-link" href="http://localhost:54399/Homepage.aspx?cod=@(Context.Session.GetString("cod"))&r=@(Context.Session.GetString("r"))&mat=@(Context.Session.GetString("mat"))&a=@(Context.Session.GetString("a"))">Torna alla Homepage</a>
+									<a class="nav-link" href="http://localhost:54399/Homepage.aspx?cod=@(Context.Session.GetString("cod"))&r=@(Context.Session.GetString("r"))&mat=@(Context.Session.GetString("mat"))&a=@(Context.Session.GetString("a"))">Torna all'Area di Lavoro</a>
 								</li>
 							}
 							else if (ruolo != null && ruolo == "a")
 							{
 								
 							}
-
-							<li class="nav-item">
-								<a class="nav-link active" aria-current="page" href="/Faq/Faq">FAQ</a>
-							</li>
 						</ul>
 					</div>
 				</div>
