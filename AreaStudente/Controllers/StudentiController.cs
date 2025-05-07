@@ -515,6 +515,7 @@ namespace AreaStudente.Controllers
                 model.CorsiList = PopolaCorsi(model.K_Facolta);
                 model.ImmagineProfilo = studente.ImmagineProfilo;
                 model.Matricola = studente.Matricola;
+                model.Email = studente.Email;
                 return View(model);
             }
 
