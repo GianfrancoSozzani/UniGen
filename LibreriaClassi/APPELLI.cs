@@ -65,12 +65,12 @@ namespace LibreriaClassi
 
 
         //lista appelli 
-        public DataTable ListaAppelli(int Matricola)
+        public DataTable ListaAppelli(Guid K_Studente)
         {
             
             DB db = new DB();
             db.query = "Appelli_SelectMat";
-            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            db.cmd.Parameters.AddWithValue("@k_studente", K_Studente);
             return db.SQLselect();
         }
         public DataTable CaricaEsamiMeseCorrente()
