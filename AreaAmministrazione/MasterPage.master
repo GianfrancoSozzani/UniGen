@@ -88,13 +88,15 @@
                     </div>
                 </div>
 
-                <a href="Comunicazioni.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-envelope me-2"></i>Comunicazioni</a>
+                <a href='http://localhost:7098/Comunicazioni/List?r=<%=Request.QueryString["r"]%>&cod=<%=Request.QueryString["cod"]%>'>
+                    <i class="bi bi-envelope me-2"></i>Comunicazioni
+                </a>
             </nav>
 
             <!-- Main content -->
             <main class="main-content">
                 <div class="d-flex justify-content-end">
-                    <asp:Label ID="lblNomeUtente" runat="server" CssClass="fw-bold"></asp:Label>   
+                    <asp:Label ID="lblNomeUtente" runat="server" CssClass="fw-bold"></asp:Label>
                     <a href="https://localhost:7272/" class="btn btn-danger ms-4"><i class="bi bi-box-arrow-right"></i>Logout</a>
                 </div>
                 <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
