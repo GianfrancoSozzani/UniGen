@@ -81,14 +81,14 @@
 						<div class="modal-dialog modal-lg">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h1 class="modal-title fs-5" id="exampleModalLabel">Scrivi una nuova comunicazione all'Amministrazione'</h1>
+									<h1 class="modal-title fs-5" id="exampleModalLabel">Scrivi una nuova comunicazione</h1>
 									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 								</div>
 								<div class="modal-body">
 									<form method="post" asp-controller="Comunicazioni" asp-action="Add">
 
 										<div class="mt-3">
-											<label class="form-label">Destinatari</label>
+											<label class="form-label">Destinatario</label>
 											<select asp-for="AddComunicazione.K_Studente" asp-items="@ViewBag.StudentiList" class="form-select" required>
 													<option disabled selected>-- Seleziona un destinatario --</option>
 												<option selected value="Amministrazione">Amministrazione</option>

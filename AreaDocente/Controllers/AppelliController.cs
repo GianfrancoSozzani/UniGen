@@ -80,7 +80,7 @@ namespace AreaDocente.Controllers
             }
             if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
-                TempData["ErrorMessage"] = "Selezionare l'esame!";
+                TempData["ErrorMessage"] = "Selezionare un esame!";
                 PopoloDDL();
                 return View(viewModel);
             }
@@ -113,31 +113,31 @@ namespace AreaDocente.Controllers
             //CONTROLLI FORMALI
             if (viewModel.DataAppello == null)
             {
-                TempData["ErrorMessage"] = "Inserire la data dell'appello!";
+                TempData["ErrorMessage"] = "Inserire la data di un appello!";
                 PopoloDDL();
                 return View(viewModel);
             }
             if (viewModel.Tipo == null)
             {
-                TempData["ErrorMessage"] = "Inserire il tipo dell'appello!";
+                TempData["ErrorMessage"] = "Inserire il tipo di un appello!";
                 PopoloDDL();
                 return View(viewModel);
             }
             if (viewModel.Link == null)
             {
-                TempData["ErrorMessage"] = "Inserire il link dell'appello!";
+                TempData["ErrorMessage"] = "Inserire il link di un appello!";
                 PopoloDDL();
                 return View(viewModel);
             }
             if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
-                TempData["ErrorMessage"] = "Selezionare l'esame!";
+                TempData["ErrorMessage"] = "Selezionare un esame!";
                 PopoloDDL();
                 return View(viewModel);
             }
             if (viewModel.DataVerbalizzazione < viewModel.DataAppello)
             {
-                TempData["ErrorMessage"] = "La data di verbalizzazione non può essere precedente alla data dell'appello.";
+                TempData["ErrorMessage"] = "La data di verbalizzazione non puo essere precedente alla data dell appello.";
                 PopoloDDL();
                 return View(viewModel);
             }
