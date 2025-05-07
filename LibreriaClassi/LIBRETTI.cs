@@ -101,12 +101,12 @@ namespace LibreriaClassi
         }
 
         //lista prenotazioni appelli 
-        public DataTable ListaPrenotazioni(Guid k_stu)
+        public DataTable ListaPrenotazioni(int Matricola)
         {
             
             DB db = new DB();
             db.query = "Appelli_Prenotati";
-            db.cmd.Parameters.AddWithValue("@k_studente", k_stu);
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
             return db.SQLselect();
         }
 

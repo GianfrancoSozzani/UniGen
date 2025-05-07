@@ -16,14 +16,14 @@ public partial class _Default : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            Guid Cod = Guid.Parse(Session["cod"].ToString());
+            string Cod = Session["cod"] as string;
             string Usr = Session["usr"] as string;
             string Matricola = Session["mat"] as string;
             string Abilitato = Session["ab"] as string;
             
             Session["mat"] = Matricola;
             CaricaAA(int.Parse(Matricola));
-            CaricaAppelli(Cod);
+            CaricaAppelli(int.Parse(Matricola));
 
             //salvo nella session 
 
@@ -54,10 +54,11 @@ public partial class _Default : System.Web.UI.Page
     }
    
     //mostrami le prenotazioni fatte in base alla matricola
-    private void CaricaAppelli(Guid Cod)
+    private void CaricaAppelli(int Matricola)
     {
         LIBRETTI m = new LIBRETTI();
-        rptAppelli.DataSource = m.ListaPrenotazioni(Cod);
+        m.Matricola = Matricola;
+        rptAppelli.DataSource = m.ListaPrenotazioni(Matricola);
         rptAppelli.DataBind();
     }
 
@@ -110,25 +111,14 @@ public partial class _Default : System.Web.UI.Page
             }
         }
 
-
-        //if (eliminato)
-        //{
-        //    string Matricola = Session["mat"].ToString();
-        //    CaricaAppelli(int.Parse(Matricola));
-        //    lblMessaggio.Text = "Prenotazione eliminata con successo.";
-        //    lblMessaggio.CssClass = "alert alert-success mt-3";
-        //    lblMessaggio.Visible = true;
-        //}
-
         if (eliminato)
         {
-            Guid Cod = Guid.Parse(Session["cod"].ToString());
-            CaricaAppelli(Cod);
+            string Matricola = Session["mat"].ToString();
+            CaricaAppelli(int.Parse(Matricola));
             lblMessaggio.Text = "Prenotazione eliminata con successo.";
             lblMessaggio.CssClass = "alert alert-success mt-3";
             lblMessaggio.Visible = true;
         }
-
         
     }
     

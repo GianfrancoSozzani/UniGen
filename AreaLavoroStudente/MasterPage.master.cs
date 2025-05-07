@@ -18,7 +18,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        string K_Studente = Session["cod"] as string; 
+        string K_Studente = Session["cod"] as string;
         string Ruolo = Session["r"] as string;
         string Mat = Session["mat"] as string;
         string A = Session["a"] as string;
@@ -27,7 +27,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
         {
 
             // 2. Se mancano, prova dalla QueryString
-            if (string.IsNullOrEmpty(K_Studente) || string.IsNullOrEmpty(Ruolo)|| string.IsNullOrEmpty(Mat) || string.IsNullOrEmpty(A) )
+            if (string.IsNullOrEmpty(K_Studente) || string.IsNullOrEmpty(Ruolo) || string.IsNullOrEmpty(Mat) || string.IsNullOrEmpty(A))
             {
                 K_Studente = Request.QueryString["cod"];
                 Mat = Request.QueryString["mat"];
@@ -128,7 +128,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
         string url = "https://localhost:7098/Comunicazioni/List?cod=" + Cod +
                  "&r=" + Ruolo + "&mat=" + Mat + "&a=" + A;
-       
+
         Response.Redirect(url);
     }
 }
