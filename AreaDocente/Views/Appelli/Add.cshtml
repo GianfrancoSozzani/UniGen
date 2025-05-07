@@ -33,7 +33,7 @@
                 <input type="text" class="form-control" asp-for="Link" placeholder="Inserisci il link dell'appello" required />
             </div>
 
-			<div class="d-flex justify-content-end mt-3 gap-2">
+            <div class="d-flex justify-content-end mt-3 gap-2">
                 <button type="submit" class="btn btn-primary btn-lg">
                     <i class="bi bi-save me-1"></i> Salva
                 </button>
@@ -58,15 +58,5 @@
                 });
             </script>
         }
-
-        <script>
-            // Esegui subito il controllo quando la pagina è caricata, per il caso in cui il valore sia già impostato su "Orale"
-            window.addEventListener("load", function () {
-                var tipoSelezionato = document.getElementById("TipoAppello").value;
-                if (tipoSelezionato === "Or") {
-                    document.getElementById("DataOraleDiv").style.display = "block";
-                }
-            });
-        </script>
     }
 </div>

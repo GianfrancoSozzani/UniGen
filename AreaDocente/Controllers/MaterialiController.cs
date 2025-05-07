@@ -34,20 +34,17 @@ namespace AreaDocente.Controllers
             if (viewModel.Titolo == null)
             {
                 TempData["ErrorMessage"] = "Titolo mancante!";
-                PopolaEsami();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
             if (viewModel.materiale == null || viewModel.materiale.Length == 0)
             {
                 TempData["ErrorMessage"] = "Materiale mancante!";
-                PopolaEsami();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
             if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare un esame!";
-                PopolaEsami();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
             //---------------------------------------------------------------------//
 
@@ -56,6 +53,7 @@ namespace AreaDocente.Controllers
                 Titolo = viewModel.Titolo.ToString(),
                 K_Esame = viewModel.K_Esame,
             };
+
             if (viewModel.materiale != null && viewModel.materiale.Length > 0)
             {
                 using (var memoryStream = new MemoryStream())
@@ -64,9 +62,7 @@ namespace AreaDocente.Controllers
 
                     materiali.Materiale = memoryStream.ToArray();
                     materiali.Tipo = viewModel.materiale.ContentType;
-
                 }
-
             }
 
             await dbContext.materiali.AddAsync(materiali);
@@ -95,14 +91,12 @@ namespace AreaDocente.Controllers
             if (viewModel.Titolo == null)
             {
                 TempData["ErrorMessage"] = "Inserire un titolo!";
-                PopolaEsami();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
             if (viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare un esame!";
-                PopolaEsami();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
             //---------------------------------------------------------------------//
 

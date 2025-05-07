@@ -9,9 +9,10 @@ public partial class MasterPage : System.Web.UI.MasterPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        lblNomeUtente.Text = Request.QueryString["usr"] != null ? "Benvenuto " + Request.QueryString["usr"].ToString() : "Benvenuto Amministratore";
-        //bigger font
 
+        lblNomeUtente.Text = Request.QueryString["usr"] ?? "Amministratore";
+        //lblNomeUtente.Text = Request.QueryString["usr"] != null ? "Benvenuto " + Request.QueryString["usr"].ToString() : "Benvenuto Amministratore";
+        //bigger font
 
     }
 }

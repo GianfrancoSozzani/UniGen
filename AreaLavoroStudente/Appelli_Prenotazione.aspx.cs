@@ -50,7 +50,6 @@ public partial class _Default : System.Web.UI.Page
 
     protected void CaricaAppelli()
     {
-        
         APPELLI m = new APPELLI();
         Guid k_stu = Guid.Parse(Session["cod"].ToString());
         rptAppelli.DataSource = m.ListaAppelli(k_stu);
