@@ -120,9 +120,21 @@
 							</div>
 						</div>
 
-						<div class="text-center">
+						@* <div class="text-center">
 							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confermaModal">Procedi</button>
-						</div>
+						</div> *@
+						@if (ViewData.ModelState.IsValid && @Model.K_Corso.ToString() != "")
+						{
+							<div class="text-center">
+								<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confermaModal">Procedi</button>
+							</div>
+						}
+						else
+						{
+							<div class="text-center">
+								<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confermaModal" disabled>Procedi</button>
+							</div>
+						}
 					</div>
 				</div>
 			</div>
