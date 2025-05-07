@@ -14,44 +14,44 @@
 
 	<style>
 		.navbar-custom {
-			background-color: #12304F;
+		background-color: #12304F;
 		}
 
-			.navbar-custom .nav-link,
-			.navbar-custom .navbar-brand {
-				color: white !important;
-			}
+		.navbar-custom .nav-link,
+		.navbar-custom .navbar-brand {
+		color: white !important;
+		}
 
 		.dropdown-menu > li:hover > .dropdown-submenu {
-			display: block;
+		display: block;
 		}
 
 
 		.sticky-top {
-			z-index: 1030 !important; /* Bootstrap usa 1000 per i dropdown, 1050+ per i modal. 1030 è un valore comune per le navbar fixed/sticky */
+		z-index: 1030 !important; /* Bootstrap usa 1000 per i dropdown, 1050+ per i modal. 1030 è un valore comune per le navbar fixed/sticky */
 		}
 
 
 
 		.navbar-nav .nav-item.logout {
-			position: absolute;
-			right: 0; /* Posiziona il link a destra */
+		position: absolute;
+		right: 0; /* Posiziona il link a destra */
 		}
 
 		body {
-			display: flex;
-			flex-direction: column;
-			min-height: 100vh;
-			background-color: #f8f9fe;
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+		background-color: #f8f9fe;
 		}
 
 
 		.content-wrapper {
-			flex-grow: 1; 
+		flex-grow: 1; 
 		}
 
 		footer {
-			margin-top: auto;
+		margin-top: auto;
 		}
 	</style>
 
@@ -99,53 +99,20 @@
 					</button>
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-							<li class="nav-item">
-								<a class="nav-link active" aria-current="page" href="/Studenti/Show?cod=@ViewData["studente_id"]">Il mio Profilo</a>
-							</li>
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-									Gestione Profilo
-								</a>
-								<ul class="dropdown-menu">
-									<li class="dropdown">
-										<a class="dropdown-item" style="color:inherit" ; href="/Studenti/ModificaProfilo?cod=@ViewData["studente_id"]">
-											Modifica Dati
-										</a>
-									</li>
-								</ul>
-							</li>
-
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-									Immatricolazione
-								</a>
-								<ul class="dropdown-menu">
-									<li><a class="dropdown-item" style="color:inherit; " href="/Studenti/Immatricolati?cod=@ViewData["studente_id"]">Immatricolazione</a></li>          @*  
-                                    <li><a class="dropdown-item" style="color:inherit; " href="/Immatricolazione/Add?cod=@ViewData["studente_id"]">Invio documenti</a></li>
-                                *@
-								</ul>
-							</li>
 
 							@{
 								var ruolo = Context.Session.GetString("r");
 							}
-							@if (ruolo != null)
+							@if (ruolo != null && ruolo == "s")
 							//solo se qualcuno ha fatto accesso apparirà la dorpdownlist
 							{
-								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-										Comunicazioni
-									</a>
-									<ul class="dropdown-menu">
-										<li>
-											<a class="dropdown-item" asp-area="" asp-controller="Comunicazioni" asp-action="List">Comunicazioni</a>
-										</li>
-
-										<li class="nav-item">
-											<a class="dropdown-item" asp-area="" asp-controller="Comunicazioni" asp-action="Add"> Inserisci una nuova Comunicazione</a>
-										</li>
-									</ul>
+								<li class="nav-item">
+									<a class="nav-link" href="http://localhost:54399/Homepage.aspx?cod=@(Context.Session.GetString("cod"))&r=@(Context.Session.GetString("r"))&mat=@(Context.Session.GetString("mat"))&a=@(Context.Session.GetString("a"))">Torna alla Homepage</a>
 								</li>
+							}
+							else if (ruolo != null && ruolo == "a")
+							{
+								
 							}
 
 							<li class="nav-item">

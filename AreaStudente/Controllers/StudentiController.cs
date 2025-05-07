@@ -57,6 +57,7 @@ namespace AreaStudente.Controllers
             ViewData["abilitato"] = studente.Abilitato;
             HttpContext.Session.SetString("cod", studente.K_Studente.ToString());
             HttpContext.Session.SetString("r", "s");
+            ViewData["ruolo"] = HttpContext.Session.GetString("r");
 
             // Mappa dall'entità Studente (dal DB) a ShowStudenteViewModel
             // Dentro l'action Show() nel StudentiController.cs, dopo aver recuperato 'studente'
@@ -83,7 +84,7 @@ namespace AreaStudente.Controllers
             };
 
             var comunicazioni = await dbContext.Comunicazioni
-                .Where(c => c.K_Studente == studente.K_Studente && c.K_Docente == null || c.K_Soggetto == studente.K_Studente && c.K_Docente == null || dbContext.Operatori.Any(o => o.K_Operatore == c.K_Soggetto))
+                .Where(c => c.K_Soggetto == studente.K_Studente && c.K_Docente == null || c.K_Studente == studente.K_Studente && dbContext.Operatori.Any(o => o.K_Operatore == c.K_Soggetto))
                 .Select(c => new ComunicazioneViewModel
                 {
                     K_Comunicazione = c.K_Comunicazione,
@@ -457,7 +458,7 @@ namespace AreaStudente.Controllers
 
 
             };
-            
+
 
 
             return View(model);
@@ -530,18 +531,14 @@ namespace AreaStudente.Controllers
                 return View(model);
             }
 
-
-
             // 🔒 Controllo: già immatricolato?
             if (studente.Abilitato == "S" &&
                 (studente.K_Corso == model.K_Corso || studente.K_Corso != null))
             {
                 ModelState.AddModelError("", "Risulti già immatricolato. Se desideri procedere con una nuova immatricolazione, è necessario presentare prima la rinuncia agli studi.");
-                return View(model);
-            }
-            
-            if (!ModelState.IsValid)
-            {
+                model.FacoltaList = PopolaFacolta();
+                model.CorsiList = PopolaCorsi(model.K_Facolta);
+                model.ImmagineProfilo = studente.ImmagineProfilo;
                 return View(model);
             }
 
@@ -594,6 +591,7 @@ namespace AreaStudente.Controllers
 
             return RedirectToAction("Show", "Studenti", new { cod = HttpContext.Session.GetString("cod") });
         }
+
     }
 }
 
