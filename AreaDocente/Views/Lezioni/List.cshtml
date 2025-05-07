@@ -24,9 +24,11 @@
                         </a>
                     </td>
                     <td>
-                        <a class="btn btn-primary btn-sm" asp-controller="Lezioni" asp-action="Edit" asp-route-id="@lezioni.K_Lezione">
+                        <button type="button" class="btn btn-primary btn-sm"
+                                onclick='openEditLezioneModal(@Html.Raw(Json.Serialize(lezioni.K_Lezione)), @Html.Raw(Json.Serialize(lezioni.Titolo)), @Html.Raw(Json.Serialize(lezioni.Video)), @Html.Raw(Json.Serialize(lezioni.K_Esame)))'
+                                data-bs-toggle="modal" data-bs-target="#editLezioneModal">
                             <i class="bi bi-pencil-square me-1"></i> Modifica
-                        </a>
+                        </button>
                     </td>
                 </tr>
             }
@@ -86,8 +88,54 @@
         </div>
     </div>
 
+    <!-- Modale Modifica Lezione -->
+    <div class="modal fade" id="editLezioneModal" tabindex="-1" aria-labelledby="editLezioneModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" action="/Lezioni/Edit">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editLezioneModalLabel">Modifica Lezione</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="edit_K_Lezione" name="K_Lezione" />
 
+                        <div class="mb-3">
+                            <label class="form-label">Esame</label>
+                            <select id="edit_K_Esame" name="K_Esame" class="form-select" required>
+                                <option disabled selected value="">== Seleziona un esame ==</option>
+                                @foreach (var item in ViewBag.EsamiDDL)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
 
+                        <div class="mb-3">
+                            <label class="form-label">Titolo</label>
+                            <input type="text" class="form-control" id="edit_Titolo" name="Titolo" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Link Video</label>
+                            <input type="text" class="form-control" id="edit_Video" name="Video" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-pencil-square me-1"></i> Modifica
+                        </button>
+                        <button type="submit" class="btn btn-danger" formaction="/Lezioni/Delete">
+                            <i class="bi bi-trash me-1"></i> Elimina
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle me-1"></i> Annulla
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     @section Scripts {
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -102,5 +150,18 @@
                 });
             </script>
         }
+
+        <script>
+            function openEditLezioneModal(kLezione, titolo, video, kEsame) {
+                document.getElementById("edit_K_Lezione").value = kLezione;
+                document.getElementById("edit_Titolo").value = titolo;
+                document.getElementById("edit_Video").value = video;
+
+                const select = document.getElementById("edit_K_Esame");
+                for (let i = 0; i < select.options.length; i++) {
+                    select.options[i].selected = (select.options[i].value == kEsame);
+                }
+            }
+        </script>
     }
 </div>

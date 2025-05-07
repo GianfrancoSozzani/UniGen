@@ -20,11 +20,7 @@ namespace AreaDocente.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            //var appelli = await dbContext.appelli.ToListAsync();
-            //foreach (var riga in appelli)
-            //{
-            //    riga.Esame = dbContext.esami.FirstOrDefault(u => u.K_Esame == riga.K_Esame);
-            //}
+            PopoloDDL();
 
             var appelli = await dbContext.appelli
                 .Include(a => a.Esame)
@@ -48,41 +44,29 @@ namespace AreaDocente.Controllers
         }
 
         //ADD
-        [HttpGet]
-        public IActionResult Add()
-        {
-            PopoloDDL();
-            return View();
-        }
-
         [HttpPost]
         public async Task<IActionResult> Add(AddAppelliViewModel viewModel)
         {
-            PopoloDDL();
             //CONTROLLI FORMALI
             if (viewModel.DataAppello == null)
             {
                 TempData["ErrorMessage"] = "Data appello mancante!";
-                PopoloDDL();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
             if (viewModel.Tipo == null)
             {
                 TempData["ErrorMessage"] = "Tipo appello mancante!";
-                PopoloDDL();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
             if (viewModel.Link == null)
             {
                 TempData["ErrorMessage"] = "Link appello mancante!";
-                PopoloDDL();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
             if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare un esame!";
-                PopoloDDL();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
 
             var appello = new MVCAPPELLO
@@ -100,13 +84,6 @@ namespace AreaDocente.Controllers
         }
 
         //EDIT
-        [HttpGet]
-        public async Task<IActionResult> Edit(Guid id)
-        {
-            var appello = await dbContext.appelli.FindAsync(id);
-            PopoloDDL();
-            return View(appello);
-        }
         [HttpPost]
         public async Task<IActionResult> Edit(MVCAPPELLO viewModel)
         {
@@ -114,35 +91,28 @@ namespace AreaDocente.Controllers
             if (viewModel.DataAppello == null)
             {
                 TempData["ErrorMessage"] = "Inserire la data di un appello!";
-                PopoloDDL();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
             if (viewModel.Tipo == null)
             {
                 TempData["ErrorMessage"] = "Inserire il tipo di un appello!";
-                PopoloDDL();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
             if (viewModel.Link == null)
             {
                 TempData["ErrorMessage"] = "Inserire il link di un appello!";
-                PopoloDDL();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
             if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare un esame!";
-                PopoloDDL();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
             if (viewModel.DataVerbalizzazione < viewModel.DataAppello)
             {
                 TempData["ErrorMessage"] = "La data di verbalizzazione non puo essere precedente alla data dell appello.";
-                PopoloDDL();
-                return View(viewModel);
+                return RedirectToAction("List");
             }
-
-
 
             var appello = await dbContext.appelli.FindAsync(viewModel.K_Appello);
             if (appello is not null)
@@ -160,6 +130,7 @@ namespace AreaDocente.Controllers
             return RedirectToAction("List");
         }
 
+        //DELETE
         [HttpPost]
         public async Task<IActionResult> Delete(MVCAPPELLO viewModel)
         {
@@ -172,10 +143,6 @@ namespace AreaDocente.Controllers
                 await dbContext.SaveChangesAsync();
             }
             return RedirectToAction("List");
-        }
-        public async Task<IActionResult> Annulla()
-        {
-            return RedirectToAction("List", "Appelli");
         }
     }
 }
