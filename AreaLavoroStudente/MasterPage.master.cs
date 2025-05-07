@@ -89,11 +89,12 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
     protected void btnComunicazioni_Click(object sender, EventArgs e)
     {
-        string Cod = Session["cod"] as string;
-        string Ruolo = Session["r"] as string;
+        string cod = Session["cod"] as string;
+        Session["r"] = "s";
+        string ruolo = Session["r"] as string;
 
-        string url = "https://localhost:7098/Comunicazioni/List?cod=" + Cod +
-        "&r=" + Ruolo;
+        // Passa i dati via query string
+        string url = "https://localhost:7098/Comunicazioni/List?cod=" + cod + "&r=" + ruolo;
         Response.Redirect(url);
     }
 }

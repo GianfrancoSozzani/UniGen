@@ -21,20 +21,24 @@ namespace Comunicazioni.Controllers
         //LIST------------------------------------------//
         //----------------------------------------------//
         [HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string r, string cod)
         {
-            string ruolo = HttpContext.Session.GetString("r");
+            HttpContext.Session.SetString("cod", cod);
+            HttpContext.Session.SetString("r", r);
+           
+            string ruolo = r;
             List<IGrouping<Guid, Comunicazione>> comunicazioni;
 
             PopolaEsami(null);
             PopolaStudenti();
             PopolaDocenti();
 
+
             var viewModel = new ListAndAddViewModel();
 
             if (ruolo == "s")
             {
-                var studente_chiave = Guid.Parse(HttpContext.Session.GetString("cod"));
+                var studente_chiave = Guid.Parse(HttpContext.Session.GetString(cod));
 
                 comunicazioni = await dbContext.Comunicazioni
                     .Where(c => c.K_Studente == studente_chiave || c.K_Soggetto == studente_chiave)
