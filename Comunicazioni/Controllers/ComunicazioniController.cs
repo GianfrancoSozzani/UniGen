@@ -58,18 +58,6 @@ namespace Comunicazioni.Controllers
                             comunicazione.Docente = await dbContext.Docenti
                                 .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
                         }
-                        // Carica il destinatario (se è un docente)
-                        if (comunicazione.K_Docente.HasValue)
-                        {
-                            comunicazione.DocenteDestinatario = await dbContext.Docenti
-                                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Docente);
-                        }
-                        // Carica il destinatario (se è uno studente, diverso dall'utente corrente)
-                        else if (comunicazione.K_Studente.HasValue && comunicazione.K_Studente != studente_chiave)
-                        {
-                            comunicazione.StudenteDestinatario = await dbContext.Studenti
-                                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Studente);
-                        }
                     }
                 }
 

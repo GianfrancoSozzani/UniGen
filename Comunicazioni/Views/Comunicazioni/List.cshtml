@@ -13,7 +13,6 @@
 				<thead>
 					<tr>
 						<th>Mittente</th>
-						<th>Destinatario</th>
 						<th>Comunicazione</th>
 					</tr>
 				</thead>
@@ -37,29 +36,6 @@
 										else
 										{
 											<span class="text-primary">Amministrazione</span>
-										}
-									}
-								}
-							</td>
-							<td>
-								@{
-									if (primaComunicazione != null)
-									{
-										if (primaComunicazione.DocenteDestinatario != null)
-										{
-											<span class="text-warning">@($"{primaComunicazione.DocenteDestinatario.Nome} {primaComunicazione.DocenteDestinatario.Cognome}")</span>
-										}
-										else if (primaComunicazione.StudenteDestinatario != null)
-										{
-											<span class="text-info">@($"{primaComunicazione.StudenteDestinatario.Nome} {primaComunicazione.StudenteDestinatario.Cognome}")</span>
-										}
-										else if (primaComunicazione.K_Studente.HasValue && primaComunicazione.K_Studente == Guid.Parse(Context.Session.GetString("cod")))
-										{
-											<span class="text-info">Me</span>
-										}
-										else
-										{
-											<span class="text-secondary">Amministrazione</span>
 										}
 									}
 								}
