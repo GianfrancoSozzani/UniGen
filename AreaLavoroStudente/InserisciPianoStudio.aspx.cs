@@ -21,6 +21,7 @@ public partial class InserisciPianoStudi : Page
             Session["mat"] = Matricola;
             string K_Studente = Session["cod"].ToString();
             Session["cod"] = K_Studente;
+            CaricaAA(int.Parse(Matricola));
             try
                 {
                     CaricaEsamiDisponibili(Guid.Parse(K_Studente));
@@ -36,7 +37,25 @@ public partial class InserisciPianoStudi : Page
             }
         }
 
-        private void CaricaEsamiDisponibili(Guid K_Studente)
+    public void CaricaAA(int Matricola)
+    {
+
+        STUDENTI studente = new STUDENTI();
+        studente.Matricola = Matricola;
+        DataTable dt = studente.SelezionaAnnoAccademico(Matricola);
+
+        if (dt.Rows.Count >= 1)
+        {
+            string annoAccademico = dt.Rows[0]["AnnoAccademico"].ToString();
+            string corso = dt.Rows[0]["TitoloCorso"].ToString();
+            string facolta = dt.Rows[0]["TitoloFacolta"].ToString();
+
+            lblAnno.Text = "Anno Accademico " + annoAccademico;
+            lblFacolta.Text = "Facoltà " + facolta;
+            lblCorso.Text = "Corso " + corso;
+        }
+    }
+    private void CaricaEsamiDisponibili(Guid K_Studente)
         {
             PIANISTUDIOPERSONALI piano = new PIANISTUDIOPERSONALI();
              
