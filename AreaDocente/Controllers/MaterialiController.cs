@@ -46,7 +46,7 @@ namespace AreaDocente.Controllers
             if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare un esame!";
-                PopolaEsame();
+                PopolaEsami();
                 return View(viewModel);
             }
             //---------------------------------------------------------------------//
@@ -101,7 +101,7 @@ namespace AreaDocente.Controllers
             if (viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare un esame!";
-                PopolaEsame();
+                PopolaEsami();
                 return View(viewModel);
             }
             //---------------------------------------------------------------------//
