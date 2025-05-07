@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Permissions;
 using System.Text;
@@ -31,35 +32,64 @@ namespace LibreriaClassi
         public void Inserimento()
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", AnnoAccademico);
-            db.cmd.Parameters.AddWithValue("", Obbligatorio);
+            db.query = "PianoStudioPersonale_Insert";
+            db.cmd.Parameters.AddWithValue("@K_PianoStudioPersonale", K_PianoStudioPersonale);
+            db.cmd.Parameters.AddWithValue("@AnnoAccademico", AnnoAccademico);
+            db.cmd.Parameters.AddWithValue("@K_Esame", K_Esame);
+            db.cmd.Parameters.AddWithValue("@K_Studente", K_Studente);
             db.SQLcommand();
         }
 
-        public DataTable SelezionaTutto()
-        {
-            DB dB = new DB();
-            dB.query = "";
-            return dB.SQLselect();
-        }
+        //public DataTable SelezionaTutto()
+        //{
+        //    DB dB = new DB();
+        //    dB.query = "";
+        //    return dB.SQLselect();
+        //}
 
         public DataTable SelezionaChiavePianiStudioPersonale()
         {
             DB db = new DB();
-            db.query = "";
-            db.cmd.Parameters.AddWithValue("", K_PianoStudioPersonale);
+            db.query = "PianoStudioPersonale_FindByKey";
+            db.cmd.Parameters.AddWithValue("@chiave", K_PianoStudioPersonale);
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaStudentePianiStudioPersonale(Guid K_Studente)
+        {
+            DB db = new DB();
+            db.query = "PianoStudioPersonale_FindByStudente";
+            db.cmd.Parameters.AddWithValue("@K_Studente", K_Studente);
             return db.SQLselect();
         }
 
         public void Modifica()
         {
-            DB dB = new DB();
-            dB.query = "";
-            dB.cmd.Parameters.AddWithValue("", K_PianoStudioPersonale);
-            dB.cmd.Parameters.AddWithValue("", AnnoAccademico);
-            dB.cmd.Parameters.AddWithValue("", Obbligatorio);
-            dB.SQLcommand();
+            DB db = new DB();
+            db.query = "PianoStudioPersonale_Update";
+            db.cmd.Parameters.AddWithValue("@chiave", K_PianoStudioPersonale);
+            db.cmd.Parameters.AddWithValue("@annoaccademico", AnnoAccademico);
+            db.cmd.Parameters.AddWithValue("@k_esame", K_Esame);
+            db.cmd.Parameters.AddWithValue("@k_studente", K_Studente);
+            db.SQLcommand();
         }
+
+        public void Elimina()
+        {
+            DB db = new DB();
+            db.query = "PianoStudioPersonale_Delete";
+            db.cmd.Parameters.AddWithValue("@K_PianoStudioPersonale", K_PianoStudioPersonale);
+            db.SQLcommand();
+        }
+
+        public DataTable GetEsamiDisponibili(Guid K_Studente)
+        {
+            DB db = new DB();
+            db.query = "Esami_SelectDisponibili";
+            db.cmd.Parameters.AddWithValue("@K_Studente", K_Studente);
+            return db.SQLselect();
+        }
+
     }
+
 }

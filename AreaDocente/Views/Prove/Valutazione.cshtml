@@ -1,0 +1,49 @@
+﻿@model List<AreaDocente.Models.Entities.MVCStudente>
+
+<div class="container my-2">
+    <h1 class="mb-4">Valutazione Prove</h1>
+
+    <form method="get" class="mb-3" id="proveForm">
+        <label class="form-label fw-semibold">Prova</label>
+        <select asp-items="ViewBag.ProveList" name="provaId" class="form-select"
+                onchange=" document.getElementById('proveForm').action='@Url.Action("SelezionaEsame")' ; document.getElementById('proveForm').submit();" ()" required>
+            <option disabled selected>== Seleziona una prova ==</option>
+        </select>
+    </form>
+
+    @if (Model.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Cognome</th>
+                    <th>Nome</th>
+                    <th>Data Nascita</th>
+                    <th>Matricola</th>
+                    <th>Azioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var studente in Model)
+                {
+                    <tr>
+                        <td>@studente.Cognome</td>
+                        <td>@studente.Nome</td>
+                        <td>@studente.DataNascita?.ToString("dd/MM/yyyy")</td>
+                        <td>@studente.Matricola</td>
+                        <td>
+                            <a class="btn btn-primary btn-sm" asp-controller="Prove" asp-action="Valutazione" asp-route-id="@studente.K_Studente">
+                                <i class="bi bi-pencil-square me-1"></i> Valuta
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else if (ViewBag.ProvaSelezionata != null)
+    {
+        <p>Nessuno studente associato a questa prova.</p>
+    }
+
+</div>

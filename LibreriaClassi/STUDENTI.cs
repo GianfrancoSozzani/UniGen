@@ -59,12 +59,71 @@ namespace LibreriaClassi
             dB.query = "Studenti_SelectAll";
             return dB.SQLselect();
         }
+        //---------------AGGIUNTA PER HOME AMMINISTRAZIONE
+        public DataTable StudentiIscritti()
+        {
+            DB db = new DB();
+            db.query = "Studenti_SelectImmatricolati";
+            return db.SQLselect();
+        }
 
         public DataTable SelezionaPerMatricola()
         {
             DB db = new DB();
-            db.query = "";
+            db.query = "Studenti_SelectByMatricola";
             db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaAnno()
+        {
+            DB db = new DB();
+            db.query = "Studenti_CountAnni";
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaPerCorso()
+        {
+            DB db = new DB();
+            db.query = "Studenti_PerCorsi";
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaPerFacolta()
+        {
+            DB db = new DB();
+            db.query = "Studenti_PerFacolta";
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaAnnoSingolo(string anno)
+        {
+            DB db = new DB();
+            db.query = "Studenti_CountAnnoSingolo";
+            db.cmd.Parameters.AddWithValue("@Anno", anno);
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaPerCorsoAnnoSingolo(string anno)
+        {
+            DB db = new DB();
+            db.query = "Studenti_PerCorsiAnnoSingolo";
+            db.cmd.Parameters.AddWithValue("@Anno", anno);
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaPerFacoltaAnnoSingolo(string anno)
+        {
+            DB db = new DB();
+            db.query = "Studenti_PerFacoltaAnnoSingolo";
+            db.cmd.Parameters.AddWithValue("@Anno", anno);
+            return db.SQLselect();
+        }
+
+        public DataTable AttivaStudenteList()
+        {
+            DB db = new DB();
+            db.query = "Studenti_AbilitaList";
             return db.SQLselect();
         }
 
@@ -73,6 +132,22 @@ namespace LibreriaClassi
             DB db = new DB();
             db.query = "";
             db.cmd.Parameters.AddWithValue("", K_Studente);
+            return db.SQLselect();
+        }
+
+        public DataTable Attiva()
+        {
+            DB db = new DB();
+            db.query = "Studenti_Abilita";
+            db.cmd.Parameters.AddWithValue("@matricola", Matricola);
+            return db.SQLselect();
+        }
+
+        public DataTable Disattiva()
+        {
+            DB db = new DB();
+            db.query = "Studenti_Disabilita";
+            db.cmd.Parameters.AddWithValue("@matricola", Matricola);
             return db.SQLselect();
         }
 
@@ -98,6 +173,32 @@ namespace LibreriaClassi
             dB.SQLcommand();
         }
 
+
+        public DataTable SelezionaAnnoAccademico(int Matricola)
+
+        {
+            DB db = new DB();
+            db.query = "Studenti_SelectAnnoAccademico";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+
+        public DataTable SelezionaDatiRinuncia(int Matricola)
+        {
+            DB db = new DB();
+            db.query = "Studenti_SelectForRinuncia";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            return db.SQLselect();
+        }
+
+
+    public void Disabilita(int Matricola)
+        {
+            DB db = new DB();
+            db.query = "Studenti_Disabilita";
+            db.cmd.Parameters.AddWithValue("@Matricola", Matricola);
+            db.SQLcommand();
+        }
 
     }
 }
