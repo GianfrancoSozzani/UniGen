@@ -20,18 +20,15 @@ public partial class MasterPage : System.Web.UI.MasterPage
     {
         string K_Studente = Session["cod"] as string; 
         string Ruolo = Session["r"] as string;
-        string Mat = Session["mat"] as string;
-        string A = Session["a"] as string;
 
         if (!IsPostBack)
         {
 
             // 2. Se mancano, prova dalla QueryString
-            if (string.IsNullOrEmpty(K_Studente) || string.IsNullOrEmpty(Ruolo)|| string.IsNullOrEmpty(Mat) || string.IsNullOrEmpty(A) )
+            if (string.IsNullOrEmpty(K_Studente) || string.IsNullOrEmpty(Ruolo))
             {
                 K_Studente = Request.QueryString["cod"];
-                Mat = Request.QueryString["mat"];
-                A = Request.QueryString["a"];
+          
                 Ruolo = Request.QueryString["r"];
 
 
@@ -39,8 +36,7 @@ public partial class MasterPage : System.Web.UI.MasterPage
                 if (!string.IsNullOrEmpty(K_Studente) || string.IsNullOrEmpty(Ruolo))
                 {
                     Session["cod"] = K_Studente;
-                    Session["mat"] = Mat;
-                    Session["a"] = A;
+
                     Session["r"] = Ruolo;
 
                 }
@@ -118,17 +114,12 @@ public partial class MasterPage : System.Web.UI.MasterPage
     {
         string Ruolo;
         string Cod;
-        string Mat;
-        string A;
 
         Ruolo = Session["r"].ToString();
         Cod = Session["cod"].ToString();
-        Mat = Session["mat"].ToString();
-        A = Session["a"].ToString();
 
         string url = "https://localhost:7098/Comunicazioni/List?cod=" + Cod +
-                 "&r=" + Ruolo + "&mat=" + Mat + "&a=" + A;
-       
+                 "&r=" + Ruolo;
         Response.Redirect(url);
     }
 }

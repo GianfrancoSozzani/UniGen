@@ -94,15 +94,12 @@ public partial class _Default : System.Web.UI.Page
     {
         string Ruolo;
         string Cod;
-        string Mat;
-        string A;
+    
         Ruolo = Session["r"].ToString();
-        Cod = Session["cod"].ToString();
-        Mat = Session["mat"].ToString();
-        A = Session["a"].ToString();
+        Cod = Session["cod"].ToString(); 
 
         string url = "https://localhost:7098/Comunicazioni/List?cod=" + Cod +
-                 "&r=" + Ruolo + "&mat=" + Mat + "&a=" + A;
+                 "&r=" + Ruolo;
         Response.Redirect(url);
 
     }
