@@ -13,7 +13,7 @@ namespace AreaStudente.Models
         [ForeignKey("K_Studente")]
         [ValidateNever]
 
-        public Studente Studente { get; set; }
+        public Studente? Studente { get; set; }
         public string? Anno { get; set; }
         public DateTime? DataPagamento { get; set; }
 

@@ -81,17 +81,22 @@
 							<div class="col-12 col-lg-4 mb-2 mb-lg-0">
 								<label class="form-label form-control-label">Cognome</label>
 								<input type="text" asp-for="Cognome" class="form-control form-control-alternative" required />
+								<span asp-validation-for="Cognome" class="text-danger"></span>
 							</div>
 							<div class="col-12 col-lg-4 mb-2">
 								<label class="form-label form-control-label">Nome</label>
 								<input type="text" asp-for="Nome" class="form-control form-control-alternative" required />
+								<span asp-validation-for="Nome" class="text-danger"></span>
 							</div>
 							@{
+								var oggi = DateTime.Today.ToString("yyyy-MM-dd");
+								var oggi2 = DateTime.Now.Year.ToString("yyyy-MM-dd");
 								var maxData = DateTime.Now.AddYears(-18).ToString("yyyy-MM-dd");
 							}
 							<div class="col-12 col-lg-4 mb-2">
 								<label class="form-label form-control-label">Data di Nascita</label>
 								<input type="date" asp-for="DataNascita" class="form-control form-control-alternative" max="@maxData" required />
+								<span asp-validation-for="DataNascita" class="text-danger"></span>
 								<span asp-validation-for="DataNascita" class="text-danger"></span>
 							</div>
 						</div>
@@ -102,10 +107,13 @@
 							<div class="col-12 col-lg-9 mb-2 mb-lg-0">
 								<label class="form-label form-control-label">Indirizzo</label>
 								<input type="text" asp-for="Indirizzo" class="form-control form-control-alternative" required />
+								<span asp-validation-for="Indirizzo" class="text-danger"></span>
 							</div>
 							<div class="col-12 col-lg-3 mb-2 mb-lg-0">
-								<label class="form-label form-control-label">CAP</label>
-								<input type="text" asp-for="CAP" class="form-control form-control-alternative" maxlength="5" required />
+								<label class="form-label form-control-label">CAP</label> <input asp-for="CAP" class="form-control form-control-alternative" maxlength="5" required />
+								<span asp-validation-for="CAP" class="text-danger"></span>
+								<span asp-validation-for="CAP" class="text-danger"></span>
+
 							</div>
 						</div>
 
@@ -113,10 +121,12 @@
 							<div class="col-12 col-lg-9 mb-2 mb-lg-0">
 								<label class="form-label form-control-label">Città</label>
 								<input type="text" asp-for="Citta" class="form-control form-control-alternative" required />
+								<span asp-validation-for="Citta" class="text-danger"></span>
 							</div>
 							<div class="col-12 col-lg-3 mb-2 mb-lg-0">
 								<label class="form-label form-control-label">Provincia</label>
 								<input type="text" asp-for="Provincia" class="form-control text-uppercase form-control-alternative" maxlength="2" required />
+								<span asp-validation-for="Provincia" class="text-danger"></span>
 							</div>
 						</div>
 
@@ -137,7 +147,7 @@
 									<div class="text-danger mt-2">
 										@if (Model.Matricola.HasValue)
 										{
-											<span>Lo studente risulta già immatricolato.</span>
+											<span>Risulti già immatricolato. Se desideri procedere con una nuova immatricolazione, è necessario presentare prima la rinuncia agli studi.</span>
 										}
 										else if (@Model.K_Corso.ToString() == "")
 										{
@@ -181,6 +191,9 @@
 </div>
 
 @section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
 	<script src="https://www.paypal.com/sdk/js?client-id=Adbf7fTtUU3GWVxRgKRn4-68S8X52d2nyyh7pJ4eEKdNPXgP6GGlVP8Zuomr1OsJUoSWjYLRe23jgyaN&currency=EUR"></script>
 	<script>
 		document.addEventListener("DOMContentLoaded", function () {

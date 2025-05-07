@@ -27,7 +27,7 @@ namespace AreaStudente.Models
         [ForeignKey("K_Corso")]
         [ValidateNever]
 
-        public Corso Corso { get; set; }
+        public Corso? Corso { get; set; }
         // Aggiungo le proprietà per il nome del corso e la facoltà direttamente
         public string? CorsoTitolo { get; set; }
         public string? FacoltaTitolo { get; set; }
