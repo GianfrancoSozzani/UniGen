@@ -24,8 +24,6 @@ public partial class _Default : System.Web.UI.Page
     protected void CaricaCorsi()
     {
         CORSI c = new CORSI();
-        //rpCorso.DataSource = c.SelezionaTutto(); // Funzione che carica tutti i corsi con inner join di facolta e tipicorsi
-        //rpCorso.DataBind();
         DataTable dt = c.SelezionaTutto();
         PopolaListaConPaginazione(dt, rpCorso);
         

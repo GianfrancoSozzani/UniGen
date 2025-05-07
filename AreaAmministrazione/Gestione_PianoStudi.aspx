@@ -4,7 +4,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.css" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.js"></script>
     <style>
         #container {
             margin-left: 50px;
@@ -118,7 +118,7 @@
                             CommandArgument='<%# Eval("K_PianoStudio") %>'>
                             Rimuovi
                         </asp:LinkButton>
-                        
+
                     </td>
                 </tr>
             </ItemTemplate>
@@ -128,7 +128,16 @@
         </table>
             </FooterTemplate>
         </asp:Repeater>
-
+        <%--        repeater per la paginazione--%>
+        <asp:Repeater ID="rptPaginazione" runat="server" OnItemCommand="rptPaginazione_ItemCommand">
+            <ItemTemplate>
+                <asp:LinkButton ID="lnkPagina" runat="server" CommandName="CambiaPagina" CommandArgument='<%# Container.DataItem %>'
+                    CssClass='<%# (Convert.ToInt32(Container.DataItem) == GetPaginaCorrente() + 1) 
+     ? "btn btn-primary btn-sm m-1 active" 
+     : "btn btn-outline-primary btn-sm m-1" %>'
+                    Text='<%# Container.DataItem %>' />
+            </ItemTemplate>
+        </asp:Repeater>
 
 
         <!------------------------------------------ M O D A L E: Elenco Esami -------------------------------------------------->
@@ -198,6 +207,7 @@
                       </table>
                             </FooterTemplate>
                         </asp:Repeater>
+
 
                         <script>
                             function aggiornaValoreCheckbox(checkbox) {

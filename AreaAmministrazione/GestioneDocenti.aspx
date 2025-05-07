@@ -48,7 +48,7 @@
                                     <th>Nome</th>
                                     <th>Data di Nascita</th>
                                     <th>Stato</th>
-<%--                                    <th>Titolo Corso</th>
+                                    <%--                                    <th>Titolo Corso</th>
                                     <th>Titolo Esame</th>--%>
                                     <th>Azioni</th>
                                 </tr>
@@ -64,7 +64,7 @@
                         <td>
                             <%# Eval("Abilitato").ToString() == "S" ? "Abilitato" : "Disabilitato" %>
                         </td>
-<%--                        <td>
+                        <%--                        <td>
                             <%# Eval("TitoloCorso") %>
                         </td>
                         <td>
@@ -83,6 +83,19 @@
                 </div>
                 </FooterTemplate>
 
+            </asp:Repeater>
+            <%--        repeater per la paginazione--%>
+            <asp:Repeater ID="rptPaginazione" runat="server" OnItemCommand="rptPaginazione_ItemCommand">
+                <ItemTemplate>
+                    <asp:LinkButton ID="lnkPagina" runat="server"
+                        CommandName="CambiaPagina"
+                        CommandArgument='<%# Container.DataItem %>'
+                        CssClass='<%# (Convert.ToInt32(Container.DataItem) == GetPaginaCorrente() + 1) 
+     ? "btn btn-primary btn-sm m-1 active" 
+     : "btn btn-outline-primary btn-sm m-1" %>'>
+ <%# Container.DataItem %>
+                    </asp:LinkButton>
+                </ItemTemplate>
             </asp:Repeater>
         </div>
     </div>

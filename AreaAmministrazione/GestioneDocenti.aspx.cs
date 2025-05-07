@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -19,9 +20,9 @@ public partial class _Default : System.Web.UI.Page
     public void CaricaDocenti()
     {
         DOCENTI d = new DOCENTI();
+        DataTable dt = d.SelezionaTutto();
+        PopolaListaConPaginazione(dt, rpDocenti);
 
-        rpDocenti.DataSource = d.SelezionaTutto();
-        rpDocenti.DataBind();
     }
 
     protected void btnCerca_Click(object sender, EventArgs e)
@@ -78,4 +79,43 @@ public partial class _Default : System.Web.UI.Page
         Response.Redirect("InserimentoDocente.aspx?usr=" + Request.QueryString["usr"]);
     }
 
+    //PAGINAZIONE
+    private int PaginaCorrente
+    {
+        get { return ViewState["PaginaCorrente"] != null ? (int)ViewState["PaginaCorrente"] : 0; }
+        set { ViewState["PaginaCorrente"] = value; }
+    }
+    public int GetPaginaCorrente()
+    {
+        return PaginaCorrente;
+    }
+    protected void PopolaListaConPaginazione(DataTable dati, Repeater rptDati)
+    {
+        PagedDataSource paged = new PagedDataSource();
+        paged.DataSource = dati.DefaultView;
+        paged.AllowPaging = true;
+        paged.PageSize = 10;
+        paged.CurrentPageIndex = PaginaCorrente;
+
+        rptDati.DataSource = paged;
+        rptDati.DataBind();
+
+        // Pagine numeriche
+        List<int> pagine = new List<int>();
+        for (int i = 0; i < paged.PageCount; i++)
+        {
+            pagine.Add(i + 1); // Le pagine partono da 1
+        }
+
+        rptPaginazione.DataSource = pagine;
+        rptPaginazione.DataBind();
+    }
+    protected void rptPaginazione_ItemCommand(object source, RepeaterCommandEventArgs e)
+    {
+        if (e.CommandName == "CambiaPagina")
+        {
+            PaginaCorrente = Convert.ToInt32(e.CommandArgument) - 1;
+            CaricaDocenti();
+        }
+    }
 }

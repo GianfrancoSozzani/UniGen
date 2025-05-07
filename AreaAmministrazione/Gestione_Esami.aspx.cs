@@ -22,8 +22,8 @@ public partial class _Default : System.Web.UI.Page
     protected void CaricaEsami()
     {
         ESAMI e = new ESAMI();
-        rpEsame.DataSource = e.SelezionaTutto(); // Funzione che carica tutti gli esami
-        rpEsame.DataBind();
+        DataTable dt = e.SelezionaTutto();
+        PopolaListaConPaginazione(dt, rpEsame);
     }
 
     // Popolo la dropdownlist dei docenti
@@ -149,7 +149,7 @@ public partial class _Default : System.Web.UI.Page
     {
         //avendo creato la variabile matricolaRicerca la poniamo uguale alla matricola della classe
         ESAMI esami = new ESAMI();
-        esami.TitoloEsame= txtRicercaEsame.Text.Trim();
+        esami.TitoloEsame = txtRicercaEsame.Text.Trim();
         DataTable dt = esami.SelezionaPerNome();
         if (dt != null && dt.Rows.Count > 0) //se la matricola esiste allora dt è maggiore di 0 e non è null
         {
@@ -166,6 +166,45 @@ public partial class _Default : System.Web.UI.Page
             CaricaEsami();
             //rptStudenti.DataSource = null;
             rpEsame.DataBind();
+        }
+    }
+         //PAGINAZIONE
+    private int PaginaCorrente
+    {
+        get { return ViewState["PaginaCorrente"] != null ? (int)ViewState["PaginaCorrente"] : 0; }
+        set { ViewState["PaginaCorrente"] = value; }
+    }
+    public int GetPaginaCorrente()
+    {
+        return PaginaCorrente;
+    }
+    protected void PopolaListaConPaginazione(DataTable dati, Repeater rptDati)
+    {
+        PagedDataSource paged = new PagedDataSource();
+        paged.DataSource = dati.DefaultView;
+        paged.AllowPaging = true;
+        paged.PageSize = 10;
+        paged.CurrentPageIndex = PaginaCorrente;
+
+        rptDati.DataSource = paged;
+        rptDati.DataBind();
+
+        // Pagine numeriche
+        List<int> pagine = new List<int>();
+        for (int i = 0; i < paged.PageCount; i++)
+        {
+            pagine.Add(i + 1); // Le pagine partono da 1
+        }
+
+        rptPaginazione.DataSource = pagine;
+        rptPaginazione.DataBind();
+    }
+    protected void rptPaginazione_ItemCommand(object source, RepeaterCommandEventArgs e)
+    {
+        if (e.CommandName == "CambiaPagina")
+        {
+            PaginaCorrente = Convert.ToInt32(e.CommandArgument) - 1;
+            CaricaEsami();
         }
     }
 }
