@@ -35,8 +35,8 @@ public partial class _Default : System.Web.UI.Page
     {
         DB db = new DB();
         db.query = "Valutazioni_Insert";
-        db.cmd.Parameters.AddWithValue("@k_prova", Guid.Parse(Request.QueryString["prova"]));
-        db.cmd.Parameters.AddWithValue("@k_studente", Guid.Parse(Session["Cod"].ToString()));
+        db.cmd.Parameters.AddWithValue("@prova", Guid.Parse(Request.QueryString["prova"]));
+        db.cmd.Parameters.AddWithValue("@studente", Guid.Parse(Session["Cod"].ToString()));
         db.SQLcommand();
     }
 

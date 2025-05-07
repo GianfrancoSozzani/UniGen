@@ -58,18 +58,26 @@ public partial class _Default : System.Web.UI.Page
     {
         LIBRETTI m = new LIBRETTI();
         DataTable dt = m.ListaPrenotazioni(Cod);
+        Guid k_stu = Guid.Parse(Session["cod"].ToString());
         foreach (DataRow dr in dt.Rows)
         {
             int i = 0;
+            if (dr["K_Prova"] == DBNull.Value || dr["K_Prova"] == null)
+            {
+                i++;
+            } else
+            {
+            Guid k_Prova = Guid.Parse(dr["K_Prova"].ToString());
             DB db = new DB();
             db.query = "Valutazioni_SelectByStudente";
-            db.cmd.Parameters.AddWithValue("@k_prova", Guid.Parse(dt.Rows[i]["K_Prova"].ToString()));
-            db.cmd.Parameters.AddWithValue("@k_stu", Guid.Parse(Session["cod"].ToString()));
+            db.cmd.Parameters.AddWithValue("@k_prova", k_Prova);
+            db.cmd.Parameters.AddWithValue("@k_stu", k_stu);
             DataTable dt2 = db.SQLselect();
             if (dt2.Rows.Count != 0) {
                 dt.Rows[i]["Link"] = "superato";
             }
             i++;
+            }
         }
         rptAppelli.DataSource = dt;
         rptAppelli.DataBind();
@@ -139,23 +147,24 @@ public partial class _Default : System.Web.UI.Page
     protected void btnProva_Command(object sender, CommandEventArgs e)
     {
         string[] commandArgs = e.CommandArgument.ToString().Split(new char[] { ',' });
-        Guid k_Prova = Guid.Parse(commandArgs[0]);
         DateTime data = DateTime.Parse(commandArgs[1]);
         DB db = new DB();
-        if (k_Prova == null)
+        Guid k_Prova;
+        if (!Guid.TryParse(commandArgs[0], out k_Prova))
         {
             lblMessaggio.Text = "Prova momentaneamente non disponibile.";
             lblMessaggio.CssClass = "alert alert-danger mt-3";
             lblMessaggio.Visible = true;
             return;
         }
-        else if (data > DateTime.Now)
+        else if (data < DateTime.Now)
         {
             lblMessaggio.Text = "Attenzione: non è più possibile eseguire la prova.";
             lblMessaggio.CssClass = "alert alert-danger mt-3";
             lblMessaggio.Visible = true;
             return;
         }
+        k_Prova = Guid.Parse(commandArgs[0]);
         Response.Redirect("Prova.aspx?prova=" + k_Prova);
     }
 }
