@@ -7,8 +7,9 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Data.SqlClient;
 using LibreriaClassi;
+using System.Security.Cryptography.X509Certificates;
 
-    public partial class InserisciPianoStudi : Page
+public partial class InserisciPianoStudi : Page
     {
         protected void Page_Load(object sender, EventArgs e)
 
@@ -44,6 +45,8 @@ using LibreriaClassi;
             ddlEsame.DataSource = dt;
             ddlEsame.DataTextField = "TitoloEsame";
             ddlEsame.DataValueField = "K_Esame";
+            
+            
             ddlEsame.DataBind();
         }
 
@@ -53,13 +56,21 @@ using LibreriaClassi;
 
             try
             {
-                PIANISTUDIOPERSONALI piano = new PIANISTUDIOPERSONALI
-                {
-                    K_PianoStudioPersonale = Guid.NewGuid(),
-                    K_Esame = new Guid(ddlEsame.SelectedValue),
-                    K_Studente = new Guid((string)Session["cod"]),
-                    AnnoAccademico = txtAnnoAccademico.Text
-                };
+
+            PIANISTUDIOPERSONALI dati = new PIANISTUDIOPERSONALI
+            {
+                K_Esame = new Guid(ddlEsame.SelectedValue)
+            };
+            DataTable dt = dati.GetDatiEsame();
+
+            PIANISTUDIOPERSONALI piano = new PIANISTUDIOPERSONALI
+            {
+                K_PianoStudioPersonale = Guid.NewGuid(),
+                K_Esame = new Guid(ddlEsame.SelectedValue),
+                K_Studente = new Guid((string)Session["cod"]),
+                Obbligatorio = Convert.ToChar(dt.Rows[0]["Obbligatorio"]),
+                AnnoAccademico = dt.Rows[0]["AnnoAccademico"].ToString()                
+            };
 
                 piano.Inserimento();
                 MostraSuccesso("Esame aggiunto con successo al piano di studio!");
