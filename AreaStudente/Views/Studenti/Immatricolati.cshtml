@@ -76,7 +76,7 @@
 							</div>
 							<div class="col-12 col-lg-3 mb-2 mb-lg-0">
 								<label class="form-label form-control-label">CAP</label>
-								<input type="text" asp-for="CAP" class="form-control form-control-alternative" maxlength="5" required />
+								<input type="text" asp-for="CAP" class="form-control form-control-alternative" pattern="\d*" inputmode="numeric" maxlength="5" required />
 							</div>
 						</div>
 
@@ -90,15 +90,24 @@
 								<input type="text" asp-for="Provincia" class="form-control text-uppercase form-control-alternative" maxlength="2" required />
 							</div>
 						</div>
-						<div class="text-center">
-							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confermaModal">Procedi</button>
-						</div>
+
+						@if (ViewData.ModelState.IsValid && @Model.K_Corso.ToString() != "")
+						{
+							<div class="text-center">
+								<button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confermaModal">Procedi</button>
+							</div>
+						}else
+						{
+							<div class="text-center">
+								<button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confermaModal" disabled>Procedi</button>
+							</div>
+						}
 					</div>
 				</div>
 			</div>
 
 			<!-- Modal -->
-		
+
 			<div class="modal fade" id="confermaModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
 				<div class="modal-dialog ">
 					<div class="modal-content">

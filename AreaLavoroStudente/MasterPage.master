@@ -10,6 +10,10 @@
     <title></title>
 
     <style>
+        .navbar-nav .nav-item {
+            margin-left: 10px; /* Ridurre il margine se troppo largo */
+        }
+
         .navbar-custom {
             background-color: #12304F;
         }
@@ -128,7 +132,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <asp:Button ID="Button1" runat="server" Text="Logout" class="btn btn-light btn-sm" OnClick="btnLogout_Click" />
+                                    <asp:Button ID="Button1" runat="server" Text="Area Studente" class="btn btn-light btn-sm" OnClick="btnLogout_Click" />
 
 
                                 </li>

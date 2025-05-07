@@ -26,6 +26,14 @@ public partial class _Default : System.Web.UI.Page
     {
         int matricolaRicerca;
         //se è un valore intero allora entra nell'if sennò devi inserire una matricola valida
+        if (String.IsNullOrEmpty(txtRicercaMatricola.Text.Trim()))
+        {
+            lblErrore.Text = "";
+            lblErrore.Visible = false;
+            PopolaList();
+            return;
+        }
+
         if (int.TryParse(txtRicercaMatricola.Text.Trim(), out matricolaRicerca))
         {
 

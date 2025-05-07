@@ -4,7 +4,6 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 
     <!-- MODAL -->
     <div class="modal fade" id="datiModal" tabindex="-1" aria-labelledby="datiModalLabel" aria-hidden="true">
@@ -24,7 +23,7 @@
     <div class="container mt-2 mb-4">
         <!-- BLOCCO TITOLO + ETICHETTE -->
         <div class="py-4 mb-4 border-bottom">
-            <h2 class="text-start mb-1">I tuoi esami</h2>
+            <h2 class="text-start mb-1">Libretto carriera</h2>
             <div class="d-flex text-start gap-2 flex-wrap fs-6 mb-2">
                 <asp:Label ID="lblAnno" runat="server"></asp:Label>
                 <span>-</span>
@@ -47,6 +46,7 @@
                                 <th>Esame</th>
                                 <th>Votazione</th>
                                 <th>Data Verbalizzazione</th>
+                                <th>CFU</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -56,6 +56,7 @@
                                         <td><%# Eval("TitoloEsame") %></td>
                                         <td><span class="badge text-bg-dark"><%# Eval("VotoEsame") %></span></td>
                                         <td><%# Eval("DataVerbalizzazione", "{0:dd/MM/yyyy}") %></td>
+                                         <td><%# Eval("CFU") %></td>
                                     </tr>
                                 </ItemTemplate>
                             </asp:Repeater>

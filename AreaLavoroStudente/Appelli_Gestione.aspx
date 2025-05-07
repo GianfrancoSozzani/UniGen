@@ -30,7 +30,7 @@
                             <th class="fw-bold">Obbligatorio</th>
                             <th class="fw-bold">Data Appello</th>
                             <th class="fw-bold">Tipo</th>
-                            <th class="fw-bold">Link</th>
+                            <th class="fw-bold">Link Esame</th>
                         </tr>
                     </thead>
                     <tbody>

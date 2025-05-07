@@ -3,6 +3,17 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .card-body .card-title.custom-subtitle {
+            font-weight: normal;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .card h4 {
+            font-weight: bold;
+        }
+    </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -42,7 +53,7 @@
                                     <asp:Repeater ID="rptVideolezioni" runat="server">
                                         <ItemTemplate>
                                             <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-2">
-                                                <h5 class="card-title mb-0"><%# Eval("Titolo") %></h5>
+                                                <h5 class="card-title custom-subtitle mb-0"><%# Eval("Titolo") %></h5>
                                                 <a href='<%# ResolveUrl(Eval("Video").ToString()) %>' target="_blank" class="btn btn-sm btn-primary">Guarda lezione</a>
                                             </div>
                                         </ItemTemplate>
@@ -60,7 +71,7 @@
                                     <asp:Repeater ID="rptDispense" runat="server">
                                         <ItemTemplate>
                                             <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-2">
-                                                <h5 class="card-title ms-0"><%# Eval("Titolo") %></h5>
+                                                <h5 class="card-title custom-subtitle ms-0"><%# Eval("Titolo") %></h5>
                                                 <asp:Button
                                                     ID="btnScarica"
                                                     runat="server"
@@ -87,8 +98,9 @@
                             <h3 class="fw-bold mb-2">Come funziona?</h3>
                             <p class="text-muted fs-6">
                                 Questa pagina ti permette di consultare e scaricare i materiali didattici relativi agli esami del tuo piano di studi.
-                                <br /><br />
-                               Seleziona l'esame dal menu a tendina per visualizzare le videolezioni disponibili e le dispense associate.
+                                <br />
+                                <br />
+                                Seleziona l'esame dal menu a tendina per visualizzare le videolezioni disponibili e le dispense associate.
                             </p>
                         </div>
                     </div>
@@ -97,6 +109,3 @@
         </div>
     </div>
 </asp:Content>
-
-
-

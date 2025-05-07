@@ -30,7 +30,7 @@
                             <tr>
                                 <th>Importo</th>
                                 <th>Scadenza</th>
-                                <th>Anno</th>
+                                <th>Anno Accademico</th>
                             </tr>
                         </thead>
                         <tbody>

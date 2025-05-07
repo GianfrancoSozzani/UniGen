@@ -13,7 +13,6 @@ using LibreriaClassi;
 
 public partial class _Default : System.Web.UI.Page
 {
-    
 
 
     protected void Page_Load(object sender, EventArgs e)
@@ -26,7 +25,7 @@ public partial class _Default : System.Web.UI.Page
             string Matricola = Session["mat"].ToString();
             Session["mat"] = Matricola;
             CaricaAA(int.Parse(Matricola));
-            CaricaAppelli(int.Parse(Matricola));
+            CaricaAppelli();
 
         }
     }
@@ -49,11 +48,12 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
-    protected void CaricaAppelli(int Matricola)
+    protected void CaricaAppelli()
     {
         
         APPELLI m = new APPELLI();
-        rptAppelli.DataSource = m.ListaAppelli(Matricola);
+        Guid k_stu = Guid.Parse(Session["cod"].ToString());
+        rptAppelli.DataSource = m.ListaAppelli(k_stu);
         rptAppelli.DataBind();
 
     }
@@ -126,7 +126,7 @@ public partial class _Default : System.Web.UI.Page
             lblMessaggio.Visible = true;
             string Matricola = Session["mat"].ToString();
             //RICARICA GLI APPELLI DISPONIBILI
-            CaricaAppelli(int.Parse(Matricola));
+            CaricaAppelli();
         }
         else
         {

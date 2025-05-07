@@ -43,13 +43,26 @@ namespace AreaDocente.Controllers
             PopolaProve(K_Prova);
 
             if (K_Prova == null)
-                return View(new List<MVCStudente>());
+                return View(new List<MVCValutazione>());
 
             //K_Prova = Guid.Parse("4B2E9FD5-23A5-4994-8AE4-00C927AB052B");
 
+            //var studenti = await dbContext.valutazioni
+            //    .Where(v => v.K_Prova == K_Prova)
+            //    .Select(v => v.Studente)
+            //    .ToListAsync();
+
+            //var studenti = await dbContext.valutazioni
+            //    .Where(v => v.K_Prova == K_Prova)
+            //    .Include(v => v.Studente)
+            //    .Include(v => v.Prova)
+            //    .ToListAsync();
+
             var studenti = await dbContext.valutazioni
-                .Where(v => v.K_Prova == K_Prova)
-                .Select(v => v.Studente)
+                .Where(v => v.K_Prova == K_Prova &&
+                            dbContext.libretti.Any(l => l.K_Studente == v.K_Studente && l.VotoEsame == null))
+                .Include(v => v.Studente)
+                .Include(v => v.Prova)
                 .ToListAsync();
 
             return View("Valutazione", studenti);
@@ -69,7 +82,7 @@ namespace AreaDocente.Controllers
                 });
             ViewBag.ProveList = ListaProve;
         }
-        
+
         public void PopolaProve(Guid? K_Prova)
         {
             IEnumerable<SelectListItem> ListaProve = dbContext.prove
@@ -196,23 +209,31 @@ namespace AreaDocente.Controllers
         [HttpGet]
         public IActionResult Valutazione()
         {
-            //// Carica lista per la select
-            //var proveList = dbContext.prove
-            //    .Include(p => p.Appello)
-            //    .Include(p => p.Appello.Esame)
-            //    .ToList()
-            //    .Select(p => new SelectListItem
-            //    {
-            //        Value = p.K_Prova.ToString(),
-            //        Text = p.Appello?.Esame?.TitoloEsame + " - " + p.Appello?.DataAppello?.ToString("dd/MM/yyyy")
-            //    }).ToList();
-
-            //ViewBag.ProveList = proveList;
-
             PopolaProve();
 
-
-            return View(new List<MVCStudente>());
+            return View(new List<MVCValutazione>());
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SalvaValutazione(Guid K_Studente, Guid K_Appello, byte Voto)
+        {
+            var libretto = await dbContext.libretti.FirstOrDefaultAsync(l => l.K_Studente == K_Studente && l.K_Appello == K_Appello);
+
+            if (libretto != null)
+            {
+                libretto.VotoEsame = Voto;
+
+                if (Voto >= 18)
+                    libretto.Esito = 'S';
+                else
+                    libretto.Esito = 'N';
+
+                await dbContext.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Valutazione salvata con successo.";
+            }
+
+            return RedirectToAction("Valutazione");
+        }
+
     }
 }

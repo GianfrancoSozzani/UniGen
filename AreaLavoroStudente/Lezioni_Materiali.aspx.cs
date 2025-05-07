@@ -166,12 +166,8 @@ public partial class Default2 : System.Web.UI.Page
         }
     }
 
-
-
     protected void btnScarica_Command(object sender, CommandEventArgs e)
     {
-
-        // Recupera K_Esame dal ViewState
         if (ViewState["K_Esame"] != null)
             K_Esame = new Guid((string)ViewState["K_Esame"]);
         else
@@ -189,13 +185,17 @@ public partial class Default2 : System.Web.UI.Page
         if (dt != null && dt.Rows.Count > 0)
         {
             byte[] fileData = (byte[])dt.Rows[0]["Materiale"];
-            string fileName = dt.Rows[0]["Titolo"].ToString();
+            string fileNameWithoutExt = dt.Rows[0]["Titolo"].ToString();
+            string mimeType = dt.Rows[0]["Tipo"].ToString();
+
+            string fileExtension = MimeTypeToExtension(mimeType); // funzione definita sotto
+            string fullFileName = fileNameWithoutExt + fileExtension;
 
             if (fileData != null)
             {
                 Response.Clear();
-                Response.ContentType = "application/pdf";
-                Response.AddHeader("Content-Disposition", "attachment; filename=" + fileName);
+                Response.ContentType = mimeType;
+                Response.AddHeader("Content-Disposition", "attachment; filename=" + fullFileName);
                 Response.BinaryWrite(fileData);
                 Response.End();
             }
@@ -206,7 +206,22 @@ public partial class Default2 : System.Web.UI.Page
             lblMessaggio2.Text = "Il materiale richiesto non è disponibile.";
         }
     }
-   
+
+    private string MimeTypeToExtension(string mimeType)
+    {
+        switch (mimeType.ToLower())
+        {
+            case "application/pdf": return ".pdf";
+            case "text/plain": return ".txt";
+            case "image/png": return ".png";
+            case "image/jpeg": return ".jpg";
+            case "application/msword": return ".doc";
+            case "application/vnd.openxmlformats-officedocument.wordprocessingml.document": return ".docx";
+            case "application/rtf": return ".rtf";
+            default: return ".bin"; // estensione di fallback
+        }
+    }
+
     protected void ddlCaricaEsami_SelectedIndexChanged(object sender, EventArgs e)
     {
         ViewState["K_Esame"] = ddlCaricaEsami.SelectedValue;

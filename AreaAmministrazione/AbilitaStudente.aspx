@@ -10,8 +10,14 @@
         <h1>Gestione Studenti</h1>
 
         <div class="mb-4">
+            <div class="mb-3">
+                <span>
+                    <asp:Label ID="lblErrore" runat="server" CssClass="text-danger mt-3" Text="" Visible="False"></asp:Label>
+                </span>
+            </div>
             <div class="row g-3 align-items-center justify-content-end">
                 <div class="col-auto">
+
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRicercaMatricola">
                         <i class="bi bi-search"></i>
                     </button>
@@ -76,11 +82,7 @@
                             <label for="txtRicercaMatricola" class="form-label fw-bold">Matricola</label>
                             <asp:TextBox ID="txtRicercaMatricola" runat="server" CssClass="form-control"></asp:TextBox>
                         </div>
-                        <div class="mb-3">
-                            <span style="margin-left: 1em;">
-                                <asp:Label ID="lblErrore" runat="server" CssClass="text-danger mt-3" Text="" Visible="False"></asp:Label>
-                            </span>
-                        </div>
+
                     </div>
 
                     <div class="modal-footer">
