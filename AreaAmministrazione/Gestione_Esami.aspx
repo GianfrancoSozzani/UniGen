@@ -57,6 +57,19 @@
         </table>
                 </FooterTemplate>
             </asp:Repeater>
+            <%--        repeater per la paginazione--%>
+            <asp:Repeater ID="rptPaginazione" runat="server" OnItemCommand="rptPaginazione_ItemCommand">
+                <ItemTemplate>
+                    <asp:LinkButton ID="lnkPagina" runat="server"
+                        CommandName="CambiaPagina"
+                        CommandArgument='<%# Container.DataItem %>'
+                        CssClass='<%# (Convert.ToInt32(Container.DataItem) == GetPaginaCorrente() + 1) 
+                         ? "btn btn-primary btn-sm m-1 active" 
+                         : "btn btn-outline-primary btn-sm m-1" %>'>
+                    <%# Container.DataItem %>
+                    </asp:LinkButton>
+                </ItemTemplate>
+            </asp:Repeater>
         </div>
     </div>
 

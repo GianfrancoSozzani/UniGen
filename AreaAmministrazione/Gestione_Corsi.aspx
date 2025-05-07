@@ -13,6 +13,60 @@
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRicercaCorso">
                         <i class="bi bi-search"></i>
                     </button>
+                    <asp:Label ID="Label2" runat="server" Text="Inserisci un nuovo corso" CssClass="fw-bold fs-5"></asp:Label>
+                </div>
+                <div class="col-auto">
+                    <i class="bi bi-plus-circle btn btn-sm btn-primary"></i>
+                </div>
+            </div>
+
+            <div id="insert" class="d-none" runat="server">
+                <div class="row mb-3">
+                    <div class="col-auto">
+                        <asp:Label ID="Label1" runat="server" Text="Facoltà"></asp:Label>
+                        <asp:DropDownList ID="ddlFacolta" CssClass="form-select mio_width" runat="server"></asp:DropDownList>
+                    </div>
+                    <div class="col-auto">
+                        <asp:Label ID="Label3" runat="server" Text="Tipo&nbsp;Corso"></asp:Label>
+                        <asp:DropDownList ID="ddlTipoCorso" CssClass="form-select mio_width" runat="server"></asp:DropDownList>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-auto">
+                        <asp:Label ID="Label4" runat="server" Text="Corso"></asp:Label>
+                        <asp:TextBox ID="txtCorso" CssClass="form-control mio_width" runat="server"></asp:TextBox>
+                    </div>
+                    <div class="col-auto">
+                        <asp:Label ID="Label5" runat="server" Text="MinimoCFU"></asp:Label>
+                        <asp:TextBox ID="txtMinimoCFU" CssClass="form-control mio_width" runat="server"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-auto">
+                        <asp:Label ID="Label6" runat="server" Text="CostoAnnuale"></asp:Label>
+                        <asp:TextBox ID="txtCostoAnnuale" CssClass="form-control mio_width" runat="server"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-auto">
+                        <asp:Button CssClass="btn btn-primary" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form mb-3">
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label class="mr-2" for="lblRicercaCorso">Ricerca Corso</label>
+                </div>
+                <div class="col-auto">
+                    <asp:TextBox ID="txtRicercaCorso" runat="server" CssClass="form-control mr-2"></asp:TextBox>
+                </div>
+                <div class="col-auto">
+                    <asp:LinkButton ID="btnRicerca" runat="server" CssClass="btn btn-primary" Style="box-shadow: 0px 4px 12px #21212115;" OnClick="btnRicerca_Click">
+         <i class="bi bi-search"></i>
+                    </asp:LinkButton>
                 </div>
                 <div class="col-auto">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalInserimentoCorso">
@@ -73,6 +127,26 @@
                     <h5 class="modal-title fw-bold" id="exampleModalLabel1">Ricerca Corso</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
                 </div>
+                </FooterTemplate>
+            </asp:Repeater>
+
+
+            <%--        repeater per la paginazione--%>
+            <asp:Repeater ID="rptPaginazione" runat="server" OnItemCommand="rptPaginazione_ItemCommand">
+                <ItemTemplate>
+                    <asp:LinkButton ID="lnkPagina" runat="server"
+                        CommandName="CambiaPagina"
+                        CommandArgument='<%# Container.DataItem %>'
+                        CssClass='<%# (Convert.ToInt32(Container.DataItem) == GetPaginaCorrente() + 1) 
+                ? "btn btn-primary btn-sm m-1 active" 
+                : "btn btn-outline-primary btn-sm m-1" %>'>
+            <%# Container.DataItem %>
+                    </asp:LinkButton>
+                </ItemTemplate>
+            </asp:Repeater>
+
+        </div>
+    </div>
 
                 <div class="modal-body">
                     <div class="mb-3">

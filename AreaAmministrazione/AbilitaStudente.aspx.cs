@@ -16,12 +16,32 @@ public partial class _Default : System.Web.UI.Page
             PopolaList();
         }
     }
+
     protected void PopolaList()
     {
         STUDENTI s = new STUDENTI();
-        rptStudenti.DataSource = s.SelezionaTutto();
+        DataTable dt = s.SelezionaTutto(); 
+
+        PagedDataSource paged = new PagedDataSource();
+        paged.DataSource = dt.DefaultView;
+        paged.AllowPaging = true;
+        paged.PageSize = 10;
+        paged.CurrentPageIndex = PaginaCorrente;
+
+        rptStudenti.DataSource = paged;
         rptStudenti.DataBind();
+
+        // Paginazione numerica
+        List<int> pagine = new List<int>();
+        for (int i = 0; i < paged.PageCount; i++)
+        {
+            pagine.Add(i + 1); // Indici da 0
+        }
+
+        rptPaginazione.DataSource = pagine;
+        rptPaginazione.DataBind();
     }
+
     protected void btnRicerca_Click(object sender, EventArgs e)
     {
         int matricolaRicerca;
@@ -130,5 +150,25 @@ public partial class _Default : System.Web.UI.Page
         ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Studente disabilitato con successo')", true);        
         return dt != null && dt.Rows.Count > 0;
     }
+
+    //PAGINAZIONE
+    public int GetPaginaCorrente()
+    {
+        return PaginaCorrente;
+    }
+    private int PaginaCorrente
+    {
+        get { return ViewState["PaginaCorrente"] != null ? (int)ViewState["PaginaCorrente"] : 0; }
+        set { ViewState["PaginaCorrente"] = value; }
+    }
+    protected void rptPaginazione_ItemCommand(object source, RepeaterCommandEventArgs e)
+    {
+        if (e.CommandName == "CambiaPagina")
+        {
+            PaginaCorrente = Convert.ToInt32(e.CommandArgument) - 1;
+            PopolaList();
+        }
+    }
+
 
 }
