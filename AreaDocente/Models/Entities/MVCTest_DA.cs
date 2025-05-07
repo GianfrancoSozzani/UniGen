@@ -8,12 +8,11 @@ namespace AreaDocente.Models.Entities
     {
         [Key]
         public Guid K_Test_DA { get; set; }
-        public int? Numero_Domanda { get; set; }
+        public byte? Numero_Domanda { get; set; }
         public string? Domanda { get; set; }
-        public string? Risposta { get; set; }
-        public Guid? Codice_Test_DA { get; set; }
+        public Guid? K_Prova { get; set; }
 
-        [ForeignKey("Codice_Test_DA")]
+        [ForeignKey("K_Prova")]
         [ValidateNever]
         public MVCPROVA? Prova { get; set; }
     }

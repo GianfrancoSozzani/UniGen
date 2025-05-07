@@ -37,5 +37,7 @@ namespace AreaStudente.Models
         //public Facolta Facolta { get; set; }
         public Corso Corso { get; set; }
 
+        public decimal? Importo { get; set; }
+
     }
 }

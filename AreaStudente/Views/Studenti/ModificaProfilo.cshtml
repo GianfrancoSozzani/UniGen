@@ -137,9 +137,15 @@
 								<label class="form-label form-control-label">Nome</label>
 								<input type="text" asp-for="Nome" class="form-control form-control-alternative" required />
 							</div>
+							@{
+								var oggi = DateTime.Today.ToString("yyyy-MM-dd");
+								var oggi2 = DateTime.Now.Year.ToString("yyyy-MM-dd");
+								var maxData = DateTime.Now.AddYears(-18).ToString("yyyy-MM-dd");
+							}
 							<div class="col-12 col-lg-4 mb-2">
 								<label class="form-label form-control-label">Data di Nascita</label>
-								<input type="date" asp-for="DataNascita" class="form-control form-control-alternative" required />
+								<input type="date" asp-for="DataNascita" class="form-control form-control-alternative" max="@maxData" required />
+								<span asp-validation-for="DataNascita" class="text-danger"></span>
 							</div>
 						</div>
 
@@ -153,7 +159,7 @@
 							</div>
 							<div class="col-12 col-lg-3 mb-2 mb-lg-0">
 								<label class="form-label form-control-label">CAP</label>
-								<input type="text" asp-for="CAP" class="form-control form-control-alternative" maxlength="5" required />
+								<input type="text" asp-for="CAP" class="form-control form-control-alternative" pattern="\d*" inputmode="numeric" maxlength="5" required />
 							</div>
 						</div>
 

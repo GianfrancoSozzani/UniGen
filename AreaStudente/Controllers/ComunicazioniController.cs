@@ -65,39 +65,39 @@ namespace Comunicazioni.Controllers
             }
         }
 
-        public void PopolaDocenti()
-        {
-            string ruolo = HttpContext.Session.GetString("r");
-            if (ruolo == "a")
-            {
-                IEnumerable<SelectListItem> listaDocenti = dbContext.Docenti
-                    .Select(i => new SelectListItem
-                    {
-                        Text = i.Nome + " " + i.Cognome,
-                        Value = i.K_Docente.ToString()
-                    });
-                ViewBag.DocentiList = listaDocenti;
-            }
-            else if (ruolo == "s")
-            {
-                var Idstudente = Guid.Parse(HttpContext.Session.GetString("cod"));
-                var pianiDiStudio = dbContext.PianiStudioPersonali
-                .Where(ps => ps.K_Studente == Idstudente)
-                .Select(ps => ps.K_Esame);
+        //public void PopolaDocenti()
+        //{
+        //    string ruolo = HttpContext.Session.GetString("r");
+        //    if (ruolo == "a")
+        //    {
+        //        IEnumerable<SelectListItem> listaDocenti = dbContext.Docenti
+        //            .Select(i => new SelectListItem
+        //            {
+        //                Text = i.Nome + " " + i.Cognome,
+        //                Value = i.K_Docente.ToString()
+        //            });
+        //        ViewBag.DocentiList = listaDocenti;
+        //    }
+        //    else if (ruolo == "s")
+        //    {
+        //        var Idstudente = Guid.Parse(HttpContext.Session.GetString("cod"));
+        //        var pianiDiStudio = dbContext.PianiStudioPersonali
+        //        .Where(ps => ps.K_Studente == Idstudente)
+        //        .Select(ps => ps.K_Esame);
 
-                var listaDocenti = dbContext.Esami
-                       .Where(e => pianiDiStudio.Contains(e.K_Esame))
-                       .Select(e => e.Docente)
-                       .Distinct()
-                       .Select(docente => new SelectListItem
-                       {
-                           Text = docente.Nome + " " + docente.Cognome,
-                           Value = docente.K_Docente.ToString()
-                       }).ToList();  // Converti in lista
+        //        var listaDocenti = dbContext.Esami
+        //               .Where(e => pianiDiStudio.Contains(e.K_Esame))
+        //               .Select(e => e.Docente)
+        //               .Distinct()
+        //               .Select(docente => new SelectListItem
+        //               {
+        //                   Text = docente.Nome + " " + docente.Cognome,
+        //                   Value = docente.K_Docente.ToString()
+        //               }).ToList();  // Converti in lista
 
-                ViewBag.DocentiList = listaDocenti;
-            }
-        }
+        //        ViewBag.DocentiList = listaDocenti;
+        //    }
+        //}
 
 
         [HttpGet] //visualizzo i dati
@@ -124,7 +124,7 @@ namespace Comunicazioni.Controllers
             }
             PopolaEsami(null);
             PopolaStudenti(null);
-            PopolaDocenti();
+            //PopolaDocenti();
             return View();
         }
 
@@ -138,7 +138,7 @@ namespace Comunicazioni.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddComunicazioneViewModel viewModel)
+        public async Task<IActionResult> Add(AreaStudente.Models.StudenteDashboardViewModel viewModel)
         {
            
 
@@ -148,9 +148,9 @@ namespace Comunicazioni.Controllers
             {
                 Codice_Comunicazione = Guid.NewGuid(),
                 DataOraComunicazione = DateTime.Now,
-                Testo = viewModel.Testo,
-                K_Studente = viewModel.K_Studente,
-                K_Docente = viewModel.K_Docente
+                Testo = viewModel.NuovaComunicazione.Testo.Trim(),
+                K_Studente = viewModel.NuovaComunicazione.K_Studente,
+                K_Docente = viewModel.NuovaComunicazione.K_Docente
             };
 
             if (ruolo == "a")
@@ -174,7 +174,7 @@ namespace Comunicazioni.Controllers
                 comunicazione.K_Soggetto = Guid.Parse(HttpContext.Session.GetString("cod"));
                 comunicazione.K_Docente = null;
                 comunicazione.Soggetto = "D";
-                if (viewModel.K_Studente == null || viewModel.K_Studente.ToString() == "Amministrazione")  // Se "Amministrazione"
+                if (viewModel.NuovaComunicazione.K_Studente == null || viewModel.NuovaComunicazione.K_Studente == Guid.Empty)  // Se "Amministrazione"
                 {
                     comunicazione.K_Studente = null;  // Non associato a uno studente
                 }
@@ -184,7 +184,7 @@ namespace Comunicazioni.Controllers
                 comunicazione.K_Soggetto = Guid.Parse(HttpContext.Session.GetString("cod"));
                 comunicazione.K_Studente = null;
                 comunicazione.Soggetto = "S";
-                if (viewModel.K_Docente == null || viewModel.K_Docente.ToString() == "Amministrazione")  // Se "Amministrazione"
+                if (viewModel.NuovaComunicazione.K_Docente == null || viewModel.NuovaComunicazione.K_Docente == Guid.Empty)  // Se "Amministrazione"
                 {
                     comunicazione.K_Docente = null;  // Non associato a uno studente
                 }

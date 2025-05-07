@@ -93,6 +93,9 @@ public partial class _Default : System.Web.UI.Page
 
         es.Inserimento();
         CaricaEsami();
+
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Inserimento avvenuto con successo')", true);
+        return;
     }
 
     protected void btnSalvaModifica_Click(object sender, EventArgs e)
@@ -143,6 +146,9 @@ public partial class _Default : System.Web.UI.Page
         es.Modifica();
 
         CaricaEsami();
+
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Modifica avvenuta con successo')", true);
+        return;
     }
 
     protected void btnRicerca_Click(object sender, EventArgs e)

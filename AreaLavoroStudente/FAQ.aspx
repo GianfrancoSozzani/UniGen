@@ -4,11 +4,10 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <div class="container mt-5">
+    <div class="container mt-2">
         <!-- HEADER -->
         <div class="py-4 mb-3 border-bottom">
             <h2 class="text-start mb-1">FAQ</h2>
-            
         </div>
 
         <!-- ROW: Accordion e Card affiancati -->
@@ -25,7 +24,7 @@
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Puoi iscriverti agli esami tramite il portale studenti, sezione “Appelli”. Ricorda di rispettare le scadenze!
+                                <strong>Puoi iscriverti agli esami tramite il portale studenti, sezione “Appelli”. Ricorda di rispettare le scadenze!</strong>
                             </div>
                         </div>
                     </div>
@@ -39,7 +38,7 @@
                         </h2>
                         <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Il calendario accademico è disponibile sul sito ufficiale dell’università nella sezione "Calendari".
+                                <strong>Il calendario accademico è disponibile sul sito ufficiale dell’università nella sezione "Calendari".</strong>
                             </div>
                         </div>
                     </div>
@@ -53,7 +52,7 @@
                         </h2>
                         <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Puoi contattare la segreteria studenti o il tutor didattico del tuo corso di laurea.
+                                <strong>Puoi contattare la segreteria studenti o il tutor didattico del tuo corso di laurea.</strong>
                             </div>
                         </div>
                     </div>
@@ -67,10 +66,10 @@
                         </h2>
                         <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                La rinuncia agli studi si effettua compilando il modulo specifico disponibile sul sito dell’università.
+                                <strong>La rinuncia agli studi si effettua compilando il modulo specifico disponibile sul sito dell’università.
                                 Il modulo va consegnato alla segreteria studenti insieme a una marca da bollo e, in alcuni casi,
                                 al pagamento di eventuali tasse arretrate. Dopo la rinuncia, non potrai più sostenere esami o
-                                recuperare la carriera.
+                                recuperare la carriera.</strong>
                             </div>
                         </div>
                     </div>
@@ -84,7 +83,7 @@
                         </h2>
                         <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Sì, puoi modificarlo nei periodi previsti dal calendario accademico, accedendo al portale studenti nella sezione "Piano carriera".
+                                <strong>Sì, puoi modificarlo nei periodi previsti dal calendario accademico, accedendo al portale studenti nella sezione "Piano carriera".</strong>
                             </div>
                         </div>
                     </div>
@@ -98,7 +97,7 @@
                         </h2>
                         <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Puoi recuperarla cliccando su "Password dimenticata?" nella pagina di login del portale. Riceverai istruzioni via email.
+                                <strong>Puoi recuperarla cliccando su "Password dimenticata?" nella pagina di login del portale. Riceverai istruzioni via email.</strong>
                             </div>
                         </div>
                     </div>
@@ -122,6 +121,4 @@
     </div>
 
     <div style="height: 14vh;">&nbsp;</div>
-
-   
 </asp:Content>

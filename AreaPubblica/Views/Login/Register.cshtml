@@ -1,5 +1,5 @@
 ﻿@model AreaPubblica.Models.RegisterViewModel
-<div style="height:5vh;">
+<div style="height:10vh;">
 </div>
 <div class="container mt-5">
     <form asp-action="Register" method="post" enctype="multipart/form-data" class="row" id="register-form">
@@ -16,17 +16,22 @@
             <div class="row mb-3">
                 <div class="col-12 col-lg-6 mb-2">
                     <label class="form-label">Nome</label>
-                    <input asp-for="Nome" class="form-control form-control-alternative" required />
+                    <input asp-for="Nome" class="form-control form-control-alternative" maxlength="50" required />
                     <span asp-validation-for="Nome" class="text-danger"></span>
                 </div>
                 <div class="col-12 col-lg-6 mb-2">
                     <label class="form-label">Cognome</label>
-                    <input asp-for="Cognome" class="form-control form-control-alternative" required />
+                    <input asp-for="Cognome" class="form-control form-control-alternative" maxlength="50" required />
                     <span asp-validation-for="Cognome" class="text-danger"></span>
                 </div>
+                @{
+                    var oggi = DateTime.Today.ToString("yyyy-MM-dd");
+					var oggi2 = DateTime.Now.Year.ToString("yyyy-MM-dd");
+					var maxData = DateTime.Now.AddYears(-18).ToString("yyyy-MM-dd");
+                }
                 <div class="col-12 col-lg-6 mb-2">
                     <label class="form-label">Data di Nascita</label>
-                    <input asp-for="DataNascita" class="form-control form-control-alternative" type="date" required />
+                    <input asp-for="DataNascita" class="form-control form-control-alternative" type="date" max="@maxData" required />
                     <span asp-validation-for="DataNascita" class="text-danger"></span>
                 </div>
             </div>
@@ -36,22 +41,22 @@
             <div class="row mb-3">
                 <div class="col-12 col-lg-9 mb-2">
                     <label class="form-label">Indirizzo</label>
-                    <input asp-for="Indirizzo" class="form-control form-control-alternative" required />
+                    <input asp-for="Indirizzo" class="form-control form-control-alternative" maxlength="50" required />
                     <span asp-validation-for="Indirizzo" class="text-danger"></span>
                 </div>
                 <div class="col-12 col-lg-3 mb-2">
                     <label class="form-label">CAP</label>
-                    <input asp-for="CAP" class="form-control form-control-alternative" maxlength="5" required />
+                    <input asp-for="CAP" class="form-control form-control-alternative" maxlength="5" inputmode="numeric" pattern="[0-9][0-9][0-9][0-9][0-9]" required />
                     <span asp-validation-for="CAP" class="text-danger"></span>
                 </div>
                 <div class="col-12 col-lg-9 mb-2">
                     <label class="form-label">Città</label>
-                    <input asp-for="Citta" class="form-control form-control-alternative" required />
+                    <input asp-for="Citta" class="form-control form-control-alternative" maxlength="50" required />
                     <span asp-validation-for="Citta" class="text-danger"></span>
                 </div>
                 <div class="col-12 col-lg-3 mb-2">
                     <label class="form-label">Provincia</label>
-                    <input asp-for="Provincia" class="form-control form-control-alternative text-uppercase" maxlength="2" required />
+                    <input asp-for="Provincia" class="form-control form-control-alternative text-uppercase" maxlength="2" pattern="[A-Z][A-Z]" oninput="this.value = this.value.toUpperCase()" required />
                     <span asp-validation-for="Provincia" class="text-danger"></span>
                 </div>
             </div>
@@ -86,9 +91,19 @@
                 <p class="text-center">Carica un'immagine per il tuo profilo (JPEG, JPG, PNG)</p>
 
                 <div class="input-group mt-4">
-                    <input asp-for="ImmagineFile" type="file" class="form-control" id="inputGroupFile04" aria-label="Upload" />
+                    <input asp-for="ImmagineFile" type="file" class="form-control" id="ImmagineFile" aria-label="Upload" />
                 </div>
                 <span asp-validation-for="ImmagineFile" class="text-danger d-block mt-2 text-center"></span>
+                <div id="upload-msg"></div>
+                @if (TempData["SuccessoUpload"] != null)
+                {
+                    <div class="alert alert-success">@TempData["SuccessoUpload"]</div>
+                }
+
+                @if (TempData["ErroreUpload"] != null)
+                {
+                    <div class="alert alert-danger">@TempData["ErroreUpload"]</div>
+                }
             </div>
         </div>
     </form>

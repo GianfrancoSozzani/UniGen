@@ -27,9 +27,9 @@ public partial class _Default : System.Web.UI.Page
         rpFacolta.DataBind();
     }
 
-    protected void btnSalva_Click(object sender, EventArgs e)
+    protected void btnSalvaInserimento_Click(object sender, EventArgs e)
     {
-        string titoloFacolta = txtFacolta.Text.Trim();
+        string titoloFacolta = txtTitoloFacoltaIns.Text.Trim();
 
         // Controllo che il campo non sia vuoto
         if (String.IsNullOrEmpty(titoloFacolta))
@@ -58,9 +58,13 @@ public partial class _Default : System.Web.UI.Page
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Facoltà già presente')", true);
             return;
         }
-
+        
         f.Inserimento();
+
         CaricaFacolta();
+
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Inserimento avvenuto con successo')", true);
+        return;
     }
 
     protected void btnSalvaModifica_Click(object sender, EventArgs e)
@@ -98,6 +102,9 @@ public partial class _Default : System.Web.UI.Page
         f.Modifica();
 
         CaricaFacolta();
+
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Modifica avvenuta con successo')", true);
+        return;
     }
 
 }

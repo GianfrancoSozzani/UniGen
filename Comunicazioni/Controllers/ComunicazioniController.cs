@@ -25,6 +25,12 @@ namespace Comunicazioni.Controllers
         {
             string ruolo = HttpContext.Session.GetString("r");
             List<IGrouping<Guid, Comunicazione>> comunicazioni;
+            
+            PopolaEsami(null);
+            PopolaStudenti();
+            PopolaDocenti();
+
+            var viewModel = new ListAndAddViewModel();
 
             if (ruolo == "s")
             {
@@ -55,7 +61,9 @@ namespace Comunicazioni.Controllers
                     }
                 }
 
-                return View(comunicazioni);
+                viewModel.Comunicazioni = comunicazioni;
+
+                return View(viewModel);
             }
             // ... Logica simile per il ruolo "Docente" e "Altro" ...
             else if (ruolo == "d")
@@ -87,7 +95,10 @@ namespace Comunicazioni.Controllers
                     }
                 }
 
-                return View(comunicazioni);
+
+                viewModel.Comunicazioni = comunicazioni;
+
+                return View(viewModel);
             }
             else
             {
@@ -127,7 +138,12 @@ namespace Comunicazioni.Controllers
                     }
                 }
 
-                return View(comunicazioni);
+               
+
+
+                viewModel.Comunicazioni = comunicazioni;
+
+                return View(viewModel);
 
             }
 
@@ -149,7 +165,7 @@ namespace Comunicazioni.Controllers
             ViewBag.EsamiList = listaEsami;
         }
 
-        public void PopolaStudenti(Guid? K_Esame)
+        public void PopolaStudenti()
         {
             string ruolo = HttpContext.Session.GetString("r");
             if (ruolo == "a")
@@ -162,20 +178,33 @@ namespace Comunicazioni.Controllers
                     });
                 ViewBag.StudentiList = listaStudenti;
             }
-            else if (ruolo == "d" && K_Esame.HasValue)
+            else if (ruolo == "d")
             {
-                var pianiDiStudio = dbContext.PianiStudioPersonali
-                .Where(ps => ps.K_Esame == K_Esame.Value)
-                .Select(ps => ps.K_Studente); // Ottieni solo gli ID degli studenti
+                Guid docenteId = Guid.Parse(HttpContext.Session.GetString("cod"));
 
-                // Recupera gli studenti che hanno un K_Studente presente nei piani di studio trovati
-                IEnumerable<SelectListItem> listaStudenti = dbContext.Studenti
-                    .Where(s => pianiDiStudio.Contains(s.K_Studente))
+                // Ottieni gli ID degli esami del docente
+                var esamiDelDocenteList = dbContext.Esami
+                    .Where(e => e.K_Docente == docenteId)
+                    .Select(e => e.K_Esame)
+                    .ToList(); // Esegui subito la query e materializza i risultati
+
+                // Ottieni solo gli studenti che hanno almeno un esame del docente in PianiStudioPersonali
+                var studentiFiltrati = dbContext.PianiStudioPersonali
+                    .Where(ps => ps.K_Esame.HasValue && esamiDelDocenteList.Contains(ps.K_Esame.Value))
+                    .Select(ps => ps.K_Studente)
+                    .Distinct()
+                    .ToList(); // Esegui subito la query e materializza i risultati
+
+                // Carica solo questi studenti dalla tabella Studenti
+                var listaStudenti = dbContext.Studenti
+                    .Where(s => studentiFiltrati.Contains(s.K_Studente) && s.Matricola != null)
                     .Select(s => new SelectListItem
                     {
                         Text = s.Nome + " " + s.Cognome,
                         Value = s.K_Studente.ToString()
-                    });
+                    })
+                    .ToList(); // Esegui subito la query e materializza i risultati
+
                 ViewBag.StudentiList = listaStudenti;
             }
         }
@@ -219,31 +248,39 @@ namespace Comunicazioni.Controllers
         public IActionResult Add()
         {
             PopolaEsami(null);
-            PopolaStudenti(null);
+            PopolaStudenti();
             PopolaDocenti();
             return View();
         }
 
+        //[HttpPost]
+        //public IActionResult AddStudente(Guid? K_Esame) // Riceve l'ID dell'esame selezionato
+        //{
+        //    PopolaEsami(null);
+        //    PopolaStudenti(K_Esame);
+        //    return View("Add");
+        //}
+
         [HttpPost]
-        public IActionResult AddStudente(Guid? K_Esame) // Riceve l'ID dell'esame selezionato
+        public IActionResult AddStudente(Guid? K_Esame)
         {
             PopolaEsami(null);
-            PopolaStudenti(K_Esame);
-            return View("Add");
+            PopolaStudenti();
+            return View("List");
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Add(AddComunicazioneViewModel viewModel)
+        public async Task<IActionResult> Add(ListAndAddViewModel listAndAddViewModel)
         {
-
+            var viewModel = listAndAddViewModel.AddComunicazione;
             string ruolo = HttpContext.Session.GetString("r");
 
             var comunicazione = new Comunicazione
             {
                 Codice_Comunicazione = Guid.NewGuid(),
                 DataOraComunicazione = DateTime.Now,
-                Testo = viewModel.Testo,
+                Testo = viewModel.Testo.Trim(),
                 K_Studente = viewModel.K_Studente,
                 K_Docente = viewModel.K_Docente
             };
@@ -269,7 +306,7 @@ namespace Comunicazioni.Controllers
                 comunicazione.K_Soggetto = Guid.Parse(HttpContext.Session.GetString("cod"));
                 comunicazione.K_Docente = null;
                 comunicazione.Soggetto = "D";
-                if (viewModel.K_Studente == null || viewModel.K_Studente.ToString() == "Amministrazione")  // Se "Amministrazione"
+                if (viewModel.K_Studente == null || viewModel.K_Studente == Guid.Empty)  // Se "Amministrazione"
                 {
                     comunicazione.K_Studente = null;  // Non associato a uno studente
                 }
@@ -279,7 +316,7 @@ namespace Comunicazioni.Controllers
                 comunicazione.K_Soggetto = Guid.Parse(HttpContext.Session.GetString("cod"));
                 comunicazione.K_Studente = null;
                 comunicazione.Soggetto = "S";
-                if (viewModel.K_Docente == null || viewModel.K_Docente.ToString() == "Amministrazione")  // Se "Amministrazione"
+                if (viewModel.K_Docente == null || viewModel.K_Docente == Guid.Empty)  // Se "Amministrazione"
                 {
                     comunicazione.K_Docente = null;  // Non associato a uno studente
                 }
@@ -435,7 +472,7 @@ hai ricevuto una comunicazione dall'Amministrazione.
             {
                 Codice_Comunicazione = viewModel.Codice_Comunicazione,
                 DataOraComunicazione = DateTime.Now,
-                Testo = viewModel.Testo,
+                Testo = viewModel.Testo.Trim(),
                 K_Soggetto = chiaveUtente,
             };
 

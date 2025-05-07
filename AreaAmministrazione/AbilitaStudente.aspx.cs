@@ -26,6 +26,14 @@ public partial class _Default : System.Web.UI.Page
     {
         int matricolaRicerca;
         //se è un valore intero allora entra nell'if sennò devi inserire una matricola valida
+        if (String.IsNullOrEmpty(txtRicercaMatricola.Text.Trim()))
+        {
+            lblErrore.Text = "";
+            lblErrore.Visible = false;
+            PopolaList();
+            return;
+        }
+
         if (int.TryParse(txtRicercaMatricola.Text.Trim(), out matricolaRicerca))
         {
 
@@ -36,11 +44,11 @@ public partial class _Default : System.Web.UI.Page
 
             if (dt != null && dt.Rows.Count > 0) //se la matricola esiste allora dt è maggiore di 0 e non è null
             {
-                
+
                 rptStudenti.DataSource = dt.DefaultView; //la datasource del repeater diventa dt 
                 rptStudenti.DataBind();
 
-                lblErrore.Visible = false; 
+                lblErrore.Visible = false;
             }
             else
             {
@@ -49,6 +57,7 @@ public partial class _Default : System.Web.UI.Page
                 PopolaList();
                 //rptStudenti.DataSource = null;
                 rptStudenti.DataBind();
+
             }
         }
         else
@@ -59,6 +68,7 @@ public partial class _Default : System.Web.UI.Page
             PopolaList();
             //rptStudenti.DataSource = null;
             rptStudenti.DataBind();
+
         }
     }
 
@@ -96,23 +106,28 @@ public partial class _Default : System.Web.UI.Page
             }
 
             lblErrore.Visible = true;
-            PopolaList(); 
+            PopolaList();
         }
     }
 
     protected bool AttivaStudente(string matricola)
     {
         STUDENTI s = new STUDENTI();
-        s.Matricola = int.Parse(matricola); 
+        s.Matricola = int.Parse(matricola);
         DataTable dt = s.Attiva();
+
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Studente abilitato con successo')", true);        
         return dt != null && dt.Rows.Count > 0;
+
     }
 
     protected bool DisattivaStudente(string matrico)
     {
         STUDENTI s = new STUDENTI();
-        s.Matricola = int.Parse(matrico); 
+        s.Matricola = int.Parse(matrico);
         DataTable dt = s.Disattiva();
+
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Studente disabilitato con successo')", true);        
         return dt != null && dt.Rows.Count > 0;
     }
 

@@ -46,21 +46,25 @@ namespace AreaDocente.Controllers
             if (viewModel.Titolo == null)
             {
                 TempData["ErrorMessage"] = "Titolo mancante!";
+                PopoloDDL();
                 return View(viewModel);
             }
             if (viewModel.Video == null)
             {
                 TempData["ErrorMessage"] = "Video mancante!";
+                PopoloDDL();
                 return View(viewModel);
             }
-            if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
-            {
-                TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
-                return View(viewModel);
-            }
-            if (viewModel.K_Esame == Guid.Empty)
+            //if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
+            //{
+            //    TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
+            //    PopoloDDL();
+            //    return View(viewModel);
+            //}
+            if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare l'esame!";
+                PopoloDDL();
                 return View(viewModel);
             }
 
@@ -104,21 +108,25 @@ namespace AreaDocente.Controllers
             if (viewModel.Titolo == null)
             {
                 TempData["ErrorMessage"] = "Inserire un titolo!";
+                PopoloDDL();
                 return View(viewModel);
             }
             if (viewModel.Video == null)
             {
                 TempData["ErrorMessage"] = "Inserire un video!";
+                PopoloDDL();
                 return View(viewModel);
             }
-            if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
-            {
-                TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
-                return View(viewModel);
-            }
-            if (viewModel.K_Esame == Guid.Empty)
+            //if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
+            //{
+            //    TempData["ErrorMessage"] = "Non sono ammessi caratteri speciali nel titolo!";
+            //    PopoloDDL();
+            //    return View(viewModel);
+            //}
+            if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare l'esame!";
+                PopoloDDL();
                 return View(viewModel);
             }
 
@@ -146,6 +154,10 @@ namespace AreaDocente.Controllers
                 await dbContext.SaveChangesAsync();
             }
             return RedirectToAction("List");
+        }
+        public async Task<IActionResult> Annulla()
+        {
+            return RedirectToAction("List", "Lezioni");
         }
     }
 }

@@ -5,7 +5,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
-    <div class="container mt-4 mb-4">
+    <div class="container mt-2 mb-4">
 
         <!-- TITOLO E ETICHETTE -->
         <div class="py-4 mb-4 border-bottom">
@@ -30,7 +30,7 @@
                             <tr>
                                 <th>Importo</th>
                                 <th>Scadenza</th>
-                                <th>Anno</th>
+                                <th>Anno Accademico</th>
                             </tr>
                         </thead>
                         <tbody>
