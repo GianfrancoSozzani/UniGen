@@ -11,7 +11,7 @@
         <div class="row mt-5">
             <!-- Colonna per il grafico (a sinistra) -->
             <div class="col-md-6 d-flex justify-content-center">
-                <div class="p-3 w-100 d-flex justify-content-center bg-white rounded shadow" style="border-radius: 12px;">
+                <div class="w-100 d-flex justify-content-center bg-white rounded shadow" style="border-radius: 12px;">
                     <asp:Chart ID="Chart1" runat="server" Style="width: 100%; height: 100%;" Width="700px" Height="600px">
                         <ChartAreas>
                             <asp:ChartArea Name="ChartArea1" />
