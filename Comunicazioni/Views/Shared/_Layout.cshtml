@@ -129,22 +129,14 @@
 							@{
 								var ruolo = Context.Session.GetString("r");
 							}
-							@if (ruolo != null)
+							@if (ruolo == "s")
 							//solo se qualcuno ha fatto accesso apparirà la dorpdownlist
 							{
 								<li class="nav-item dropdown">
 									<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-										Comunicazioni
+										
 									</a>
-									<ul class="dropdown-menu">
-										<li>
-											<a class="dropdown-item" asp-area="" asp-controller="Comunicazioni" asp-action="List">Comunicazioni</a>
-										</li>
-
-										<li class="nav-item">
-											<a class="dropdown-item" asp-area="" asp-controller="Comunicazioni" asp-action="Add"> Inserisci una nuova Comunicazione</a>
-										</li>
-									</ul>
+									
 								</li>
 							}
 

@@ -126,7 +126,8 @@
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">Comunicazioni</h5>
                     <p class="card-text">Accedi alle comunicazioni relative al tuo corso e agli esami.</p>
-                    <a href="#" class="btn btn-primary mt-auto">Vai</a>
+                    <asp:Button ID="btnComunicazioni" class="btn btn-primary mt-auto" runat="server" Text="Vai" OnClick="btnComunicazioni_Click"/>
+                    
                 </div>
             </div>
         </div>
