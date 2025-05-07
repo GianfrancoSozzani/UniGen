@@ -107,6 +107,19 @@ namespace AreaDocente.Controllers
                 });
             ViewBag.EsamiList = ListaEsami;
         }
+        
+        public void PopolaEsami(Guid? K_Esame)
+        {
+            IEnumerable<SelectListItem> ListaEsami = dbContext.esami
+                .Where(e => e.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
+                .Select(e => new SelectListItem
+                {
+                    Text = e.TitoloEsame,
+                    Value = e.K_Esame.ToString(),
+                    Selected = (e.K_Esame == K_Esame)
+                });
+            ViewBag.EsamiList = ListaEsami;
+        }
 
         [HttpGet]
         public IActionResult Add()
@@ -204,6 +217,85 @@ namespace AreaDocente.Controllers
             return View(prove);
         }
 
+        //EDIT
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid? K_Prova)
+        {
+            var prova = await dbContext.prove
+                .Include(p => p.Appello)
+                .Include(p => p.Appello.Esame)
+                .FirstOrDefaultAsync(p => p.K_Prova == K_Prova);
+
+            if (prova.Tipologia == "Da")
+            {
+                var domandeAperte = await dbContext.test_DA
+                    .Where(d => d.K_Prova == prova.K_Prova)
+                    .ToListAsync();
+
+                prova.DomandeAperte = domandeAperte;
+            }
+            else if (prova.Tipologia == "Dc")
+            {
+                var domandeChiuse = await dbContext.test_DC
+                    .Where(d => d.K_Prova == prova.K_Prova)
+                    .ToListAsync();
+
+                prova.DomandeChiuse = domandeChiuse;
+            }
+
+            PopolaEsami(prova.Appello.K_Esame);
+            ViewBag.AppelliList = new List<SelectListItem>();
+
+            return View(prova);
+        }
+
+        //EDIT
+        [HttpPost]
+        public async Task<IActionResult> Edit(MVCAPPELLO viewModel)
+        {
+            //CONTROLLI FORMALI
+            if (viewModel.DataAppello == null)
+            {
+                TempData["ErrorMessage"] = "Inserire la data di un appello!";
+                return RedirectToAction("List");
+            }
+            if (viewModel.Tipo == null)
+            {
+                TempData["ErrorMessage"] = "Inserire il tipo di un appello!";
+                return RedirectToAction("List");
+            }
+            if (viewModel.Link == null)
+            {
+                TempData["ErrorMessage"] = "Inserire il link di un appello!";
+                return RedirectToAction("List");
+            }
+            if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "Selezionare un esame!";
+                return RedirectToAction("List");
+            }
+            if (viewModel.DataVerbalizzazione < viewModel.DataAppello)
+            {
+                TempData["ErrorMessage"] = "La data di verbalizzazione non puo essere precedente alla data dell appello.";
+                return RedirectToAction("List");
+            }
+
+            var appello = await dbContext.appelli.FindAsync(viewModel.K_Appello);
+            if (appello is not null)
+            {
+                appello.DataAppello = viewModel.DataAppello;
+                appello.Tipo = viewModel.Tipo;
+
+                if (viewModel.DataVerbalizzazione != null)
+                    appello.DataVerbalizzazione = viewModel.DataVerbalizzazione;
+
+                appello.Link = viewModel.Link;
+                appello.K_Esame = viewModel.K_Esame;
+                await dbContext.SaveChangesAsync();
+            }
+            return RedirectToAction("List");
+        }
+
         [HttpGet]
         public IActionResult Valutazione()
         {
@@ -216,9 +308,11 @@ namespace AreaDocente.Controllers
         public async Task<IActionResult> SalvaValutazione(Guid K_Studente, Guid K_Appello, byte Voto)
         {
             var libretto = await dbContext.libretti.FirstOrDefaultAsync(l => l.K_Studente == K_Studente && l.K_Appello == K_Appello);
+            var appello = await dbContext.appelli.FirstOrDefaultAsync(a => a.K_Appello == K_Appello);
 
-            if (libretto != null)
+            if (libretto is not null && appello is not null)
             {
+                appello.DataVerbalizzazione = DateTime.Now;
                 libretto.VotoEsame = Voto;
 
                 if (Voto >= 18)
