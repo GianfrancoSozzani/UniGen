@@ -102,8 +102,13 @@ public partial class _Default : System.Web.UI.Page
         }
 
         string url = "https://localhost:7098/Comunicazioni/List?cod=" + Cod +
+
                      "&r=" + Ruolo;
 
         Response.Redirect(url);
+
+                 "&r=" + Ruolo + "&mat=" + Mat + "&a=" + A;
+        Response.Redirect(url);
+
     }
 }
