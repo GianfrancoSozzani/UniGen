@@ -25,8 +25,9 @@ namespace Comunicazioni.Controllers
         {
             HttpContext.Session.SetString("cod", cod);
             HttpContext.Session.SetString("r", r);
-           
-            string ruolo = r;
+
+            //string ruolo = r;
+            string ruolo = HttpContext.Session.GetString("r");
             List<IGrouping<Guid, Comunicazione>> comunicazioni;
 
             PopolaEsami(null);
@@ -38,7 +39,7 @@ namespace Comunicazioni.Controllers
 
             if (ruolo == "s")
             {
-                var studente_chiave = Guid.Parse(HttpContext.Session.GetString(cod));
+                var studente_chiave = Guid.Parse(HttpContext.Session.GetString("cod"));
 
                 comunicazioni = await dbContext.Comunicazioni
                     .Where(c => c.K_Studente == studente_chiave || c.K_Soggetto == studente_chiave)
@@ -439,7 +440,7 @@ hai ricevuto una comunicazione dall'Amministrazione.
 
 
 
-            return RedirectToAction("List", "Comunicazioni");
+            return RedirectToAction("List", "Comunicazioni", new { cod = HttpContext.Session.GetString("cod"), r = HttpContext.Session.GetString("r") });
 
         }
 
@@ -583,7 +584,7 @@ hai ricevuto una risposta a una comunicazione precedente.
                 }
             }
 
-            return RedirectToAction("List", "Comunicazioni");
+            return RedirectToAction("List", "Comunicazioni", new { cod = HttpContext.Session.GetString("cod"), r = HttpContext.Session.GetString("r") });
         }
     }
 }
