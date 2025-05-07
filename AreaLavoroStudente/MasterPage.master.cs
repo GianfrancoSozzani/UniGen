@@ -18,8 +18,35 @@ public partial class MasterPage : System.Web.UI.MasterPage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        string K_Studente = Session["cod"] as string; 
+        string Ruolo = Session["r"] as string;
+        string Mat = Session["mat"] as string;
+        string A = Session["a"] as string;
+
         if (!IsPostBack)
         {
+
+            // 2. Se mancano, prova dalla QueryString
+            if (string.IsNullOrEmpty(K_Studente) || string.IsNullOrEmpty(Ruolo)|| string.IsNullOrEmpty(Mat) || string.IsNullOrEmpty(A) )
+            {
+                K_Studente = Request.QueryString["cod"];
+                Mat = Request.QueryString["mat"];
+                A = Request.QueryString["a"];
+                Ruolo = Request.QueryString["r"];
+
+
+                // Se ora li trovi, salvali nella sessione
+                if (!string.IsNullOrEmpty(K_Studente) || string.IsNullOrEmpty(Ruolo))
+                {
+                    Session["cod"] = K_Studente;
+                    Session["mat"] = Mat;
+                    Session["a"] = A;
+                    Session["r"] = Ruolo;
+
+                }
+            }
+
+
 
             // Controlliamo se la sessione contiene i dati necessari (matricola e abilitazione)
             if (Session["mat"] == null || Session["a"] == null)
@@ -89,19 +116,19 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
     protected void btnComunicazioni_Click(object sender, EventArgs e)
     {
-        string Ruolo = "";
-        string Cod = "";
+        string Ruolo;
+        string Cod;
+        string Mat;
+        string A;
 
-        if (Session["r"] != null && Session["cod"] != null)
-        {
-            string chiave = Session["r"].ToString(); // Es. "ruolo"
-            Ruolo = Request.QueryString[chiave];     // Es. valore da ?ruolo=admin
-            Cod = Session["cod"].ToString();         // Es. "12345"
-        }
+        Ruolo = Session["r"].ToString();
+        Cod = Session["cod"].ToString();
+        Mat = Session["mat"].ToString();
+        A = Session["a"].ToString();
 
         string url = "https://localhost:7098/Comunicazioni/List?cod=" + Cod +
-                     "&r=" + Ruolo;
-
+                 "&r=" + Ruolo + "&mat=" + Mat + "&a=" + A;
+       
         Response.Redirect(url);
     }
 }

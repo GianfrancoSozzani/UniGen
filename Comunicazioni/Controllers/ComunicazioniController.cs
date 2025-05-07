@@ -21,14 +21,21 @@ namespace Comunicazioni.Controllers
         //LIST------------------------------------------//
         //----------------------------------------------//
         [HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string r, string cod, string mat, string a)
         {
+            HttpContext.Session.SetString("cod", cod);
+            HttpContext.Session.SetString("r", r);
+            HttpContext.Session.SetString("mat", mat);
+            HttpContext.Session.SetString("a", a);
+
+            //string ruolo = r;
             string ruolo = HttpContext.Session.GetString("r");
             List<IGrouping<Guid, Comunicazione>> comunicazioni;
-            
+
             PopolaEsami(null);
             PopolaStudenti();
             PopolaDocenti();
+
 
             var viewModel = new ListAndAddViewModel();
 
@@ -138,7 +145,7 @@ namespace Comunicazioni.Controllers
                     }
                 }
 
-               
+
 
 
                 viewModel.Comunicazioni = comunicazioni;
@@ -329,7 +336,7 @@ namespace Comunicazioni.Controllers
             await dbContext.Comunicazioni.AddAsync(comunicazione);
             await dbContext.SaveChangesAsync();
 
-//------------------------------------------------------------------------------------------//
+            //------------------------------------------------------------------------------------------//
             //EMAIL
 
             List<string> destinatariEmail = new List<string>();
@@ -391,7 +398,7 @@ namespace Comunicazioni.Controllers
                 }
 
                 mail.Subject = "Nuova comunicazione";
-                
+
                 if (ruolo == "d")
                 {
                     comunicazione.Docente = await dbContext.Docenti
@@ -435,7 +442,7 @@ hai ricevuto una comunicazione dall'Amministrazione.
 
 
 
-            return RedirectToAction("List", "Comunicazioni");
+            return RedirectToAction("List", "Comunicazioni", new { cod = HttpContext.Session.GetString("cod"), r = HttpContext.Session.GetString("r") });
 
         }
 
@@ -579,7 +586,7 @@ hai ricevuto una risposta a una comunicazione precedente.
                 }
             }
 
-            return RedirectToAction("List", "Comunicazioni");
+            return RedirectToAction("List", "Comunicazioni", new { cod = HttpContext.Session.GetString("cod"), r = HttpContext.Session.GetString("r") });
         }
     }
 }
