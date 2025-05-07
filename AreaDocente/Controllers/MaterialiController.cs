@@ -4,7 +4,6 @@ using AreaDocente.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
 
 namespace AreaDocente.Controllers
 {
@@ -60,7 +59,7 @@ namespace AreaDocente.Controllers
             //}
             if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
-                TempData["ErrorMessage"] = "Selezionare l'esame!";
+                TempData["ErrorMessage"] = "Selezionare un esame!";
                 PopolaEsame();
                 return View(viewModel);
             }
@@ -134,7 +133,7 @@ namespace AreaDocente.Controllers
             //}
             if (viewModel.K_Esame == Guid.Empty)
             {
-                TempData["ErrorMessage"] = "Selezionare l'esame!";
+                TempData["ErrorMessage"] = "Selezionare un esame!";
                 PopolaEsame();
                 return View(viewModel);
             }
@@ -172,7 +171,7 @@ namespace AreaDocente.Controllers
             }
             return RedirectToAction("List");
         }
-        
+
         public async Task<IActionResult> Annulla()
         {
             return RedirectToAction("List", "Materiali");
