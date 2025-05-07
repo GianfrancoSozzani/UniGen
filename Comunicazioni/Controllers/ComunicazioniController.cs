@@ -25,7 +25,7 @@ namespace Comunicazioni.Controllers
         {
             string ruolo = HttpContext.Session.GetString("r");
             List<IGrouping<Guid, Comunicazione>> comunicazioni;
-            
+
             PopolaEsami(null);
             PopolaStudenti();
             PopolaDocenti();
@@ -57,6 +57,18 @@ namespace Comunicazioni.Controllers
                         {
                             comunicazione.Docente = await dbContext.Docenti
                                 .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+                        }
+                        // Carica il destinatario (se è un docente)
+                        if (comunicazione.K_Docente.HasValue)
+                        {
+                            comunicazione.DocenteDestinatario = await dbContext.Docenti
+                                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Docente);
+                        }
+                        // Carica il destinatario (se è uno studente, diverso dall'utente corrente)
+                        else if (comunicazione.K_Studente.HasValue && comunicazione.K_Studente != studente_chiave)
+                        {
+                            comunicazione.StudenteDestinatario = await dbContext.Studenti
+                                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Studente);
                         }
                     }
                 }
@@ -138,7 +150,7 @@ namespace Comunicazioni.Controllers
                     }
                 }
 
-               
+
 
 
                 viewModel.Comunicazioni = comunicazioni;
@@ -329,7 +341,7 @@ namespace Comunicazioni.Controllers
             await dbContext.Comunicazioni.AddAsync(comunicazione);
             await dbContext.SaveChangesAsync();
 
-//------------------------------------------------------------------------------------------//
+            //------------------------------------------------------------------------------------------//
             //EMAIL
 
             List<string> destinatariEmail = new List<string>();
@@ -391,7 +403,7 @@ namespace Comunicazioni.Controllers
                 }
 
                 mail.Subject = "Nuova comunicazione";
-                
+
                 if (ruolo == "d")
                 {
                     comunicazione.Docente = await dbContext.Docenti
