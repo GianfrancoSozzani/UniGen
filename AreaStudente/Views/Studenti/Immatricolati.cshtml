@@ -1,5 +1,5 @@
 ﻿@using System.Globalization
-@model AreaStudente.Models.ModificaStudenteViewModel
+@model AreaStudente.Models.ImmatricolazioneViewModel
 
 <div class="main-content">
 	<div class="container-fluid">
@@ -97,7 +97,6 @@
 								<label class="form-label form-control-label">Data di Nascita</label>
 								<input type="date" asp-for="DataNascita" class="form-control form-control-alternative" max="@maxData" required />
 								<span asp-validation-for="DataNascita" class="text-danger"></span>
-								<span asp-validation-for="DataNascita" class="text-danger"></span>
 							</div>
 						</div>
 
@@ -112,8 +111,6 @@
 							<div class="col-12 col-lg-3 mb-2 mb-lg-0">
 								<label class="form-label form-control-label">CAP</label> <input asp-for="CAP" class="form-control form-control-alternative" maxlength="5" required />
 								<span asp-validation-for="CAP" class="text-danger"></span>
-								<span asp-validation-for="CAP" class="text-danger"></span>
-
 							</div>
 						</div>
 

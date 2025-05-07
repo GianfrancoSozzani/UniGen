@@ -431,7 +431,7 @@ namespace AreaStudente.Controllers
 
             var selectedFacolta = K_Facolta;
 
-            var model = new ModificaStudenteViewModel
+            var model = new ImmatricolazioneViewModel
             {
                 K_Studente = studente.K_Studente,
                 Nome = studente.Nome,
@@ -490,7 +490,7 @@ namespace AreaStudente.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Immatricolati(ModificaStudenteViewModel model, Guid cod)
+        public async Task<IActionResult> Immatricolati(ImmatricolazioneViewModel model, Guid cod)
         {
             ViewData["studente_id"] = cod;
 
