@@ -52,7 +52,7 @@
 
         <!-- Contenuto principale -->
         <main class="main-content">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center mb-5">
                 <h1>Area Amministrazione</h1>
                 <asp:Button runat="server" Text="Aggiorna" class="btn btn-outline-primary" ID="btnAggiorna" OnClick="btnAggiorna_OnClick" />
             </div>
