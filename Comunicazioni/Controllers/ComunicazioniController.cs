@@ -23,7 +23,7 @@ namespace Comunicazioni.Controllers
         //----------------------------------------------//
 
         [HttpGet]
-        public async Task<IActionResult> List(string r, string cod, string? mat, string? a)
+        public async Task<IActionResult> List(string r, string cod, string? mat, string? a, string? usr)
         {
             HttpContext.Session.SetString("r", r);
             HttpContext.Session.SetString("cod", cod);
@@ -31,6 +31,10 @@ namespace Comunicazioni.Controllers
             {
                 HttpContext.Session.SetString("mat", mat);
                 HttpContext.Session.SetString("a", a);
+            }
+            if (r == "a")
+            {
+                HttpContext.Session.SetString("usr", usr);
             }
 
             string ruolo = HttpContext.Session.GetString("r");
@@ -449,6 +453,7 @@ hai ricevuto una comunicazione dall'Amministrazione.
             string cod = HttpContext.Session.GetString("cod");
             string mat = HttpContext.Session.GetString("mat");
             string a = HttpContext.Session.GetString("a");
+            string usr = HttpContext.Session.GetString("usr");
 
             if (r == "s")
             {
@@ -456,7 +461,7 @@ hai ricevuto una comunicazione dall'Amministrazione.
             }
             else
             {
-                return RedirectToAction("List", "Comunicazioni", new { r, cod });
+                return RedirectToAction("List", "Comunicazioni", new { r, cod, usr});
             }
 
         }
@@ -605,6 +610,7 @@ hai ricevuto una risposta a una comunicazione precedente.
             string cod = HttpContext.Session.GetString("cod");
             string mat = HttpContext.Session.GetString("mat");
             string a = HttpContext.Session.GetString("a");
+            string usr = HttpContext.Session.GetString("usr");
 
             if (r == "s")
             {
@@ -612,7 +618,7 @@ hai ricevuto una risposta a una comunicazione precedente.
             }
             else
             {
-                return RedirectToAction("List", "Comunicazioni", new { r, cod });
+                return RedirectToAction("List", "Comunicazioni", new { r, cod, usr });
             }
         }
     }
