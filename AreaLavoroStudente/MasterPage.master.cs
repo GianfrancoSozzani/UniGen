@@ -86,6 +86,16 @@ public partial class MasterPage : System.Web.UI.MasterPage
         Response.Redirect(url);
 
     }
+
+    protected void btnComunicazioni_Click(object sender, EventArgs e)
+    {
+        string Cod = Session["cod"] as string;
+        string Ruolo = Session["r"] as string;
+
+        string url = "https://localhost:7098/Comunicazioni/List?cod=" + Cod +
+        "&r=" + Ruolo;
+        Response.Redirect(url);
+    }
 }
 
 

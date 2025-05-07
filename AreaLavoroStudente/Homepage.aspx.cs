@@ -19,6 +19,7 @@ public partial class _Default : System.Web.UI.Page
             string K_Studente = Session["cod"] as string;
             string Matricola = Session["mat"] as string;
             string Abilitazione = Session["a"] as string;
+           
 
             // 2. Se mancano, prova dalla QueryString
             if (string.IsNullOrEmpty(K_Studente) || string.IsNullOrEmpty(Matricola) || string.IsNullOrEmpty(Abilitazione))
@@ -86,5 +87,13 @@ public partial class _Default : System.Web.UI.Page
 
 
 
+    protected void btnComunicazioni_Click(object sender, EventArgs e)
+    {
+        string Cod = Session["cod"] as string;
+        string Ruolo = Session["r"] as string;
 
+        string url = "https://localhost:7098/Comunicazioni/List?cod=" + Cod +
+        "&r=" + Ruolo;
+        Response.Redirect(url);
+    }
 }
