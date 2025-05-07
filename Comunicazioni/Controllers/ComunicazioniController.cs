@@ -21,10 +21,12 @@ namespace Comunicazioni.Controllers
         //LIST------------------------------------------//
         //----------------------------------------------//
         [HttpGet]
-        public async Task<IActionResult> List(string r, string cod)
+        public async Task<IActionResult> List(string r, string cod, string mat, string a)
         {
             HttpContext.Session.SetString("cod", cod);
             HttpContext.Session.SetString("r", r);
+            HttpContext.Session.SetString("mat", mat);
+            HttpContext.Session.SetString("a", a);
 
             //string ruolo = r;
             string ruolo = HttpContext.Session.GetString("r");
