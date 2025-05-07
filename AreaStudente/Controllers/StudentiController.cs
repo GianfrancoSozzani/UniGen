@@ -160,7 +160,7 @@ namespace AreaStudente.Controllers
             {
                 Codice_Comunicazione = viewModel.Codice_Comunicazione,
                 DataOraComunicazione = DateTime.Now,
-                Testo = viewModel.Testo,
+                Testo = viewModel.Testo.Trim(),
                 K_Soggetto = studente_id,
             };
 
