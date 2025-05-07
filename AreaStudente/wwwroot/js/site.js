@@ -8,26 +8,15 @@
 
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    const forms = document.querySelectorAll('form[asp-action="AddRisposta"]');
-    console.log("Trovate form con AddRisposta:", forms);
+    document.addEventListener("DOMContentLoaded", function () {
+    const forms = document.querySelectorAll("form");
 
     forms.forEach(form => {
-        console.log("Trovata una form AddRisposta:", form);
-        form.addEventListener('submit', function (event) {
-            console.log("Form AddRisposta sottomessa:", this);
-            const codiceComunicazioneInput = this.querySelector('input[name="Codice_Comunicazione"]');
-            console.log("Input Codice_Comunicazione:", codiceComunicazioneInput);
-            const codiceComunicazioneValue = codiceComunicazioneInput ? codiceComunicazioneInput.value : null;
-            console.log("Valore Codice_Comunicazione:", codiceComunicazioneValue);
-            const textAreaId = `textArea_${codiceComunicazioneValue}`;
-            console.log("textAreaId costruito:", textAreaId);
-            const testoInput = document.getElementById(textAreaId);
-            console.log("Elemento textarea trovato:", testoInput);
-
-            if (testoInput && testoInput.value.trim() === "") {
+        form.addEventListener("submit", function (e) {
+            const textarea = form.querySelector("textarea[name='Testo']");
+            if (textarea && textarea.value.trim() === "") {
+                e.preventDefault();
                 alert("Il messaggio non può contenere solo spazi.");
-                event.preventDefault();
             }
         });
     });
