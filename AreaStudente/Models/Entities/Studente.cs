@@ -1,8 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
-
 using System.ComponentModel.DataAnnotations.Schema;
-using LibreriaClassi;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 

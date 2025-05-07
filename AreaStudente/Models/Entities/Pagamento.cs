@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.VisualBasic;
+
 
 namespace AreaStudente.Models.Entities
 {
@@ -13,7 +13,7 @@ namespace AreaStudente.Models.Entities
         [ForeignKey("K_Studente")]
         [ValidateNever]
 
-        public Studente Studente { get; set; }
+        public Studente? Studente { get; set; }
         public string? Anno { get; set; }
         public DateTime? DataPagamento { get; set; }
 
