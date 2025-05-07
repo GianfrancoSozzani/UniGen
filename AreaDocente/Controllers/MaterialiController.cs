@@ -16,7 +16,7 @@ namespace AreaDocente.Controllers
         {
             this.dbContext = dbContext;
         }
-        public void PopolaEsame()
+        public void PopolaEsami()
         {
             IEnumerable<SelectListItem> ListaEsami = dbContext.esami
                 .Where(e => e.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
@@ -25,31 +25,31 @@ namespace AreaDocente.Controllers
                     Text = e.TitoloEsame,
                     Value = e.K_Esame.ToString()
                 });
-            ViewBag.EsameList = ListaEsami;
+            ViewBag.EsamiList = ListaEsami;
         }
 
         [HttpGet]
         public ActionResult Add()
         {
-            PopolaEsame();
+            PopolaEsami();
             return View();
         }
 
         [HttpPost]
         public async Task<ActionResult> Add(AddMaterialiViewModel viewModel)
         {
-            PopolaEsame();
+            PopolaEsami();
             //CONTROLLI FORMALI
             if (viewModel.Titolo == null)
             {
                 TempData["ErrorMessage"] = "Titolo mancante!";
-                PopolaEsame();
+                PopolaEsami();
                 return View(viewModel);
             }
             if (viewModel.materiale == null || viewModel.materiale.Length == 0)
             {
                 TempData["ErrorMessage"] = "Materiale mancante!";
-                PopolaEsame();
+                PopolaEsami();
                 return View(viewModel);
             }
             //if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
@@ -61,7 +61,7 @@ namespace AreaDocente.Controllers
             if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare l'esame!";
-                PopolaEsame();
+                PopolaEsami();
                 return View(viewModel);
             }
 
@@ -92,6 +92,8 @@ namespace AreaDocente.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
+            PopolaEsami();
+
             var materiali = await dbContext.materiali
                 .Include(a => a.esame)
                 .Where(a => a.esame.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
@@ -112,7 +114,7 @@ namespace AreaDocente.Controllers
                 Materiale = materiale.Materiale,
                 Tipo = materiale.Tipo
             };
-            PopolaEsame();
+            PopolaEsami();
             return View(mat);
         }
 
@@ -123,7 +125,7 @@ namespace AreaDocente.Controllers
             if (viewModel.Titolo == null)
             {
                 TempData["ErrorMessage"] = "Inserire un titolo!";
-                PopolaEsame();
+                PopolaEsami();
                 return View(viewModel);
             }
             //if (Regex.IsMatch(viewModel.Titolo, @"[^a-zA-Z0-9\s]"))
@@ -135,7 +137,7 @@ namespace AreaDocente.Controllers
             if (viewModel.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare l'esame!";
-                PopolaEsame();
+                PopolaEsami();
                 return View(viewModel);
             }
 

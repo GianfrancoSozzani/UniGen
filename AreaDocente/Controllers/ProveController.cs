@@ -176,6 +176,7 @@ namespace AreaDocente.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
+
             var prove = await dbContext.prove
                 .Include(a => a.Appello)
                 .Include(a => a.Appello.Esame)

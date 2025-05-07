@@ -78,11 +78,56 @@
         <tfoot>
             <tr>
                 <td colspan="4">
-                    <a class="btn btn-primary" asp-controller="Materiali" asp-action="Add">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMaterialModal">
                         <i class="bi bi-plus-circle me-1"></i> Inserisci nuovo materiale
-                    </a>
+                    </button>
                 </td>
             </tr>
         </tfoot>
     </table>
+
+    <!-- Modale Inserimento Materiale -->
+    <div class="modal fade" id="addMaterialModal" tabindex="-1" aria-labelledby="addMaterialModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form method="post" enctype="multipart/form-data" asp-action="Add" asp-controller="Materiali" class="needs-validation" novalidate>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addMaterialModalLabel">Inserisci nuovo materiale</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Titolo</label>
+                            <input type="text" class="form-control" name="Titolo" placeholder="Inserisci il titolo del materiale" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold" for="file">File</label>
+                            <input type="file" id="file" name="materiale" class="form-control" required />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Esame di appartenenza</label>
+                            <select name="K_Esame" class="form-select" required>
+                                <option disabled selected value="">== Selezionare un esame ==</option>
+                                @foreach (var item in ViewBag.EsamiList)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save me-1"></i> Salva
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle me-1"></i> Chiudi
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
