@@ -21,7 +21,7 @@
 					@foreach (var gruppo in Model.Comunicazioni.OrderByDescending(g => g.Max(c => c.DataOraComunicazione)))
 					{
 						<tr>
-							<td>
+							@* <td>
 								@{
 									var primaComunicazione = gruppo.OrderBy(c => c.DataOraComunicazione).FirstOrDefault();
 									if (primaComunicazione != null)
@@ -40,8 +40,8 @@
 										}
 									}
 								}
-							</td>
-							<td>
+							</td> *@
+							@* <td>
 								@{
 									if (primaComunicazione != null)
 									{
@@ -56,6 +56,60 @@
 										else
 										{
 											<span class="text-primary">Amministrazione</span>
+										}
+									}
+								}
+							</td> *@
+							<td>
+								@{
+									var primaComunicazione = gruppo.OrderBy(c => c.DataOraComunicazione).FirstOrDefault();
+									if (primaComunicazione != null)
+									{
+										if (primaComunicazione.MittenteStudente != null)
+										{
+											if (primaComunicazione.MittenteStudente.K_Studente != primaComunicazione.K_Soggetto)
+											{
+												<span class="text-primary">@($"{primaComunicazione.MittenteStudente.Nome} {primaComunicazione.MittenteStudente.Cognome}")</span>
+											}
+											else
+											{
+												<span class="text-primary">Me</span>
+											}
+
+										}
+										else if (primaComunicazione.MittenteDocente != null)
+										{
+											if (primaComunicazione.MittenteDocente.K_Docente != primaComunicazione.K_Soggetto)
+											{
+												<span class="text-primary">@($"{primaComunicazione.MittenteDocente.Nome} {primaComunicazione.MittenteDocente.Cognome}")</span>
+											}
+											else
+											{
+												<span class="text-primary">Me</span>
+											}
+										}
+										else
+										{
+											<span class="text-primary">Amministrazione</span>
+										}
+									}
+								}
+							</td>
+							<td>
+								@{
+									if (primaComunicazione != null)
+									{
+										if (primaComunicazione.DestinatarioStudente != null)
+										{
+											<span class="text-danger">@($"{primaComunicazione.DestinatarioStudente.Nome} {primaComunicazione.DestinatarioStudente.Cognome}")</span>
+										}
+										else if (primaComunicazione.DestinatarioDocente != null)
+										{
+											<span class="text-danger">@($"{primaComunicazione.DestinatarioDocente.Nome} {primaComunicazione.DestinatarioDocente.Cognome}")</span>
+										}
+										else
+										{
+											<span class="text-danger">Amministrazione</span>
 										}
 									}
 								}
@@ -78,17 +132,22 @@
 																<div class="card-header d-flex justify-content-between p-3">
 																	<div class="d-flex justify-content-between align-items-baseline">
 																		<p class="fw-bold mb-0">
-																			@if (comunicazione.Studente != null && comunicazione.K_Soggetto == comunicazione.Studente.K_Studente)
-																			{
-																				<span class="text-primary">@($"{comunicazione.Studente.Nome} {comunicazione.Studente.Cognome} - {comunicazione.Soggetto}")</span>
-																			}
-																			else if (comunicazione.Docente != null && comunicazione.K_Soggetto == comunicazione.Docente.K_Docente)
-																			{
-																				<span class="text-danger">@($"{comunicazione.Docente.Nome} {comunicazione.Docente.Cognome} - {comunicazione.Soggetto}")</span>
-																			}
-																			else
-																			{
-																				<span class="text-success">Amministrazione</span>
+																			@{
+																				if (comunicazione != null)
+																				{
+																					if (comunicazione.MittenteStudente != null)
+																					{
+																						<span class="text-primary">@($"{comunicazione.MittenteStudente.Nome} {comunicazione.MittenteStudente.Cognome}")</span>
+																					}
+																					else if (comunicazione.MittenteDocente != null)
+																					{
+																						<span class="text-danger">@($"{comunicazione.MittenteDocente.Nome} {comunicazione.MittenteDocente.Cognome}")</span>
+																					}
+																					else
+																					{
+																						<span class="text-success">Amministrazione</span>
+																					}
+																				}
 																			}
 																		</p>
 																		&nbsp;
@@ -187,7 +246,7 @@
 									<span asp-validation-for="AddComunicazione.K_Esame" class="text-danger"></span>
 								</div>
 							} *@
-@* 
+							@* 
 							@if (ruolo == "d" && ViewBag.SelectedKEsame != null)
 							{
 								<input type="hidden" asp-for="AddComunicazione.K_Esame" value="@ViewBag.SelectedKEsame" />
@@ -238,7 +297,7 @@
 				</div>
 			</div>
 		</div>
-    </div>
+	</div>
 </div>
 
 
