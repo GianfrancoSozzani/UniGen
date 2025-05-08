@@ -18,6 +18,9 @@
 					</tr>
 				</thead>
 				<tbody>
+					@{
+						var ruolo = Context.Session.GetString("r");
+					}
 					@foreach (var gruppo in Model.Comunicazioni.OrderByDescending(g => g.Max(c => c.DataOraComunicazione)))
 					{
 						<tr>
@@ -28,27 +31,43 @@
 									{
 										if (primaComunicazione.MittenteStudente != null)
 										{
-											if (primaComunicazione.MittenteStudente.K_Studente != primaComunicazione.K_Soggetto)
+											if (ruolo != "a")
 											{
-												<span class="text-primary">@($"{primaComunicazione.MittenteStudente.Nome} {primaComunicazione.MittenteStudente.Cognome}")</span>
+
+												if (primaComunicazione.MittenteStudente.K_Studente != primaComunicazione.K_Soggetto)
+												{
+													<span class="text-primary">@($"{primaComunicazione.MittenteStudente.Nome} {primaComunicazione.MittenteStudente.Cognome}")</span>
+												}
+												else
+												{
+													<span class="text-primary">Me</span>
+												}
 											}
 											else
 											{
-												<span class="text-primary">Me</span>
+												<span class="text-primary">@($"{primaComunicazione.MittenteStudente.Nome} {primaComunicazione.MittenteStudente.Cognome}")</span>
 											}
 
 										}
 										else if (primaComunicazione.MittenteDocente != null)
 										{
-											if (primaComunicazione.MittenteDocente.K_Docente != primaComunicazione.K_Soggetto)
+											if (ruolo != "a")
 											{
-												<span class="text-primary">@($"{primaComunicazione.MittenteDocente.Nome} {primaComunicazione.MittenteDocente.Cognome}")</span>
+												if (primaComunicazione.MittenteDocente.K_Docente != primaComunicazione.K_Soggetto)
+												{
+													<span class="text-primary">@($"{primaComunicazione.MittenteDocente.Nome} {primaComunicazione.MittenteDocente.Cognome}")</span>
+												}
+												else
+												{
+													<span class="text-primary">Me</span>
+												}
 											}
 											else
 											{
-												<span class="text-primary">Me</span>
+												<span class="text-primary">@($"{primaComunicazione.MittenteDocente.Nome} {primaComunicazione.MittenteDocente.Cognome}")</span>
 											}
 										}
+
 										else
 										{
 											<span class="text-primary">Amministrazione</span>
@@ -193,9 +212,6 @@
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						@{
-							var ruolo = Context.Session.GetString("r");
-						}
 						<form method="post" asp-action="Add" id="form-insert">
 							@* @if (ruolo == "d")
 							{
