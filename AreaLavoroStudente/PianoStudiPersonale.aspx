@@ -15,6 +15,18 @@
             border-radius: 5px;
             margin-bottom: 20px;
         }
+        
+        .btn.disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        .modal-iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
     </style>
 </asp:Content>
 
@@ -52,7 +64,6 @@
                                         <th class="fw-bold">Anno Accademico</th>
                                         <th class="fw-bold">Obbligatorio</th>
                                         <th class="fw-bold text-center">Azioni</th>
-                                        <!-- Centrato anche l'header -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -63,11 +74,12 @@
                                 <td><%# Eval("AnnoAccademico") %></td>
                                 <td><%# Eval("Obbligatorio").ToString() == "S" ? "Sì" : "No" %></td>
                                 <td class="text-center">
-                                    <!-- Cell centrata -->
+                                    <asp:HiddenField ID="hfObbligatorio" runat="server" Value='<%# Eval("Obbligatorio") %>' />
                                     <asp:Button ID="btnElimina" runat="server" Text="Elimina"
                                         CommandName="Elimina" CommandArgument='<%# Eval("K_PianoStudioPersonale") %>'
-                                        OnClientClick="return confirm('Sei sicuro di voler eliminare questo esame dal tuo piano di studio?');"
-                                        CssClass="btn btn-danger btn-sm" />
+                                        OnClientClick='<%# Eval("Obbligatorio").ToString() == "S" ? "alert(\"Non puoi eliminare un esame obbligatorio!\"); return false;" : "return confirm(\"Sei sicuro di voler eliminare questo esame dal tuo piano di studio?\")" %>'
+                                        CssClass='<%# Eval("Obbligatorio").ToString() == "S" ? "btn btn-danger btn-sm disabled" : "btn btn-danger btn-sm" %>'
+                                        Enabled='<%# Eval("Obbligatorio").ToString() != "S" %>' />
                                 </td>
                             </tr>
                         </ItemTemplate>
@@ -88,7 +100,7 @@
                 <!-- PULSANTE AGGIUNGI -->
                 <div class="mt-3">
                     <asp:Button ID="btnNuovoPiano" runat="server" Text="Aggiungi Esame"
-                        CssClass="btn btn-primary" OnClick="btnNuovoPiano_Click" />
+                        CssClass="btn btn-primary" onClick="btnNuovoPiano_Click" />
                 </div>
 
                 <!-- MESSAGGI -->
@@ -107,11 +119,15 @@
                             <br />
                             Puoi aggiungere, modificare o rimuovere gli esami che intendi sostenere.<br />
                             <br />
-                            Gli esami obbligatori sono indicati automaticamente dal sistema.
+                            Gli esami obbligatori sono indicati automaticamente dal sistema e non possono essere rimossi.
                         </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+
+
 </asp:Content>
