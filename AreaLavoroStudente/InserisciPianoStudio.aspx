@@ -7,7 +7,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div class="container mt-2 mb-4">
-        <!-- INTESTAZIONE CON DIVISORE (UGUALE A PIANOSTUDI) -->
+        <!-- INTESTAZIONE CON DIVISORE-->
         <div class="py-4 border-bottom">
             <h2 class="text-start mb-1">Aggiungi Esame al Piano di Studio</h2>
             <div class="d-flex text-start gap-2 flex-wrap fs-6 mb-2">
@@ -22,7 +22,6 @@
         <div class="row mt-4">
             <!-- COLONNA PRINCIPALE -->
             <div class="col-12 col-lg-8 mb-4">
-                <!-- CONTENUTO ESISTENTE (INVARIATO) -->
                 <asp:Panel ID="pnlMessaggio" runat="server" Visible="false" CssClass="alert alert-warning alert-dismissible fade show mb-4">
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <asp:Literal ID="litMessaggio" runat="server"></asp:Literal>
@@ -45,7 +44,7 @@
                 </div>
             </div>
 
-            <!-- COLONNA CARD (ALLINEATA COME IN PIANOSTUDI) -->
+            <!-- COLONNA CARD-->
             <div class="col-12 col-lg-4">
                 <div class="card shadow-sm mt-4 mt-lg-0 h-100">
                     <div class="card-body">
