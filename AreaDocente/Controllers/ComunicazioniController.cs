@@ -48,12 +48,13 @@ namespace Comunicazioni.Controllers
                 foreach (var comunicazione in gruppo)
                 {
                     // Carica il mittente
-                    comunicazione.MittenteStudente = null;
-                    comunicazione.MittenteDocente = null;
+                    //comunicazione.MittenteStudente = null;
+                    //comunicazione.MittenteDocente = null;
                     if (comunicazione.K_Soggetto.HasValue)
                     {
                         comunicazione.MittenteStudente = await dbContext.studenti
                             .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
+                        
                         if (comunicazione.MittenteStudente == null)
                         {
                             comunicazione.MittenteDocente = await dbContext.docenti
@@ -62,7 +63,7 @@ namespace Comunicazioni.Controllers
                     }
 
                     // Carica il destinatario
-                    comunicazione.DestinatarioStudente = null;
+                    //comunicazione.DestinatarioStudente = null;
                     if (comunicazione.K_Studente.HasValue)
                     {
                         comunicazione.DestinatarioStudente = await dbContext.studenti

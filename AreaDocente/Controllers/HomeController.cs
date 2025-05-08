@@ -3,6 +3,7 @@ using AreaDocente.Models;
 using AreaDocente.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace AreaDocente.Controllers
@@ -100,22 +101,57 @@ namespace AreaDocente.Controllers
                 .ToList();
 
 
-            // Aggiungi informazioni sui mittenti
-            foreach (var gruppo in comunicazioni)
+            //// Aggiungi informazioni sui mittenti
+            //foreach (var gruppo in comunicazioni)
+            //{
+            //    foreach (var comunicazione in gruppo)
+            //    {
+            //        // Carica il mittente (se è un docente)
+            //        if (comunicazione.K_Soggetto.HasValue)
+            //        {
+            //            comunicazione.Docente = dbContext.docenti
+            //                .FirstOrDefault(d => d.K_Docente == comunicazione.K_Soggetto);
+            //        }
+            //        // Carica il mittente (se è uno studente) 
+            //        if (comunicazione.K_Soggetto.HasValue && comunicazione.Docente == null)
+            //        {
+            //            comunicazione.Studente = dbContext.studenti
+            //                .FirstOrDefault(s => s.K_Studente == comunicazione.K_Soggetto);
+            //        }
+            //    }
+            //}
+
+
+            foreach (var gruppo in comunicazioni)// Se hai raggruppamento
             {
                 foreach (var comunicazione in gruppo)
                 {
-                    // Carica il mittente (se è un docente)
+                    // Carica il mittente
+                    //comunicazione.MittenteStudente = null;
+                    //comunicazione.MittenteDocente = null;
                     if (comunicazione.K_Soggetto.HasValue)
                     {
-                        comunicazione.Docente = dbContext.docenti
-                            .FirstOrDefault(d => d.K_Docente == comunicazione.K_Soggetto);
-                    }
-                    // Carica il mittente (se è uno studente) 
-                    if (comunicazione.K_Soggetto.HasValue && comunicazione.Docente == null)
-                    {
-                        comunicazione.Studente = dbContext.studenti
+                        comunicazione.MittenteStudente = dbContext.studenti
                             .FirstOrDefault(s => s.K_Studente == comunicazione.K_Soggetto);
+
+                        if (comunicazione.MittenteStudente == null)
+                        {
+                            comunicazione.MittenteDocente = dbContext.docenti
+                                .FirstOrDefault(d => d.K_Docente == comunicazione.K_Soggetto);
+                        }
+                    }
+
+                    // Carica il destinatario
+                    //comunicazione.DestinatarioStudente = null;
+                    if (comunicazione.K_Studente.HasValue)
+                    {
+                        comunicazione.DestinatarioStudente =  dbContext.studenti
+                            .FirstOrDefault(s => s.K_Studente == comunicazione.K_Studente);
+                    }
+                    else if (comunicazione.K_Docente.HasValue)
+                    {
+                        comunicazione.DestinatarioDocente =  dbContext.docenti
+                            .FirstOrDefault(d => d.K_Docente == comunicazione.K_Docente);
                     }
                 }
             }
