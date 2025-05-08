@@ -48,7 +48,7 @@
                                 </a>
                             </td>
                             <td>
-                                <a class="btn btn-primary btn-sm" asp-controller="Prove" asp-action="Edit" asp-route-id="@prova.K_Prova">
+                                <a class="btn btn-primary btn-sm" asp-controller="Prove" asp-action="Edit" asp-route-K_Prova="@prova.K_Prova">
                                     <i class="bi bi-pencil-square me-1"></i> Modifica
                                 </a>
                             </td>
@@ -111,7 +111,7 @@
                                 }
 
                                 <div class="mt-3">
-                                    <a class="btn btn-primary btn-sm" asp-controller="Prove" asp-action="Edit" asp-route-id="@prova.K_Prova">
+                                    <a class="btn btn-primary btn-sm" asp-controller="Prove" asp-action="Edit" asp-route-K_Prova="@prova.K_Prova">
                                         <i class="bi bi-pencil-square me-1"></i> Modifica
                                     </a>
                                 </div>
@@ -124,7 +124,7 @@
     }
 
     <div class="mt-4">
-        <a class="btn btn-success" asp-controller="Prove" asp-action="Add">
+        <a class="btn btn-primary" asp-controller="Prove" asp-action="Add">
             <i class="bi bi-plus-circle me-1"></i> Inserisci nuova prova
         </a>
     </div>
