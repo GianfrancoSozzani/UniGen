@@ -42,9 +42,10 @@
 			position: absolute;
 			bottom: 0;
 			width: 100%;
-			right: 0;
+			max-height: 10vh;
+			/* right: 0;
 			left: 0;
-			bottom: 0;
+			bottom: 0; */
 		}
 
 
@@ -123,7 +124,7 @@
 		</div>
 	</header>
 
-	<div class="d-flex flex-column custom-vh">
+	<div class="d-flex flex-column mb-auto">
 		<main role="main" class="">
 			<!-- Modale Login -->
 			<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -167,10 +168,10 @@
 			@RenderBody()
 		</main>
 	</div>
-	<div class="d-flex flex-column mt-3 mb-3" style="height: 15vh;"></div>
+	<div class="d-flex flex-column mt-auto mb-auto" style="height: 15vh;">&nbsp;</div>
 
 	<footer class="bg-dark text-white mt-auto">
-		<div class="bg-dark text-white mt-auto">
+		<div class="bg-dark text-white">
 			<div class="container d-flex justify-content-between align-items-end flex-wrap">
 				<div>
 					<img src="https://italy.generation.org/wp-content/uploads/2019/05/Generation_Italy_logo_WHITE.svg" alt="Logo UNIGen" class="img-fluid my-3" width="150px">
