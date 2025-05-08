@@ -25,8 +25,7 @@ public partial class _Default : System.Web.UI.Page
     {
         CORSI c = new CORSI();
         DataTable dt = c.SelezionaTutto();
-        PopolaListaConPaginazione(dt, rpCorso);
-        
+        PopolaListaConPaginazione(dt, rpCorso);      
     }
 
     // Popolo la dropdownlist delle facoltà

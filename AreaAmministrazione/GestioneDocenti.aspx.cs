@@ -22,19 +22,32 @@ public partial class _Default : System.Web.UI.Page
         DOCENTI d = new DOCENTI();
         DataTable dt = d.SelezionaTutto();
         PopolaListaConPaginazione(dt, rpDocenti);
-
     }
 
     protected void btnCerca_Click(object sender, EventArgs e)
     {
+        ViewState["PaginaCorrente"] = 0;
         DOCENTI d = new DOCENTI();
         d.Cognome = txtCognome.Text.Trim();
         d.Nome = txtNome.Text.Trim();
-        rpDocenti.DataSource = d.SelezionaPerCognomeNome();
-        ViewState["Cognome"] = d.Cognome;
-        ViewState["Nome"] = d.Nome;
-        rpDocenti.DataBind();
+        DataTable dt = d.SelezionaPerCognomeNome();
 
+        if (dt != null && dt.Rows.Count > 0)
+        {
+            ViewState["RisultatiRicerca"] = dt;
+            PopolaListaConPaginazione(dt, rpDocenti);
+        }
+        else
+        {        
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Nessun docente trovato');", true);           
+            CaricaDocenti();
+            //rptStudenti.DataSource = null;
+            rpDocenti.DataBind();
+        }
+        //    rpDocenti.DataSource = d.SelezionaPerCognomeNome();
+        //ViewState["Cognome"] = d.Cognome;
+        //ViewState["Nome"] = d.Nome;
+        //rpDocenti.DataBind();
     }
 
     protected void Selected_Command(object sender, CommandEventArgs e)
@@ -91,7 +104,8 @@ public partial class _Default : System.Web.UI.Page
     }
     public int GetPaginaCorrente()
     {
-        return PaginaCorrente;
+        return ViewState["PaginaCorrente"] != null ? (int)ViewState["PaginaCorrente"] : 0;
+        //return PaginaCorrente;
     }
     protected void PopolaListaConPaginazione(DataTable dati, Repeater rptDati)
     {
@@ -116,10 +130,29 @@ public partial class _Default : System.Web.UI.Page
     }
     protected void rptPaginazione_ItemCommand(object source, RepeaterCommandEventArgs e)
     {
+        //if (e.CommandName == "CambiaPagina")
+        //{
+        //    PaginaCorrente = Convert.ToInt32(e.CommandArgument) - 1;
+        //    CaricaDocenti();
+        //}
         if (e.CommandName == "CambiaPagina")
         {
-            PaginaCorrente = Convert.ToInt32(e.CommandArgument) - 1;
-            CaricaDocenti();
+            int nuovaPagina = Convert.ToInt32(e.CommandArgument) - 1;
+            ViewState["PaginaCorrente"] = nuovaPagina;
+
+            DataTable dt;
+
+            if (ViewState["RisultatiRicerca"] != null)
+            {
+                dt = (DataTable)ViewState["RisultatiRicerca"];
+            }
+            else
+            {
+                DOCENTI d = new DOCENTI();
+                dt = d.SelezionaTutto();
+            }
+
+            PopolaListaConPaginazione(dt, rpDocenti);
         }
     }
 }
