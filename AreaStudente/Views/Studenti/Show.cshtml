@@ -183,6 +183,25 @@
 													}
 												</td>
 												<td>
+													@{
+														if (primaComunicazione != null)
+														{
+															if (primaComunicazione.DestinatarioStudente != null)
+															{
+																<span class="text-danger">@($"{primaComunicazione.DestinatarioStudente.Nome} {primaComunicazione.DestinatarioStudente.Cognome}")</span>
+															}
+															else if (primaComunicazione.DestinatarioDocente != null)
+															{
+																<span class="text-danger">@($"{primaComunicazione.DestinatarioDocente.Nome} {primaComunicazione.DestinatarioDocente.Cognome}")</span>
+															}
+															else
+															{
+																<span class="text-danger">Amministrazione</span>
+															}
+														}
+													}
+												</td>
+												<td>
 													<div class="accordion" id="accordion_@gruppo.Key">
 														<div class="accordion-item">
 															<h2 class="accordion-header">
