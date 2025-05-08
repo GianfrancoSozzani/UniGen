@@ -12,10 +12,11 @@
 					<div class="card-body">
 						@{
 							bool hasImage = Model?.ImmagineProfilo != null && Model.ImmagineProfilo.Length > 0;
-							string imgSrc = null;
+							string imgSrc = string.Empty;
 							if (hasImage)
 							{
-								var base64 = Convert.ToBase64String(Model.ImmagineProfilo);
+								var base64 = Convert.ToBase64String(Model?.ImmagineProfilo ?? Array.Empty<byte>());
+
 								imgSrc = $"data:image/jpeg;base64,{base64}";
 							}
 						}
@@ -66,7 +67,7 @@
 						<h4 class="heading-small text-muted">SELEZIONA UNA FACOLTÀ</h4>
 						<div class="row mb-0 mb-lg-3 align-items-end">
 							<div class="col-12 col-lg-9 mb-2 mb-lg-0">
-								<select asp-for="K_Facolta" asp-items="Model.FacoltaList" class="form-control" id="facolta-select">
+								<select asp-for="K_Facolta" asp-items="Model?.FacoltaList" class="form-control" id="facolta-select">
 									<option disabled selected required>-- Selezionare una Facoltà --</option>
 								</select>
 							</div>
@@ -76,7 +77,7 @@
 						<h4 class="heading-small text-muted">SELEZIONA UN CORSO</h4>
 						<div class="row mb-0 mb-lg-3 align-items-end">
 							<div class="col-12 col-lg-9 mb-2 mb-lg-0">
-								<select asp-for="K_Corso" asp-items="Model.CorsiList" class="form-control" id="corso-select">
+								<select asp-for="K_Corso" asp-items="Model?.CorsiList" class="form-control" id="corso-select">
 									<option disabled selected required>-- Selezionare un Corso --</option>
 								</select>
 							</div>
@@ -134,10 +135,7 @@
 							</div>
 						</div>
 
-						@* <div class="text-center">
-							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confermaModal">Procedi</button>
-						</div> *@
-						@if (Model.Matricola.HasValue == false && @Model.K_Corso.ToString() != "" && ViewData.ModelState.IsValid)
+						@if (Model?.Matricola.HasValue == false && @Model.K_Corso.ToString() != "" && ViewData.ModelState.IsValid)
 						{
 							<div class="text-center">
 								<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confermaModal">Procedi</button>
@@ -170,18 +168,19 @@
 				</div>
 			</div>
 
-			<!-- Modale di conferma -->
-			<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content bg-success text-white">
+			<!-- Modal dopo il pagamento -->
+			<div class="modal fade" id="pagamentoConfermatoModal" tabindex="-1" aria-labelledby="pagamentoConfermatoLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="successModalLabel">Pagamento riuscito</h5>
+							<h5 class="modal-title" id="pagamentoConfermatoLabel">Pagamento Confermato</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
 						</div>
-						<div class="modal-body">
-							Pagamento effettuato con successo da: <span id="payerName"></span>.
+						<div class="modal-body text-center">
+							Il pagamento è andato a buon fine.<br>Vuoi proseguire con l'immatricolazione?
 						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-light" id="btnConfermaRedirect">OK</button>
+						<div class="modal-footer justify-content-center">
+							<button type="button" class="btn btn-primary" id="okPagamentoBtn">OK</button>
 						</div>
 					</div>
 				</div>
@@ -197,12 +196,12 @@
 						</div>
 						<div class="modal-body text-center">
 							Vuoi confermare l'immatricolazione?
-							<p>L'importo è: €@Model.Importo</p>
+							<p>L'importo è: €@Model?.Importo</p>
 							<div id="paypal-button-container" class="mt-3"></div>
 						</div>
 						<div class="modal-footer d-flex justify-content-between">
 							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-							<button type="button" class="btn btn-primary d-none" id="conferma-btn">Conferma</button>
+							<button type="button" class="btn btn-primary d-none"  id="conferma-btn">Conferma</button>
 						</div>
 					</div>
 				</div>
@@ -216,12 +215,12 @@
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}
 	<script src="https://www.paypal.com/sdk/js?client-id=Adbf7fTtUU3GWVxRgKRn4-68S8X52d2nyyh7pJ4eEKdNPXgP6GGlVP8Zuomr1OsJUoSWjYLRe23jgyaN&currency=EUR"></script>
+
 	<script>
 		document.addEventListener("DOMContentLoaded", function () {
 			const form = document.getElementById("modifica-form");
 			const facoltaSelect = document.getElementById("facolta-select");
 			const corsoSelect = document.getElementById("corso-select");
-			const confermaBtn = document.getElementById("conferma-btn");
 
 			facoltaSelect.addEventListener("change", function () {
 				const input = document.createElement("input");
@@ -240,14 +239,22 @@
 				form.appendChild(input);
 				form.submit();
 			});
-
-			confermaBtn.addEventListener("click", function () {
-				form.submit();
-			});
 		});
+
 
 		paypal.Buttons({
 			createOrder: function (data, actions) {
+				// insert logic for close modal paypal 
+				// get modal queryselector and close()
+				// Seleziona il modale usando il suo ID
+				const modalElement = document.getElementById('confermaModal');
+
+				// Crea un'istanza del modale utilizzando l'API di Bootstrap
+				const bootstrapModal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
+
+				// Chiudi il modale
+				bootstrapModal.hide();
+
 				return actions.order.create({
 					purchase_units: [{
 						amount: {
@@ -256,44 +263,52 @@
 					}]
 				});
 			},
-							onApprove: function (data, actions) {
-			return actions.order.capture().then(function (details) {
-				// Imposta il nome nella modale
-				document.getElementById("payerName").textContent = details.payer.name.given_name;
+			onApprove: function (data, actions) {
+				return actions.order.capture().then(function (details) {
+					console.log("Pagamento confermato:", details);
 
-				// Mostra la modale (richiede Bootstrap)
-				const modal = new bootstrap.Modal(document.getElementById('successModal'));
-				modal.show();
-
-				// Al click su OK, invia i dati e reindirizza
-				document.getElementById("btnConfermaRedirect").onclick = function () {
-					const form = document.getElementById("modifica-form");
-					if (!form) {
-						alert("Form non trovato!");
-						return;
-					}
-
-					const formData = new FormData(form);
-					formData.append("cod", "@Model.K_Studente");
-
-					fetch("@Url.Action("Immatricolati", "Studenti")", {
-						method: "POST",
-						body: formData
-					})
-					.then(response => {
-						if (!response.ok) throw new Error("Errore lato server");
-						return response.text();
-					})
-					.then(result => {
-						window.location.href = "@Url.Action("Show", "Studenti", new { cod = Model.K_Studente })";
-					})
-					.catch(error => {
-						console.error("Errore durante l'immatricolazione:", error);
-						alert("Errore durante l'immatricolazione.");
+					// Mostra modale personalizzato (solo 1 volta)
+					const confermaModal = new bootstrap.Modal(document.getElementById('pagamentoConfermatoModal'), {
+						backdrop: 'static', // Impedisce la chiusura cliccando fuori
+						keyboard: false     // Disabilita ESC
 					});
-				};
-			});
-		},
+					confermaModal.show();
+
+					// Evita doppi invii
+					let giàInviato = false;
+					const okBtn = document.getElementById("okPagamentoBtn");
+
+					const clickHandler = () => {
+						if (giàInviato) return;
+						giàInviato = true;
+
+						okBtn.removeEventListener("click", clickHandler); // evita doppio listener
+
+						// Invio del form
+						const form = document.getElementById("modifica-form");
+						const formData = new FormData(form);
+						formData.append("cod", "@Model.K_Studente");
+
+						fetch("@Url.Action("Immatricolati", "Studenti")", {
+							method: "POST",
+							body: formData
+						})
+						.then(response => {
+							if (!response.ok) throw new Error("Errore lato server");
+							return response.text();
+						})
+						.then(result => {
+							window.location.href = "@Url.Action("Show", "Studenti", new { cod = Model.K_Studente })";
+						})
+						.catch(error => {
+							console.error("Errore immatricolazione:", error);
+							alert("Errore durante l'immatricolazione.");
+						});
+					};
+
+					okBtn.addEventListener("click", clickHandler, { once: true }); // solo una volta
+				});
+			},
 			onCancel: function (data) {
 				alert("Pagamento annullato.");
 			},
@@ -303,7 +318,6 @@
 			}
 		}).render('#paypal-button-container');
 
-		}
 
 	</script>
 }
