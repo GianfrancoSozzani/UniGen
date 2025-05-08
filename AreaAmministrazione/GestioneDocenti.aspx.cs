@@ -38,8 +38,8 @@ public partial class _Default : System.Web.UI.Page
             PopolaListaConPaginazione(dt, rpDocenti);
         }
         else
-        {        
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Nessun docente trovato');", true);           
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Nessun docente trovato');", true);
             CaricaDocenti();
             //rptStudenti.DataSource = null;
             rpDocenti.DataBind();
@@ -146,11 +146,9 @@ public partial class _Default : System.Web.UI.Page
             {
                 dt = (DataTable)ViewState["RisultatiRicerca"];
             }
-            else
-            {
-                DOCENTI d = new DOCENTI();
-                dt = d.SelezionaTutto();
-            }
+
+            DOCENTI d = new DOCENTI();
+            dt = d.SelezionaTutto();
 
             PopolaListaConPaginazione(dt, rpDocenti);
         }

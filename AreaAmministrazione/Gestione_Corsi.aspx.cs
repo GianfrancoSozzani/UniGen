@@ -25,7 +25,7 @@ public partial class _Default : System.Web.UI.Page
     {
         CORSI c = new CORSI();
         DataTable dt = c.SelezionaTutto();
-        PopolaListaConPaginazione(dt, rpCorso);      
+        PopolaListaConPaginazione(dt, rpCorso);
     }
 
     // Popolo la dropdownlist delle facoltà
@@ -231,7 +231,7 @@ public partial class _Default : System.Web.UI.Page
             rpCorso.DataBind();
         }
     }
-        //PAGINAZIONE
+    //PAGINAZIONE
     private int PaginaCorrente
     {
         get { return ViewState["PaginaCorrente"] != null ? (int)ViewState["PaginaCorrente"] : 0; }
@@ -281,11 +281,10 @@ public partial class _Default : System.Web.UI.Page
             {
                 dt = (DataTable)ViewState["RisultatiRicerca"];
             }
-            else
-            {
-                CORSI c = new CORSI();
-                dt = c.SelezionaTutto();
-            }
+
+            CORSI c = new CORSI();
+            dt = c.SelezionaTutto();
+
 
             PopolaListaConPaginazione(dt, rpCorso);
         }

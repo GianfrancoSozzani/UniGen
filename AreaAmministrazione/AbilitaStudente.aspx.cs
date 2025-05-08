@@ -22,7 +22,7 @@ public partial class _Default : System.Web.UI.Page
         STUDENTI s = new STUDENTI();
         DataTable dt = s.SelezionaTutto();
         PopolaListaConPaginazione(dt, rptStudenti);
-        
+
     }
 
     protected void btnRicerca_Click(object sender, EventArgs e)
@@ -118,7 +118,7 @@ public partial class _Default : System.Web.UI.Page
         s.Matricola = int.Parse(matricola);
         DataTable dt = s.Attiva();
 
-        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Studente abilitato con successo')", true);        
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Studente abilitato con successo')", true);
         return dt != null && dt.Rows.Count > 0;
 
     }
@@ -129,7 +129,7 @@ public partial class _Default : System.Web.UI.Page
         s.Matricola = int.Parse(matrico);
         DataTable dt = s.Disattiva();
 
-        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Studente disabilitato con successo')", true);        
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Studente disabilitato con successo')", true);
         return dt != null && dt.Rows.Count > 0;
     }
 
@@ -167,7 +167,7 @@ public partial class _Default : System.Web.UI.Page
     }
     protected void rptPaginazione_ItemCommand(object source, RepeaterCommandEventArgs e)
     {
-    
+
         if (e.CommandName == "CambiaPagina")
         {
             int nuovaPagina = Convert.ToInt32(e.CommandArgument) - 1;
@@ -179,11 +179,9 @@ public partial class _Default : System.Web.UI.Page
             {
                 dt = (DataTable)ViewState["RisultatiRicerca"];
             }
-            else
-            {
-                STUDENTI s = new STUDENTI();
-                dt = s.SelezionaTutto();
-            }
+
+            STUDENTI s = new STUDENTI();
+            dt = s.SelezionaTutto();
 
             PopolaListaConPaginazione(dt, rptStudenti);
         }
