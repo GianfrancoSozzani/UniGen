@@ -40,21 +40,35 @@ namespace Comunicazioni.Controllers
                 .GroupBy(c => c.Codice_Comunicazione)
                 .ToListAsync();
 
-            foreach (var gruppo in comunicazioni)
+            foreach (var gruppo in comunicazioni)// Se hai raggruppamento
             {
                 foreach (var comunicazione in gruppo)
                 {
-                    // Carica il mittente (se è un docente)
+                    // Carica il mittente
+                    comunicazione.MittenteStudente = null;
+                    comunicazione.MittenteDocente = null;
                     if (comunicazione.K_Soggetto.HasValue)
                     {
-                        comunicazione.Docente = await dbContext.docenti
-                            .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
-                    }
-                    // Carica il mittente (se è uno studente) 
-                    if (comunicazione.K_Soggetto.HasValue && comunicazione.Docente == null)
-                    {
-                        comunicazione.Studente = await dbContext.studenti
+                        comunicazione.MittenteStudente = await dbContext.studenti
                             .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
+                        if (comunicazione.MittenteStudente == null)
+                        {
+                            comunicazione.MittenteDocente = await dbContext.docenti
+                                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+                        }
+                    }
+
+                    // Carica il destinatario
+                    comunicazione.DestinatarioStudente = null;
+                    if (comunicazione.K_Studente.HasValue)
+                    {
+                        comunicazione.DestinatarioStudente = await dbContext.studenti
+                            .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Studente);
+                    }
+                    else if (comunicazione.K_Docente.HasValue)
+                    {
+                        comunicazione.DestinatarioDocente = await dbContext.docenti
+                            .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Docente);
                     }
                 }
             }
@@ -107,11 +121,12 @@ namespace Comunicazioni.Controllers
             // Carica solo questi studenti dalla tabella Studenti
             var listaStudenti = dbContext.studenti
                 .Where(s => studentiFiltrati.Contains(s.K_Studente) && s.Matricola != null)
+                .OrderBy(s => s.Cognome)
                 .Select(s => new SelectListItem
-                {
-                    Text = s.Nome + " " + s.Cognome,
-                    Value = s.K_Studente.ToString()
-                })
+                    {
+                        Text = s.Cognome + " " + s.Nome,
+                        Value = s.K_Studente.ToString()
+                    })
                 .ToList(); // Esegui subito la query e materializza i risultati
 
             ViewBag.StudentiList = listaStudenti;
