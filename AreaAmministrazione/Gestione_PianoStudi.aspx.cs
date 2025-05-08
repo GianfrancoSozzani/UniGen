@@ -243,7 +243,7 @@ public partial class _Default : System.Web.UI.Page
         PIANISTUDIO ps = new PIANISTUDIO();
         ps.K_PianoStudio = kPianoStudio;
         ps.CancellaEsameDalPiano();
-        //ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Esame rimosso correttamente dal Piano di Studi');", true);
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Esame rimosso correttamente dal Piano di Studi');", true);
         CaricaEsamiPianiStudio();
     }
    protected void ddlCorso_SelectedIndexChanged(object sender, EventArgs e)
