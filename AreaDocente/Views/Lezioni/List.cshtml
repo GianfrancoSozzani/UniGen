@@ -103,7 +103,7 @@
                         <div class="mb-3">
                             <label class="form-label">Esame</label>
                             <select id="edit_K_Esame" name="K_Esame" class="form-select" required>
-                                <option disabled selected value="">== Seleziona un esame ==</option>
+                                <option disabled value="">== Seleziona un esame ==</option>
                                 @foreach (var item in ViewBag.EsamiDDL)
                                 {
                                     <option value="@item.Value">@item.Text</option>
@@ -125,7 +125,7 @@
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-pencil-square me-1"></i> Modifica
                         </button>
-                        <button type="submit" class="btn btn-danger" formaction="/Lezioni/Delete">
+                        <button type="submit" formnovalidate class="btn btn-danger" formaction="/Lezioni/Delete">
                             <i class="bi bi-trash me-1"></i> Elimina
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -157,10 +157,9 @@
                 document.getElementById("edit_Titolo").value = titolo;
                 document.getElementById("edit_Video").value = video;
 
+                // Seleziona l'opzione corretta nella select
                 const select = document.getElementById("edit_K_Esame");
-                for (let i = 0; i < select.options.length; i++) {
-                    select.options[i].selected = (select.options[i].value == kEsame);
-                }
+                select.value = kEsame.toUpperCase();
             }
         </script>
     }

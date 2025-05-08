@@ -169,7 +169,7 @@
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-pencil-square me-1"></i> Modifica
                         </button>
-                        <button type="submit" formaction="/Materiali/Delete" formmethod="post" class="btn btn-danger">
+                        <button type="submit" formnovalidate formaction="/Materiali/Delete" formmethod="post" class="btn btn-danger">
                             <i class="bi bi-trash me-1"></i> Elimina
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -206,11 +206,7 @@
                     document.getElementById('edit_Titolo').value = titolo;
 
                     const selectEsame = document.getElementById('edit_K_Esame');
-                    if (selectEsame) {
-                        for (let i = 0; i < selectEsame.options.length; i++) {
-                            selectEsame.options[i].selected = (selectEsame.options[i].value == kEsame);
-                        }
-                    }
+                    selectEsame.value = kEsame.toUpperCase();
                 } catch (e) {
                     console.error("Errore in openEditModal:", e);
                 }

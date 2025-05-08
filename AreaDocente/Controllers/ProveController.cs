@@ -35,6 +35,26 @@ namespace AreaDocente.Controllers
             return View("Add", model); // restituisci la stessa view "Add"
         }
 
+        // Add Prove
+        [HttpPost]
+        public ActionResult SelezionaEsameEdit(MVCPROVA model)
+        {
+            PopolaEsami();
+
+            // Popola appelli in base all'esame selezionato
+            ViewBag.AppelliList = dbContext.appelli
+                .Where(a => a.K_Esame == model.Appello.K_Esame)
+                .Select(a => new SelectListItem
+                {
+                    Value = a.K_Appello.ToString(),
+                    Text = $"{a.DataAppello:dd/MM/yyyy} - {(a.Tipo == "Or" ? "Orale" : a.Tipo == "Sc" ? "Scritto" : a.Tipo == "La" ? "Laurea" : a.Tipo)}",
+                    Selected = (a.K_Appello == model.K_Appello)
+                })
+                .ToList();
+
+            return View("Edit", model); // restituisci la stessa view "Add"
+        }
+
         [HttpPost]
         public async Task<IActionResult> SelezionaStudenti(Guid? K_Prova)
         {
@@ -44,13 +64,6 @@ namespace AreaDocente.Controllers
 
             if (K_Prova == null)
                 return View(new List<MVCValutazione>());
-
-            //var studenti = await dbContext.valutazioni
-            //    .Where(v => v.K_Prova == K_Prova &&
-            //                dbContext.libretti.Any(l => l.K_Studente == v.K_Studente && l.K_Appello == v.Prova.K_Appello && l.VotoEsame == null))
-            //    .Include(v => v.Studente)
-            //    .Include(v => v.Prova)
-            //    .ToListAsync();
 
             var studenti = await dbContext.valutazioni
                 .Where(v => v.K_Prova == K_Prova)
@@ -107,7 +120,7 @@ namespace AreaDocente.Controllers
                 });
             ViewBag.EsamiList = ListaEsami;
         }
-        
+
         public void PopolaEsami(Guid? K_Esame)
         {
             IEnumerable<SelectListItem> ListaEsami = dbContext.esami
@@ -202,6 +215,7 @@ namespace AreaDocente.Controllers
                 {
                     var domandeAperte = await dbContext.test_DA
                         .Where(d => d.K_Prova == prova.K_Prova)
+                        .OrderBy(d => d.Numero_Domanda)
                         .ToListAsync();
                     prova.DomandeAperte = domandeAperte;
                 }
@@ -209,6 +223,7 @@ namespace AreaDocente.Controllers
                 {
                     var domandeChiuse = await dbContext.test_DC
                         .Where(d => d.K_Prova == prova.K_Prova)
+                        .OrderBy(d => d.Numero_Domanda)
                         .ToListAsync();
                     prova.DomandeChiuse = domandeChiuse;
                 }
@@ -230,6 +245,7 @@ namespace AreaDocente.Controllers
             {
                 var domandeAperte = await dbContext.test_DA
                     .Where(d => d.K_Prova == prova.K_Prova)
+                    .OrderBy(d => d.Numero_Domanda)
                     .ToListAsync();
 
                 prova.DomandeAperte = domandeAperte;
@@ -238,59 +254,199 @@ namespace AreaDocente.Controllers
             {
                 var domandeChiuse = await dbContext.test_DC
                     .Where(d => d.K_Prova == prova.K_Prova)
+                    .OrderBy(d => d.Numero_Domanda)
                     .ToListAsync();
 
                 prova.DomandeChiuse = domandeChiuse;
             }
 
-            PopolaEsami(prova.Appello.K_Esame);
-            ViewBag.AppelliList = new List<SelectListItem>();
+            PopolaEsami();
+            return SelezionaEsameEdit(prova);
 
-            return View(prova);
+            //return View(prova);
         }
 
         //EDIT
         [HttpPost]
-        public async Task<IActionResult> Edit(MVCAPPELLO viewModel)
+        public async Task<IActionResult> Edit(MVCPROVA viewModel)
         {
             //CONTROLLI FORMALI
-            if (viewModel.DataAppello == null)
+            if (viewModel.Tipologia == null)
             {
-                TempData["ErrorMessage"] = "Inserire la data di un appello!";
-                return RedirectToAction("List");
-            }
-            if (viewModel.Tipo == null)
-            {
-                TempData["ErrorMessage"] = "Inserire il tipo di un appello!";
-                return RedirectToAction("List");
+                TempData["ErrorMessage"] = "Inserire la tipologia della prova!";
+                return View(viewModel);
             }
             if (viewModel.Link == null)
             {
                 TempData["ErrorMessage"] = "Inserire il link di un appello!";
-                return RedirectToAction("List");
+                return View(viewModel);
             }
-            if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
+            if (!viewModel.Appello.K_Esame.HasValue || viewModel.Appello.K_Esame == Guid.Empty)
             {
                 TempData["ErrorMessage"] = "Selezionare un esame!";
-                return RedirectToAction("List");
+                return View(viewModel);
             }
-            if (viewModel.DataVerbalizzazione < viewModel.DataAppello)
+            if (!viewModel.K_Appello.HasValue || viewModel.K_Appello == Guid.Empty)
             {
-                TempData["ErrorMessage"] = "La data di verbalizzazione non puo essere precedente alla data dell appello.";
-                return RedirectToAction("List");
+                TempData["ErrorMessage"] = "Selezionare un appello!";
+                return View(viewModel);
             }
 
-            var appello = await dbContext.appelli.FindAsync(viewModel.K_Appello);
-            if (appello is not null)
+            var prova = await dbContext.prove.FindAsync(viewModel.K_Prova);
+            if (prova is not null)
             {
-                appello.DataAppello = viewModel.DataAppello;
-                appello.Tipo = viewModel.Tipo;
+                if (viewModel.Tipologia != prova.Tipologia)
+                {
+                    if (prova.Tipologia == "Da")
+                    {
+                        var recordsDADaEliminare = dbContext.test_DA
+                            .Where(d => d.K_Prova == prova.K_Prova);
+                        dbContext.test_DA.RemoveRange(recordsDADaEliminare);
+                    }
+                    else if (prova.Tipologia == "Dc")
+                    {
+                        var recordsDCDaEliminare = dbContext.test_DC
+                            .Where(d => d.K_Prova == prova.K_Prova);
+                        dbContext.test_DC.RemoveRange(recordsDCDaEliminare);
+                    }
+                    await dbContext.SaveChangesAsync();
+                }
 
-                if (viewModel.DataVerbalizzazione != null)
-                    appello.DataVerbalizzazione = viewModel.DataVerbalizzazione;
+                prova.K_Appello = viewModel.K_Appello;
+                prova.Tipologia = viewModel.Tipologia;
+                prova.Link = viewModel.Link;
 
-                appello.Link = viewModel.Link;
-                appello.K_Esame = viewModel.K_Esame;
+                if (prova.Tipologia == "Da")
+                {
+                    // 1. Recupera tutte le domande esistenti per questa prova
+                    var domandeEsistenti = await dbContext.test_DA
+                        .Where(d => d.K_Prova == prova.K_Prova)
+                        .ToListAsync();
+
+                    // 2. Crea una lista dei GUID delle domande inviate dal form
+                    var domandeInviateIds = viewModel.DomandeAperte?
+                        .Select(d => d.K_Test_DA)
+                        .ToList() ?? new List<Guid>();
+
+                    // 3. Trova le domande da eliminare (presenti nel DB ma non nel form)
+                    var domandeDaEliminare = domandeEsistenti
+                        .Where(de => !domandeInviateIds.Contains(de.K_Test_DA))
+                        .ToList();
+
+                    // 4. Elimina le domande non più presenti
+                    if (domandeDaEliminare.Any())
+                    {
+                        dbContext.test_DA.RemoveRange(domandeDaEliminare);
+                    }
+
+                    if (viewModel.DomandeAperte is not null)
+                    {
+                        foreach (var d in viewModel.DomandeAperte)
+                        {
+                            var domanda = await dbContext.test_DA.FindAsync(d.K_Test_DA);
+                            if (domanda is not null)
+                            {
+                                domanda.Numero_Domanda = d.Numero_Domanda;
+                                domanda.Domanda = d.Domanda;
+                                await dbContext.SaveChangesAsync();
+                            }
+                            else
+                            {
+                                var newDomanda = new MVCTest_DA
+                                {
+                                    K_Test_DA = Guid.NewGuid(),
+                                    Numero_Domanda = d.Numero_Domanda,
+                                    Domanda = d.Domanda,
+                                    K_Prova = prova.K_Prova
+                                };
+                                await dbContext.test_DA.AddAsync(newDomanda);
+                            }
+                        }
+                    }
+                }
+                else if (prova.Tipologia == "Dc")
+                {
+                    // 1. Recupera tutte le domande esistenti per questa prova
+                    var domandeEsistenti = await dbContext.test_DC
+                        .Where(d => d.K_Prova == prova.K_Prova)
+                        .ToListAsync();
+
+                    // 2. Crea una lista dei GUID delle domande inviate dal form
+                    var domandeInviateIds = viewModel.DomandeChiuse?
+                        .Select(d => d.K_Test_DC)
+                        .ToList() ?? new List<Guid>();
+
+                    // 3. Trova le domande da eliminare (presenti nel DB ma non nel form)
+                    var domandeDaEliminare = domandeEsistenti
+                        .Where(de => !domandeInviateIds.Contains(de.K_Test_DC))
+                        .ToList();
+
+                    // 4. Elimina le domande non più presenti
+                    if (domandeDaEliminare.Any())
+                    {
+                        dbContext.test_DC.RemoveRange(domandeDaEliminare);
+                    }
+
+                    if (viewModel.DomandeAperte is not null)
+                    {
+                        foreach (var d in viewModel.DomandeChiuse)
+                        {
+                            var domanda = await dbContext.test_DC.FindAsync(d.K_Test_DC);
+                            if (domanda is not null)
+                            {
+                                domanda.Numero_Domanda = d.Numero_Domanda;
+                                domanda.Domanda = d.Domanda;
+                                domanda.Risposte = d.Risposte;
+                                await dbContext.SaveChangesAsync();
+                            }
+                            else
+                            {
+                                var newDomanda = new MVCTest_DC
+                                {
+                                    K_Test_DC = Guid.NewGuid(),
+                                    Numero_Domanda = d.Numero_Domanda,
+                                    Domanda = d.Domanda,
+                                    Risposte = d.Risposte,
+                                    K_Prova = prova.K_Prova
+                                };
+                                await dbContext.test_DC.AddAsync(newDomanda);
+                            }
+                        }
+                    }
+                }
+                await dbContext.SaveChangesAsync();
+            }
+            return RedirectToAction("List");
+        }
+
+        //DELETE
+        [HttpPost]
+        public async Task<IActionResult> Delete(MVCPROVA viewModel)
+        {
+            dbContext.Entry(viewModel.Appello).State = EntityState.Unchanged;
+
+            var prova = await dbContext.prove
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.K_Prova == viewModel.K_Prova);
+            if (prova is not null)
+            {
+                if (prova.Tipologia == "Da")
+                {
+                    var recordsDADaEliminare = dbContext.test_DA
+                        .Where(d => d.K_Prova == prova.K_Prova);
+                    dbContext.test_DA.RemoveRange(recordsDADaEliminare);
+                }
+                else
+                {
+                    if (prova.Tipologia == "Dc")
+                    {
+                        var recordsDCDaEliminare = dbContext.test_DC
+                            .Where(d => d.K_Prova == prova.K_Prova);
+                        dbContext.test_DC.RemoveRange(recordsDCDaEliminare);
+                    }
+                }
+                dbContext.prove.Remove(viewModel);
+
                 await dbContext.SaveChangesAsync();
             }
             return RedirectToAction("List");

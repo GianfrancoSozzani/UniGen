@@ -17,9 +17,11 @@ namespace AreaDocente.Models.Entities
         public string? Tipologia { get; set; }
 
         [ValidateNever]
+        [NotMapped]
         public List<MVCTest_DA>? DomandeAperte { get; set; }
 
         [ValidateNever]
+        [NotMapped]
         public List<MVCTest_DC>? DomandeChiuse { get; set; }
     }
 }
