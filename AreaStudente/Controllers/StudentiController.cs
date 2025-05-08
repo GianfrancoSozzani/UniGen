@@ -101,21 +101,31 @@ namespace AreaStudente.Controllers
             {
                 foreach (var comunicazione in gruppo)
                 {
+                    // Carica il mittente
+                    comunicazione.MittenteStudente = null;
+                    comunicazione.MittenteDocente = null;
                     if (comunicazione.K_Soggetto.HasValue)
                     {
-                        var studentesogg = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
-                        if (studentesogg != null)
+                        comunicazione.MittenteStudente = await dbContext.Studenti
+                            .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
+                        if (comunicazione.MittenteStudente == null)
                         {
-                            comunicazione.Studente = studentesogg;
+                            comunicazione.MittenteDocente = await dbContext.Docenti
+                                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
                         }
-                        else
-                        {
-                            var docente = await dbContext.Docenti.FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
-                            if (docente != null)
-                            {
-                                comunicazione.Docente = docente;
-                            }
-                        }
+                    }
+
+                    // Carica il destinatario
+                    comunicazione.DestinatarioStudente = null;
+                    if (comunicazione.K_Studente.HasValue)
+                    {
+                        comunicazione.DestinatarioStudente = await dbContext.Studenti
+                            .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Studente);
+                    }
+                    else if (comunicazione.K_Docente.HasValue)
+                    {
+                        comunicazione.DestinatarioDocente = await dbContext.Docenti
+                            .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Docente);
                     }
                 }
             }

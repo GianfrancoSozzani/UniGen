@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using AreaStudente.Models.Entities;
 
 namespace AreaStudente.Models
@@ -16,6 +17,17 @@ namespace AreaStudente.Models
         public Studente? Studente { get; set; }
         public Guid? K_Docente { get; set; }
         public Docente? Docente { get; set; }
+        // Proprietà per il mittente (non mappate al DB come relazioni)
+        [NotMapped]
+        public Studente? MittenteStudente { get; set; }
+        [NotMapped]
+        public Docente? MittenteDocente { get; set; }
+
+        // Proprietà per il destinatario (non mappate al DB come relazioni)
+        [NotMapped]
+        public Studente? DestinatarioStudente { get; set; }
+        [NotMapped]
+        public Docente? DestinatarioDocente { get; set; }
 
     }
 }
