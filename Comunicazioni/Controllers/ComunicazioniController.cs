@@ -609,14 +609,36 @@ hai ricevuto una comunicazione dall'Amministrazione.
                 nuovaRisposta.Soggetto = "A";
 
                 // Mantiene il destinatario originale della conversazione
-                if (ultimaComunicazione.K_Studente != null)
+                //if (ultimaComunicazione.K_Studente != null)
+                //{
+                //    nuovaRisposta.K_Studente = ultimaComunicazione.K_Studente;
+                //}
+                //else if (ultimaComunicazione.K_Docente != null)
+                //{
+                //    nuovaRisposta.K_Docente = ultimaComunicazione.K_Docente;
+                //}
+
+                if (ultimaComunicazione.K_Soggetto != null)
                 {
-                    nuovaRisposta.K_Studente = ultimaComunicazione.K_Studente;
+                    var studente = dbContext.Studenti.FirstOrDefault(s => s.K_Studente == ultimaComunicazione.K_Soggetto);
+                    if (studente != null)
+                    {
+                        nuovaRisposta.K_Studente = studente.K_Studente;
+                    }
+                    else
+                    {
+                        // Se K_Soggetto non corrisponde a uno studente, verifica se corrisponde a un docente
+                        var docente = dbContext.Docenti.FirstOrDefault(d => d.K_Docente == ultimaComunicazione.K_Soggetto);
+                        if (docente != null)
+                        {
+                            nuovaRisposta.K_Docente = docente.K_Docente;
+                        }
+                    }
                 }
-                else if (ultimaComunicazione.K_Docente != null)
-                {
-                    nuovaRisposta.K_Docente = ultimaComunicazione.K_Docente;
-                }
+
+
+
+
             }
 
 
