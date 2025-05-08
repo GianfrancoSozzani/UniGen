@@ -22,9 +22,8 @@ public partial class _Default : System.Web.UI.Page
         if (!IsPostBack)
         {
             //string Matricola = Request.QueryString["mat"];
-            string Matricola = Session["mat"].ToString();
-            Session["mat"] = Matricola;
-            CaricaAA(int.Parse(Matricola));
+            int Matricola = int.Parse(Session["mat"].ToString());
+            CaricaAA(Matricola);
             CaricaAppelli();
 
         }
@@ -123,7 +122,7 @@ public partial class _Default : System.Web.UI.Page
             lblMessaggio.Text = string.Format("{0} appello/i prenotato/i con successo!", countPrenotati);
             lblMessaggio.CssClass = "alert alert-success mt-3";
             lblMessaggio.Visible = true;
-            string Matricola = Session["mat"].ToString();
+            int Matricola = int.Parse(Session["mat"].ToString());
             //RICARICA GLI APPELLI DISPONIBILI
             CaricaAppelli();
         }
