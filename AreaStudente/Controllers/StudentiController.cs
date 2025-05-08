@@ -415,8 +415,6 @@ namespace AreaStudente.Controllers
                 .Include(s => s.Corso)
                 .ThenInclude(c => c.Facolta)
                 .FirstOrDefaultAsync(s => s.K_Studente == cod);
-            //dibbiamo capire, per lo studente già immatricolato, come comportarci e quali dati fare visualizzare.
-
 
             if (studente == null)
             {
@@ -449,16 +447,26 @@ namespace AreaStudente.Controllers
                 K_Corso = studente.K_Corso,
                 FacoltaList = PopolaFacolta(),
                 CorsiList = PopolaCorsi(selectedFacolta)
-                //= studente.Abilitato
-
-
             };
 
+            // 🔒 Controllo: studente già immatricolato
+            if (studente.Abilitato == "S" &&
+                (studente.K_Corso == model.K_Corso || studente.K_Corso != null))
+            {
+                ModelState.AddModelError("", "Risulti già immatricolato. Se desideri procedere con una nuova immatricolazione, è necessario presentare prima la rinuncia agli studi.");
+            }
 
+            // 🔍 Controllo: corso non selezionato
+            var corso = await dbContext.Corsi.FirstOrDefaultAsync(c => c.K_Corso == model.K_Corso);
+            if (corso == null)
+            {
+                TempData["MessaggioCorso"] = "Devi selezionare un corso per poterti immatricolare.";
+                TempData.Keep("MessaggioCorso"); // <-- questa riga fa la differenza
+            }
 
             return View(model);
-
         }
+
 
 
         private IEnumerable<SelectListItem> PopolaFacolta()
