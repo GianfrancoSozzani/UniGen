@@ -281,9 +281,11 @@ public partial class _Default : System.Web.UI.Page
             {
                 dt = (DataTable)ViewState["RisultatiRicerca"];
             }
-
-            CORSI c = new CORSI();
-            dt = c.SelezionaTutto();
+            else
+            {
+                CORSI c = new CORSI();
+                dt = c.SelezionaTutto();
+            }
 
 
             PopolaListaConPaginazione(dt, rpCorso);

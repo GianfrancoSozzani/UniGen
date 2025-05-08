@@ -146,9 +146,11 @@ public partial class _Default : System.Web.UI.Page
             {
                 dt = (DataTable)ViewState["RisultatiRicerca"];
             }
-
-            DOCENTI d = new DOCENTI();
-            dt = d.SelezionaTutto();
+            else
+            {
+                DOCENTI d = new DOCENTI();
+                dt = d.SelezionaTutto();
+            }
 
             PopolaListaConPaginazione(dt, rpDocenti);
         }

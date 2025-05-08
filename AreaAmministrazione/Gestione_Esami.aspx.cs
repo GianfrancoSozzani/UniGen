@@ -221,9 +221,11 @@ public partial class _Default : System.Web.UI.Page
             {
                 dt = (DataTable)ViewState["RisultatiRicerca"];
             }
-
-            ESAMI es = new ESAMI();
-            dt = es.SelezionaTutto();
+            else
+            {
+                ESAMI es = new ESAMI();
+                dt = es.SelezionaTutto();
+            }
 
             PopolaListaConPaginazione(dt, rpEsame);
         }
