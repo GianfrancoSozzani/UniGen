@@ -45,7 +45,7 @@
                                             <asp:HiddenField ID="hfKAppello" runat="server" Value='<%# Eval("K_Appello") %>' />
                                         </td>
                                         <td><%# Eval("TitoloEsame") %></td>
-                                        <td><%# Eval("Obbligatorio").ToString().ToLower() == "true" ? "Obbligatorio" : "Facoltativo" %></td>
+                                        <td><%# Eval("Obbligatorio").ToString().ToLower() == "s" ? "Obbligatorio" : "Facoltativo" %></td>
                                         <td><%# Eval("DataAppello", "{0:dd/MM/yyyy}") %></td>
                                         <td><%# Eval("Tipo").ToString() == "Sc" ? "Scritto" : "Orale" %></td>
                                        <%-- <td>
