@@ -2,6 +2,7 @@
 using System.Reflection.Metadata.Ecma335;
 using System.Text.Json;
 using AreaPubblica.Data;
+using AreaPubblica.Models;
 using AreaPubblica.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -26,23 +27,80 @@ namespace AreaPubblica.Controllers
 
         public IActionResult ElencoCorsiCompleti()
         {
-            var dati = (
-                from corso in dbContext.Corsi
-                join facolta in dbContext.Facolta on corso.K_Facolta equals facolta.K_Facolta
-                join tipo in dbContext.TipiCorsi on corso.K_TipoCorso equals tipo.K_TipoCorso
-                select new
-                {
-                    TitoloCorso = corso.TitoloCorso,
-                    NomeFacolta = facolta.TitoloFacolta,
-                    TipoCorso = tipo.Tipo,
-                    Durata = tipo.Durata
-                }
-            ).ToList();
+            // Recupero i corsi includendo Facoltà e TipoCorso
+            var corsi = dbContext.Corsi
+                .Include(c => c.Facolta)
+                .Include(c => c.TipoCorso)
+                .ToList(); // ✅ Convertiamo in lista PRIMA della selezione
+
+            // 🔍 Debug: controllo il tipo di MinimoCFU prima di utilizzarlo
+            foreach (var corso in corsi)
+            {
+                Console.WriteLine($"MinimoCFU: {corso.MinimoCFU} - Tipo: {corso.MinimoCFU.GetType()}");
+            }
+
+            // Costruisco l'elenco dei corsi con conversioni sicure
+            var dati = corsi.Select(corso => new
+            {
+                IdCorso = corso.K_Corso,
+                TitoloCorso = corso.TitoloCorso ?? "Titolo non disponibile",
+                NomeFacolta = corso.Facolta?.TitoloFacolta ?? "Facoltà non disponibile",
+                TipoCorso = corso.TipoCorso?.Tipo ?? "Tipo non specificato",
+                Durata = corso.TipoCorso?.Durata ?? "Durata sconosciuta",
+                MinimoCFU = Convert.ToString((int)corso.MinimoCFU) // ✅ Conversione diretta da Int16 a int e poi a string
+            }).ToList();
 
             ViewBag.Corsi = dati;
 
             return View();
         }
+
+
+        public IActionResult Dettagli(Guid id)
+        {
+            var corso = dbContext.Corsi
+                .Include(c => c.Facolta)
+                .Include(c => c.TipoCorso)
+                .FirstOrDefault(c => c.K_Corso == id);
+
+            if (corso == null)
+            {
+                return NotFound("⚠️ Il corso selezionato non esiste.");
+            }
+
+            // 🔍 Lettura del file JSON per recuperare la descrizione del corso
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "descrizioniCorsi.json");
+            if (!System.IO.File.Exists(path))
+            {
+                return NotFound("⚠️ Il file delle descrizioni non esiste.");
+            }
+
+            var json = System.IO.File.ReadAllText(path);
+            var descrizioni = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+
+            // 🔍 Recuperiamo la descrizione per il corso
+            string descrizioneCorso = descrizioni.ContainsKey(corso.TitoloCorso) ? descrizioni[corso.TitoloCorso] : "Descrizione non disponibile.";
+
+            var corsoViewModel = new CorsoDettagliViewModel
+            {
+                IdCorso = corso.K_Corso,
+                TitoloCorso = corso.TitoloCorso,
+                NomeFacolta = corso.Facolta?.TitoloFacolta,
+                TipoCorso = corso.TipoCorso?.Tipo,
+                Durata = corso.TipoCorso?.Durata,
+                Descrizione = descrizioneCorso // ✅ Aggiunta della descrizione
+            };
+
+            return PartialView("_DettagliCorso", corsoViewModel);
+        }
+
+
+
+
+
+
+
+
 
 
 

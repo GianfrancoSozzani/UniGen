@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model AreaPubblica.Models.CorsoDettagliViewModel
+
+@{
+	ViewData["Title"] = "Dettagli Corso";
+}
+
+<h2>Dettagli del Corso</h2>
+
+<div>
+	<dl class="row">
+		<dt class="col-sm-3">ID Corso</dt>
+		<dd class="col-sm-9">@Model.IdCorso</dd>
+
+		<dt class="col-sm-3">Titolo Corso</dt>
+		<dd class="col-sm-9">@Model.TitoloCorso</dd>
+
+		<dt class="col-sm-3">Facoltà</dt>
+		<dd class="col-sm-9">@Model.NomeFacolta</dd>
+
+		<dt class="col-sm-3">Tipo di Corso</dt>
+		<dd class="col-sm-9">@Model.TipoCorso</dd>
+
+		<dt class="col-sm-3">Durata</dt>
+		<dd class="col-sm-9">@Model.Durata</dd>
+
+		<dt class="col-sm-3">Descrizione</dt>
+		<dd class="col-sm-9">@ViewBag.Descrizione</dd>
+	</dl>
+</div>
+
+<a asp-action="Index" class="btn btn-primary">Torna alla lista</a>
