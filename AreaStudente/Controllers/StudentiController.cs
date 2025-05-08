@@ -525,7 +525,8 @@ namespace AreaStudente.Controllers
             ViewData["abilitato"] = studente.Abilitato;
 
             var corso = await dbContext.Corsi.FirstOrDefaultAsync(c => c.K_Corso == model.K_Corso);
-            model.Importo = corso?.CostoAnnuale / 2; // Calcolo anticipato per la view, anche se il corso è null
+            // Modifica il calcolo dell'importo per approssimarlo alla seconda cifra decimale
+            model.Importo = Math.Round(corso?.CostoAnnuale / 2 ?? 0, 2); // Calcolo anticipato per la view, anche se il corso è null
 
             if (Request.Form.ContainsKey("updateFacolta"))
             {
