@@ -3,7 +3,7 @@
 }
 @model AreaDocente.Models.AddProveViewModel
 
-<div class="container ">
+<div class="container">
     <h1 class="mb-4">Aggiunta Prova</h1>
 
     <div class="card shadow-sm p-4">
@@ -46,7 +46,7 @@
             </div>
 
             <div class="mt-4 d-flex justify-content-end gap-2">
-                <button type="button" class="btn btn-info" id="btnAggiungiDomanda" onclick="aggiungiDomanda()">
+                <button type="button" disabled class="btn btn-info" id="btnAggiungiDomanda" onclick="aggiungiDomanda()">
                     <i class="bi bi-plus-circle me-1"></i> Aggiungi Domanda
                 </button>
                 <button type="submit" class="btn btn-primary" formaction="@Url.Action("Add")">
@@ -96,15 +96,6 @@
 
         function aggiungiDomanda() {
             const tipoProva = document.getElementById("TipoProva").value;
-            if (!tipoProva) {
-                alert("Seleziona prima un tipo di prova.");
-                return;
-            }
-
-            if (tipoProva === "Or") {
-                alert("Non è possibile aggiungere domande per prove orali.");
-                return;
-            }
 
             const container = document.getElementById("accordionContainer");
             const index = container.children.length;

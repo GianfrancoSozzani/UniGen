@@ -133,8 +133,6 @@
 					<input type="text" asp-for="Nome" class="form-control form-control-alternative" required />
 				</div>
 				@{
-					var oggi = DateTime.Today.ToString("yyyy-MM-dd");
-					var oggi2 = DateTime.Now.Year.ToString("yyyy-MM-dd");
 					var maxData = DateTime.Now.AddYears(-18).ToString("yyyy-MM-dd");
 				}
 				<div class="col-12 col-lg-4 mb-2">

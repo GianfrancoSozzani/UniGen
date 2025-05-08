@@ -70,9 +70,17 @@
                             </select>
                         </div>
 
+                        @{
+                            var minData = DateTime.Now.Date.ToString("s").Substring(0, 10); // Formato ISO: "YYYY-MM-DD"
+                        }
+
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Data Appello</label>
-                            <input type="date" class="form-control" name="DataAppello" required />
+                            <label class="form-label">Data Appello</label>
+                            <input type="date"
+                                   class="form-control"
+                                   name="DataAppello"
+                                   min="@minData"
+                                   value="@minData" required />
                         </div>
 
                         <div class="mb-3">
@@ -127,6 +135,10 @@
                             </select>
                         </div>
 
+                        @{
+                            var minData = DateTime.Now.ToString("yyyy-MM-dd");
+                        }
+
                         <div class="mb-3">
                             <label class="form-label">Data Appello</label>
                             <input type="date" class="form-control" id="edit_DataAppello" name="DataAppello" required />
@@ -156,7 +168,7 @@
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-pencil-square me-1"></i> Modifica
                         </button>
-                        <button type="submit" class="btn btn-danger" formaction="/Appelli/Delete">
+                        <button type="submit" formnovalidate class="btn btn-danger" formaction="/Appelli/Delete">
                             <i class="bi bi-trash me-1"></i> Elimina
                         </button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -184,6 +196,7 @@
 
         <script>
             function openEditAppelloModal(kAppello, kEsame, dataAppello, dataVerbalizzazione, tipo, link) {
+
                 document.getElementById("edit_K_Appello").value = kAppello;
                 document.getElementById("edit_DataAppello").value = dataAppello;
                 document.getElementById("edit_DataVerbalizzazione").value = dataVerbalizzazione;
@@ -191,15 +204,11 @@
 
                 // seleziona Esame
                 const selectEsame = document.getElementById("edit_K_Esame");
-                for (let i = 0; i < selectEsame.options.length; i++) {
-                    selectEsame.options[i].selected = (selectEsame.options[i].value == kEsame);
-                }
+                selectEsame.value = kEsame.toUpperCase();;
 
                 // seleziona Tipo
                 const selectTipo = document.getElementById("edit_Tipo");
-                for (let i = 0; i < selectTipo.options.length; i++) {
-                    selectTipo.options[i].selected = (selectTipo.options[i].value == tipo);
-                }
+                selectTipo.value = tipo;
             }
         </script>
     }
