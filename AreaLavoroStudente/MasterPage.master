@@ -130,9 +130,9 @@
                                     <asp:Label ID="lblStudente" runat="server"></asp:Label>
                                 </a>
                             </li>
-                          <%--  <li class="nav-item">
-                                <asp:Button ID="Button1" runat="server" Text="Area Studente" CssClass="btn btn-light btn-sm" OnClick="btnLogout_Click" />
-                            </li>--%>
+                            <li class="nav-item">
+                                <asp:Button ID="btnLogout" runat="server" Text="Area Studente" CssClass="btn btn-light btn-sm" OnClick="btnLogout_Click" />
+                            </li>
                         </ul>
                     </div>
                 </div>
