@@ -12,8 +12,8 @@ namespace AreaDocente.Models.Entities
         public string? Domanda { get; set; }
         public Guid? K_Prova { get; set; }
 
-        [ForeignKey("K_Prova")]
-        [ValidateNever]
-        public MVCPROVA? Prova { get; set; }
+        //[ForeignKey("K_Prova")]
+        //[ValidateNever]
+        //public MVCPROVA? Prova { get; set; }
     }
 }

@@ -626,7 +626,7 @@ hai ricevuto una comunicazione dall'Amministrazione.
                         nuovaRisposta.K_Studente = studente.K_Studente;
                     }
                     else
-                    {
+                    { 
                         // Se K_Soggetto non corrisponde a uno studente, verifica se corrisponde a un docente
                         var docente = dbContext.Docenti.FirstOrDefault(d => d.K_Docente == ultimaComunicazione.K_Soggetto);
                         if (docente != null)
