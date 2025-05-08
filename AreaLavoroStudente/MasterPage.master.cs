@@ -96,11 +96,17 @@ public partial class MasterPage : System.Web.UI.MasterPage
         string Matricola = Session["mat"] as string;
         string Abilitato = Session["a"] as string;
 
+
+        Session.Clear();
+        Session.Abandon();
+
+      
         string url = "https://localhost:7050/Studenti/Show?cod=" + Cod +
                      "&usr=" + Usr +
                      "&mat=" + Matricola +
                      "&a=" + Abilitato;
 
+        
         Response.Redirect(url);
 
     }
