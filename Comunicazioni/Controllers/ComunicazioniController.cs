@@ -176,7 +176,7 @@ namespace Comunicazioni.Controllers
                     }
                 }
 
-            viewModel.Comunicazioni = comunicazioni;
+                viewModel.Comunicazioni = comunicazioni;
 
                 return View(viewModel);
             }
@@ -257,7 +257,7 @@ namespace Comunicazioni.Controllers
 
             }
 
-            }
+        }
 
         //----------------------------------------------//
         //ADD-------------------------------------------//

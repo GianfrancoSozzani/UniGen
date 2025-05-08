@@ -19,8 +19,11 @@ namespace Comunicazioni.Controllers
         //LIST------------------------------------------//
         //----------------------------------------------//
         [HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string r, string cod)
         {
+            HttpContext.Session.SetString("r", r);
+            HttpContext.Session.SetString("cod", cod);
+
             string ruolo = HttpContext.Session.GetString("r");
             List<IGrouping<Guid, Comunicazione>> comunicazioni;
 
@@ -45,12 +48,13 @@ namespace Comunicazioni.Controllers
                 foreach (var comunicazione in gruppo)
                 {
                     // Carica il mittente
-                    comunicazione.MittenteStudente = null;
-                    comunicazione.MittenteDocente = null;
+                    //comunicazione.MittenteStudente = null;
+                    //comunicazione.MittenteDocente = null;
                     if (comunicazione.K_Soggetto.HasValue)
                     {
                         comunicazione.MittenteStudente = await dbContext.studenti
                             .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
+                        
                         if (comunicazione.MittenteStudente == null)
                         {
                             comunicazione.MittenteDocente = await dbContext.docenti
@@ -59,7 +63,7 @@ namespace Comunicazioni.Controllers
                     }
 
                     // Carica il destinatario
-                    comunicazione.DestinatarioStudente = null;
+                    //comunicazione.DestinatarioStudente = null;
                     if (comunicazione.K_Studente.HasValue)
                     {
                         comunicazione.DestinatarioStudente = await dbContext.studenti
@@ -123,10 +127,10 @@ namespace Comunicazioni.Controllers
                 .Where(s => studentiFiltrati.Contains(s.K_Studente) && s.Matricola != null)
                 .OrderBy(s => s.Cognome)
                 .Select(s => new SelectListItem
-                    {
-                        Text = s.Cognome + " " + s.Nome,
-                        Value = s.K_Studente.ToString()
-                    })
+                {
+                    Text = s.Cognome + " " + s.Nome,
+                    Value = s.K_Studente.ToString()
+                })
                 .ToList(); // Esegui subito la query e materializza i risultati
 
             ViewBag.StudentiList = listaStudenti;
