@@ -20,30 +20,14 @@ public partial class _Default : System.Web.UI.Page
     protected void PopolaList()
     {
         STUDENTI s = new STUDENTI();
-        DataTable dt = s.SelezionaTutto(); 
+        DataTable dt = s.SelezionaTutto();
+        PopolaListaConPaginazione(dt, rptStudenti);
 
-        PagedDataSource paged = new PagedDataSource();
-        paged.DataSource = dt.DefaultView;
-        paged.AllowPaging = true;
-        paged.PageSize = 10;
-        paged.CurrentPageIndex = PaginaCorrente;
-
-        rptStudenti.DataSource = paged;
-        rptStudenti.DataBind();
-
-        // Paginazione numerica
-        List<int> pagine = new List<int>();
-        for (int i = 0; i < paged.PageCount; i++)
-        {
-            pagine.Add(i + 1); // Indici da 0
-        }
-
-        rptPaginazione.DataSource = pagine;
-        rptPaginazione.DataBind();
     }
 
     protected void btnRicerca_Click(object sender, EventArgs e)
     {
+        ViewState["PaginaCorrente"] = 0;
         int matricolaRicerca;
         //se è un valore intero allora entra nell'if sennò devi inserire una matricola valida
         if (String.IsNullOrEmpty(txtRicercaMatricola.Text.Trim()))
@@ -65,10 +49,8 @@ public partial class _Default : System.Web.UI.Page
             if (dt != null && dt.Rows.Count > 0) //se la matricola esiste allora dt è maggiore di 0 e non è null
             {
 
-                rptStudenti.DataSource = dt.DefaultView; //la datasource del repeater diventa dt 
-                rptStudenti.DataBind();
-
-                lblErrore.Visible = false;
+                ViewState["RisultatiRicerca"] = dt;
+                PopolaListaConPaginazione(dt, rptStudenti);
             }
             else
             {
@@ -136,7 +118,7 @@ public partial class _Default : System.Web.UI.Page
         s.Matricola = int.Parse(matricola);
         DataTable dt = s.Attiva();
 
-        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Studente abilitato con successo')", true);        
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Studente abilitato con successo')", true);
         return dt != null && dt.Rows.Count > 0;
 
     }
@@ -147,26 +129,61 @@ public partial class _Default : System.Web.UI.Page
         s.Matricola = int.Parse(matrico);
         DataTable dt = s.Disattiva();
 
-        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Studente disabilitato con successo')", true);        
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Studente disabilitato con successo')", true);
         return dt != null && dt.Rows.Count > 0;
     }
 
     //PAGINAZIONE
-    public int GetPaginaCorrente()
-    {
-        return PaginaCorrente;
-    }
     private int PaginaCorrente
     {
         get { return ViewState["PaginaCorrente"] != null ? (int)ViewState["PaginaCorrente"] : 0; }
         set { ViewState["PaginaCorrente"] = value; }
     }
+    public int GetPaginaCorrente()
+    {
+        return ViewState["PaginaCorrente"] != null ? (int)ViewState["PaginaCorrente"] : 0;
+        ////return PaginaCorrente;
+    }
+    protected void PopolaListaConPaginazione(DataTable dati, Repeater rptDati)
+    {
+        PagedDataSource paged = new PagedDataSource();
+        paged.DataSource = dati.DefaultView;
+        paged.AllowPaging = true;
+        paged.PageSize = 10;
+        paged.CurrentPageIndex = PaginaCorrente;
+
+        rptDati.DataSource = paged;
+        rptDati.DataBind();
+
+        // Pagine numeriche
+        List<int> pagine = new List<int>();
+        for (int i = 0; i < paged.PageCount; i++)
+        {
+            pagine.Add(i + 1); // Le pagine partono da 1
+        }
+
+        rptPaginazione.DataSource = pagine;
+        rptPaginazione.DataBind();
+    }
     protected void rptPaginazione_ItemCommand(object source, RepeaterCommandEventArgs e)
     {
+
         if (e.CommandName == "CambiaPagina")
         {
-            PaginaCorrente = Convert.ToInt32(e.CommandArgument) - 1;
-            PopolaList();
+            int nuovaPagina = Convert.ToInt32(e.CommandArgument) - 1;
+            ViewState["PaginaCorrente"] = nuovaPagina;
+
+            DataTable dt;
+
+            if (ViewState["RisultatiRicerca"] != null)
+            {
+                dt = (DataTable)ViewState["RisultatiRicerca"];
+            }
+
+            STUDENTI s = new STUDENTI();
+            dt = s.SelezionaTutto();
+
+            PopolaListaConPaginazione(dt, rptStudenti);
         }
     }
 

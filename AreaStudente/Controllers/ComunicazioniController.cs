@@ -47,7 +47,7 @@ namespace Comunicazioni.Controllers
                     });
                 ViewBag.StudentiList = listaStudenti;
             }
-            else if (ruolo == "d" && K_Esame.HasValue)
+            else if (ruolo == "d" && K_Esame.HasValue) 
             {
                 var pianiDiStudio = dbContext.PianiStudioPersonali
                 .Where(ps => ps.K_Esame == K_Esame.Value)
@@ -56,11 +56,13 @@ namespace Comunicazioni.Controllers
                 // Recupera gli studenti che hanno un K_Studente presente nei piani di studio trovati
                 IEnumerable<SelectListItem> listaStudenti = dbContext.Studenti
                     .Where(s => pianiDiStudio.Contains(s.K_Studente))
+                   .OrderBy(s => s.Cognome)
                     .Select(s => new SelectListItem
                     {
-                        Text = s.Nome + " " + s.Cognome,
+                        Text = s.Cognome + " " + s.Nome,
                         Value = s.K_Studente.ToString()
-                    });
+                    })
+                    .ToList();
                 ViewBag.StudentiList = listaStudenti;
             }
         }

@@ -125,7 +125,7 @@ public partial class _Default : System.Web.UI.Page
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Inserisci un numero intero valido per i CFU')", true);
             return;
-        }        
+        }
 
         ESAMI es = new ESAMI();
         es.K_Esame = id;
@@ -153,17 +153,19 @@ public partial class _Default : System.Web.UI.Page
 
     protected void btnRicerca_Click(object sender, EventArgs e)
     {
-        //avendo creato la variabile matricolaRicerca la poniamo uguale alla matricola della classe
+        ViewState["PaginaCorrente"] = 0; //azzero la paginazione
+
         ESAMI esami = new ESAMI();
         esami.TitoloEsame = txtRicercaEsame.Text.Trim();
         DataTable dt = esami.SelezionaPerNome();
-        if (dt != null && dt.Rows.Count > 0) //se la matricola esiste allora dt è maggiore di 0 e non è null
+        if (dt != null && dt.Rows.Count > 0) //se l'esame esiste allora dt è maggiore di 0 e non è null
         {
+            //rpEsame.DataSource = dt.DefaultView; //la datasource del repeater diventa dt 
+            //rpEsame.DataBind();
 
-            rpEsame.DataSource = dt.DefaultView; //la datasource del repeater diventa dt 
-            rpEsame.DataBind();
-
-            lblErrore.Visible = false;
+            //lblErrore.Visible = false;
+            ViewState["RisultatiRicerca"] = dt;
+            PopolaListaConPaginazione(dt, rpEsame);
         }
         else
         {
@@ -174,7 +176,7 @@ public partial class _Default : System.Web.UI.Page
             rpEsame.DataBind();
         }
     }
-         //PAGINAZIONE
+    //PAGINAZIONE
     private int PaginaCorrente
     {
         get { return ViewState["PaginaCorrente"] != null ? (int)ViewState["PaginaCorrente"] : 0; }
@@ -182,7 +184,8 @@ public partial class _Default : System.Web.UI.Page
     }
     public int GetPaginaCorrente()
     {
-        return PaginaCorrente;
+        return ViewState["PaginaCorrente"] != null ? (int)ViewState["PaginaCorrente"] : 0;
+        //return PaginaCorrente;
     }
     protected void PopolaListaConPaginazione(DataTable dati, Repeater rptDati)
     {
@@ -209,8 +212,20 @@ public partial class _Default : System.Web.UI.Page
     {
         if (e.CommandName == "CambiaPagina")
         {
-            PaginaCorrente = Convert.ToInt32(e.CommandArgument) - 1;
-            CaricaEsami();
+            int nuovaPagina = Convert.ToInt32(e.CommandArgument) - 1;
+            ViewState["PaginaCorrente"] = nuovaPagina;
+
+            DataTable dt;
+
+            if (ViewState["RisultatiRicerca"] != null)
+            {
+                dt = (DataTable)ViewState["RisultatiRicerca"];
+            }
+
+            ESAMI es = new ESAMI();
+            dt = es.SelezionaTutto();
+
+            PopolaListaConPaginazione(dt, rpEsame);
         }
     }
 }
