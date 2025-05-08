@@ -11,17 +11,30 @@ using LibreriaClassi;
 
     public partial class PianoStudiPersonale : Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+   protected void Page_Load(object sender, EventArgs e)
+
         {
-            if (!IsPostBack)
+        ValidationSettings.UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
+        if (!IsPostBack)
             {
+            string Matricola = Session["mat"].ToString();
+            Session["mat"] = Matricola;
             string K_Studente = Session["cod"].ToString();
             Session["cod"] = K_Studente;
-            string Matricola = Session["mat"] as string;
-            Session["mat"] = Matricola;
             CaricaAA(int.Parse(Matricola));
-
             CaricaPianoStudio();
+            try
+                {
+                    CaricaEsamiDisponibili(Guid.Parse(K_Studente));
+                }
+                catch (SqlException sqlEx)
+                {
+                    MostraErrore("Errore database:" + sqlEx.Message);
+                }
+                catch (Exception ex)
+                {
+                    MostraErrore("Errore database:" + ex.Message);
+                }
             }
         }
 
@@ -77,41 +90,114 @@ using LibreriaClassi;
         protected void btnNuovoPiano_Click(object sender, EventArgs e)
         {
             Response.Redirect("InserisciPianoStudio.aspx");
-        }
+    }
 
-        protected void rptPianoStudio_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
+    protected void rptPianoStudio_ItemCommand(object source, System.Web.UI.WebControls.RepeaterCommandEventArgs e)
+    {
+        try
         {
-            try
+            if (e.CommandName == "Elimina")
             {
-                if (e.CommandName == "Elimina")
+                Guid K_Studente = new Guid((string)Session["cod"]);
+                Guid idPiano = new Guid(e.CommandArgument.ToString());
+                PIANISTUDIOPERSONALI piano = new PIANISTUDIOPERSONALI
                 {
-                    Guid idPiano = new Guid(e.CommandArgument.ToString());
-                    PIANISTUDIOPERSONALI piano = new PIANISTUDIOPERSONALI
-                    {
-                        K_PianoStudioPersonale = idPiano
-                    };
+                    K_PianoStudioPersonale = idPiano
+                };
 
-                    piano.Elimina();
-                    MostraSuccesso("Esame rimosso con successo dal piano di studio.");
-                    CaricaPianoStudio();
-                }
-                else if (e.CommandName == "Modifica")
-                {
-                    string idPiano = e.CommandArgument.ToString();
-                    Response.Redirect("ModificaPianoStudi.aspx?idPiano=" + idPiano);
-                }
+                piano.Elimina();
+                CaricaEsamiDisponibili(K_Studente);
+                MostraSuccesso("Esame rimosso con successo dal piano di studio.");
+                CaricaPianoStudio();
             }
-            catch (SqlException sqlEx)
+            else if (e.CommandName == "Modifica")
             {
-                MostraErrore("Errore durante l'operazione: " + sqlEx.Message);
-            }
-            catch (Exception ex)
-            {
-                MostraErrore("Errore durante l'operazione: " + ex.Message);
+                string idPiano = e.CommandArgument.ToString();
+                Response.Redirect("ModificaPianoStudi.aspx?idPiano=" + idPiano);
             }
         }
+        catch (SqlException sqlEx)
+        {
+            MostraErrore("Errore durante l'operazione: " + sqlEx.Message);
+        }
+        catch (Exception ex)
+        {
+            MostraErrore("Errore durante l'operazione: " + ex.Message);
+        }
+    }
 
-        private void MostraSuccesso(string messaggio)
+    private void CaricaEsamiDisponibili(Guid K_Studente)
+    {
+        try
+        {
+            PIANISTUDIOPERSONALI piano = new PIANISTUDIOPERSONALI();
+            DataTable dt = piano.GetEsamiDisponibili(K_Studente);
+
+            ddlEsame.DataSource = dt;
+            ddlEsame.DataTextField = "TitoloEsame";
+            ddlEsame.DataValueField = "K_Esame";
+            ddlEsame.DataBind();
+        }
+        catch (SqlException sqlEx)
+        {
+            MostraModalErrore("Errore database:" + sqlEx.Message);
+        }
+        catch (Exception ex)
+        {
+            MostraModalErrore("Errore database:" + ex.Message);
+        }
+    }
+
+    protected void btnSalvaModal_Click(object sender, EventArgs e)
+    {
+        if (!Page.IsValid) return;
+
+        try
+        {
+            PIANISTUDIOPERSONALI dati = new PIANISTUDIOPERSONALI
+            {
+                K_Esame = new Guid(ddlEsame.SelectedValue)
+            };
+            DataTable dt = dati.GetDatiEsame();
+
+            PIANISTUDIOPERSONALI piano = new PIANISTUDIOPERSONALI
+            {
+                K_PianoStudioPersonale = Guid.NewGuid(),
+                K_Esame = new Guid(ddlEsame.SelectedValue),
+                K_Studente = new Guid((string)Session["cod"]),
+                Obbligatorio = Convert.ToChar(dt.Rows[0]["Obbligatorio"]),
+                AnnoAccademico = dt.Rows[0]["AnnoAccademico"].ToString()
+            };
+
+            piano.Inserimento();
+
+            CaricaEsamiDisponibili(piano.K_Studente);
+
+            CaricaPianoStudio();
+            
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "closeModal",
+                "$('#modalInserisciEsame').modal('hide');", true);
+            MostraSuccesso("Esame aggiunto con successo!");
+        }
+        catch (SqlException sqlEx)
+        {
+            MostraModalErrore("Errore database durante il salvataggio: " + sqlEx.Message);
+        }
+        catch (Exception ex)
+        {
+            MostraModalErrore("Errore database durante il salvataggio: " + ex.Message);
+        }
+    }
+
+
+    private void MostraModalErrore(string messaggio)
+    {
+        pnlModalMessaggio.Visible = true;
+        pnlModalMessaggio.CssClass = "alert alert-danger alert-dismissible fade show alert-message";
+        litModalMessaggio.Text = messaggio;
+    }
+
+    private void MostraSuccesso(string messaggio)
         {
             pnlMessaggio.Visible = true;
             pnlMessaggio.CssClass = "alert alert-success alert-dismissible fade show mb-3";
