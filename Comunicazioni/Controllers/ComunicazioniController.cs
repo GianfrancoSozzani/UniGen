@@ -56,26 +56,59 @@ namespace Comunicazioni.Controllers
                     .GroupBy(c => c.Codice_Comunicazione)
                     .ToListAsync();
 
+                //foreach (var gruppo in comunicazioni)
+                //{
+                //    foreach (var comunicazione in gruppo)
+                //    {
+                //        // Carica il mittente (se è uno studente)
+                //        if (comunicazione.K_Soggetto.HasValue)
+                //        {
+                //            comunicazione.Studente = await dbContext.Studenti
+                //                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
+                //        }
+                //        // Carica il mittente (se è un docente)
+                //        if (comunicazione.K_Soggetto.HasValue && comunicazione.Studente == null)
+                //        {
+                //            comunicazione.Docente = await dbContext.Docenti
+                //                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+                //        }
+
+                //    }
+                //}
+
+
                 foreach (var gruppo in comunicazioni)
                 {
                     foreach (var comunicazione in gruppo)
                     {
-                        // Carica il mittente (se è uno studente)
+                        // Carica il mittente
+                        comunicazione.MittenteStudente = null;
+                        comunicazione.MittenteDocente = null;
                         if (comunicazione.K_Soggetto.HasValue)
                         {
-                            comunicazione.Studente = await dbContext.Studenti
+                            comunicazione.MittenteStudente = await dbContext.Studenti
                                 .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
-                        }
-                        // Carica il mittente (se è un docente)
-                        if (comunicazione.K_Soggetto.HasValue && comunicazione.Studente == null)
-                        {
-                            comunicazione.Docente = await dbContext.Docenti
-                                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+                            if (comunicazione.MittenteStudente == null)
+                            {
+                                comunicazione.MittenteDocente = await dbContext.Docenti
+                                    .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+                            }
                         }
 
+                        // Carica il destinatario
+                        comunicazione.DestinatarioStudente = null;
+                        if (comunicazione.K_Studente.HasValue)
+                        {
+                            comunicazione.DestinatarioStudente = await dbContext.Studenti
+                                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Studente);
+                        }
+                        else if (comunicazione.K_Docente.HasValue)
+                        {
+                            comunicazione.DestinatarioDocente = await dbContext.Docenti
+                                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Docente);
+                        }
                     }
                 }
-
                 viewModel.Comunicazioni = comunicazioni;
 
                 return View(viewModel);
@@ -91,26 +124,59 @@ namespace Comunicazioni.Controllers
                     .GroupBy(c => c.Codice_Comunicazione)
                     .ToListAsync();
 
-                foreach (var gruppo in comunicazioni)
+                //foreach (var gruppo in comunicazioni)
+                //{
+                //    foreach (var comunicazione in gruppo)
+                //    {
+                //        // Carica il mittente (se è un docente)
+                //        if (comunicazione.K_Soggetto.HasValue)
+                //        {
+                //            comunicazione.Docente = await dbContext.Docenti
+                //                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+                //        }
+                //        // Carica il mittente (se è uno studente) 
+                //        if (comunicazione.K_Soggetto.HasValue && comunicazione.K_Studente == null)
+                //        {
+                //            comunicazione.Studente = await dbContext.Studenti
+                //                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
+                //        }
+                //    }
+                //}
+
+                foreach (var gruppo in comunicazioni)// Se hai raggruppamento
                 {
                     foreach (var comunicazione in gruppo)
                     {
-                        // Carica il mittente (se è un docente)
+                        // Carica il mittente
+                        comunicazione.MittenteStudente = null;
+                        comunicazione.MittenteDocente = null;
                         if (comunicazione.K_Soggetto.HasValue)
                         {
-                            comunicazione.Docente = await dbContext.Docenti
-                                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
-                        }
-                        // Carica il mittente (se è uno studente) 
-                        if (comunicazione.K_Soggetto.HasValue && comunicazione.K_Studente == null)
-                        {
-                            comunicazione.Studente = await dbContext.Studenti
+                            comunicazione.MittenteStudente = await dbContext.Studenti
                                 .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
+                            if (comunicazione.MittenteStudente == null)
+                            {
+                                comunicazione.MittenteDocente = await dbContext.Docenti
+                                    .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+                            }
+                        }
+
+                        // Carica il destinatario
+                        comunicazione.DestinatarioStudente = null;
+                        if (comunicazione.K_Studente.HasValue)
+                        {
+                            comunicazione.DestinatarioStudente = await dbContext.Studenti
+                                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Studente);
+                        }
+                        else if (comunicazione.K_Docente.HasValue)
+                        {
+                            comunicazione.DestinatarioDocente = await dbContext.Docenti
+                                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Docente);
                         }
                     }
                 }
 
-                viewModel.Comunicazioni = comunicazioni;
+            viewModel.Comunicazioni = comunicazioni;
 
                 return View(viewModel);
             }
@@ -133,21 +199,54 @@ namespace Comunicazioni.Controllers
                     .GroupBy(c => c.Codice_Comunicazione)
                     .ToListAsync();
 
+                //foreach (var gruppo in comunicazioni)
+                //{
+                //    foreach (var comunicazione in gruppo)
+                //    {
+                //        // Carica il mittente (se è un docente)
+                //        if (comunicazione.K_Soggetto.HasValue)
+                //        {
+                //            comunicazione.Docente = await dbContext.Docenti
+                //                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+                //        }
+                //        // Carica il mittente (se è uno studente) 
+                //        if (comunicazione.K_Soggetto.HasValue && comunicazione.Docente == null)
+                //        {
+                //            comunicazione.Studente = await dbContext.Studenti
+                //                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
+                //        }
+                //    }
+                //}
+
                 foreach (var gruppo in comunicazioni)
                 {
                     foreach (var comunicazione in gruppo)
                     {
-                        // Carica il mittente (se è un docente)
+                        // Carica il mittente
+                        comunicazione.MittenteStudente = null;
+                        comunicazione.MittenteDocente = null;
                         if (comunicazione.K_Soggetto.HasValue)
                         {
-                            comunicazione.Docente = await dbContext.Docenti
-                                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
-                        }
-                        // Carica il mittente (se è uno studente) 
-                        if (comunicazione.K_Soggetto.HasValue && comunicazione.Docente == null)
-                        {
-                            comunicazione.Studente = await dbContext.Studenti
+                            comunicazione.MittenteStudente = await dbContext.Studenti
                                 .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
+                            if (comunicazione.MittenteStudente == null)
+                            {
+                                comunicazione.MittenteDocente = await dbContext.Docenti
+                                    .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+                            }
+                        }
+
+                        // Carica il destinatario
+                        comunicazione.DestinatarioStudente = null;
+                        if (comunicazione.K_Studente.HasValue)
+                        {
+                            comunicazione.DestinatarioStudente = await dbContext.Studenti
+                                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Studente);
+                        }
+                        else if (comunicazione.K_Docente.HasValue)
+                        {
+                            comunicazione.DestinatarioDocente = await dbContext.Docenti
+                                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Docente);
                         }
                     }
                 }
@@ -158,7 +257,7 @@ namespace Comunicazioni.Controllers
 
             }
 
-        }
+            }
 
         //----------------------------------------------//
         //ADD-------------------------------------------//
