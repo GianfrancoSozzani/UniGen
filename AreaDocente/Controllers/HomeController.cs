@@ -161,7 +161,7 @@ namespace AreaDocente.Controllers
             {
                 Comunicazioni = comunicazioni,  // Passa le comunicazioni recuperate
                 AddComunicazione = new AddComunicazioneViewModel()
-            };
+            }; 
 
             // Restituisci la vista con il modello
             return View(model);
