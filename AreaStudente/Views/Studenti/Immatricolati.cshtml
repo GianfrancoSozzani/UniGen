@@ -170,6 +170,23 @@
 				</div>
 			</div>
 
+			<!-- Modale di conferma -->
+			<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content bg-success text-white">
+						<div class="modal-header">
+							<h5 class="modal-title" id="successModalLabel">Pagamento riuscito</h5>
+						</div>
+						<div class="modal-body">
+							Pagamento effettuato con successo da: <span id="payerName"></span>.
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-light" id="btnConfermaRedirect">OK</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<!-- Modal Conferma -->
 			<div class="modal fade" id="confermaModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
 				<div class="modal-dialog">
@@ -239,15 +256,23 @@
 					}]
 				});
 			},
-			onApprove: function (data, actions) {
-				return actions.order.capture().then(function (details) {
-					alert('Pagamento effettuato da: ' + details.payer.name.given_name);
+							onApprove: function (data, actions) {
+			return actions.order.capture().then(function (details) {
+				// Imposta il nome nella modale
+				document.getElementById("payerName").textContent = details.payer.name.given_name;
 
+				// Mostra la modale (richiede Bootstrap)
+				const modal = new bootstrap.Modal(document.getElementById('successModal'));
+				modal.show();
+
+				// Al click su OK, invia i dati e reindirizza
+				document.getElementById("btnConfermaRedirect").onclick = function () {
 					const form = document.getElementById("modifica-form");
 					if (!form) {
 						alert("Form non trovato!");
 						return;
 					}
+
 					const formData = new FormData(form);
 					formData.append("cod", "@Model.K_Studente");
 
@@ -266,8 +291,9 @@
 						console.error("Errore durante l'immatricolazione:", error);
 						alert("Errore durante l'immatricolazione.");
 					});
-				});
-			},
+				};
+			});
+		},
 			onCancel: function (data) {
 				alert("Pagamento annullato.");
 			},
@@ -276,5 +302,8 @@
 				alert("Errore durante il pagamento.");
 			}
 		}).render('#paypal-button-container');
+
+		}
+
 	</script>
 }
