@@ -101,7 +101,7 @@
                         <asp:Label ID="lblNomeUtente" runat="server" CssClass="fw-bold text-white me-2"></asp:Label>
                     </div>
                     <div>
-                        <a href="https://localhost:7272/" class="btn btn-sm btn-danger ms-4"><i class="bi bi-box-arrow-right"></i>Logout</a>
+                        <a href="javascript:window.close();" class="btn btn-sm btn-danger ms-4"><i class="bi bi-box-arrow-right"></i>Logout</a>
                     </div>
                 </div>
 
