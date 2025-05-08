@@ -15,13 +15,13 @@
             border-radius: 5px;
             margin-bottom: 20px;
         }
-        
+
         .btn.disabled {
             opacity: 0.65;
             cursor: not-allowed;
             pointer-events: none;
         }
-        
+
         .modal-iframe {
             width: 100%;
             height: 500px;
@@ -31,7 +31,44 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <div class="container mt-2 mb-4">
+
+        <div class="modal fade" id="modalInserisciEsame" tabindex="-1" aria-labelledby="modalInserisciEsameLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalInserisciEsameLabel">Aggiungi Esame al Piano di Studio</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <asp:UpdatePanel ID="upModal" runat="server" UpdateMode="Conditional">
+                            <ContentTemplate>
+                                <asp:Panel ID="pnlModalMessaggio" runat="server" Visible="false" CssClass="alert alert-warning alert-dismissible fade show mb-4">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    <asp:Literal ID="litModalMessaggio" runat="server"></asp:Literal>
+                                </asp:Panel>
+
+                                <div class="mb-4">
+                                    <label class="form-label fw-semibold">Seleziona Esame</label>
+                                    <asp:DropDownList ID="ddlEsame" runat="server" CssClass="form-select">
+                                        <asp:ListItem Text="Seleziona Esame" Value="" />
+                                    </asp:DropDownList>
+                                    <asp:RequiredFieldValidator ID="rfvEsame" runat="server"
+                                        ControlToValidate="ddlEsame" ErrorMessage="Seleziona un esame"
+                                        CssClass="text-danger" Display="Dynamic" />
+                                </div>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                    </div>
+                    <div class="modal-footer">
+                        <asp:Button ID="btnSalvaModal" runat="server" Text="Salva" CssClass="btn btn-primary" OnClick="btnSalvaModal_Click" />
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- INTESTAZIONE -->
         <div class="py-4 border-bottom">
             <h2 class="text-start mb-1">Piano di Studio Personale</h2>
@@ -98,11 +135,9 @@
                 </asp:Panel>
 
                 <!-- PULSANTE AGGIUNGI -->
-                <div class="mt-3">
-                    <asp:Button ID="btnNuovoPiano" runat="server" Text="Aggiungi Esame"
-                        CssClass="btn btn-primary" onClick="btnNuovoPiano_Click" />
-                </div>
-
+                <asp:Button ID="btnNuovoPiano" runat="server" Text="Aggiungi Esame"
+                    CssClass="btn btn-primary" OnClientClick="return false;"
+                    data-bs-toggle="modal" data-bs-target="#modalInserisciEsame" />
                 <!-- MESSAGGI -->
                 <div class="mt-3" style="min-height: 2.5rem;">
                     <asp:Label ID="lblEsito" runat="server" CssClass="alert d-none"></asp:Label>
@@ -117,7 +152,7 @@
                         <p class="text-muted fs-6">
                             Questa pagina mostra il tuo piano di studi personalizzato.<br />
                             <br />
-                            Puoi aggiungere, modificare o rimuovere gli esami che intendi sostenere.<br />
+                            Puoi aggiungere o rimuovere gli esami che intendi sostenere.<br />
                             <br />
                             Gli esami obbligatori sono indicati automaticamente dal sistema e non possono essere rimossi.
                         </p>
