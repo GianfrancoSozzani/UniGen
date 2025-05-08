@@ -17,12 +17,34 @@ using LibreriaClassi;
             {
             string K_Studente = Session["cod"].ToString();
             Session["cod"] = K_Studente;
+            string Matricola = Session["mat"] as string;
+            Session["mat"] = Matricola;
+            CaricaAA(int.Parse(Matricola));
 
             CaricaPianoStudio();
             }
         }
 
-        private void CaricaPianoStudio()
+    public void CaricaAA(int Matricola)
+    {
+
+        STUDENTI studente = new STUDENTI();
+        studente.Matricola = Matricola;
+        DataTable dt = studente.SelezionaAnnoAccademico(Matricola);
+
+        if (dt.Rows.Count >= 1)
+        {
+            string annoAccademico = dt.Rows[0]["AnnoAccademico"].ToString();
+            string corso = dt.Rows[0]["TitoloCorso"].ToString();
+            string facolta = dt.Rows[0]["TitoloFacolta"].ToString();
+
+            lblAnno.Text = "Anno Accademico " + annoAccademico;
+            lblFacolta.Text = "Facoltà " + facolta;
+            lblCorso.Text = "Corso " + corso;
+        }
+    }
+
+    private void CaricaPianoStudio()
         {
             try
             {
