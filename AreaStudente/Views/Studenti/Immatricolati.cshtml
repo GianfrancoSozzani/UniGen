@@ -42,6 +42,13 @@
 				<div class="card shadow">
 					<div class="card-body">
 						<h3 class="text-center mb-2">Procedura di Immatricolazione</h3>
+						@if (TempData["MessaggioCorso"] != null)
+						{
+							<div class="alert alert-danger text-center" role="alert">
+								@TempData["MessaggioCorso"]
+							</div>
+						}
+
 						@if (!ViewData.ModelState.IsValid)
 						{
 							<div class="alert alert-danger text-center" role="alert">
@@ -140,7 +147,7 @@
 						{
 							<div class="text-center">
 								<button type="button" class="btn btn-primary" disabled>Procedi</button>
-								<div class="text-center">
+								@* <div class="text-center">
 									<div class="text-danger mt-2">
 										@if (Model.Matricola.HasValue)
 										{
@@ -155,7 +162,7 @@
 											<span>Compila correttamente tutti i campi richiesti.</span>
 										}
 									</div>
-								</div>
+								</div> *@
 							</div>
 
 						}

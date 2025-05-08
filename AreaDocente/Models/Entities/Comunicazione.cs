@@ -22,5 +22,18 @@ namespace AreaDocente.Models.Entities
         [ValidateNever]
         public MVCDOCENTE? Docente { get; set; }
 
+
+        // Proprietà per il mittente (non mappate al DB come relazioni)
+        [NotMapped]
+        public MVCStudente? MittenteStudente { get; set; }
+        [NotMapped]
+        public MVCDOCENTE? MittenteDocente { get; set; }
+
+        // Proprietà per il destinatario (non mappate al DB come relazioni)
+        [NotMapped]
+        public MVCStudente? DestinatarioStudente { get; set; }
+        [NotMapped]
+        public MVCDOCENTE? DestinatarioDocente { get; set; }
+
     }
 }
