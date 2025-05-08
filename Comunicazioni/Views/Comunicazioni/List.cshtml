@@ -42,25 +42,6 @@
 								}
 							</td>
 							<td>
-								@{
-									if (primaComunicazione != null)
-									{
-										if (primaComunicazione.Studente_D != null && primaComunicazione.K_Studente == primaComunicazione.Studente.K_Studente)
-										{
-											<span class="text-primary">@($"{primaComunicazione.Studente_D.Nome} {primaComunicazione.Studente_D.Cognome}")</span>
-										}
-										else if (primaComunicazione.Docente != null && primaComunicazione.K_Docente == primaComunicazione.Docente.K_Docente)
-										{
-											<span class="text-primary">@($"{primaComunicazione.Docente_D.Nome} {primaComunicazione.Docente_D.Cognome}")</span>
-										}
-										else
-										{
-											<span class="text-primary">Amministrazione</span>
-										}
-									}
-								}
-							</td>
-							<td>
 								<div class="accordion" id="accordion_@gruppo.Key">
 									<div class="accordion-item">
 										<h2 class="accordion-header">
