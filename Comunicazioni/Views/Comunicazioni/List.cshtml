@@ -12,7 +12,8 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Ruolo Mittente</th>
+						<th>Mittente</th>
+						<th>Destinatario</th>
 						<th>Comunicazione</th>
 					</tr>
 				</thead>
@@ -32,6 +33,25 @@
 										else if (primaComunicazione.Docente != null && primaComunicazione.K_Soggetto == primaComunicazione.Docente.K_Docente)
 										{
 											<span class="text-primary">@($"{primaComunicazione.Docente.Nome} {primaComunicazione.Docente.Cognome}")</span>
+										}
+										else
+										{
+											<span class="text-primary">Amministrazione</span>
+										}
+									}
+								}
+							</td>
+							<td>
+								@{
+									if (primaComunicazione != null)
+									{
+										if (primaComunicazione.Studente_D != null && primaComunicazione.K_Studente == primaComunicazione.Studente.K_Studente)
+										{
+											<span class="text-primary">@($"{primaComunicazione.Studente_D.Nome} {primaComunicazione.Studente_D.Cognome}")</span>
+										}
+										else if (primaComunicazione.Docente != null && primaComunicazione.K_Docente == primaComunicazione.Docente.K_Docente)
+										{
+											<span class="text-primary">@($"{primaComunicazione.Docente_D.Nome} {primaComunicazione.Docente_D.Cognome}")</span>
 										}
 										else
 										{
