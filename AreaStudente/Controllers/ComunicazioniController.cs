@@ -47,7 +47,7 @@ namespace Comunicazioni.Controllers
                     });
                 ViewBag.StudentiList = listaStudenti;
             }
-            else if (ruolo == "d" && K_Esame.HasValue)
+            else if (ruolo == "d" && K_Esame.HasValue) 
             {
                 var pianiDiStudio = dbContext.PianiStudioPersonali
                 .Where(ps => ps.K_Esame == K_Esame.Value)
