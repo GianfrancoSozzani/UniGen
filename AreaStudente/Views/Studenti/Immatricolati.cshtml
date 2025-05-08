@@ -42,6 +42,13 @@
 				<div class="card shadow">
 					<div class="card-body">
 						<h3 class="text-center mb-2">Procedura di Immatricolazione</h3>
+						@if (TempData["MessaggioCorso"] != null)
+						{
+							<div class="alert alert-danger text-center" role="alert">
+								@TempData["MessaggioCorso"]
+							</div>
+						}
+
 						@if (!ViewData.ModelState.IsValid)
 						{
 							<div class="alert alert-danger text-center" role="alert">

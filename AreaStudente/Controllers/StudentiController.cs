@@ -460,7 +460,8 @@ namespace AreaStudente.Controllers
             var corso = await dbContext.Corsi.FirstOrDefaultAsync(c => c.K_Corso == model.K_Corso);
             if (corso == null)
             {
-                ModelState.AddModelError("", "Devi selezionare un corso per poterti immatricolare.");
+                TempData["MessaggioCorso"] = "Devi selezionare un corso per poterti immatricolare.";
+                TempData.Keep("MessaggioCorso"); // <-- questa riga fa la differenza
             }
 
             return View(model);
