@@ -296,14 +296,14 @@ namespace Comunicazioni.Controllers
                 var esamiDelDocenteList = dbContext.Esami
                     .Where(e => e.K_Docente == docenteId)
                     .Select(e => e.K_Esame)
-                    .ToList(); // Esegui subito la query e materializza i risultati
+                    .ToList();
 
                 // Ottieni solo gli studenti che hanno almeno un esame del docente in PianiStudioPersonali
                 var studentiFiltrati = dbContext.PianiStudioPersonali
                     .Where(ps => ps.K_Esame.HasValue && esamiDelDocenteList.Contains(ps.K_Esame.Value))
                     .Select(ps => ps.K_Studente)
                     .Distinct()
-                    .ToList(); // Esegui subito la query e materializza i risultati
+                    .ToList();
 
                 // Carica solo questi studenti dalla tabella Studenti
                 var listaStudenti = dbContext.Studenti
@@ -314,7 +314,7 @@ namespace Comunicazioni.Controllers
                         Text = s.Cognome + " " + s.Nome,
                         Value = s.K_Studente.ToString()
                     })
-                    .ToList(); // Esegui subito la query e materializza i risultati
+                    .ToList();
 
                 ViewBag.StudentiList = listaStudenti;
             }
