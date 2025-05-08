@@ -19,6 +19,8 @@ namespace AreaPubblica.Models.Entities
         [ForeignKey("K_TipoCorso")]
         [ValidateNever]
         public TipoCorso TipoCorso { get; set; }
-        public string? MinimoCFU { get; set; }
+        
+        private string _minimoCFU;
+        public short MinimoCFU { get; set; }
     }
 }

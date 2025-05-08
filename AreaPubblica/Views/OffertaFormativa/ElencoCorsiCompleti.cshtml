@@ -1,76 +1,116 @@
 ﻿@{
 	var corsi = (IEnumerable<dynamic>)ViewBag.Corsi;
-
-	var tipoGruppi = corsi
-		.GroupBy(c => c.TipoCorso)
-		.OrderBy(g => g.Key);
+	var tipoGruppi = corsi.GroupBy(c => c.TipoCorso).OrderBy(g => g.Key);
 }
 
 <div class="container mb-5" style="padding-top: 120px;">
-	<div class="row">
-		<h1 class="mb-4">Corsi di Laurea</h1>
+	<h1 class="mb-4">Elenco Completo dei Corsi</h1>
 
-		<!-- Colonna sinistra: testo + accordion -->
-		<div class="col-md-8">
-			<p>
-				La nostra università online propone una vasta gamma di <b>corsi di laurea</b>, pensati per rispondere alle esigenze di formazione nei più diversi ambiti disciplinari.
-				L’offerta comprende <b>percorsi di laurea triennale, magistrale e a ciclo unico</b>, così da permettere a ogni studente di scegliere il cammino più adatto ai propri interessi
-				e obiettivi professionali. Ogni corso è progettato per offrire una preparazione solida, aggiornata e in linea con le richieste del mondo del lavoro,
-				mantenendo al tempo stesso la flessibilità tipica della didattica online. Qualunque sia il tuo percorso, troverai un ambiente dinamico, accessibile e orientato al supporto costante
-				dello studente.
+	<div class="row">
+		<!-- Colonna sinistra: elenco corsi -->
+		<div class="col-lg-8 col-md-12">
+			<p class="mb-4">
+				Qui puoi consultare l'elenco completo dei corsi offerti dalla nostra università, suddivisi per facoltà e tipologia.
+				Ogni corso è progettato per fornire una preparazione approfondita, combinando teoria e pratica,
+				con un focus sulle esigenze del mondo del lavoro.
 			</p>
 
-			<div class="accordion" id="accordionTipo">
-				@foreach (var tipo in tipoGruppi)
-				{
-					var tipoId = "tipo_" + tipo.Key.Replace(" ", "").ToLowerInvariant();
+			@if (corsi != null)
+			{
+				<div class="accordion" id="accordionCorsi">
+					@foreach (var tipo in tipoGruppi)
+					{
+						string tipoId = "corso_" + tipo.Key.Replace(" ", "").ToLower();
 
-					<div class="accordion-item">
-						<h2 class="accordion-header" id="heading-@tipoId">
-							<button class="accordion-button collapsed" type="button"
-									data-bs-toggle="collapse"
-									data-bs-target="#@tipoId"
-									aria-expanded="false"
-									aria-controls="@tipoId">
-								<strong>@tipo.Key</strong>
-							</button>
-						</h2>
-						<div id="@tipoId" class="accordion-collapse collapse"
-							 aria-labelledby="heading-@tipoId"
-							 data-bs-parent="#accordionTipo">
-							<div class="accordion-body">
-								@{
-									var facoltaGruppi = tipo
-									.GroupBy(f => f.NomeFacolta)
-									.OrderBy(f => f.Key);
-								}
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="heading-@tipoId">
+								<button class="accordion-button collapsed" type="button"
+										data-bs-toggle="collapse"
+										data-bs-target="#@tipoId"
+										aria-expanded="false"
+										aria-controls="@tipoId">
+									<strong>@tipo.Key</strong>
+								</button>
+							</h2>
+							<div id="@tipoId" class="accordion-collapse collapse"
+								 aria-labelledby="heading-@tipoId"
+								 data-bs-parent="#accordionCorsi">
+								<div class="accordion-body">
+									@{
+										var facoltaGruppi = tipo.GroupBy(f => f.NomeFacolta).OrderBy(f => f.Key);
+									}
 
-								@foreach (var facolta in facoltaGruppi)
-								{
-									<div class="mb-3">
-										<h5>@facolta.Key</h5>
-										<ul class="list-group">
-											@foreach (var corso in facolta)
-											{
-												<li class="list-group-item">
-													<nobr>Corso:</nobr> <a class ="text-primary">@corso.TitoloCorso</a> <br />
-													Durata: <strong>@corso.Durata</strong>
-												</li>
-											}
-										</ul>
-									</div>
-								}
+									@foreach (var facolta in facoltaGruppi)
+									{
+										<div class="mb-3">
+											<h5 class="text-primary">@facolta.Key</h5>
+											<ul class="list-group">
+												@foreach (var corso in facolta)
+												{
+													<li class="list-group-item">
+														<strong>Corso:</strong>
+														<a href="#" class="text-primary"
+														   onclick="openCourseDetails('@corso.IdCorso')">
+															@corso.TitoloCorso
+														</a>
+														<br />
+														<strong>Durata:</strong> @corso.Durata 
+													</li>
+												}
+											</ul>
+										</div>
+									}
+								</div>
 							</div>
 						</div>
-					</div>
-				}
-			</div>
+					}
+				</div>
+			}
+			else
+			{
+				<p class="alert alert-warning">Nessun corso disponibile.</p>
+			}
 		</div>
 
 		<!-- Colonna destra: immagine -->
-		<div class="col-md-4 d-flex align-items-start">
-			<img src="~/sources/cors.jpg" class="img-fluid rounded shadow" />
+		<div class="col-lg-4 d-none d-lg-block">
+			<div style="position: sticky; top: 130px;">
+				<img src="~/sources/cors.jpg" class="img-fluid rounded shadow" alt="Elenco Corsi">
+			</div>
 		</div>
 	</div>
 </div>
 
+<!-- Modale per i dettagli del corso -->
+<div class="modal fade" id="courseDetailsModal" tabindex="-1" aria-labelledby="courseDetailsModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Dettagli Corso</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div id="courseDetailsContent">Caricamento in corso...</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		function openCourseDetails(courseId) {
+			$.ajax({
+				url: '/OffertaFormativa/Dettagli',
+				type: 'GET',
+				data: { id: courseId },
+				success: function (data) {
+					$('#courseDetailsContent').html(data);
+					$('#courseDetailsModal').modal('show');
+				},
+				error: function () {
+					$('#courseDetailsContent').html('<p>Errore nel caricamento dei dettagli del corso.</p>');
+				}
+			});
+		}
+	</script>
+}
