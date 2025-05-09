@@ -9,19 +9,20 @@ using LibreriaClassi;
 public partial class Default2 : System.Web.UI.Page
 {
     Guid K_Esame;
+    Guid K_Studente;
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        K_Studente = Guid.Parse(Session["cod"].ToString());
         if (!IsPostBack)
         {
             string Matricola = Session["mat"].ToString();
-            
-            string K_Studente = Session["cod"].ToString();
 
-            CaricaDdl();
+
+            CaricaDdl(K_Studente);
             CaricaFacoltaECorso();
-            CaricaVideolezioni();
-            CaricaDispense();
+            CaricaVideolezioni(K_Studente);
+            CaricaDispense(K_Studente);
             CaricaAA(int.Parse(Matricola));
         }
     }
@@ -44,9 +45,9 @@ public partial class Default2 : System.Web.UI.Page
         }
     }
 
-    private void CaricaDdl()
+    private void CaricaDdl(Guid K_Studente)
     {
-        Guid K_Studente = new Guid((string)Session["cod"]);
+        //Guid K_Studente = new Guid((string)Session["cod"]);
         ESAMI e = new ESAMI();
         ddlCaricaEsami.DataSource = e.SelezionaPsp(K_Studente);
         ddlCaricaEsami.DataValueField = "K_Esame";
@@ -77,7 +78,7 @@ public partial class Default2 : System.Web.UI.Page
         DataTable dt = db.SQLselect();
     }
 
-    private void CaricaVideolezioni()
+    private void CaricaVideolezioni(Guid K_Studente)
     {
         if (Session["mat"] == null)
         {
@@ -86,7 +87,7 @@ public partial class Default2 : System.Web.UI.Page
         }
 
         LEZIONI lezioni = new LEZIONI();
-        Guid K_Studente = new Guid((string)Session["cod"]);
+        //Guid K_Studente = new Guid((string)Session["cod"]);
         DataTable dt = lezioni.SelezionaPerMatricola(K_Studente, K_Esame);
 
         if (dt.Rows.Count > 0)
@@ -103,7 +104,7 @@ public partial class Default2 : System.Web.UI.Page
         }
     }
 
-    private void CaricaDispense()
+    private void CaricaDispense(Guid K_Studente)
     {
         if (Session["mat"] == null)
         {
@@ -112,7 +113,7 @@ public partial class Default2 : System.Web.UI.Page
         }
 
         MATERIALI materiali = new MATERIALI();
-        Guid K_Studente = new Guid((string)Session["cod"]);
+        //Guid K_Studente = new Guid((string)Session["cod"]);
         DataTable dt = materiali.DispensaPerMatricola(K_Studente, K_Esame);
 
         if (dt.Rows.Count > 0)
@@ -193,8 +194,8 @@ public partial class Default2 : System.Web.UI.Page
     {
         ViewState["K_Esame"] = ddlCaricaEsami.SelectedValue;
         K_Esame = new Guid((string)ViewState["K_Esame"]);
-        CaricaVideolezioni();
-        CaricaDispense();
+        CaricaVideolezioni(K_Studente);
+        CaricaDispense(K_Studente);
     }
 }
 
