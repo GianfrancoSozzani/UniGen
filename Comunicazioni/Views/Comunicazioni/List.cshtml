@@ -18,6 +18,9 @@
 					</tr>
 				</thead>
 				<tbody>
+					@{
+						var ruolo = Context.Session.GetString("r");
+					}
 					@foreach (var gruppo in Model.Comunicazioni.OrderByDescending(g => g.Max(c => c.DataOraComunicazione)))
 					{
 						<tr>
