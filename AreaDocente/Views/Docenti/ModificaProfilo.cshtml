@@ -37,7 +37,7 @@
 			</div>
 		</div>
 	</div> *@
-<div class="container my-5">
+<div class="container mt-2">
 	<form class="row" method="post" id="modifica-form" enctype="multipart/form-data">
 		<div style="height: 4vh;">
 			&nbsp;
@@ -132,9 +132,13 @@
 					<label class="form-label form-control-label">Nome</label>
 					<input type="text" asp-for="Nome" class="form-control form-control-alternative" required />
 				</div>
+				@{
+					var maxData = DateTime.Now.AddYears(-18).ToString("yyyy-MM-dd");
+				}
 				<div class="col-12 col-lg-4 mb-2">
 					<label class="form-label form-control-label">Data di Nascita</label>
-					<input type="date" asp-for="DataNascita" class="form-control form-control-alternative" required />
+					<input type="date" asp-for="DataNascita" class="form-control form-control-alternative" max="@maxData" required />
+					<span asp-validation-for="DataNascita" class="text-danger"></span>
 				</div>
 			</div>
 
@@ -148,7 +152,7 @@
 				</div>
 				<div class="col-12 col-lg-3 mb-2 mb-lg-0">
 					<label class="form-label form-control-label">CAP</label>
-					<input type="text" asp-for="CAP" class="form-control form-control-alternative" maxlength="5" required />
+					<input type="text" asp-for="CAP" class="form-control form-control-alternative" pattern="[\d]{5}" maxlength="5" required />
 				</div>
 			</div>
 
@@ -159,7 +163,7 @@
 				</div>
 				<div class="col-12 col-lg-3 mb-2 mb-lg-0">
 					<label class="form-label form-control-label">Provincia</label>
-					<input type="text" asp-for="Provincia" class="form-control text-uppercase form-control-alternative" maxlength="2" required />
+					<input type="text" asp-for="Provincia" class="form-control text-uppercase form-control-alternative" pattern="[A-Za-z]{2}" maxlength="2" required />
 				</div>
 			</div>
 			<div class="text-center">
@@ -167,7 +171,7 @@
 			</div>
 		</div>
 
-		<div class="col-12 col-xl-4 px-0 px-lg-2 mt-5 mt-xl-0">
+		<div class="col-12 col-xl-4 px-0 px-lg-2 mt-2 mt-xl-0">
 			<div class="bg-white border border-1 border-white shadow rounded-5 p-4 position-relative">
 
 				@{
@@ -202,7 +206,7 @@
 				<h5 class="text-center">Modifica Immagine Profilo</h5>
 				<p class="text-center">Qualora volessi aggiornare il tuo profilo, carica una nuova immagine scegliendo un file dal tuo dispositivo.</p> <p class="text-center"><strong>Formati supportati:</strong> JPEG, JPG, PNG. </p>
 
-				<div class="input-group mt-5">
+				<div class="input-group mt-2">
 					<input type="file" class="form-control" asp-for="ImmagineProfiloFile" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" />
 					<button type="submit" class="btn btn-primary">Salva</button>
 				</div>

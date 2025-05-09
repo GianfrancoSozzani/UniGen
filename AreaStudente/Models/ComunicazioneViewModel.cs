@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using AreaStudente.Models.Entities;
 
 namespace AreaStudente.Models
 {
@@ -11,6 +13,21 @@ namespace AreaStudente.Models
         public string? Soggetto { get; set; }
         public Guid? K_Soggetto { get; set; }
         public string? Testo { get; set; }
-        public Guid K_Studente { get; set; }
+        public Guid? K_Studente { get; set; }
+        public Studente? Studente { get; set; }
+        public Guid? K_Docente { get; set; }
+        public Docente? Docente { get; set; }
+        // Proprietà per il mittente (non mappate al DB come relazioni)
+        [NotMapped]
+        public Studente? MittenteStudente { get; set; }
+        [NotMapped]
+        public Docente? MittenteDocente { get; set; }
+
+        // Proprietà per il destinatario (non mappate al DB come relazioni)
+        [NotMapped]
+        public Studente? DestinatarioStudente { get; set; }
+        [NotMapped]
+        public Docente? DestinatarioDocente { get; set; }
+
     }
 }

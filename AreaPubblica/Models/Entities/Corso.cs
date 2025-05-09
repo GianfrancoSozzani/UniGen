@@ -9,8 +9,8 @@ namespace AreaPubblica.Models.Entities
     public class Corso
     {
         [Key]
-        public Guid K_Corso { get; set; }
-        public string TitoloCorso { get; set; }
+        public Guid? K_Corso { get; set; }
+        public string? TitoloCorso { get; set; }
         public Guid K_Facolta { get; set; }
         [ForeignKey("K_Facolta")]
         [ValidateNever]
@@ -19,6 +19,8 @@ namespace AreaPubblica.Models.Entities
         [ForeignKey("K_TipoCorso")]
         [ValidateNever]
         public TipoCorso TipoCorso { get; set; }
-        public string MinimoCFU { get; set; }
+        
+        private string _minimoCFU;
+        public short MinimoCFU { get; set; }
     }
 }

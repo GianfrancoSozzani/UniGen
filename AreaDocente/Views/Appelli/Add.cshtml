@@ -1,4 +1,62 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-<h1>Testing</h1>
+﻿@model AreaDocente.Models.AddAppelliViewModel
+
+<div class="container ">
+    <h1 class="mb-4">Inserimento Appello</h1>
+
+    <div class="card shadow-sm p-4">
+        <form method="post" class="needs-validation" novalidate>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Esame di appartenenza</label>
+                <select asp-for="K_Esame" asp-items="@ViewBag.EsamiDDL" class="form-select" required>
+                    <option disabled selected value="">== Seleziona un esame ==</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Data Appello</label>
+                <input type="date" class="form-control" id="DataAppello" asp-for="DataAppello" name="DataAppello" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Tipo Appello</label>
+                <select asp-for="Tipo" class="form-select" id="TipoAppello" required>
+                    <option disabled selected>== Seleziona il tipo dell'appello ==</option>
+                    <option value="Or">Orale</option>
+                    <option value="Sc">Scritto</option>
+                    <option value="La">Laurea</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Link Appello</label>
+                <input type="text" class="form-control" asp-for="Link" placeholder="Inserisci il link dell'appello" required />
+            </div>
+
+            <div class="d-flex justify-content-end mt-3 gap-2">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-save me-1"></i> Salva
+                </button>
+                <button type="submit" class="btn btn-secondary btn-lg" asp-controller="Appelli" asp-action="Annulla">
+                    <i class="bi bi-arrow-90deg-left me-1"></i> Annulla
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Operazione non riuscita',
+                    text: '@TempData["ErrorMessage"]'
+                });
+            </script>
+        }
+    }
+</div>

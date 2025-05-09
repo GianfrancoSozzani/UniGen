@@ -1,7 +1,7 @@
 ﻿@model AreaDocente.Models.Entities.MVCLezioni
 
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Modifica Lezione</h1>
+<div class="container ">
+    <h1>Modifica Lezione</h1>
 
     @if (Model is null)
     {
@@ -36,9 +36,16 @@
                     <input type="text" class="form-control" asp-for="Video" />
                 </div>
 
-                <div class="mt-4 d-flex justify-content-between">
-                    <button type="submit" class="btn btn-primary btn-lg">Modifica</button>
-                    <button type="submit" class="btn btn-danger ms-3" asp-controller="Lezioni" asp-action="Delete">Elimina</button>
+                <div class="mt-4 d-flex justify-content-end gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-pencil-square me-1"></i> Modifica
+                    </button>
+                    <button type="submit" class="btn btn-danger btn-lg" asp-controller="Lezioni" asp-action="Delete">
+                        <i class="bi bi-trash me-1"></i> Elimina
+                    </button>
+                    <button type="submit" class="btn btn-secondary btn-lg" asp-controller="Lezioni" asp-action="Annulla">
+                        <i class="bi bi-arrow-90deg-left me-1"></i> Annulla
+                    </button>
                 </div>
             </form>
         </div>

@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
-
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 
 namespace AreaStudente.Models.Entities
@@ -28,8 +27,12 @@ namespace AreaStudente.Models.Entities
         public DateTime? DataImmatricolazione { get; set; }
         public string? Abilitato { get; set; }
 
-        [ForeignKey("K_Corso")]
         public Guid? K_Corso { get; set; }
+        [ForeignKey("K_Corso")]
+        [ValidateNever]
+
+        public Corso Corso { get; set; } 
+        /*public *//*Facolta Facolta*//* { get; set; }*/
 
 
     }

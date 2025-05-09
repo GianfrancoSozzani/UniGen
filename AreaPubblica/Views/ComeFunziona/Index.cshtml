@@ -1,8 +1,150 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-<div style="height:60vh;">
-    &nbsp;
+﻿
+<div class="container mb-5" style="padding-top: 120px;">
+	<div class="row">
+			<h1>Come Funziona?</h1>
+		<div class="col-md-8">
+			<p>
+				Studiare con la nostra università online è semplice e flessibile. <br>
+				Una volta iscritto, accedi a una piattaforma digitale dove trovi video lezioni, materiali didattici e supporto costante da parte di tutor qualificati. <br />
+				Puoi organizzare lo studio secondo i tuoi ritmi e sostenere gli esami secondo le modalità previste dal tuo corso.
+				Tutto è pensato per offrirti un’esperienza formativa completa, accessibile e sempre al passo con le tue esigenze.
+			</p>
+
+			<div class="accordion shadow-sm rounded mt-4" id="accordionFunziona">
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="heading1">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+							1. Come funzionano le lauree e le magistrali
+						</button>
+					</h2>
+					<div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#accordionFunziona">
+						<div class="accordion-body">
+							<p class="fw-bold">L’organizzazione degli studi universitari si articola in tre cicli:</p>
+							<ul>
+								<li>Laurea, Laurea Magistrale a ciclo unico</li>
+								<li>Laurea Magistrale</li>
+								<li>Dottorati di Ricerca e Scuole di Specializzazione</li>
+							</ul>
+
+							<p class="fw-bold">Requisiti per Lauree e Magistrali a ciclo unico:</p>
+							<ul>
+								<li>Diploma di maturità quinquennale</li>
+								<li>Diploma quadriennale con anno integrativo (o contattare la segreteria)</li>
+								<li>Titolo estero valido</li>
+							</ul>
+
+							<p class="fw-bold">Per Lauree Magistrali:</p>
+							<ul>
+								<li>Laurea o diploma universitario</li>
+								<li>Titoli accademici artistici accompagnati da diploma di maturità</li>
+								<li>Titolo estero valido</li>
+							</ul>
+
+							<p><strong>Accesso:</strong> libero o a numero programmato. L’iscrizione avviene in due fasi: registrazione e immatricolazione.</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="heading2">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+							2. Scelta piano di studi personale
+						</button>
+					</h2>
+					<div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#accordionFunziona">
+						<div class="accordion-body">
+							La UniGen offre una vasta gamma di corsi per costruire un piano di studi su misura, in base ai tuoi interessi e obiettivi. Ogni studente può personalizzare il percorso selezionando gli insegnamenti opzionali più affini alle proprie aspirazioni.
+						</div>
+					</div>
+				</div>
+
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="heading3">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+							3. Iscrizione nell'area pubblica
+						</button>
+					</h2>
+					<div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#accordionFunziona">
+						<div class="accordion-body">
+							Per iscriversi è necessario compilare un modulo online. Servono nome, cognome, email e numero di telefono. <br />
+							Puoi registrarti da questo <a class="text-primary" asp-area="" asp-controller="Login" asp-action="Register">link</a>. <br />
+							La registrazione non è vincolante per l'immatricolazione.
+						</div>
+					</div>
+				</div>
+
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="heading4">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+							4. Immatricolazione
+						</button>
+					</h2>
+					<div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#accordionFunziona">
+						<div class="accordion-body">
+							L'immatricolazione si effettua online dopo la registrazione. Una volta caricati i documenti e pagata la rata, la segreteria confermerà l’iscrizione. Dopo l’esito positivo, potrai accedere all’area lavoro per seguire le lezioni e prenotare esami.
+						</div>
+					</div>
+				</div>
+
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="heading5">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+							5. Come funzionano le videolezioni
+						</button>
+					</h2>
+					<div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5" data-bs-parent="#accordionFunziona">
+						<div class="accordion-body">
+							Le lezioni saranno caricate in modalità teledidattica e potranno essere consultate in differita. Si possono filtrare per docente o per esame.
+						</div>
+					</div>
+				</div>
+
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="heading6">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+							6. Come funzionano gli esami
+						</button>
+					</h2>
+					<div id="collapse6" class="accordion-collapse collapse" aria-labelledby="heading6" data-bs-parent="#accordionFunziona">
+						<div class="accordion-body">
+							Gli esami si prenotano dalla propria area lavoro. Le modalità possono essere orali, scritte a domande chiuse o aperte, a seconda del docente.
+						</div>
+					</div>
+				</div>
+
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="heading7">
+						<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+							7. Come funziona la scelta dei corsi?
+						</button>
+					</h2>
+					<div id="collapse7" class="accordion-collapse collapse" aria-labelledby="heading7" data-bs-parent="#accordionFunziona">
+						<div class="accordion-body">
+							Ogni studente può selezionare gli insegnamenti opzionali più in linea con le proprie aspirazioni. Questo consente di costruire una formazione su misura, centrata sulle ambizioni individuali.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-4 col-md-12 mt-4 text-center">
+			<img src="~/sources/gettyimages-1177384544-2048x2048.jpg" class="img-fluid rounded shadow-sm"
+				 style="max-height:500px; object-fit:cover;" alt="Università online" />
+		</div>
+	</div>
 </div>
+
+<style>
+	.accordion-button:not(.collapsed) {
+		background-color: #f8f9fa !important;
+		color: #212529 !important;
+		box-shadow: none !important;
+	}
+</style>

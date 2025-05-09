@@ -4,24 +4,23 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
-    <div class="container mt-5">
+    <div class="container mt-3">
         <h1>Gestione Facoltà</h1>
 
-        <div class="mb-4 text-end">
-            <div id="icona">
-                <asp:Label ID="Label2" runat="server" Text="Inserisci una nuova Facoltà" CssClass="fw-bold"></asp:Label>
-                <i class="bi bi-plus-circle btn btn-primary"></i>
+        <div class="mb-4">
+            <div id="icona" class="row g-3 align-items-center justify-content-end">
+                <div class="col-auto">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalInserimentoFacolta">
+                        <i class="bi bi-plus-circle"></i>
+                    </button>
+                </div>
             </div>
 
-            <div id="insert" runat="server" style="display: none;">
-                <asp:TextBox ID="txtFacolta" runat="server"></asp:TextBox>
-                <asp:Button CssClass="btn btn-primary btn-sm" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
-            </div>
         </div>
 
         <div>
             <asp:Repeater ID="rpFacolta" runat="server">
-                <HeaderTemplate>
+                <headertemplate>
                     <table class="table table-striped shadow">
                         <thead>
                             <tr>
@@ -30,9 +29,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                </HeaderTemplate>
+                </headertemplate>
 
-                <ItemTemplate>
+                <itemtemplate>
                     <tr>
                         <td><%# Eval("TitoloFacolta") %></td>
                         <td>
@@ -40,19 +39,58 @@
 
                         </td>
                     </tr>
-                </ItemTemplate>
+                </itemtemplate>
 
-                <FooterTemplate>
+                <footertemplate>
                     </tbody>
             </table>
-                </FooterTemplate>
+                </footertemplate>
             </asp:Repeater>
+        </div>
+        <%--        repeater per la paginazione--%>
+        <asp:Repeater ID="rptPaginazione" runat="server" OnItemCommand="rptPaginazione_ItemCommand">
+    <ItemTemplate>
+        <asp:LinkButton ID="lnkPagina" runat="server"
+            CommandName="CambiaPagina"
+            CommandArgument='<%# Container.DataItem %>'
+            CssClass='<%# (Convert.ToInt32(Container.DataItem) == GetPaginaCorrente() + 1) 
+                ? "btn btn-primary btn-sm m-1 active" 
+                : "btn btn-outline-primary btn-sm m-1" %>'>
+            <%# Container.DataItem %>
+        </asp:LinkButton>
+    </ItemTemplate>
+</asp:Repeater>
+    </div>
+
+    <%--Modal inserimento--%>
+    <div class="modal fade" id="modalInserimentoFacolta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="example2ModalLabel">Inserisci Facoltà</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="txtTitoloFacoltaIns" class="form-label fw-bold">Facoltà</label>
+                        <asp:TextBox ID="txtTitoloFacoltaIns" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <asp:Button ID="btnSalvaInserimento" runat="server" Text="Salva Modifiche" CssClass="btn btn-primary" OnClick="btnSalvaInserimento_Click" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                </div>
+
+            </div>
         </div>
     </div>
 
-    <%--Modal--%>
+    <%--Modal modifica--%>
     <div class="modal fade" id="modalModificaFacolta" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -77,28 +115,8 @@
             </div>
         </div>
     </div>
-
-
-    <%--Script per nascondere l'icona e rendere visibili gli elementi per l'inserimento--%>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var btnMostra = document.getElementById("icona");
-            var divInsert = document.getElementById("<%= insert.ClientID %>");
-
-            if (divInsert.style.display == "block") {
-                btnMostra.style.display = "none";
-            } else {
-                btnMostra.style.display = "inline-block";
-            }
-
-            btnMostra.addEventListener("click", function () {
-                btnMostra.style.display = "none";
-                divInsert.style.display = "block";
-            });
-        });
-    </script>
-
-    <%--Script per il modal--%>
+   
+    <%--Script per il modal modifica--%>
     <script>
         function apriModal(id, titolo) {
             document.getElementById('<%= hiddenIdFacolta.ClientID %>').value = id;
@@ -107,7 +125,6 @@
             var myModal = new bootstrap.Modal(document.getElementById('modalModificaFacolta'));
             myModal.show();
         }
-</script>
+    </script>
 
 </asp:Content>
-

@@ -5,38 +5,43 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <h1 class="ms-5 mb-5">Stima Incassi Annuali</h1>
 
-    <div class="row align-items-center">
-        <!-- Colonna per il grafico (a sinistra) -->
-        <div class="col-md-6 d-flex justify-content-center mb-4 mb-md-0">
-            <div class="p-3 bg-white rounded shadow" style="border-radius: 12px;">
-                <asp:Chart ID="Chart1" runat="server" Width="800px" Height="500px">
-                    <ChartAreas>
-                        <asp:ChartArea Name="ChartArea1" />
-                    </ChartAreas>
-                    <Series>
-                        <asp:Series Name="Series1" ChartType="Column" />
-                    </Series>
-                </asp:Chart>
+    <div class="container mt-3">
+        <h1>Stima Incassi Annuali</h1>
+
+        <div class="row mt-5">
+            <!-- Colonna per il grafico (a sinistra) -->
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="w-100 d-flex justify-content-center bg-white rounded shadow" style="border-radius: 12px;">
+                    <asp:Chart ID="Chart1" runat="server" Style="width: 100%; height: 100%;" Width="700px" Height="600px">
+                        <ChartAreas>
+                            <asp:ChartArea Name="ChartArea1" />
+                        </ChartAreas>
+                        <Series>
+                            <asp:Series Name="Series1" ChartType="Column" />
+                        </Series>
+                    </asp:Chart>
+                </div>
             </div>
-        </div>
 
 
-        <!-- Sezione a destra -->
-        <div class="col-md-6">
-            <div class="border p-5 rounded shadow mb-4">
-                <h5 class="text-center mb-4">Seleziona Facoltà</h5>
-                <asp:DropDownList
-                    ID="ddlFacolta"
-                    runat="server"
-                    CssClass="form-control form-control-sm mb-3"
-                    AutoPostBack="true"
-                    OnSelectedIndexChanged="ddlFacolta_SelectedIndexChanged">
-                </asp:DropDownList>
+            <!-- Sezione a destra -->
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="border d-flex flex-column p-5 rounded shadow w-100">
+                    <h5 class="text-center mb-4">Seleziona Facoltà</h5>
+                    <div class="d-flex justify-content-center">
+                        <asp:DropDownList
+                            ID="ddlFacolta"
+                            runat="server"
+                            CssClass="form-select form-select-sm mb-3"
+                            Style="width: 200px;"
+                            AutoPostBack="true"
+                            OnSelectedIndexChanged="ddlFacolta_SelectedIndexChanged">
+                        </asp:DropDownList>
+                    </div>
 
 
-                <div class="text-center">
+                    <%--<div class="text-center">
                     <asp:Button
                         ID="btnRiepilogo"
                         runat="server"
@@ -44,40 +49,41 @@
                         CssClass="btn btn-primary px-5 py-2"
                         OnClick="btnRiepilogo_Click"
                         Style="box-shadow: 0px 4px 12px rgba(0,0,0,0.2); border-radius: 8px;" />
-                </div>
-                <div class="mt-4">
-                    <asp:Repeater ID="rptIncassiFacolta" runat="server">
-                        <HeaderTemplate>
-                            <table class="table table-bordered table-striped table-hover">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th><%# (facolta == Guid.Empty ? "Facoltà" : "Corso") %></th>
-                                        <th>Incasso</th>
-                                        <th>Stima</th>
-                                        <th>Iscritti</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                        </HeaderTemplate>
+                </div>--%>
+                    <div class="mt-4">
+                        <asp:Repeater ID="rptIncassiFacolta" runat="server">
+                            <HeaderTemplate>
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th><%# (facolta == Guid.Empty ? "Facoltà" : "Corso") %></th>
+                                            <th>Incasso</th>
+                                            <th>Stima</th>
+                                            <th>Iscritti</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                            </HeaderTemplate>
 
-                        <ItemTemplate>
-                            <tr>
-                                <td><%# Eval(facolta == Guid.Empty ? "Facolta" : "Corso") %></td>
-                                <td><%# String.Format("{0:C}", Eval("Incasso")) %></td>
-                                <td><%# String.Format("{0:C}", Eval("Stima")) %></td>
-                                <td><%# Eval("Iscritti") %></td>
-                            </tr>
-                        </ItemTemplate>
+                            <ItemTemplate>
+                                <tr>
+                                    <td><%# Eval(facolta == Guid.Empty ? "Facolta" : "Corso") %></td>
+                                    <td><%# String.Format("{0:C}", Eval("Incasso")) %></td>
+                                    <td><%# String.Format("{0:C}", Eval("Stima")) %></td>
+                                    <td><%# Eval("Iscritti") %></td>
+                                </tr>
+                            </ItemTemplate>
 
-                        <FooterTemplate>
-                            </tbody>
+                            <FooterTemplate>
+                                </tbody>
                 </table>
-                        </FooterTemplate>
-                    </asp:Repeater>
+                            </FooterTemplate>
+                        </asp:Repeater>
+                    </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
 </asp:Content>
 

@@ -37,6 +37,7 @@ namespace LibreriaClassi
         {
             DB dB = new DB();
             dB.query = "Corsi_SelectAll";
+            dB.query = "Corsi_SelectAll";
             return dB.SQLselect();
         }
 
@@ -46,6 +47,7 @@ namespace LibreriaClassi
             dB.query = "Corsi_VerificaDuplicato";
             dB.cmd.Parameters.AddWithValue("@k_facolta", K_Facolta);
             dB.cmd.Parameters.AddWithValue("@titolocorso", TitoloCorso);
+            dB.cmd.Parameters.AddWithValue("@k_tipocorso", K_TipoCorso);
             return dB.SQLselect();
         }
 
@@ -93,6 +95,16 @@ namespace LibreriaClassi
             db.query = "Corsi_TassaMediaAnn";
             return db.SQLselect();
         }
+
+        public DataTable SelezionaPerNome()
+        {
+            DB db = new DB();
+            db.query = "Corsi_SelectPerNome";
+            db.cmd.Parameters.AddWithValue("@TitoloCorso", TitoloCorso);
+            return db.SQLselect();
+        }
+
+
 
     }
 }

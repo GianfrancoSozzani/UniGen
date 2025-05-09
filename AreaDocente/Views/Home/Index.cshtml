@@ -2,71 +2,254 @@
     ViewData["Title"] = "Home Page - Docente";
 }
 
-<div class="container-fluid my-5">
-    <div class="mb-3">
-        <h2 class="text-center">Pannello del docente</h2>
-    </div>
+@model AreaDocente.Models.ListAndAddViewModel
 
-    <div class="row g-4 justify-content-around">
+<div class="container">
+    <div class="container-fluid ">
+        <div class="mb-3">
+            <h1 class="text-start">Pannello del docente</h1>
+            <h5></h5>
+        </div>
+         <hr />
 
-        <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
-            <div class="card shadow">
-                <img src="~/css/resources/material.jpg" class="card-img-top" alt="Card 1 Image">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Materiali</h5>
-                    <p class="card-text">Qui sono contenuti l'aggiunta dei materiali e la loro gestione.</p>
-                    <a asp-area="" asp-controller="Materiali" asp-action="List" class="btn btn-primary mt-auto">Vai</a>
+		<div class="row gy-4 gx-md-2 gx-lg-0 justify-content-md-around justify-content-lg-between">
+
+            <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
+                <div class="card shadow">
+                    <img src="~/css/resources/material.jpg" class="card-img-top" alt="Card 1 Image">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Materiali</h5>
+                        <p class="card-text">Qui sono contenuti l'aggiunta dei materiali e la loro gestione.</p>
+                        <a asp-area="" asp-controller="Materiali" asp-action="List" class="btn btn-primary mt-auto">Vai</a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
-            <div class="card shadow">
-                <img src="~/css/resources/lesson.jpg" class="card-img-top" alt="Card 2 Image">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Lezioni</h5>
-                    <p class="card-text">Qui sono contenuti tutti gli applicativi per gestire le lezioni.</p>
-                    <a asp-area="" asp-controller="Lezioni" asp-action="List" class="btn btn-primary mt-auto">Vai</a>
+            <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
+                <div class="card shadow">
+                    <img src="~/css/resources/lesson.jpg" class="card-img-top" alt="Card 2 Image">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Lezioni</h5>
+                        <p class="card-text">Qui sono contenuti tutti gli applicativi per gestire le lezioni.</p>
+                        <a asp-area="" asp-controller="Lezioni" asp-action="List" class="btn btn-primary mt-auto">Vai</a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
-            <div class="card shadow">
-                <img src="~/css/resources/time.jpg" class="card-img-top" alt="Card 3 Image">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Appelli</h5>
-                    <p class="card-text">Qui è presente la gestione degli appelli.</p>
-                    <a asp-area="" asp-controller="Appelli" asp-action="Add" class="btn btn-primary mt-auto">Vai</a>
+            <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
+                <div class="card shadow">
+                    <img src="~/css/resources/time.jpg" class="card-img-top" alt="Card 3 Image">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Appelli</h5>
+                        <p class="card-text">Qui è presente la gestione degli appelli.</p>
+                        <a asp-area="" asp-controller="Appelli" asp-action="List" class="btn btn-primary mt-auto">Vai</a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
-            <div class="card shadow">
-                <img src="~/css/resources/test.jpg" class="card-img-top" alt="Card 4 Image">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Test</h5>
-                    <p class="card-text">Sezione dedicata alla gestione dei test.</p>
-                    <a asp-area="" asp-controller="Tests" asp-action="Add" class="btn btn-primary mt-auto">Vai</a>
+            <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
+                <div class="card shadow">
+                    <img src="~/css/resources/test.jpg" class="card-img-top" alt="Card 4 Image">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Test</h5>
+                        <p class="card-text">Sezione dedicata alla gestione dei test.</p>
+                        <a asp-area="" asp-controller="Prove" asp-action="List" class="btn btn-primary mt-auto">Vai</a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
-            <div class="card shadow">
-                <img src="~/css/resources/exam.jpg" class="card-img-top" alt="Card 5 Image">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">Valutazioni</h5>
-                    <p class="card-text">In questa area potrai valutare gli esami del corso dei cui sei docente.</p>
-                    <a asp-area="" asp-controller="Valutazioni" asp-action="ValutazioneTest" class="btn btn-primary mt-auto">Vai</a>
+            <div class="col-12 col-md-4 col-lg-2 d-flex align-items-stretch">
+                <div class="card shadow">
+                    <img src="~/css/resources/exam.jpg" class="card-img-top" alt="Card 5 Image">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Valutazioni</h5>
+                        <p class="card-text">In questa area potrai valutare gli esami del corso dei cui sei docente.</p>
+                        <a asp-area="" asp-controller="Valutazioni" asp-action="ValutazioneTest" class="btn btn-primary mt-auto">Vai</a>
+                    </div>
                 </div>
             </div>
+
         </div>
 
-    </div>
+		<div class="card shadow mt-3">
+			<div class="card-body">
+				<div class="d-flex justify-content-lg-between">
+					<h1>LE TUE COMUNICAZIONI</h1>
 
-    <div>
-        <h2>*INSERIRE COMUNICAZIONI*</h2>
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuovaComunicazioneModal">Nuova Comunicazione</button>
+					<div class="modal fade" id="nuovaComunicazioneModal" tabindex="-1" aria-labelledby="nuovaComunicazioneModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="exampleModalLabel">Scrivi una nuova comunicazione</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<form method="post" asp-controller="Comunicazioni" asp-action="Add" id="form-insert">
+
+										<div class="mt-3">
+											<label class="form-label">Destinatario</label>
+											<select asp-for="AddComunicazione.K_Studente" asp-items="@ViewBag.StudentiList" class="form-select" required>
+													<option disabled selected>-- Seleziona un destinatario --</option>
+												<option selected value="Amministrazione">Amministrazione</option>
+											</select>
+											<span asp-validation-for="AddComunicazione.K_Studente" class="text-danger"></span>
+										</div>
+
+										<div class="mt-4">
+											<label class="form-label">Testo:</label>
+											<textarea asp-for="AddComunicazione.Testo" class="form-control" rows="6" required id="testoComunicazioneAdd"></textarea>
+											<span asp-validation-for="AddComunicazione.Testo" class="text-danger"></span>
+											<button type="submit" class="btn btn-primary mt-3">Inserisci Comunicazione</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr class="my-4" />
+				@if (Model.Comunicazioni != null && Model.Comunicazioni.Count > 0)
+				{
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Mittente</th>
+								<th>Destinatario</th>
+								<th>Comunicazione</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var gruppo in Model.Comunicazioni.OrderByDescending(g => g.Max(c => c.DataOraComunicazione)))
+							{
+								<tr>
+									<td>
+										@{
+											var primaComunicazione = gruppo.OrderBy(c => c.DataOraComunicazione).FirstOrDefault();
+											if (primaComunicazione != null)
+											{
+												if (primaComunicazione.MittenteStudente != null)
+												{
+													if (primaComunicazione.MittenteStudente.K_Studente != primaComunicazione.K_Soggetto)
+													{
+														<span class="text-primary">@($"{primaComunicazione.MittenteStudente.Nome} {primaComunicazione.MittenteStudente.Cognome}")</span>
+													}
+													else
+													{
+														<span class="text-primary">Me</span>
+													}
+
+												}
+												else if (primaComunicazione.MittenteDocente != null)
+												{
+													if (primaComunicazione.MittenteDocente.K_Docente != primaComunicazione.K_Soggetto)
+													{
+														<span class="text-primary">@($"{primaComunicazione.MittenteDocente.Nome} {primaComunicazione.MittenteDocente.Cognome}")</span>
+													}
+													else
+													{
+														<span class="text-primary">Me</span>
+													}
+												}
+												else
+												{
+													<span class="text-primary">Amministrazione</span>
+												}
+											}
+										}
+									</td>
+									<td>
+										@{
+											if (primaComunicazione != null)
+											{
+												if (primaComunicazione.DestinatarioStudente != null)
+												{
+													<span class="text-danger">@($"{primaComunicazione.DestinatarioStudente.Nome} {primaComunicazione.DestinatarioStudente.Cognome}")</span>
+												}
+												else if (primaComunicazione.DestinatarioDocente != null)
+												{
+													<span class="text-danger">@($"{primaComunicazione.DestinatarioDocente.Nome} {primaComunicazione.DestinatarioDocente.Cognome}")</span>
+												}
+												else
+												{
+													<span class="text-danger">Amministrazione</span>
+												}
+											}
+										}
+									</td>
+									<td>
+										<div class="accordion" id="accordion_@gruppo.Key">
+											<div class="accordion-item">
+												<h2 class="accordion-header">
+													<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@gruppo.Key" aria-expanded="true" aria-controls="collapse_@gruppo.Key">
+														@gruppo.Max(c => c.DataOraComunicazione).ToString("dd/MM/yyyy HH:mm")
+													</button>
+												</h2>
+												<div id="collapse_@gruppo.Key" class="accordion-collapse collapse show" data-bs-parent="#accordion_@gruppo.Key">
+													<div class="accordion-body">
+														<ul class="list-unstyled">
+															@foreach (var comunicazione in gruppo.OrderBy(c => c.DataOraComunicazione))
+															{
+																<li class="d-flex justify-content-between mb-4">
+																	<div class="card w-100">
+																		<div class="card-header d-flex justify-content-between p-3">
+																			<div class="d-flex justify-content-between align-items-baseline">
+																				<p class="fw-bold mb-0">
+																					@{
+																						if (comunicazione != null)
+																						{
+																							if (comunicazione.MittenteStudente != null)
+																							{
+																								<span class="text-primary">@($"{comunicazione.MittenteStudente.Nome} {comunicazione.MittenteStudente.Cognome}")</span>
+																							}
+																							else if (comunicazione.MittenteDocente != null)
+																							{
+																								<span class="text-danger">@($"{comunicazione.MittenteDocente.Nome} {comunicazione.MittenteDocente.Cognome}")</span>
+																							}
+																							else
+																							{
+																								<span class="text-success">Amministrazione</span>
+																							}
+																						}
+																					}
+																				</p>
+																				&nbsp;
+																				<p class="text-muted small mb-0"><i class="far fa-clock"></i> @comunicazione.DataOraComunicazione.ToString("dd/MM/yyyy HH:mm")</p>
+																			</div>
+																		</div>
+																		<div class="card-body">
+																			<p class="mb-0">@comunicazione.Testo</p>
+																		</div>
+																	</div>
+																</li>
+															}
+															<li class="bg-white">
+																<form method="post" asp-controller="Comunicazioni" asp-action="AddRisposta">
+																	<input type="hidden" name="Codice_Comunicazione" value="@gruppo.Key" />
+																	<div class="form-outline">
+																		<textarea class="form-control bg-body-tertiary" id="textArea_@gruppo.Key" rows="4" name="Testo" required></textarea>
+																		<label class="form-label" for="textArea_@gruppo.Key">Messaggio</label>
+																		<button type="submit" class="btn btn-info btn-rounded float-end mt-2">Invia</button>
+																	</div>
+																</form>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+
+				}
+				else
+				{
+					<p>Non hai comunicazioni.</p>
+				}
+			</div>
+		</div>
     </div>
 </div>

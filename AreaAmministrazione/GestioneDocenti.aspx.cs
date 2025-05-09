@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -19,21 +20,34 @@ public partial class _Default : System.Web.UI.Page
     public void CaricaDocenti()
     {
         DOCENTI d = new DOCENTI();
-
-        rpDocenti.DataSource = d.SelezionaTutto();
-        rpDocenti.DataBind();
+        DataTable dt = d.SelezionaTutto();
+        PopolaListaConPaginazione(dt, rpDocenti);
     }
 
     protected void btnCerca_Click(object sender, EventArgs e)
     {
+        ViewState["PaginaCorrente"] = 0;
         DOCENTI d = new DOCENTI();
         d.Cognome = txtCognome.Text.Trim();
         d.Nome = txtNome.Text.Trim();
-        rpDocenti.DataSource = d.SelezionaPerCognomeNome();
-        ViewState["Cognome"] = d.Cognome;
-        ViewState["Nome"] = d.Nome;
-        rpDocenti.DataBind();
+        DataTable dt = d.SelezionaPerCognomeNome();
 
+        if (dt != null && dt.Rows.Count > 0)
+        {
+            ViewState["RisultatiRicerca"] = dt;
+            PopolaListaConPaginazione(dt, rpDocenti);
+        }
+        else
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Nessun docente trovato');", true);
+            CaricaDocenti();
+            //rptStudenti.DataSource = null;
+            rpDocenti.DataBind();
+        }
+        //    rpDocenti.DataSource = d.SelezionaPerCognomeNome();
+        //ViewState["Cognome"] = d.Cognome;
+        //ViewState["Nome"] = d.Nome;
+        //rpDocenti.DataBind();
     }
 
     protected void Selected_Command(object sender, CommandEventArgs e)
@@ -63,6 +77,8 @@ public partial class _Default : System.Web.UI.Page
         d.K_Docente = K_Docente;
         d.Abilita();
         rpDocenti.DataBind();
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Docente abilitato con successo')", true);
+        return;
     }
 
     protected void DisabilitaDocente(Guid K_Docente)
@@ -71,6 +87,8 @@ public partial class _Default : System.Web.UI.Page
         d.K_Docente = K_Docente;
         d.Disabilita();
         rpDocenti.DataBind();
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Docente disabilitato con successo')", true);
+        return;
     }
 
     protected void btnNuovaPagina_Click(object sender, EventArgs e)
@@ -78,4 +96,63 @@ public partial class _Default : System.Web.UI.Page
         Response.Redirect("InserimentoDocente.aspx?usr=" + Request.QueryString["usr"]);
     }
 
+    //PAGINAZIONE
+    private int PaginaCorrente
+    {
+        get { return ViewState["PaginaCorrente"] != null ? (int)ViewState["PaginaCorrente"] : 0; }
+        set { ViewState["PaginaCorrente"] = value; }
+    }
+    public int GetPaginaCorrente()
+    {
+        return ViewState["PaginaCorrente"] != null ? (int)ViewState["PaginaCorrente"] : 0;
+        //return PaginaCorrente;
+    }
+    protected void PopolaListaConPaginazione(DataTable dati, Repeater rptDati)
+    {
+        PagedDataSource paged = new PagedDataSource();
+        paged.DataSource = dati.DefaultView;
+        paged.AllowPaging = true;
+        paged.PageSize = 10;
+        paged.CurrentPageIndex = PaginaCorrente;
+
+        rptDati.DataSource = paged;
+        rptDati.DataBind();
+
+        // Pagine numeriche
+        List<int> pagine = new List<int>();
+        for (int i = 0; i < paged.PageCount; i++)
+        {
+            pagine.Add(i + 1); // Le pagine partono da 1
+        }
+
+        rptPaginazione.DataSource = pagine;
+        rptPaginazione.DataBind();
+    }
+    protected void rptPaginazione_ItemCommand(object source, RepeaterCommandEventArgs e)
+    {
+        //if (e.CommandName == "CambiaPagina")
+        //{
+        //    PaginaCorrente = Convert.ToInt32(e.CommandArgument) - 1;
+        //    CaricaDocenti();
+        //}
+        if (e.CommandName == "CambiaPagina")
+        {
+            int nuovaPagina = Convert.ToInt32(e.CommandArgument) - 1;
+            ViewState["PaginaCorrente"] = nuovaPagina;
+
+            DataTable dt;
+
+            if (ViewState["RisultatiRicerca"] != null)
+            {
+                dt = (DataTable)ViewState["RisultatiRicerca"];
+            }
+            else
+            {
+                DOCENTI d = new DOCENTI();
+                dt = d.SelezionaTutto();
+            }
+
+            PopolaListaConPaginazione(dt, rpDocenti);
+        }
+    }
 }

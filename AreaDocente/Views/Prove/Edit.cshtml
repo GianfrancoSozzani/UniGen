@@ -1,0 +1,274 @@
+﻿@{
+    ViewData["Title"] = "Aggiungi Prova";
+}
+@model AreaDocente.Models.Entities.MVCPROVA
+
+<div class="container">
+    <h1 class="mb-4">Modifica Prova</h1>
+
+    <div class="card shadow-sm p-4">
+        <form method="post" id="accordionForm">
+            <input type="hidden" asp-for="K_Prova" />
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Esame di appartenenza</label>
+                    <select asp-for="Appello.K_Esame" asp-items="@ViewBag.EsamiList" class="form-select" id="K_Esame"
+                            onchange="document.getElementById('accordionForm').action='@Url.Action("SelezionaEsameEdit")'; document.getElementById('accordionForm').submit();" required>
+                        <option disabled selected value="">== Selezionare un esame ==</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Appello di appartenenza</label>
+                    <select asp-for="K_Appello" asp-items="@ViewBag.AppelliList ?? new List<SelectListItem>()" class="form-select" id="K_Appello" required>
+                        <option disabled selected value="">== Selezionare un appello ==</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-9">
+                    <label class="form-label fw-semibold">Link</label>
+                    <input type="text" class="form-control" asp-for="Link" placeholder="Inserisci il link della prova" required />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Tipo Prova</label>
+                    <select asp-for="Tipologia" class="form-select" id="TipoProva" onchange="tipoProvaCambiata()" required>
+                        <option disabled value="">== Seleziona il tipo della prova ==</option>
+                        <option value="Da">Domande Aperte</option>
+                        <option value="Dc">Domande Chiuse</option>
+                        <option value="Or">Orale</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="accordion" id="accordionContainer">
+                <!-- Domande dinamiche -->
+            </div>
+
+            <div class="mt-4 d-flex justify-content-end gap-2">
+                <button type="button" class="btn btn-info" id="btnAggiungiDomanda" onclick="aggiungiDomanda()">
+                    <i class="bi bi-plus-circle me-1"></i> Aggiungi Domanda
+                </button>
+                <button type="submit" class="btn btn-primary" formaction="@Url.Action("Edit")">
+                    <i class="bi bi-save me-1"></i> Salva
+                </button>
+                <button type="submit" formnovalidate class="btn btn-danger" asp-controller="Prove" asp-action="Delete">
+                    <i class="bi bi-trash me-1"></i> Elimina
+                </button>
+                <a class="btn btn-secondary" asp-controller="Prove" asp-action="List">
+                    <i class="bi bi-arrow-90deg-left me-1"></i> Annulla
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Operazione non riuscita',
+                text: '@TempData["ErrorMessage"]'
+            });
+        </script>
+    }
+
+    <script>
+        window.onload = function () {
+                const tipoProva = document.getElementById("TipoProva").value;
+                const btnAggiungi = document.getElementById("btnAggiungiDomanda");
+
+                if (tipoProva === "Da") {
+                    const DomandeAperte = @Html.Raw(Json.Serialize(Model.DomandeAperte));
+                    console.log("DomandeAperte: ",DomandeAperte);
+                    DomandeAperte.forEach(d => aggiungiDomandaConDati(d));
+                } else if (tipoProva === "Dc") {
+                    const DomandeChiuse = @Html.Raw(Json.Serialize(Model.DomandeChiuse));
+                    console.log("DomandeChiuse: ",DomandeChiuse);
+                    DomandeChiuse.forEach(d => aggiungiDomandaConDati(d));
+                }
+                else{
+                    btnAggiungi.disabled = true;
+                }
+        };
+
+        function tipoProvaCambiata() {
+            const container = document.getElementById("accordionContainer");
+            container.innerHTML = ""; // Svuota tutte le domande
+
+            const tipoProva = document.getElementById("TipoProva").value;
+            const btnAggiungi = document.getElementById("btnAggiungiDomanda");
+
+            if (tipoProva === "Or") {
+                btnAggiungi.disabled = true;
+            } else {
+                btnAggiungi.disabled = false;
+            }
+
+            // Ricarica le domande esistenti se ci sono
+            if (tipoProva === "Da") {
+                const DomandeAperte = @Html.Raw(Json.Serialize(Model.DomandeAperte));
+                DomandeAperte.forEach(d => aggiungiDomandaConDati(d));
+            } else if (tipoProva === "Dc") {
+                const DomandeChiuse = @Html.Raw(Json.Serialize(Model.DomandeChiuse));
+                DomandeChiuse.forEach(d => aggiungiDomandaConDati(d));
+            }
+
+            aggiornaNumerazione();
+        }
+
+        function aggiornaNumerazione() {
+            const container = document.getElementById("accordionContainer");
+            const items = container.querySelectorAll(".accordion-item");
+            const tipoProva = document.getElementById("TipoProva").value;
+
+            // Determina il nome della collezione in base al tipo di prova
+            const collectionName = tipoProva === "Da" ? "DomandeAperte" : "DomandeChiuse";
+
+            items.forEach((item, i) => {
+                const header = item.querySelector(".accordion-button");
+                header.textContent = `Domanda ${i + 1}`;
+
+                item.querySelectorAll("[data-name]").forEach(el => {
+                    const baseName = el.getAttribute("data-name");
+                    el.name = `${collectionName}[${i}].${baseName}`;
+                });
+
+                const numero = item.querySelector("input[data-name='Numero_Domanda']");
+                if (numero) numero.value = i + 1;
+            });
+        }
+
+        function aggiungiDomanda() {
+            const tipoProva = document.getElementById("TipoProva").value;
+
+            const container = document.getElementById("accordionContainer");
+            const index = container.children.length;
+            const headerId = `heading${Date.now()}`;
+            const collapseId = `collapse${Date.now()}`;
+
+            const sezione = document.createElement("div");
+            sezione.classList.add("accordion-item");
+
+            let bodyHtml =`
+                <input type="number" class="form-control" data-name="Numero_Domanda" hidden readonly />
+                <div class="mb-3">
+                    <label class="form-label">Domanda</label>
+                    <input type="text" class="form-control" required data-name="Domanda" />
+                </div>
+            `;
+
+            if (tipoProva === "Dc") {
+                bodyHtml +=`
+                    <div class="mb-3">
+                        <label class="form-label">Risposte</label>
+                        <textarea class="form-control" data-name="Risposte" placeholder="Risposte separate da punto e virgola"></textarea>
+                    </div>
+                `;
+            }
+
+            bodyHtml +=`
+                <button type="button" class="btn btn-danger btn-sm" onclick="rimuoviDomanda(this)">
+                <i class="bi bi-trash me-1"></i> Rimuovi
+                </button>
+            `;
+
+            sezione.innerHTML =`
+                <h2 class="accordion-header" id="${headerId}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
+                        Domanda ${index + 1}
+                    </button>
+                </h2>
+                <div id="${collapseId}" class="accordion-collapse collapse" aria-labelledby="${headerId}"
+                     data-bs-parent="#accordionContainer">
+                    <div class="accordion-body">
+                        ${bodyHtml}
+                    </div>
+                </div>
+            `;
+
+            container.appendChild(sezione);
+            aggiornaNumerazione();
+        }
+
+        function rimuoviDomanda(button) {
+            const item = button.closest(".accordion-item");
+            item.remove();
+            aggiornaNumerazione();
+        }
+
+        function aggiungiDomandaConDati(domanda) {
+
+            const container = document.getElementById("accordionContainer");
+            const index = container.children.length;
+            const headerId = `heading${domanda.numero_Domanda}`;
+            const collapseId = `collapse${domanda.numero_Domanda}`;
+            const tipoProva = document.getElementById("TipoProva").value;
+            //const collectionName = tipoProva === "Da" ? "DomandeAperte" : "DomandeChiuse";
+            var K_Test;
+
+            if(tipoProva === "Dc"){
+                K_Test = domanda.k_Test_DC;
+            }
+            else{
+                K_Test = domanda.k_Test_DA;
+            }
+
+            const sezione = document.createElement("div");
+            sezione.classList.add("accordion-item");
+        
+            let bodyHtml = `
+                <input type="number" class="form-control" data-name="Numero_Domanda" value="${domanda.numero_Domanda}" hidden readonly/>
+                <div class="mb-3">
+                    <label class="form-label">Domanda</label>
+                    <input type="text" class="form-control" required data-name="Domanda" value="${domanda.domanda}" />
+                </div>
+            `;
+
+            if (tipoProva === "Dc") {
+                bodyHtml += `
+                    <input type="text" class="form-control" data-name="K_Test_DC" value="${K_Test}" hidden readonly/>
+                    <div class="mb-3">
+                        <label class="form-label">Risposte</label>
+                        <textarea class="form-control" data-name="Risposte" placeholder="Risposte separate da punto e virgola">${domanda.risposte}</textarea>
+                    </div>
+                `;
+            }
+            else{
+                bodyHtml += `
+                    <input type="text" class="form-control" data-name="K_Test_DA" value="${K_Test}" hidden readonly/>
+                `;
+            }
+
+            bodyHtml += `
+                <button type="button" class="btn btn-danger btn-sm" onclick="rimuoviDomanda(this)">
+                    <i class="bi bi-trash me-1"></i> Rimuovi
+                </button>
+            `;
+
+            sezione.innerHTML = `
+                <h2 class="accordion-header" id="${headerId}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#${collapseId}" aria-expanded="false" aria-controls="${collapseId}">
+                        Domanda ${index + 1}
+                    </button>
+                </h2>
+                <div id="${collapseId}" class="accordion-collapse collapse" aria-labelledby="${headerId}"
+                     data-bs-parent="#accordionContainer">
+                    <div class="accordion-body">
+                        ${bodyHtml}
+                    </div>
+                </div>
+            `;
+
+            container.appendChild(sezione);
+            aggiornaNumerazione();
+        }
+    </script>
+}

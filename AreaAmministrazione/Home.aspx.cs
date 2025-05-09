@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.DynamicData;
@@ -37,7 +38,7 @@ public partial class _Default : System.Web.UI.Page
 
         STUDENTI s = new STUDENTI();
         DataTable dt = s.StudentiIscritti();
-        if(dt.Rows.Count == 0)
+        if (dt.Rows.Count == 0)
         {
             litStudentii.Text = "0";
             return;
@@ -55,7 +56,9 @@ public partial class _Default : System.Web.UI.Page
             litIncassoC.Text = "0";
             return;
         }
-        litIncassoC.Text = dt.Rows[0][0].ToString();
+        decimal incasso = Convert.ToDecimal(dt.Rows[0][0]);
+        litIncassoC.Text = incasso.ToString("N2");
+        //litIncassoC.Text = dt.Rows[0][0].ToString();
 
     }
     protected void CaricaNumCorsi()
@@ -109,7 +112,14 @@ public partial class _Default : System.Web.UI.Page
             litTassaM.Text = "0";
             return;
         }
-        litTassaM.Text = dt.Rows[0][0].ToString();
+
+        decimal tassa = Convert.ToDecimal(dt.Rows[0][0]);
+        litTassaM.Text = tassa.ToString("N2");
+
+        //Massimo due cifre decimali
+        //litTassaM.Text = Decimal.Parse(dt.Rows[0][0].ToString()).ToString("0.00");
+        //litTassaM.Text = String.Format("{0:0,##}", dt.Rows[0][0].ToString());
+
 
     }
 

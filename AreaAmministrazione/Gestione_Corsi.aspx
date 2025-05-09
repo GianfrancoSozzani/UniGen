@@ -4,75 +4,160 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
-    <div class="container mt-5">
+    <div class="container mt-3">
         <h1>Gestione Corsi</h1>
 
-        <div class="mb-4 text-end">
-            <div id="icona">
-                <asp:Label ID="Label2" runat="server" Text="Inserisci un nuovo corso" CssClass="fw-bold"></asp:Label>
-                <i class="bi bi-plus-circle btn btn-primary"></i>
-            </div>
-
-            <div id="insert" runat="server" style="display: none;">
-                <asp:Label ID="Label4" runat="server" Text="Corso"></asp:Label>
-                <asp:TextBox ID="txtCorso" runat="server"></asp:TextBox>
-                <asp:Label ID="Label1" runat="server" Text="Facoltà"></asp:Label>
-                <asp:DropDownList ID="ddlFacolta" runat="server"></asp:DropDownList>
-                <asp:Label ID="Label3" runat="server" Text="Tipo Corso"></asp:Label>
-                <asp:DropDownList ID="ddlTipoCorso" runat="server"></asp:DropDownList>
-                <asp:Label ID="Label5" runat="server" Text="MinimoCFU"></asp:Label>
-                <asp:TextBox ID="txtMinimoCFU" runat="server"></asp:TextBox>
-                <asp:Label ID="Label6" runat="server" Text="CostoAnnuale"></asp:Label>
-                <asp:TextBox ID="txtCostoAnnuale" runat="server"></asp:TextBox>
-                <asp:Button CssClass="btn btn-primary btn-sm" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
+        <div class="mb-4">
+            <div id="icona" class="row g-3 align-items-center justify-content-end">
+                <div class="col-auto">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRicercaCorso">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalInserimentoCorso">
+                        <i class="bi bi-plus-circle"></i>
+                    </button>
+                </div>
             </div>
         </div>
 
-        <div>
-            <asp:Repeater ID="rpCorso" runat="server">
-                <HeaderTemplate>
-                    <table class="table table-striped shadow">
-                        <thead>
-                            <tr>
-                                <th>Corsi</th>
-                                <th>Facoltà</th>
-                                <th>Tipo corso</th>
-                                <th>Minimo CFU</th>
-                                <th>Costi annuali</th>
-                                <th>Azioni</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                </HeaderTemplate>
+        <asp:Repeater ID="rpCorso" runat="server">
+            <HeaderTemplate>
+                <table class="table table-striped shadow">
+                    <thead>
+                        <tr>
+                            <th>Corsi</th>
+                            <th>Facoltà</th>
+                            <th>Tipo corso</th>
+                            <th>Minimo CFU</th>
+                            <th>Costi annuali</th>
+                            <th>Azioni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            </HeaderTemplate>
 
-                <ItemTemplate>
-                    <tr>
-                        <td><%# Eval("TitoloCorso") %></td>
-                        <td><%# Eval("TitoloFacolta") %></td>
-                        <td><%# Eval("Tipo") %></td>
-                        <td><%# Eval("MinimoCFU") %></td>
-                        <td><%# Eval("CostoAnnuale") %></td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-primary" onclick="apriModal(
+            <ItemTemplate>
+                <tr>
+                    <td><%# Eval("TitoloCorso") %></td>
+                    <td><%# Eval("TitoloFacolta") %></td>
+                    <td><%# Eval("Tipo") %></td>
+                    <td><%# Eval("MinimoCFU") %></td>
+                    <td><%# Eval("CostoAnnuale") %></td>
+                    <td>
+                        <a href="#" class="btn btn-sm btn-primary" onclick="apriModal(
                                 '<%# Eval("K_Corso") %>',
                                 '<%# Eval("K_Facolta") %>',
                                 '<%# Eval("K_TipoCorso") %>',
                                 '<%# Eval("TitoloCorso") %>',
                                 '<%# Eval("MinimoCFU") %>',
                                 '<%# Eval("CostoAnnuale") %>',)">Modifica</a>
-                        </td>
-                    </tr>
-                </ItemTemplate>
+                    </td>
+                </tr>
+            </ItemTemplate>
 
-                <FooterTemplate>
-                    </tbody>
+            <FooterTemplate>
+                </tbody>
             </table>
-                </FooterTemplate>
+            </FooterTemplate>
+        </asp:Repeater>
+        
+            <%--        repeater per la paginazione--%>
+            <asp:Repeater ID="rptPaginazione" runat="server" OnItemCommand="rptPaginazione_ItemCommand">
+                <ItemTemplate>
+                    <asp:LinkButton ID="lnkPagina" runat="server"
+                        CommandName="CambiaPagina"
+                        CommandArgument='<%# Container.DataItem %>'
+                        CssClass='<%# (Convert.ToInt32(Container.DataItem) == GetPaginaCorrente() + 1) 
+                ? "btn btn-primary btn-sm m-1 active" 
+                : "btn btn-outline-primary btn-sm m-1" %>'>
+            <%# Container.DataItem %>
+                    </asp:LinkButton>
+                </ItemTemplate>
             </asp:Repeater>
+
+    </div>
+
+    <%--Modal ricerca--%>
+    <div class="modal fade" id="modalRicercaCorso" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="exampleModalLabel1">Ricerca Corso</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="txtRicercaCorso" class="form-label fw-bold">Corso</label>
+                        <asp:TextBox ID="txtRicercaCorso" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                    <div class="mb-3">
+                        <span style="margin-left: 1em;">
+                            <asp:Label ID="lblErrore" runat="server" CssClass="text-danger mt-3" Text="" Visible="False"></asp:Label>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <asp:LinkButton ID="btnRicerca" runat="server" CssClass="btn btn-primary" Style="box-shadow: 0px 4px 12px #21212115;" OnClick="btnRicerca_Click">
+                        Cerca
+                    </asp:LinkButton>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                </div>
+
+            </div>
         </div>
     </div>
 
-    <%--Modal--%>
+    <%--Modal inserimento--%>
+    <div class="modal fade" id="modalInserimentoCorso" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="example2ModalLabel">Inserisci Corso</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                </div>
+
+                <div class="modal-body">
+                    <asp:HiddenField ID="hiddenCorsoIns" runat="server" />
+
+                    <div class="mb-3">
+                        <label for="ddlFacolta" class="form-label fw-bold">Facoltà</label>
+                        <asp:DropDownList ID="ddlFacolta" CssClass="form-select" runat="server"></asp:DropDownList>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ddlTipoCorso" class="form-label fw-bold">Tipo Corso</label>
+                        <asp:DropDownList ID="ddlTipoCorso" CssClass="form-select" runat="server"></asp:DropDownList>
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtCorso" class="form-label fw-bold">Corso</label>
+                        <asp:TextBox ID="txtCorso" CssClass="form-control mio_width" runat="server"></asp:TextBox>
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtMinimoCFU" class="form-label fw-bold">Minimo CFU</label>
+                        <asp:TextBox ID="txtMinimoCFU" CssClass="form-control" runat="server"></asp:TextBox>
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtCostoAnnuale" class="form-label fw-bold">Costo Annuale</label>
+                        <asp:TextBox ID="txtCostoAnnuale" CssClass="form-control" runat="server"></asp:TextBox>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <asp:Button CssClass="btn btn-primary" ID="btnSalva" runat="server" Text="Inserisci" OnClick="btnSalva_Click" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <%--Modal modifica--%>
     <div class="modal fade" id="modalModificaCorso" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -112,33 +197,13 @@
                 </div>
 
                 <div class="modal-footer">
-                    <asp:Button ID="btnSalvaModifica" runat="server" Text="Salva Modifiche" CssClass="btn btn-primary" OnClick="btnSalvaModifica_Click"/>
+                    <asp:Button ID="btnSalvaModifica" runat="server" Text="Salva Modifiche" CssClass="btn btn-primary" OnClick="btnSalvaModifica_Click" />
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
                 </div>
 
             </div>
         </div>
     </div>
-
-
-    <%--Script per nascondere l'icona e rendere visibili gli elementi per l'inserimento--%>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var btnMostra = document.getElementById("icona");
-            var divInsert = document.getElementById("<%= insert.ClientID %>");
-
-            if (divInsert.style.display == "block") {
-                btnMostra.style.display = "none";
-            } else {
-                btnMostra.style.display = "inline-block";
-            }
-
-            btnMostra.addEventListener("click", function () {
-                btnMostra.style.display = "none";
-                divInsert.style.display = "block";
-            });
-        });
-    </script>
 
     <%--Script per il modal--%>
     <script>

@@ -3,115 +3,117 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - AreaDocente</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<title>@ViewData["Title"] - AreaStudente</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-	<link rel="stylesheet" href="~/AreaDocente.styles.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/AreaStudente.styles.css" asp-append-version="true" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+
 
 	<style>
 		.navbar-custom {
-			background-color: #12304F;
+		background-color: #12304F;
 		}
 
-			.navbar-custom .nav-link,
-			.navbar-custom .navbar-brand {
-				color: white !important;
-			}
+		.navbar-custom .nav-link,
+		.navbar-custom .navbar-brand {
+		color: white !important;
+		}
 
 		.dropdown-menu > li:hover > .dropdown-submenu {
-			display: block;
+		display: block;
 		}
 
-		.flex-wrapper {
-			display: flex;
-			min-height: 100vh;
-			flex-direction: column;
-			justify-content: space-between;
+
+		.sticky-top {
+		z-index: 1030 !important; /* Bootstrap usa 1000 per i dropdown, 1050+ per i modal. 1030 è un valore comune per le navbar fixed/sticky */
+		}
+
+
+
+		.navbar-nav .nav-item.logout {
+		position: absolute;
+		right: 0; /* Posiziona il link a destra */
+		}
+
+		body {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+		background-color: #f8f9fe;
+		}
+
+
+		.content-wrapper {
+		flex-grow: 1; 
+		}
+
+		footer {
+		margin-top: auto;
 		}
 	</style>
 
 </head>
+
 <body class="m-0 flex-wrapper">
-	<header class="mb-5">
-		<div class="fixed-top">
-			<nav class="navbar navbar-dark navbar-expand-lg navbar-custom">
-				<div class="container">
-					<a class="navbar-brand" href="#">
-						<img src="~/css/resources/logonobg.png" alt="Bootstrap" width="150">
-					</a>
+	<div class="bg-white p-0 " style="height:6rem;">
+		<div class="d-flex flex-row">
+			<div class="w-50 d-flex align-items-center">
+				<a asp-area="" asp-controller="Studenti" asp-action="Show"><img src="~/css/resources/logoblu.png" style="height: 6rem; padding-bottom:10px;" /></a>
+			</div>
+			<div class="d-flex justify-content-end flex-column w-50 mb-2 mt-1">
+				<div class="d-flex justify-content-end  mb-2 mt-1">
+					<!-- Pulsanti in alto a destra -->
+					<div class="d-flex gap-2 me-3">
+						@if (@ViewData["matricola"] != null)
+						{
+
+							<a class="btn btn-sm text-white" style="background-color: #12304F;" href="@($"http://localhost:54399/Homepage.aspx?cod={ViewData["studente_id"]}&usr={ViewData["email"]}&mat={ViewData["matricola"]}&a={ViewData["abilitato"]}")">Area Lavoro</a>
+
+
+						}
+						else
+						{
+							<a class="btn btn-sm text-white disabled" tabindex="-1" aria-disabled="true" style="background-color: #12304F;" href="@($"http://localhost:54399/Homepage.aspx?cod={ViewData["studente_id"]}&usr={ViewData["email"]}&mat={ViewData["matricola"]}&a={ViewData["abilitato"]}")">Area Lavoro</a>
+						}
+					</div>
+					<div class="d-flex gap-2 me-3">
+						<a class="btn  btn-sm " style="color: #12304F; border-color:#12304F;" aria-current="page" href="https://localhost:7272/Home/Index">Logout</a>
+					</div>
+
+				</div>
+				<p class="fs-4 text-black me-3 text-end">Fatti non foste a viver come bruti</p>
+
+			</div>
+		</div>
+	</div>
+
+	<header>
+		<div class="sticky-top">
+			<nav class="navbar navbar-expand-lg navbar-custom">
+				<div class="mx-3">
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 					</button>
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-							<li class="nav-item">
-								<a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-							</li>
-
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-									Attività
-								</a>
-								<ul class="dropdown-menu">
-									<li><a class="dropdown-item" asp-area="" asp-controller="Materiali" asp-action="Add">Materiali</a></li>
-									<li><a class="dropdown-item" asp-area="" asp-controller="Lezioni" asp-action="Add">Lezioni</a></li>
-								</ul>
-							</li>
-
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-									Esami
-								</a>
-								<ul class="dropdown-menu">
-									<li><a class="dropdown-item" asp-area="" asp-controller="Appelli" asp-action="Add">Appelli</a></li>
-									<li><a class="dropdown-item" asp-area="" asp-controller="Tests" asp-action="Add">Test</a></li>
-									<li><a class="dropdown-item" asp-area="" asp-controller="Valutazioni" asp-action="ValutazioneTest">Valutazioni</a></li>
-								</ul>
-							</li>
-
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-									Account
-								</a>
-								<ul class="dropdown-menu">
-									<li><a class="dropdown-item" href="#">Modifica Dati</a></li>
-									<li><a class="dropdown-item" href="#">Recupera Password</a></li>
-								</ul>
-							</li>
 							@{
-								var ruolo = Context.Session.GetString("Ruolo");
+								var ruolo = Context.Session.GetString("r");
 							}
-							@if (ruolo != null)
+							@if (ruolo != null && ruolo == "s")
 							//solo se qualcuno ha fatto accesso apparirà la dorpdownlist
 							{
-								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-										Comunicazioni
-									</a>
-									<ul class="dropdown-menu">
-										<li>
-											<a class="dropdown-item" asp-area="" asp-controller="Comunicazioni" asp-action="List">Comunicazioni</a>
-										</li>
-
-										<li class="nav-item">
-											<a class="dropdown-item" asp-area="" asp-controller="Comunicazioni" asp-action="Add"> Inserisci una nuova Comunicazione</a>
-										</li>
-									</ul>
+								<li class="nav-item">
+									<a class="nav-link" href="http://localhost:54399/Homepage.aspx?cod=@(Context.Session.GetString("cod"))&r=@(Context.Session.GetString("r"))&mat=@(Context.Session.GetString("mat"))&a=@(Context.Session.GetString("a"))">Torna all'Area di Lavoro</a>
 								</li>
 							}
-
-
-						</ul>
-						<ul class="navbar-nav navbar-right">
-							<li class="nav-item">
-								<a class="btn btn-light btn-sm disabled me-2"><i class="bi bi-person-circle"></i> *Placeholder*</a>
-							</li>
-							<li class="nav-item">
-								<a class="btn btn-light btn-sm">Logout</a>
-							</li>
-
+							else if (ruolo != null && ruolo == "a")
+							{
+								<a class="nav-link" href="http://localhost:54411/Home.aspx?cod=@(Context.Session.GetString("cod"))&r=@(Context.Session.GetString("r"))&usr=@(Context.Session.GetString("usr"))">Torna all'Area amministrativa</a>
+							}
 						</ul>
 					</div>
 				</div>
@@ -119,25 +121,26 @@
 		</div>
 	</header>
 
-	<div class="container">
-		<main role="main" class="pb-3 mt-5">
+	<div class="content-wrapper">
+		<main role="main" class="pb-3">
 			@RenderBody()
 		</main>
 	</div>
 
+
 	<footer>
-		<div class="bg-dark text-white">
+		<div class="bg-dark text-white  h-100 mt-2">
 			<div class="container d-flex justify-content-between align-items-end flex-wrap">
 				<div>
 					<img src="https://italy.generation.org/wp-content/uploads/2019/05/Generation_Italy_logo_WHITE.svg" alt="Logo UNIGen" class="img-fluid my-3" width="150px">
-					<p class="fs-4">Università UNIGen</p>
-					<p class="fs-6">Milano, MI 20100, IT</p>
+					<p class="fs-4  mb-0">Università UNIGen</p>
+					<p class="fs-6">Milano, Milano, MI 20100, IT</p> 
 				</div>
 				<div>
 					<p class="fs-6">© 2024 Generation: You Employed, Inc.</p>
 				</div>
 				<div>
-					<p class="fs-5 mb-1">Chi Siamo</p>
+					<p class="fs-5">Chi Siamo</p>
 					<ul class="list-unstyled ms-3">
 						<li><a href="#" class="text-white">Contatti</a></li>
 						<li><a href="#" class="text-white">Come Funziona</a></li>
@@ -149,8 +152,8 @@
 		</div>
 	</footer>
 
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	@await RenderSectionAsync("Scripts", required: false)
 </body>

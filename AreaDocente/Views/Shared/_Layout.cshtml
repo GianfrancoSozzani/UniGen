@@ -10,6 +10,22 @@
     <link rel="stylesheet" href="~/AreaDocente.styles.css" asp-append-version="true" />
 
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding-top: 36px;
+            padding-bottom: 24px;
+        }
+
         .navbar-custom {
             background-color: #12304F;
         }
@@ -22,22 +38,15 @@
         .dropdown-menu > li:hover > .dropdown-submenu {
             display: block;
         }
-
-        .flex-wrapper {
-            display: flex;
-            min-height: 100vh;
-            flex-direction: column;
-            justify-content: space-between;
-        }
     </style>
 
 </head>
-<body class="m-0 flex-wrapper">
+<body class="m-0">
     <header class="mb-5">
         <div class="fixed-top">
             <nav class="navbar navbar-dark navbar-expand-lg navbar-custom">
                 <div class="container">
-                    <a class="navbar-brand" href="#">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                         <img src="~/css/resources/logonobg.png" alt="Bootstrap" width="150">
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,9 +74,9 @@
                                     Esami
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Appelli" asp-action="Add">Appelli</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Tests" asp-action="Add">Test</a></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Valutazioni" asp-action="ValutazioneTest">Valutazioni</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Appelli" asp-action="List">Appelli</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Prove" asp-action="List">Test</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Prove" asp-action="Valutazione">Valutazioni</a></li>
                                 </ul>
                             </li>
 
@@ -76,18 +85,17 @@
                                     Account
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Modifica Dati</a></li>
-                                    <li><a class="dropdown-item" href="#">Recupera Password</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Docenti" asp-action="ModificaProfilo">Modifica Dati</a></li>
                                 </ul>
                             </li>
 
                         </ul>
                         <ul class="navbar-nav navbar-right">
                             <li class="nav-item">
-                                <a class="btn btn-light btn-sm disabled me-2"><i class="bi bi-person-circle"></i> *Placeholder*</a>
+                                <a class="btn btn-light btn-sm disabled me-2"><i class="bi bi-person-circle"></i> @Context.Session.GetString("usr") </a>
                             </li>
                             <li class="nav-item">
-                                <a class="btn btn-light btn-sm">Logout</a>
+                                <a class="btn btn-light btn-sm" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
                             </li>
 
                         </ul>
@@ -97,13 +105,13 @@
         </div>
     </header>
 
-    <div class="container">
-        <main role="main" class="pb-3 mt-5">
+    <div class="content-wrapper">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer>
+    <footer class="mt-auto">
         <div class="bg-dark text-white position-sticky">
             <div class="container d-flex justify-content-between align-items-end flex-wrap">
                 <div>
@@ -117,10 +125,10 @@
                 <div>
                     <p class="fs-5 mb-1">Chi Siamo</p>
                     <ul class="list-unstyled ms-3">
-                        <li><a href="#" class="text-white">Contatti</a></li>
-                        <li><a href="#" class="text-white">Come Funziona</a></li>
-                        <li><a href="#" class="text-white">FAQ</a></li>
-                        <li><a href="#" class="text-white">Privacy</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Contatti" class="text-white">Contatti</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="ComeFunziona" class="text-white">Come Funziona</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="FAQ" class="text-white">FAQ</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-white">Privacy</a></li>
                     </ul>
                 </div>
             </div>

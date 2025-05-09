@@ -1,30 +1,50 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model AreaDocente.Models.AddMaterialiViewModel
 
-@model AreaDocente.Models.AddMaterialiViewModel
+<div class="container ">
+	<h1 class="mb-4">Inserimento Materiale</h1>
 
-<div class="container">
-    <h1>Inserimento Materiale</h1>
+	<div class="card shadow-sm p-4">
+		<form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
 
-    <form method="post" enctype="multipart/form-data">
+			<div class="mb-3">
+				<label class="form-label fw-semibold">Titolo</label>
+				<input type="text" class="form-control" asp-for="Titolo" placeholder="Inserisci il titolo del materiale" required />
+			</div>
 
-        <div class="mt-3">
-            <label class="form-label">Titolo</label>
-            <input type="text" class="form-control" asp-for="Titolo" />
-            <label class="form-label" for="file">Titolo</label>
-            <input type="file" id="file" name="materiale" class="form-control" asp-for="materiale" />
-        </div>
-        <div class="mt-3">
-            <label class="form-label">Esame di appartenenza</label>
-            <select asp-for="K_Esame" asp-items="@ViewBag.EsameList" class="form-select">
-                <option disabled selected>==Selezionare un esame</option>
-            </select>
-        </div>
+			<div class="mb-3">
+				<label class="form-label fw-semibold" for="file">File</label>
+				<input type="file" id="file" name="materiale" class="form-control" asp-for="materiale" required />
+			</div>
 
+			<div class="mb-4">
+				<label class="form-label fw-semibold">Esame di appartenenza</label>
+				<select asp-for="K_Esame" asp-items="@ViewBag.EsameList" class="form-select" required>
+					<option disabled selected value="">== Selezionare un esame ==</option>
+				</select>
+			</div>
+			<div class="d-flex justify-content-end mt-3 gap-2">
+				<button type="submit" class="btn btn-primary btn-lg">
+					<i class="bi bi-save me-1"></i> Salva
+				</button>
+				<button type="submit" class="btn btn-secondary btn-lg" asp-controller="Materiali" asp-action="Annulla">
+					<i class="bi bi-arrow-90deg-left me-1"></i> Annulla
+				</button>
+			</div>
+		</form>
+	</div>
 
-        <div class="mt-3">
-            <button type="submit" class="btn btn-primary">Salva</button>
-        </div>
-    </form>
+	@section Scripts {
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+		@if (TempData["ErrorMessage"] != null)
+		{
+			<script>
+				Swal.fire({
+					icon: 'error',
+					title: 'Operazione non riuscita',
+					text: '@TempData["ErrorMessage"]'
+				});
+			</script>
+		}
+	}
 </div>

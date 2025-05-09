@@ -58,22 +58,22 @@
                     <img src="resources/logonobg.png" class="img-fluid" alt="Logo" />
                 </div>
                 <h5 class="text-center">Menu</h5>
-                <a href="Home.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-house-door-fill me-2"></i>Dashboard</a>
-                <a href="AbilitaStudente.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-person-check-fill me-2"></i>Gestione Studente</a>
-                <a href="Gestione_Facolta.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-mortarboard-fill me-2"></i>Gestione Facoltà</a>
-                <a href="Gestione_Corsi.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-clipboard2 me-2"></i>Gestione Corsi</a>
-                <a href="Gestione_Esami.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-clipboard2 me-2"></i>Gestione Esami</a>
-                <a href="Gestione_PianoStudi.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-book me-2"></i>Gestione Piano Studi</a>
-                <a href="GestioneDocenti.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-people-fill me-2"></i>Gestione Docenti</a>
+                <a href="Home.aspx?r=<%=Request.QueryString["r"]%>&cod=<%=Request.QueryString["cod"]%>&usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-house-door-fill me-2"></i>Dashboard</a>
+                <a href="AbilitaStudente.aspx?r=<%=Request.QueryString["r"]%>&cod=<%=Request.QueryString["cod"]%>&usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-person-check-fill me-2"></i>Gestione Studente</a>
+                <a href="Gestione_Facolta.aspx?r=<%=Request.QueryString["r"]%>&cod=<%=Request.QueryString["cod"]%>&usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-mortarboard-fill me-2"></i>Gestione Facoltà</a>
+                <a href="Gestione_Corsi.aspx?r=<%=Request.QueryString["r"]%>&cod=<%=Request.QueryString["cod"]%>&usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-clipboard2 me-2"></i>Gestione Corsi</a>
+                <a href="Gestione_Esami.aspx?r=<%=Request.QueryString["r"]%>&cod=<%=Request.QueryString["cod"]%>&usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-clipboard2 me-2"></i>Gestione Esami</a>
+                <a href="Gestione_PianoStudi.aspx?r=<%=Request.QueryString["r"]%>&cod=<%=Request.QueryString["cod"]%>&usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-book me-2"></i>Gestione Piani di Studio</a>
+                <a href="GestioneDocenti.aspx?r=<%=Request.QueryString["r"]%>&cod=<%=Request.QueryString["cod"]%>&usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-people-fill me-2"></i>Gestione Docenti</a>
 
                 <div class="dropdown-sidebar">
                     <a class="dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#submenuEconomica" role="button" aria-expanded="false" aria-controls="submenuEconomica">
                         <i class="bi bi-wallet2 me-2"></i>Gestione Economica
                     </a>
                     <div class="collapse" id="submenuEconomica">
-                        <a class="submenu-item" href="IncassoAnnuale.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-cash-stack me-2"></i>Incasso Annuale</a>
-                        <a class="submenu-item" href="IncassoPerCorso.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-receipt me-2"></i>Incasso per corso</a>
-                        <a class="submenu-item" href="IncassoStimato.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-piggy-bank me-2"></i>Stima incassi dell'anno</a>
+                        <a class="submenu-item" href="IncassoAnnuale.aspx?r=<%=Request.QueryString["r"]%>&cod=<%=Request.QueryString["cod"]%>&usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-cash-stack me-2"></i>Incasso Annuale</a>
+                        <a class="submenu-item" href="IncassoPerCorso.aspx?r=<%=Request.QueryString["r"]%>&cod=<%=Request.QueryString["cod"]%>&usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-receipt me-2"></i>Incasso per Facoltà</a>
+                        <a class="submenu-item" href="IncassoStimato.aspx?r=<%=Request.QueryString["r"]%>&cod=<%=Request.QueryString["cod"]%>&usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-piggy-bank me-2"></i>Stima incassi dell'anno</a>
                     </div>
                 </div>
 
@@ -82,20 +82,29 @@
                         <i class="bi bi-bar-chart-line-fill me-2"></i>Statistiche Studenti
                     </a>
                     <div class="collapse" id="submenuStatistiche">
-                        <a class="submenu-item" href="StudentiPerCorso.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-people-fill me-2"></i>Studenti iscritti per corso</a>
-                        <a class="submenu-item" href="IscrittiStudAnno.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-receipt me-2"></i>Studenti iscritti per anno</a>
+                        <a class="submenu-item" href="StudentiPerCorso.aspx?r=<%=Request.QueryString["r"]%>&cod=<%=Request.QueryString["cod"]%>&usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-people-fill me-2"></i>Studenti iscritti per corso</a>
+                        <a class="submenu-item" href="IscrittiStudAnno.aspx?r=<%=Request.QueryString["r"]%>&cod=<%=Request.QueryString["cod"]%>&usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-receipt me-2"></i>Studenti iscritti per anno</a>
+                        <a class="submenu-item" href="StudentiPerFacolta.aspx?r=<%=Request.QueryString["r"]%>&cod=<%=Request.QueryString["cod"]%>&usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-receipt me-2"></i>Studenti iscritti per facoltà</a>
                     </div>
                 </div>
 
-                <a href="Comunicazioni.aspx?usr=<%=Request.QueryString["usr"]%>"><i class="bi bi-envelope me-2"></i>Comunicazioni</a>
+                <a href='https://localhost:7098/Comunicazioni/List?r=<%=Request.QueryString["r"]%>&cod=<%=Request.QueryString["cod"]%>&usr=<%=Request.QueryString["usr"]%>'>
+                    <i class="bi bi-envelope me-2"></i>Comunicazioni
+                </a>
             </nav>
 
             <!-- Main content -->
             <main class="main-content">
-                <div class="d-flex justify-content-end">
-                    <asp:Label ID="lblNomeUtente" runat="server" CssClass="fw-bold"></asp:Label>   
-                    <a href="Logout.aspx" class="btn btn-danger ms-4"><i class="bi bi-box-arrow-right"></i>Logout</a>
+                <div class="d-flex align-items-center justify-content-end">
+                    <div class="d-flex align-items-center rounded" style="background-color: #12304F;">
+                        <a class="btn btn-sm text-white me-1" style="pointer-events: none; cursor: default;"><i class="bi bi-person-circle"></i></a>
+                        <asp:Label ID="lblNomeUtente" runat="server" CssClass="fw-bold text-white me-2"></asp:Label>
+                    </div>
+                    <div>
+                        <a href="javascript:window.close();" class="btn btn-sm btn-danger ms-4"><i class="bi bi-box-arrow-right"></i>Logout</a>
+                    </div>
                 </div>
+
                 <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                 </asp:ContentPlaceHolder>
             </main>

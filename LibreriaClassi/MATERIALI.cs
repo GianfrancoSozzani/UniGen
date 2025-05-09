@@ -93,5 +93,15 @@ namespace LibreriaClassi
             return dB.SQLselect();
         }
 
+        
+        public DataTable DispensaPerMatricola(Guid K_Studente, Guid K_Esame)
+        {
+            DB db = new DB();
+            db.query = "Materiali_GetDispense";
+            db.cmd.Parameters.AddWithValue("@K_Studente", K_Studente);
+            db.cmd.Parameters.AddWithValue("@K_Esame", K_Esame);
+            return db.SQLselect();
+        }
+      
     }
 }

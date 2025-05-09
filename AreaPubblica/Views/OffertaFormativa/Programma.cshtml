@@ -1,0 +1,80 @@
+﻿@{
+	var facoltaCorsi = ViewBag.FacoltaCorsi as List<dynamic>;
+	var descrizioniCorsi = ViewBag.DescrizioniCorsi as Dictionary<string, string>;
+}
+
+<div class="container mb-5" style="padding-top: 120px;">
+	<div class="row">
+		<h1 class="mb-4">Programma dei Corsi</h1>
+
+		<div class="col-lg-8 col-md-12">
+			<div class="mb-4">
+				I nostri corsi offrono un percorso formativo strutturato e innovativo, pensato per garantire agli studenti una preparazione solida e completa.
+				I corsi sono progettati per unire teoria e pratica, fornendo conoscenze fondamentali e competenze applicabili nel mondo del lavoro e della ricerca.
+				Il piano didattico comprende <b>seminari, laboratori e attività di approfondimento,</b>
+				permettendo agli studenti di sviluppare un approccio critico e analitico.
+				Grazie all’interazione con <b>docenti esperti</b> e alla possibilità di partecipare a progetti interdisciplinari,
+				ogni studente può personalizzare il proprio percorso accademico in base agli interessi e agli obiettivi professionali.
+				All’interno della sezione <b>Programma dei Corsi</b>, è possibile consultare l’elenco completo degli
+				<b>insegnamenti, suddivisi per docente e settore disciplinare,</b>
+				con dettagli su contenuti, obiettivi formativi, modalità di esame e materiali didattici.
+			</div>
+
+			@if (facoltaCorsi != null)
+			{
+				var facoltaGruppi = facoltaCorsi.GroupBy(f => f.Facolta);
+				<div class="accordion" id="accordionCorsi">
+					@foreach (var facolta in facoltaGruppi)
+					{
+						string facoltaId = "corso_" + facolta.Key.Replace(" ", "").ToLower();
+
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="heading-@facoltaId">
+								<button class="accordion-button collapsed" type="button"
+										data-bs-toggle="collapse"
+										data-bs-target="#@facoltaId"
+										aria-expanded="false"
+										aria-controls="@facoltaId">
+									<strong>@facolta.Key</strong>
+								</button>
+							</h2>
+							<div id="@facoltaId" class="accordion-collapse collapse"
+								 aria-labelledby="heading-@facoltaId"
+								 data-bs-parent="#accordionCorsi">
+								<div class="accordion-body">
+									@foreach (var corso in facolta.GroupBy(f => f.Corso))
+									{
+										<div class="mb-3">
+											<h5>@corso.Key</h5>
+											<p><strong>Descrizione del corso:</strong></p>
+											<p>@(descrizioniCorsi.ContainsKey(corso.Key) ? descrizioniCorsi[corso.Key] : "Descrizione non disponibile.")</p>
+											<ul class="list-group">
+												@foreach (var item in corso)
+												{
+													<li class="list-group-item">
+														<nobr>Esame:</nobr> <a class="text-primary">@item.Esame</a> <br />
+														Docente: <strong>@item.NomeDocente @item.CognomeDocente</strong>
+													</li>
+												}
+											</ul>
+										</div>
+									}
+								</div>
+							</div>
+						</div>
+					}
+				</div>
+			}
+			else
+			{
+				<p>Nessun dato disponibile.</p>
+			}
+		</div>
+
+		<div class="col-lg-4 d-none d-lg-block">
+			<div style="position: sticky; top: 130px;">
+				<img src="~/sources/prog.jpg" class="img-fluid rounded shadow" alt="Programma corsi" />
+			</div>
+		</div>
+	</div>
+</div>

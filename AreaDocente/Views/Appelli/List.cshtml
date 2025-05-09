@@ -1,0 +1,216 @@
+﻿@model List<AreaDocente.Models.Entities.MVCAPPELLO>
+
+<div class="container ">
+    <h1 class="mb-4">Elenco Appelli</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Esame</th>
+                <th>Data Appello</th>
+                <th>Data Verbalizzazione</th>
+                <th>Tipo</th>
+                <th>Link</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var appello in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(Model => appello.Esame.TitoloEsame)</td>
+                    <td>@appello.DataAppello?.ToString("dd/MM/yyyy")</td>
+                    <td>@appello.DataVerbalizzazione?.ToString("dd/MM/yyyy")</td>
+                    <td>@(appello.Tipo == "Sc" ? "Scritto" : appello.Tipo == "Or" ? "Orale" : appello.Tipo == "La" ? "Laurea" : appello.Tipo)</td>
+                    <td>
+                        <a target="_blank" href="@appello.Link" class="btn btn-info btn-sm">
+                            <i class="bi bi-link-45deg me-1"></i> Link
+                        </a>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm"
+                                onclick='openEditAppelloModal(@Html.Raw(Json.Serialize(appello.K_Appello)), @Html.Raw(Json.Serialize(appello.K_Esame)), @Html.Raw(Json.Serialize(appello.DataAppello?.ToString("yyyy-MM-dd"))), @Html.Raw(Json.Serialize(appello.DataVerbalizzazione?.ToString("yyyy-MM-dd"))), @Html.Raw(Json.Serialize(appello.Tipo)), @Html.Raw(Json.Serialize(appello.Link)))'
+                                data-bs-toggle="modal" data-bs-target="#editAppelloModal">
+                            <i class="bi bi-pencil-square me-1"></i> Modifica
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAppelloModal">
+                        <i class="bi bi-plus-circle me-1"></i> Inserisci nuovo appello
+                    </button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <!-- Modale Inserimento Appelli -->
+    <div class="modal fade" id="addAppelloModal" tabindex="-1" aria-labelledby="addAppelloModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" action="/Appelli/Add" class="needs-validation" novalidate>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addAppelloModalLabel">Inserimento Appello</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Esame di appartenenza</label>
+                            <select name="K_Esame" class="form-select" required>
+                                <option disabled selected value="">== Seleziona un esame ==</option>
+                                @foreach (var item in ViewBag.EsamiDDL)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+
+                        @{
+                            var minData = DateTime.Now.Date.ToString("s").Substring(0, 10); // Formato ISO: "YYYY-MM-DD"
+                        }
+
+                        <div class="mb-3">
+                            <label class="form-label">Data Appello</label>
+                            <input type="date"
+                                   class="form-control"
+                                   name="DataAppello"
+                                   min="@minData"
+                                   value="@minData" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Tipo Appello</label>
+                            <select name="Tipo" class="form-select" required>
+                                <option disabled selected>== Seleziona il tipo dell'appello ==</option>
+                                <option value="Or">Orale</option>
+                                <option value="Sc">Scritto</option>
+                                <option value="La">Laurea</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Link Appello</label>
+                            <input type="text" class="form-control" name="Link" placeholder="Inserisci il link dell'appello" required />
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save me-1"></i> Salva
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle me-1"></i> Annulla
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale Modifica Appello -->
+    <div class="modal fade" id="editAppelloModal" tabindex="-1" aria-labelledby="editAppelloModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" action="/Appelli/Edit">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editAppelloModalLabel">Modifica Appello</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="edit_K_Appello" name="K_Appello" />
+
+                        <div class="mb-3">
+                            <label class="form-label">Esame</label>
+                            <select id="edit_K_Esame" name="K_Esame" class="form-select" required>
+                                <option disabled selected value="">== Seleziona un esame ==</option>
+                                @foreach (var item in ViewBag.EsamiDDL)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </div>
+
+                        @{
+                            var minData = DateTime.Now.ToString("yyyy-MM-dd");
+                        }
+
+                        <div class="mb-3">
+                            <label class="form-label">Data Appello</label>
+                            <input type="date" class="form-control" id="edit_DataAppello" name="DataAppello" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Data Verbalizzazione</label>
+                            <input type="date" class="form-control" id="edit_DataVerbalizzazione" name="DataVerbalizzazione" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Tipo Appello</label>
+                            <select id="edit_Tipo" name="Tipo" class="form-select" required>
+                                <option disabled selected value="">== Seleziona il tipo ==</option>
+                                <option value="Or">Orale</option>
+                                <option value="Sc">Scritto</option>
+                                <option value="La">Laurea</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Link</label>
+                            <input type="text" class="form-control" id="edit_Link" name="Link" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-pencil-square me-1"></i> Modifica
+                        </button>
+                        <button type="submit" formnovalidate class="btn btn-danger" formaction="/Appelli/Delete">
+                            <i class="bi bi-trash me-1"></i> Elimina
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="bi bi-x-circle me-1"></i> Annulla
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Errore',
+                    text: '@TempData["ErrorMessage"]'
+                });
+            </script>
+        }
+
+        <script>
+            function openEditAppelloModal(kAppello, kEsame, dataAppello, dataVerbalizzazione, tipo, link) {
+
+                document.getElementById("edit_K_Appello").value = kAppello;
+                document.getElementById("edit_DataAppello").value = dataAppello;
+                document.getElementById("edit_DataVerbalizzazione").value = dataVerbalizzazione;
+                document.getElementById("edit_Link").value = link;
+
+                // seleziona Esame
+                const selectEsame = document.getElementById("edit_K_Esame");
+                selectEsame.value = kEsame.toUpperCase();;
+
+                // seleziona Tipo
+                const selectTipo = document.getElementById("edit_Tipo");
+                selectTipo.value = tipo;
+            }
+        </script>
+    }
+
+</div>

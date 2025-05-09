@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using AreaDocente.Data;
+﻿using AreaDocente.Data;
 using AreaDocente.Models;
 using AreaDocente.Models.Entities;
-using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
-using LibreriaClassi;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace AreaDocente.Controllers
 {
@@ -22,73 +20,63 @@ namespace AreaDocente.Controllers
         [HttpGet]
         public async Task<IActionResult> List()
         {
-            var lez = await dbContext.lezioni.ToListAsync();
-            foreach (var riga in lez)
-            {
-                riga.Esame = dbContext.esami.FirstOrDefault(u => u.K_Esame == riga.K_Esame);
-            }
+            PopoloDDL();
+
+            var lez = await dbContext.lezioni
+                .Include(a => a.Esame)
+                .Where(a => a.Esame.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
+                .ToListAsync();
+
             return View(lez);
         }
 
         //ADD
-        [HttpGet]
-        public IActionResult Add()
-        {
-            PopoloDDL();
-            return View();
-        }
         [HttpPost]
         public async Task<IActionResult> Add(AddLezioniViewModel viewModel)
         {
-            PopoloDDL();
             //CONTROLLI FORMALI
             if (viewModel.Titolo == null)
             {
                 TempData["ErrorMessage"] = "Titolo mancante!";
-                return View(viewModel);
+                return RedirectToAction("List");
             }
             if (viewModel.Video == null)
             {
                 TempData["ErrorMessage"] = "Video mancante!";
-                return View(viewModel);
+                return RedirectToAction("List");
             }
-            if (viewModel.K_Esame == Guid.Empty)
+            if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
-                TempData["ErrorMessage"] = "Selezionare esame!";
-                return View(viewModel);
+                TempData["ErrorMessage"] = "Selezionare un esame!";
+                return RedirectToAction("List");
             }
 
             var lez = new MVCLezioni
             {
                 Titolo = viewModel.Titolo.ToString(),
                 Video = viewModel.Video.ToString(),
-                K_Esame = viewModel.K_Esame
+                K_Esame = (Guid)viewModel.K_Esame
             };
             await dbContext.lezioni.AddAsync(lez);
             await dbContext.SaveChangesAsync();
 
-            return RedirectToAction("List", "Lezioni");
+            return RedirectToAction("List");
         }
 
         //POPOLO DDL ESAMI
         public void PopoloDDL()
         {
-            IEnumerable<SelectListItem> ListaEsami = dbContext.esami.Select(e => new SelectListItem
-            {
-                Text = e.TitoloEsame,
-                Value = e.K_Esame.ToString()
-            });
+            IEnumerable<SelectListItem> ListaEsami = dbContext.esami
+                .Where(e => e.K_Docente == new Guid(HttpContext.Session.GetString("cod")))
+                .Select(e => new SelectListItem
+                {
+                    Text = e.TitoloEsame,
+                    Value = e.K_Esame.ToString()
+                });
             ViewBag.EsamiDDL = ListaEsami;
         }
 
         //EDIT
-        [HttpGet]
-        public async Task<IActionResult> Edit(Guid id)
-        {
-            var lez = await dbContext.lezioni.FindAsync(id);
-            PopoloDDL();
-            return View(lez);
-        }
         [HttpPost]
         public async Task<IActionResult> Edit(MVCLezioni viewModel)
         {
@@ -96,17 +84,17 @@ namespace AreaDocente.Controllers
             if (viewModel.Titolo == null)
             {
                 TempData["ErrorMessage"] = "Inserire un titolo!";
-                return View(viewModel);
+                return RedirectToAction("List");
             }
             if (viewModel.Video == null)
             {
                 TempData["ErrorMessage"] = "Inserire un video!";
-                return View(viewModel);
+                return RedirectToAction("List");
             }
-            if (viewModel.K_Esame == Guid.Empty)
+            if (!viewModel.K_Esame.HasValue || viewModel.K_Esame == Guid.Empty)
             {
-                TempData["ErrorMessage"] = "Selezionare l'esame!";
-                return View(viewModel);
+                TempData["ErrorMessage"] = "Selezionare un esame!";
+                return RedirectToAction("List");
             }
 
             var lez = await dbContext.lezioni.FindAsync(viewModel.K_Lezione);
@@ -117,7 +105,7 @@ namespace AreaDocente.Controllers
                 lez.K_Esame = viewModel.K_Esame;
                 await dbContext.SaveChangesAsync();
             }
-            return RedirectToAction("List", "Lezioni");
+            return RedirectToAction("List");
         }
 
         //DELETE
@@ -132,7 +120,7 @@ namespace AreaDocente.Controllers
                 dbContext.lezioni.Remove(viewModel);
                 await dbContext.SaveChangesAsync();
             }
-            return RedirectToAction("List", "Lezioni");
+            return RedirectToAction("List");
         }
     }
 }

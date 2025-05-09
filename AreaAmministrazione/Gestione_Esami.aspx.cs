@@ -22,8 +22,8 @@ public partial class _Default : System.Web.UI.Page
     protected void CaricaEsami()
     {
         ESAMI e = new ESAMI();
-        rpEsame.DataSource = e.SelezionaTutto(); // Funzione che carica tutti gli esami
-        rpEsame.DataBind();
+        DataTable dt = e.SelezionaTutto();
+        PopolaListaConPaginazione(dt, rpEsame);
     }
 
     // Popolo la dropdownlist dei docenti
@@ -34,6 +34,7 @@ public partial class _Default : System.Web.UI.Page
         ddlDocente.DataTextField = "NomeCompleto";
         ddlDocente.DataValueField = "K_Docente";
         ddlDocente.DataBind();
+        ddlDocente.Items.Insert(0, new ListItem("Seleziona un docente", ""));
     }
 
     // Popolo la dropdownlist dei docenti MODAL
@@ -92,6 +93,9 @@ public partial class _Default : System.Web.UI.Page
 
         es.Inserimento();
         CaricaEsami();
+
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Inserimento avvenuto con successo')", true);
+        return;
     }
 
     protected void btnSalvaModifica_Click(object sender, EventArgs e)
@@ -121,7 +125,7 @@ public partial class _Default : System.Web.UI.Page
         {
             ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Inserisci un numero intero valido per i CFU')", true);
             return;
-        }        
+        }
 
         ESAMI es = new ESAMI();
         es.K_Esame = id;
@@ -142,5 +146,88 @@ public partial class _Default : System.Web.UI.Page
         es.Modifica();
 
         CaricaEsami();
+
+        ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Modifica avvenuta con successo')", true);
+        return;
+    }
+
+    protected void btnRicerca_Click(object sender, EventArgs e)
+    {
+        ViewState["PaginaCorrente"] = 0; //azzero la paginazione
+
+        ESAMI esami = new ESAMI();
+        esami.TitoloEsame = txtRicercaEsame.Text.Trim();
+        DataTable dt = esami.SelezionaPerNome();
+        if (dt != null && dt.Rows.Count > 0) //se l'esame esiste allora dt è maggiore di 0 e non è null
+        {
+            //rpEsame.DataSource = dt.DefaultView; //la datasource del repeater diventa dt 
+            //rpEsame.DataBind();
+
+            //lblErrore.Visible = false;
+            ViewState["RisultatiRicerca"] = dt;
+            PopolaListaConPaginazione(dt, rpEsame);
+        }
+        else
+        {
+            lblErrore.Text = "Nessun esame trovato con il titolo inserito.";
+            lblErrore.Visible = true;
+            CaricaEsami();
+            //rptStudenti.DataSource = null;
+            rpEsame.DataBind();
+        }
+    }
+    //PAGINAZIONE
+    private int PaginaCorrente
+    {
+        get { return ViewState["PaginaCorrente"] != null ? (int)ViewState["PaginaCorrente"] : 0; }
+        set { ViewState["PaginaCorrente"] = value; }
+    }
+    public int GetPaginaCorrente()
+    {
+        return ViewState["PaginaCorrente"] != null ? (int)ViewState["PaginaCorrente"] : 0;
+        //return PaginaCorrente;
+    }
+    protected void PopolaListaConPaginazione(DataTable dati, Repeater rptDati)
+    {
+        PagedDataSource paged = new PagedDataSource();
+        paged.DataSource = dati.DefaultView;
+        paged.AllowPaging = true;
+        paged.PageSize = 10;
+        paged.CurrentPageIndex = PaginaCorrente;
+
+        rptDati.DataSource = paged;
+        rptDati.DataBind();
+
+        // Pagine numeriche
+        List<int> pagine = new List<int>();
+        for (int i = 0; i < paged.PageCount; i++)
+        {
+            pagine.Add(i + 1); // Le pagine partono da 1
+        }
+
+        rptPaginazione.DataSource = pagine;
+        rptPaginazione.DataBind();
+    }
+    protected void rptPaginazione_ItemCommand(object source, RepeaterCommandEventArgs e)
+    {
+        if (e.CommandName == "CambiaPagina")
+        {
+            int nuovaPagina = Convert.ToInt32(e.CommandArgument) - 1;
+            ViewState["PaginaCorrente"] = nuovaPagina;
+
+            DataTable dt;
+
+            if (ViewState["RisultatiRicerca"] != null)
+            {
+                dt = (DataTable)ViewState["RisultatiRicerca"];
+            }
+            else
+            {
+                ESAMI es = new ESAMI();
+                dt = es.SelezionaTutto();
+            }
+
+            PopolaListaConPaginazione(dt, rpEsame);
+        }
     }
 }

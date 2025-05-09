@@ -19,7 +19,7 @@ namespace AreaPubblica
             builder.Services.AddDistributedMemoryCache(); // Necessario per usare la sessione
             builder.Services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(30); // Tempo massimo inattività sessione
+                options.IdleTimeout = TimeSpan.FromMinutes(30); // Tempo massimo inattivitï¿½ sessione
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
