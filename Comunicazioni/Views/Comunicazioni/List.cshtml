@@ -1,11 +1,7 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@*intermediate view model that has two objects that inherit from Comunicazione and AddComunicazioneViewModel as properties*@
 @model Comunicazioni.Models.ListAndAddViewModel
 
 <div class="container">
-
-
 	<h1>Comunicazioni</h1>
 	<div class="row gx-5">
 		<div class="col-10 col-md-9">
@@ -21,9 +17,11 @@
 					@{
 						var ruolo = Context.Session.GetString("r");
 					}
+					@*Do this for every group of communications*@
 					@foreach (var gruppo in Model.Comunicazioni.OrderByDescending(g => g.Max(c => c.DataOraComunicazione)))
 					{
 						<tr>
+							@*Sender informations*@
 							<td>
 								@{
 									var primaComunicazione = gruppo.OrderBy(c => c.DataOraComunicazione).FirstOrDefault();
@@ -67,7 +65,6 @@
 												<span class="text-primary">@($"{primaComunicazione.MittenteDocente.Nome} {primaComunicazione.MittenteDocente.Cognome}")</span>
 											}
 										}
-
 										else
 										{
 											<span class="text-primary">Amministrazione</span>
@@ -76,6 +73,7 @@
 								}
 							</td>
 							<td>
+								@*Recipient information*@
 								@{
 									if (primaComunicazione != null)
 									{
@@ -105,6 +103,7 @@
 										<div id="collapse_@gruppo.Key" class="accordion-collapse collapse show" data-bs-parent="#accordion_@gruppo.Key">
 											<div class="accordion-body">
 												<ul class="list-unstyled">
+													@* For every communication present in the group (created by the group by in the selcetion query in the controller) *@
 													@foreach (var comunicazione in gruppo.OrderBy(c => c.DataOraComunicazione))
 													{
 														<li class="d-flex justify-content-between mb-4">
@@ -141,6 +140,7 @@
 														</li>
 													}
 													<li class="bg-white">
+														@*The user can respond to a prevoius comunication. The answer will we add in the group by selection after it has been written*@
 														<form method="post" asp-action="AddRisposta">
 															<input type="hidden" name="Codice_Comunicazione" value="@gruppo.Key" />
 															<div class="form-outline">
@@ -170,19 +170,17 @@
 				</div>
 				<div>
 					<div class="d-block d-md-none mt-4">
-						<!-- Button trigger modal -->
+						<!-- Button trigger modal info -->
 						<button type="button" class="btn text-muted" data-bs-toggle="modal" data-bs-target="#staticBackdropInfo">
 							Info
 						</button>
 					</div>
-
 					<div class="mt-4">
-						<!-- Button trigger modal -->
+						<!-- Button trigger new comunication modal to create a new communication-->
 						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdropAdd">
 							Nuova comunicazione
 						</button>
 					</div>
-
 				</div>
 			</div>
 		</div>
@@ -213,22 +211,8 @@
 					</div>
 					<div class="modal-body">
 						<form method="post" asp-action="Add" id="form-insert">
-							@* @if (ruolo == "d")
-							{
-								<div class="mt-3">
-									<label class="form-label">Esame</label>
-									<select asp-for="AddComunicazione.K_Esame" asp-items="@ViewBag.EsamiList" class="form-select">
-										<option disabled selected>-- Seleziona un esame --</option>
-									</select>
-									<span asp-validation-for="AddComunicazione.K_Esame" class="text-danger"></span>
-								</div>
-							} *@
-							@* 
-							@if (ruolo == "d" && ViewBag.SelectedKEsame != null)
-							{
-								<input type="hidden" asp-for="AddComunicazione.K_Esame" value="@ViewBag.SelectedKEsame" />
-							} *@
-
+							@* selection of the communication recipient *@
+							@*the user can select the recipient of the communication depending of its role *@
 							@if (ruolo == "d" || ruolo == "a")
 							{
 								<div class="mt-3">
@@ -243,7 +227,6 @@
 									<span asp-validation-for="AddComunicazione.K_Studente" class="text-danger"></span>
 								</div>
 							}
-
 							@if (ruolo == "s" || ruolo == "a")
 							{
 								<div class="mt-3">
@@ -258,13 +241,12 @@
 									<span asp-validation-for="AddComunicazione.K_Docente" class="text-danger"></span>
 								</div>
 							}
-
+							@*the user can write the text of the communication and submit it *@
 							<div class="mt-4">
 								<label class="form-label">Testo:</label>
 								<textarea asp-for="AddComunicazione.Testo" class="form-control" rows="6" required id="testoComunicazioneAdd"></textarea>
 								<span asp-validation-for="AddComunicazione.Testo" class="text-danger"></span>
 							</div>
-
 							<button type="submit" class="btn btn-primary mt-3">Inserisci Comunicazione</button>
 						</form>
 					</div>

@@ -5,6 +5,7 @@ using Comunicazioni.Data;
 using Comunicazioni.Models;
 using Comunicazioni.Models.Entities;
 using LibreriaClassi;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,263 +19,8 @@ namespace Comunicazioni.Controllers
         {
             this.dbContext = dbContext;
         }
-        //----------------------------------------------//
-        //LIST------------------------------------------//
-        //----------------------------------------------//
 
-        [HttpGet]
-        public async Task<IActionResult> List(string r, string cod, string? mat, string? a, string? usr)
-        {
-            HttpContext.Session.SetString("r", r);
-            HttpContext.Session.SetString("cod", cod);
-            if (r == "s")
-            {
-                HttpContext.Session.SetString("mat", mat);
-                HttpContext.Session.SetString("a", a);
-            }
-            if (r == "a")
-            {
-                HttpContext.Session.SetString("usr", usr);
-            }
-
-            string ruolo = HttpContext.Session.GetString("r");
-            List<IGrouping<Guid, Comunicazione>> comunicazioni;
-
-            PopolaEsami(null);
-            PopolaStudenti();
-            PopolaDocenti();
-
-            var viewModel = new ListAndAddViewModel();
-
-            if (ruolo == "s")
-            {
-                var studente_chiave = Guid.Parse(HttpContext.Session.GetString("cod"));
-
-                comunicazioni = await dbContext.Comunicazioni
-                    .Where(c => c.K_Studente == studente_chiave || c.K_Soggetto == studente_chiave)
-                    .OrderBy(c => c.DataOraComunicazione)
-                    .GroupBy(c => c.Codice_Comunicazione)
-                    .ToListAsync();
-
-                //foreach (var gruppo in comunicazioni)
-                //{
-                //    foreach (var comunicazione in gruppo)
-                //    {
-                //        // Carica il mittente (se è uno studente)
-                //        if (comunicazione.K_Soggetto.HasValue)
-                //        {
-                //            comunicazione.Studente = await dbContext.Studenti
-                //                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
-                //        }
-                //        // Carica il mittente (se è un docente)
-                //        if (comunicazione.K_Soggetto.HasValue && comunicazione.Studente == null)
-                //        {
-                //            comunicazione.Docente = await dbContext.Docenti
-                //                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
-                //        }
-
-                //    }
-                //}
-
-
-                foreach (var gruppo in comunicazioni)
-                {
-                    foreach (var comunicazione in gruppo)
-                    {
-                        // Carica il mittente
-                        comunicazione.MittenteStudente = null;
-                        comunicazione.MittenteDocente = null;
-                        if (comunicazione.K_Soggetto.HasValue)
-                        {
-                            comunicazione.MittenteStudente = await dbContext.Studenti
-                                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
-                            if (comunicazione.MittenteStudente == null)
-                            {
-                                comunicazione.MittenteDocente = await dbContext.Docenti
-                                    .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
-                            }
-                        }
-
-                        // Carica il destinatario
-                        comunicazione.DestinatarioStudente = null;
-                        if (comunicazione.K_Studente.HasValue)
-                        {
-                            comunicazione.DestinatarioStudente = await dbContext.Studenti
-                                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Studente);
-                        }
-                        else if (comunicazione.K_Docente.HasValue)
-                        {
-                            comunicazione.DestinatarioDocente = await dbContext.Docenti
-                                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Docente);
-                        }
-                    }
-                }
-                viewModel.Comunicazioni = comunicazioni;
-
-                return View(viewModel);
-            }
-            // ... Logica simile per il ruolo "Docente" e "Altro" ...
-            else if (ruolo == "d")
-            {
-                var docente_chiave = Guid.Parse(HttpContext.Session.GetString("cod"));
-
-                comunicazioni = await dbContext.Comunicazioni
-                    .Where(c => c.K_Docente == docente_chiave || c.K_Soggetto == docente_chiave)
-                    .OrderBy(c => c.DataOraComunicazione)
-                    .GroupBy(c => c.Codice_Comunicazione)
-                    .ToListAsync();
-
-                //foreach (var gruppo in comunicazioni)
-                //{
-                //    foreach (var comunicazione in gruppo)
-                //    {
-                //        // Carica il mittente (se è un docente)
-                //        if (comunicazione.K_Soggetto.HasValue)
-                //        {
-                //            comunicazione.Docente = await dbContext.Docenti
-                //                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
-                //        }
-                //        // Carica il mittente (se è uno studente) 
-                //        if (comunicazione.K_Soggetto.HasValue && comunicazione.K_Studente == null)
-                //        {
-                //            comunicazione.Studente = await dbContext.Studenti
-                //                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
-                //        }
-                //    }
-                //}
-
-                foreach (var gruppo in comunicazioni)// Se hai raggruppamento
-                {
-                    foreach (var comunicazione in gruppo)
-                    {
-                        // Carica il mittente
-                        comunicazione.MittenteStudente = null;
-                        comunicazione.MittenteDocente = null;
-                        if (comunicazione.K_Soggetto.HasValue)
-                        {
-                            comunicazione.MittenteStudente = await dbContext.Studenti
-                                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
-                            if (comunicazione.MittenteStudente == null)
-                            {
-                                comunicazione.MittenteDocente = await dbContext.Docenti
-                                    .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
-                            }
-                        }
-
-                        // Carica il destinatario
-                        comunicazione.DestinatarioStudente = null;
-                        if (comunicazione.K_Studente.HasValue)
-                        {
-                            comunicazione.DestinatarioStudente = await dbContext.Studenti
-                                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Studente);
-                        }
-                        else if (comunicazione.K_Docente.HasValue)
-                        {
-                            comunicazione.DestinatarioDocente = await dbContext.Docenti
-                                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Docente);
-                        }
-                    }
-                }
-
-                viewModel.Comunicazioni = comunicazioni;
-
-                return View(viewModel);
-            }
-            else
-            {
-
-                // Recupera i Codice_Comunicazione dei messaggi inviati e ricevuti dall'amministrazione
-                var codiciComunicazioneAmministrazione = await dbContext.Comunicazioni
-                    .Where(c => (c.K_Studente == null && c.K_Docente == null) || dbContext.Operatori.Any(o => o.K_Operatore == c.K_Soggetto))
-                    .Select(c => c.Codice_Comunicazione)
-                    .Distinct()
-                    .ToListAsync();
-
-                // Recupera tutte le comunicazioni che hanno un Codice_Comunicazione appartenente alle comunicazioni amministrative
-                comunicazioni = await dbContext.Comunicazioni
-                    .Include(c => c.Studente)
-                    .Include(c => c.Docente)
-                    .Where(c => codiciComunicazioneAmministrazione.Contains(c.Codice_Comunicazione)) // Qui prendiamo sia le comunicazioni amministrative che le risposte
-                    .OrderBy(c => c.DataOraComunicazione)
-                    .GroupBy(c => c.Codice_Comunicazione)
-                    .ToListAsync();
-
-                //foreach (var gruppo in comunicazioni)
-                //{
-                //    foreach (var comunicazione in gruppo)
-                //    {
-                //        // Carica il mittente (se è un docente)
-                //        if (comunicazione.K_Soggetto.HasValue)
-                //        {
-                //            comunicazione.Docente = await dbContext.Docenti
-                //                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
-                //        }
-                //        // Carica il mittente (se è uno studente) 
-                //        if (comunicazione.K_Soggetto.HasValue && comunicazione.Docente == null)
-                //        {
-                //            comunicazione.Studente = await dbContext.Studenti
-                //                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
-                //        }
-                //    }
-                //}
-
-                foreach (var gruppo in comunicazioni)
-                {
-                    foreach (var comunicazione in gruppo)
-                    {
-                        // Carica il mittente
-                        comunicazione.MittenteStudente = null;
-                        comunicazione.MittenteDocente = null;
-                        if (comunicazione.K_Soggetto.HasValue)
-                        {
-                            comunicazione.MittenteStudente = await dbContext.Studenti
-                                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
-                            if (comunicazione.MittenteStudente == null)
-                            {
-                                comunicazione.MittenteDocente = await dbContext.Docenti
-                                    .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
-                            }
-                        }
-
-                        // Carica il destinatario
-                        comunicazione.DestinatarioStudente = null;
-                        if (comunicazione.K_Studente.HasValue)
-                        {
-                            comunicazione.DestinatarioStudente = await dbContext.Studenti
-                                .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Studente);
-                        }
-                        else if (comunicazione.K_Docente.HasValue)
-                        {
-                            comunicazione.DestinatarioDocente = await dbContext.Docenti
-                                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Docente);
-                        }
-                    }
-                }
-
-                viewModel.Comunicazioni = comunicazioni;
-
-                return View(viewModel);
-
-            }
-
-        }
-
-        //----------------------------------------------//
-        //ADD-------------------------------------------//
-        //----------------------------------------------//
-        public void PopolaEsami(Guid? IDEsame)
-        {
-            IEnumerable<SelectListItem> listaEsami = dbContext.Esami
-                .Where(e => e.K_Docente == Guid.Parse(HttpContext.Session.GetString("cod")))
-                .Select(e => new SelectListItem
-                {
-                    Text = e.TitoloEsame,
-                    Value = e.K_Esame.ToString(),
-                    Selected = (IDEsame.HasValue && e.K_Esame == IDEsame.Value)
-                });
-            ViewBag.EsamiList = listaEsami;
-        }
-
+        //---- View Bags per i select list ----//
         public void PopolaStudenti()
         {
             string ruolo = HttpContext.Session.GetString("r");
@@ -356,32 +102,269 @@ namespace Comunicazioni.Controllers
             }
         }
 
+        //----------------------------------------------//
+        //LIST------------------------------------------//
+        //----------------------------------------------//
+
+        //metodo per recuperare i dati del mittente e del destinatario
+        private async Task DatiMittenteDestinatario(List<IGrouping<Guid, Comunicazioni.Models.Entities.Comunicazione>> comunicazioni)
+        {
+            foreach (var gruppo in comunicazioni)
+            {
+                foreach (var comunicazione in gruppo)
+                {
+                    // Carica il mittente
+                    comunicazione.MittenteStudente = null;
+                    comunicazione.MittenteDocente = null;
+                    if (comunicazione.K_Soggetto.HasValue)
+                    {
+                        comunicazione.MittenteStudente = await dbContext.Studenti
+                            .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
+                        if (comunicazione.MittenteStudente == null)
+                        {
+                            comunicazione.MittenteDocente = await dbContext.Docenti
+                                .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+                        }
+                    }
+
+                    // Carica il destinatario
+                    comunicazione.DestinatarioStudente = null;
+                    if (comunicazione.K_Studente.HasValue)
+                    {
+                        comunicazione.DestinatarioStudente = await dbContext.Studenti
+                            .FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Studente);
+                    }
+                    else if (comunicazione.K_Docente.HasValue)
+                    {
+                        comunicazione.DestinatarioDocente = await dbContext.Docenti
+                            .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Docente);
+                    }
+                }
+            }
+        }
+        //----------------------------------------------//
+        [HttpGet]
+        public async Task<IActionResult> List(string r, string cod, string? mat, string? a, string? usr)
+        {
+            HttpContext.Session.SetString("r", r);
+            HttpContext.Session.SetString("cod", cod);
+            if (r == "s")
+            {
+                HttpContext.Session.SetString("mat", mat);
+                HttpContext.Session.SetString("a", a);
+            }
+            if (r == "a")
+            {
+                HttpContext.Session.SetString("usr", usr);
+            }
+
+            string ruolo = HttpContext.Session.GetString("r");
+            List<IGrouping<Guid, Comunicazione>> gruppo_comunicazioni;
+
+            PopolaStudenti();
+            PopolaDocenti();
+
+            var viewModel = new Comunicazioni.Models.ListAndAddViewModel();
+
+            if (ruolo == "s")
+            {
+                var studente_chiave = Guid.Parse(HttpContext.Session.GetString("cod"));
+
+                gruppo_comunicazioni = await dbContext.Comunicazioni
+                    .Where(c => c.K_Studente == studente_chiave || c.K_Soggetto == studente_chiave)
+                    .OrderBy(c => c.DataOraComunicazione)
+                    .GroupBy(c => c.Codice_Comunicazione)
+                    .ToListAsync();
+
+                await DatiMittenteDestinatario(gruppo_comunicazioni);
+
+                viewModel.Comunicazioni = gruppo_comunicazioni;
+
+                return View(viewModel);
+            }
+            //Logica simile per il ruolo "Docente" e "Amministrazione"
+            else if (ruolo == "d")
+            {
+                var docente_chiave = Guid.Parse(HttpContext.Session.GetString("cod"));
+
+                gruppo_comunicazioni = await dbContext.Comunicazioni
+                    .Where(c => c.K_Docente == docente_chiave || c.K_Soggetto == docente_chiave)
+                    .OrderBy(c => c.DataOraComunicazione)
+                    .GroupBy(c => c.Codice_Comunicazione)
+                    .ToListAsync();
+
+                await DatiMittenteDestinatario(gruppo_comunicazioni);
+
+                viewModel.Comunicazioni = gruppo_comunicazioni;
+
+                return View(viewModel);
+            }
+            else
+            {
+
+                // Recupera i Codice_Comunicazione dei messaggi inviati e ricevuti dall'amministrazione
+                var codiciComunicazioneAmministrazione = await dbContext.Comunicazioni
+                    .Where(c => (c.K_Studente == null && c.K_Docente == null) || dbContext.Operatori.Any(o => o.K_Operatore == c.K_Soggetto))
+                    .Select(c => c.Codice_Comunicazione)
+                    .Distinct()
+                    .ToListAsync();
+
+                // Recupera tutte le comunicazioni che hanno un Codice_Comunicazione appartenente alle comunicazioni amministrative
+                gruppo_comunicazioni = await dbContext.Comunicazioni
+                    .Include(c => c.Studente)
+                    .Include(c => c.Docente)
+                    .Where(c => codiciComunicazioneAmministrazione.Contains(c.Codice_Comunicazione)) // Qui prendiamo sia le comunicazioni amministrative che le risposte
+                    .OrderBy(c => c.DataOraComunicazione)
+                    .GroupBy(c => c.Codice_Comunicazione)
+                    .ToListAsync();
+
+                await DatiMittenteDestinatario(gruppo_comunicazioni);
+
+                viewModel.Comunicazioni = gruppo_comunicazioni;
+
+                return View(viewModel);
+
+            }
+
+        }
+
+        //----------------------------------------------//
+        //ADD-------------------------------------------//
+        //----------------------------------------------//
+
+
+        //metodo per inviare email alla creazione di una comunicazione
+
+        private async Task InvioEmail(Comunicazione comunicazione, string ruolo, string subject)
+        {
+            List<string> destinatariEmail = new List<string>();
+
+            // Determina i destinatari in base al ruolo e ai campi K_Studente/K_Docente
+            if (ruolo == "a")
+            {
+                // L'operatore potrebbe inviare a uno studente o a un docente specifico
+                if (comunicazione.K_Studente.HasValue && comunicazione.Studente?.Email != null)
+                {
+                    destinatariEmail.Add(comunicazione.Studente.Email);
+                }
+                else if (comunicazione.K_Docente.HasValue && comunicazione.Docente?.Email != null)
+                {
+                    destinatariEmail.Add(comunicazione.Docente.Email);
+                }
+            }
+            else if (ruolo == "d")
+            {
+                // Il docente potrebbe inviare a uno studente specifico
+                if (comunicazione.K_Studente.HasValue && comunicazione.Studente?.Email != null)
+                {
+                    destinatariEmail.Add(comunicazione.Studente.Email);
+                }
+                else
+                {
+                    destinatariEmail.Add("generation@brovia.it");
+                }
+            }
+            else if (ruolo == "s")
+            {
+                // Lo studente potrebbe inviare a un docente specifico
+                if (comunicazione.K_Docente.HasValue && comunicazione.Docente?.Email != null)
+                {
+                    destinatariEmail.Add(comunicazione.Docente.Email);
+                }
+                else
+                {
+                    destinatariEmail.Add("generation@brovia.it");
+                }
+            }
+
+            // Invia email se ci sono destinatari
+            if (destinatariEmail.Any())
+            {
+                using (SmtpClient smtpClient = new SmtpClient("mail.brovia.it", 587))
+                {
+                    smtpClient.Credentials = new System.Net.NetworkCredential("generation@brovia.it", "G3n3rat!on");
+                    smtpClient.EnableSsl = true; // Generalmente è meglio usare sempre SSL
+
+                    using (MailMessage mail = new MailMessage())
+                    {
+                        mail.From = new MailAddress("generation@brovia.it", "Comunicazione UniGen");
+
+                        foreach (var email in destinatariEmail.Distinct())
+                        {
+                            mail.To.Add(new MailAddress(email));
+                        }
+
+                        mail.Subject = subject;
+                        string body = "";
+
+                        if (ruolo == "d")
+                        {
+                            var docente = await dbContext.Docenti.FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+                            body = @$"In data {comunicazione.DataOraComunicazione}
+hai ricevuto una comunicazione da {docente?.Nome} {docente?.Cognome}.
+
+{comunicazione.Testo}";
+                        }
+                        else if (ruolo == "s")
+                        {
+                            var studente = await dbContext.Studenti.FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
+                            body = @$"In data {comunicazione.DataOraComunicazione}
+hai ricevuto una comunicazione da {studente?.Nome} {studente?.Cognome}.
+
+{comunicazione.Testo}";
+                        }
+                        else
+                        {
+                            body = @$"In data {comunicazione.DataOraComunicazione}
+hai ricevuto una comunicazione dall'Amministrazione.
+
+{comunicazione.Testo}";
+                        }
+                        mail.Body = body;
+
+                        try
+                        {
+                            await smtpClient.SendMailAsync(mail);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Errore invio email: " + ex.Message);
+                        }
+                    }
+                }
+            }
+        }
+
+        //----------------------------------------------//
+
+        //metodo per il return conservando i dati proveneirnti da altri progetti via url
+
+        private IActionResult RedirectToList()
+        {
+            string r = HttpContext.Session.GetString("r");
+            string cod = HttpContext.Session.GetString("cod");
+            string mat = HttpContext.Session.GetString("mat");
+            string a = HttpContext.Session.GetString("a");
+            string usr = HttpContext.Session.GetString("usr");
+
+            if (r == "s")
+            {
+                return RedirectToAction("List", "Comunicazioni", new { r, cod, mat, a });
+            }
+            else
+            {
+                return RedirectToAction("List", "Comunicazioni", new { r, cod, usr });
+            }
+        }
+
 
         [HttpGet] //visualizzo i dati
         public IActionResult Add()
         {
-            PopolaEsami(null);
             PopolaStudenti();
             PopolaDocenti();
             return View();
         }
-
-        //[HttpPost]
-        //public IActionResult AddStudente(Guid? K_Esame) // Riceve l'ID dell'esame selezionato
-        //{
-        //    PopolaEsami(null);
-        //    PopolaStudenti(K_Esame);
-        //    return View("Add");
-        //}
-
-        [HttpPost]
-        public IActionResult AddStudente(Guid? K_Esame)
-        {
-            PopolaEsami(null);
-            PopolaStudenti();
-            return View("List");
-        }
-
 
         [HttpPost]
         public async Task<IActionResult> Add(ListAndAddViewModel listAndAddViewModel)
@@ -442,126 +425,9 @@ namespace Comunicazioni.Controllers
             await dbContext.Comunicazioni.AddAsync(comunicazione);
             await dbContext.SaveChangesAsync();
 
-            //------------------------------------------------------------------------------------------//
-            //EMAIL
+            await InvioEmail(comunicazione, ruolo, "Nuova comunicazione");
 
-            List<string> destinatariEmail = new List<string>();
-
-            // Determina i destinatari in base al ruolo e ai campi K_Studente/K_Docente
-            if (ruolo == "a")
-            {
-                // L'operatore potrebbe inviare a uno studente o a un docente specifico
-                if (comunicazione.K_Studente.HasValue && comunicazione.Studente?.Email != null)
-                {
-                    destinatariEmail.Add(comunicazione.Studente.Email);
-                }
-                else if (comunicazione.K_Docente.HasValue && comunicazione.Docente?.Email != null)
-                {
-                    destinatariEmail.Add(comunicazione.Docente.Email);
-                }
-
-            }
-            else if (ruolo == "d")
-            {
-                // Il docente potrebbe inviare a uno studente specifico
-                if (comunicazione.K_Studente.HasValue && comunicazione.Studente?.Email != null)
-                {
-                    destinatariEmail.Add(comunicazione.Studente.Email);
-                }
-                else
-                {
-                    destinatariEmail.Add("generation@brovia.it");
-                }
-
-            }
-            else if (ruolo == "s")
-            {
-                // Lo studente potrebbe inviare a un docente specifico
-                if (comunicazione.K_Docente.HasValue && comunicazione.Docente?.Email != null)
-                {
-                    destinatariEmail.Add(comunicazione.Docente.Email);
-                }
-                else
-                {
-                    destinatariEmail.Add("generation@brovia.it");
-                }
-            }
-
-            // Invia email se ci sono destinatari
-            if (destinatariEmail.Any())
-            {
-                SmtpClient smtpClient = new SmtpClient("mail.brovia.it", 587);
-                //smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials = new System.Net.NetworkCredential("generation@brovia.it", "G3n3rat!on");
-                smtpClient.EnableSsl = false;
-
-                MailMessage mail = new MailMessage();
-                mail.From = new MailAddress("generation@brovia.it", "Comunicazione UniGen");
-
-                foreach (var email in destinatariEmail.Distinct())
-                {
-                    mail.To.Add(new MailAddress(email));
-                }
-
-                mail.Subject = "Nuova comunicazione";
-
-                if (ruolo == "d")
-                {
-                    comunicazione.Docente = await dbContext.Docenti
-                              .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
-
-                    mail.Body = @$"In data {comunicazione.DataOraComunicazione}  
-hai ricevuto una comunicazione da {comunicazione.Docente?.Nome} {comunicazione.Docente?.Cognome}. 
-
-{comunicazione.Testo}";
-                }
-                else if (ruolo == "s")
-                {
-                    comunicazione.Studente = await dbContext.Studenti
-                              .FirstOrDefaultAsync(d => d.K_Studente == comunicazione.K_Soggetto);
-
-                    mail.Body = @$"In data {comunicazione.DataOraComunicazione}  
-hai ricevuto una comunicazione da {comunicazione.Studente?.Nome} {comunicazione.Studente?.Cognome}. 
-
-{comunicazione.Testo}";
-                }
-                else
-                {
-                    mail.Body = @$"In data {comunicazione.DataOraComunicazione}  
-hai ricevuto una comunicazione dall'Amministrazione. 
-
-{comunicazione.Testo}";
-                }
-
-                try
-                {
-                    smtpClient.Send(mail);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Errore invio email: " + ex.Message);
-                }
-            }
-
-
-            //---------------------------------------------------//
-
-
-
-            string r = HttpContext.Session.GetString("r");
-            string cod = HttpContext.Session.GetString("cod");
-            string mat = HttpContext.Session.GetString("mat");
-            string a = HttpContext.Session.GetString("a");
-            string usr = HttpContext.Session.GetString("usr");
-
-            if (r == "s")
-            {
-                return RedirectToAction("List", "Comunicazioni", new { r, cod, mat, a });
-            }
-            else
-            {
-                return RedirectToAction("List", "Comunicazioni", new { r, cod, usr });
-            }
+            return RedirectToList();
 
         }
 
@@ -608,16 +474,6 @@ hai ricevuto una comunicazione dall'Amministrazione.
             {
                 nuovaRisposta.Soggetto = "A";
 
-                // Mantiene il destinatario originale della conversazione
-                //if (ultimaComunicazione.K_Studente != null)
-                //{
-                //    nuovaRisposta.K_Studente = ultimaComunicazione.K_Studente;
-                //}
-                //else if (ultimaComunicazione.K_Docente != null)
-                //{
-                //    nuovaRisposta.K_Docente = ultimaComunicazione.K_Docente;
-                //}
-
                 if (ultimaComunicazione.K_Soggetto != null)
                 {
                     var studente = dbContext.Studenti.FirstOrDefault(s => s.K_Studente == ultimaComunicazione.K_Soggetto);
@@ -626,7 +482,7 @@ hai ricevuto una comunicazione dall'Amministrazione.
                         nuovaRisposta.K_Studente = studente.K_Studente;
                     }
                     else
-                    { 
+                    {
                         // Se K_Soggetto non corrisponde a uno studente, verifica se corrisponde a un docente
                         var docente = dbContext.Docenti.FirstOrDefault(d => d.K_Docente == ultimaComunicazione.K_Soggetto);
                         if (docente != null)
@@ -635,12 +491,7 @@ hai ricevuto una comunicazione dall'Amministrazione.
                         }
                     }
                 }
-
-
-
-
             }
-
 
             else if (ruolo == "d")
             {
@@ -660,87 +511,9 @@ hai ricevuto una comunicazione dall'Amministrazione.
             await dbContext.Comunicazioni.AddAsync(nuovaRisposta);
             await dbContext.SaveChangesAsync();
 
+            await InvioEmail(nuovaRisposta, ruolo, "Nuova risposta alla tua comunicazione");
 
-
-
-            /// LOGICA EMAIL: invio dell'email per la risposta
-            List<string> destinatariEmail = new List<string>();
-
-            if (ruolo == "d")
-            {
-                // Se il ruolo è docente, invia allo studente
-                if (nuovaRisposta.K_Studente.HasValue && nuovaRisposta.Studente?.Email != null)
-                {
-                    destinatariEmail.Add(nuovaRisposta.Studente.Email);
-                }
-                else
-                {
-                    destinatariEmail.Add("generation@brovia.it"); // Default admin email
-                }
-            }
-            else if (ruolo == "s")
-            {
-                // Se il ruolo è studente, invia al docente
-                if (nuovaRisposta.K_Docente.HasValue && nuovaRisposta.Docente?.Email != null)
-                {
-                    destinatariEmail.Add(nuovaRisposta.Docente.Email);
-                }
-                else
-                {
-                    destinatariEmail.Add("generation@brovia.it"); // Default admin email
-                }
-            }
-            else
-            {
-                // Se il ruolo è amministratore o altro, invia a tutti
-                destinatariEmail.Add("generation@brovia.it");
-            }
-
-            // Invia email se ci sono destinatari
-            if (destinatariEmail.Any())
-            {
-                SmtpClient smtpClient = new SmtpClient("mail.brovia.it", 587);
-                smtpClient.Credentials = new System.Net.NetworkCredential("generation@brovia.it", "G3n3rat!on");
-                smtpClient.EnableSsl = true;
-
-                MailMessage mail = new MailMessage();
-                mail.From = new MailAddress("generation@brovia.it", "Comunicazione UniGen");
-
-                foreach (var email in destinatariEmail.Distinct())
-                {
-                    mail.To.Add(new MailAddress(email));
-                }
-
-                mail.Subject = "Nuova risposta alla tua comunicazione";
-                mail.Body = @$"In data {nuovaRisposta.DataOraComunicazione}  
-hai ricevuto una risposta a una comunicazione precedente. 
-
-{nuovaRisposta.Testo}"; // Testo della nuova risposta
-
-                try
-                {
-                    smtpClient.Send(mail);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Errore invio email: " + ex.Message);
-                }
-            }
-
-            string r = HttpContext.Session.GetString("r");
-            string cod = HttpContext.Session.GetString("cod");
-            string mat = HttpContext.Session.GetString("mat");
-            string a = HttpContext.Session.GetString("a");
-            string usr = HttpContext.Session.GetString("usr");
-
-            if (r == "s")
-            {
-                return RedirectToAction("List", "Comunicazioni", new { r, cod, mat, a });
-            }
-            else
-            {
-                return RedirectToAction("List", "Comunicazioni", new { r, cod, usr });
-            }
+            return RedirectToList();
         }
     }
 }
