@@ -36,7 +36,7 @@ The project is organized as a multi-project Visual Studio solution, combining AS
 4. Run database migrations if applicable  
 5. Build and run the solution  
 
-## Contact  
+## Contacts  
 This was a group project developed collaboratively by the team.
 
 ---
