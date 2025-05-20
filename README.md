@@ -75,7 +75,7 @@ Specific responsibilities for the project were assigned as follows:
 -   User roles: Student, Teacher, Administrator
 -   Full CRUD operations on courses, students, exams, and payments
 -   Secure authentication and authorization with ASP.NET Identity
--   Real-time messaging system for internal communications
+-   Internal messaging system for communications (developed with ASP.NET MVC)
 -   Hybrid architecture leveraging both MVC and Web Forms projects
 
 ## How to Run
