@@ -26,31 +26,30 @@ The development team was structured with responsibilities divided across differe
 
 |   Team Member       |   Public Area   |   Administration Area   |   Academic Area   |   Communications Area   |
 | :------------------ | :-------------- | :---------------------- | :---------------- | :---------------------- |
-|   De Bellis         |   Yes           |                           |                   |                         |
-|   Giordano          |   Yes           |                           |                   |                         |
-|   Iacuitti          |   Yes           |                           |                   |                         |
+|   Annunziata        |                 |                           |                   |   Yes                     |
+|   Ardito            |                 |                           |                   |                         |
+|   Brusco            |                 |                           |   Yes             |                         |
 |   Cerreto           |   Yes           |                           |                   |                         |
-|   Ferrara           |   Yes           |                           |                   |                         |
+|   Cordella          |                 |                           |                   |                         |
 |   Cosentino         |                 |   Yes                   |                   |                         |
+|   Cusenza           |                 |                           |   Yes             |                         |
+|   D'Esposito        |                 |                           |   Yes             |                         |
+|   De Bellis         |   Yes           |                           |                   |                         |
+|   Ferrara           |   Yes           |                           |                   |                         |
+|   Giordano          |   Yes           |                           |                   |                         |
+|   Giulivi           |   Yes           |                           |   Yes             |                         |
+|   Grupa             |                 |                           |   Yes             |                         |
+|   Iacuitti          |   Yes           |                           |                   |                         |
+|   Maffei            |                 |                           |                   |   Yes                     |
+|   Malini            |                 |                           |   Yes             |                         |
+|   Negri             |                 |   Yes                   |                   |                         |
+|   Pagano            |                 |   Yes                   |                   |                         |
+|   Pompilio          |                 |                           |                   |                         |
+|   Romano            |                 |                           |                   |                         |
 |   Saccà             |                 |   Yes                   |                   |                         |
 |   Silvestrini       |                 |   Yes                   |                   |                         |
-|   Pagano            |                 |   Yes                   |                   |                         |
-|   Negri             |                 |   Yes                   |                   |                         |
-|   Esposito          |                 |   Yes                   |                   |                         |
-|   Giulivi           |   Yes           |                           |   Yes             |                         |
-|   Stepanyuk         |                 |                           |   Yes             |                         |
-|   Cusenza           |                 |                           |   Yes             |                         |
-|   Grupa             |                 |                           |   Yes             |                         |
-|   D'Esposito        |                 |                           |   Yes             |                         |
-|   Brusco            |                 |                           |   Yes             |                         |
-|   Malini            |                 |                           |   Yes             |                         |
-|   Ardito            |                 |                           |                   |                         |
-|   Romano            |                 |                           |                   |                         |
-|   Pompilio          |                 |                           |                   |                         |
-|   Cordella          |                 |                           |                   |                         |
-|   Annunziata        |                 |                           |                   |   Yes                     |
 |   Sozzani           |                 |                           |                   |   Yes                     |
-|   Maffei            |                 |                           |                   |   Yes                     |
+|   Stepanyuk         |                 |                           |   Yes             |                         |
 
 ##   Responsibilities
 
@@ -63,7 +62,7 @@ Specific responsibilities for the project were assigned as follows:
 |   Database         |   Cosentino, Silvestrini, Malini, Giordano   |
 |   Tecnico          |   D'Esposito, Pagano, Cosentino     |
 |   Grafico          |   De Bellis, Giulivi     |
-|   Struttura Soluzione/Lib |   Pagano, Negri     |
+|   Struttura Soluzione/Lib |   Negri, Pagano     |
 
 ##   My Contribution
 
