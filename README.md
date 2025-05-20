@@ -1,42 +1,92 @@
-# Online University Management Application
+#   Online University Management Application
 
-## Overview  
+##   Overview
+
 This is a comprehensive enterprise-level web application developed as part of the Generation Italy – Microsoft .NET Developer Program (Feb–May 2025). The solution manages the entire lifecycle of an online university, including student enrollment, course management, exams, financial administration, and internal communications.
 
-## Technologies  
-- ASP.NET MVC  
-- ASP.NET Web Forms  
-- C#  
-- Entity Framework Core  
-- SQL Server  
-- LINQ  
-- Bootstrap  
-- JavaScript  
-- Git/GitHub  
+##   Technologies
 
-## Solution Structure  
+-   ASP.NET MVC
+-   ASP.NET Web Forms
+-   C#
+-   Entity Framework Core
+-   SQL Server
+-   LINQ
+-   Bootstrap
+-   JavaScript
+-   Git/GitHub
+
+##   Solution Structure
+
 The project is organized as a multi-project Visual Studio solution, combining ASP.NET MVC and Web Forms projects to handle different modules of the application: administration, academic management, communications, and more.
 
-## My Contribution  
-- Co-developed the internal messaging module as part of a team of three, implemented in ASP.NET MVC.  
-- Designed and implemented dynamic routing, database-backed messaging features, and a responsive UI with Bootstrap and JavaScript enhancements.  
-- Co-managed Git branching and pull requests to ensure smooth code integration.  
+##   Team Members and Roles
 
-## Features  
-- User roles: Student, Teacher, Administrator  
-- Full CRUD operations on courses, students, exams, and payments  
-- Secure authentication and authorization with ASP.NET Identity  
-- Real-time messaging system for internal communications  
-- Hybrid architecture leveraging both MVC and Web Forms projects  
+The development team was structured with responsibilities divided across different areas of the application. Here's a breakdown of team members and their primary roles:
 
-## How to Run  
-1. Clone the repository  
-2. Open the solution in Visual Studio  
-3. Configure the connection string in `appsettings.json` or `web.config` as needed  
-4. Run database migrations if applicable  
-5. Build and run the solution  
+|   Team Member       |   Public Area   |   Administration Area   |   Academic Area   |   Communications Area   |
+| :------------------ | :-------------- | :---------------------- | :---------------- | :---------------------- |
+|   De Bellis         |   Yes           |                           |                   |                         |
+|   Giordano          |   Yes           |                           |                   |                         |
+|   Iacuitti          |   Yes           |                           |                   |                         |
+|   Cerreto           |   Yes           |                           |                   |                         |
+|   Ferrara           |   Yes           |                           |                   |                         |
+|   Cosentino         |                 |   Yes                   |                   |                         |
+|   Saccà             |                 |   Yes                   |                   |                         |
+|   Silvestrini       |                 |   Yes                   |                   |                         |
+|   Pagano            |                 |   Yes                   |                   |                         |
+|   Negri             |                 |   Yes                   |                   |                         |
+|   Esposito          |                 |   Yes                   |                   |                         |
+|   Giulivi           |   Yes           |                           |   Yes             |                         |
+|   Stepanyuk         |                 |                           |   Yes             |                         |
+|   Cusenza           |                 |                           |   Yes             |                         |
+|   Grupa             |                 |                           |   Yes             |                         |
+|   D'Esposito        |                 |                           |   Yes             |                         |
+|   Brusco            |                 |                           |   Yes             |                         |
+|   Malini            |                 |                           |   Yes             |                         |
+|   Ardito            |                 |                           |                   |                         |
+|   Romano            |                 |                           |                   |                         |
+|   Pompilio          |                 |                           |                   |                         |
+|   Cordella          |                 |                           |                   |                         |
+|   Annunziata        |                 |                           |                   |   Yes                     |
+|   Sozzani           |                 |                           |                   |   Yes                     |
+|   Maffei            |                 |                           |                   |   Yes                     |
 
-## Contacts  
+##   Responsibilities
+
+Specific responsibilities for the project were assigned as follows:
+
+|   Responsibility   |   Team Member(s)           |
+| :--------------- | :----------------------- |
+|   GitHub           |   Sozzani, Grupa         |
+|   Timing           |   Cordella, Cusenza      |
+|   Database         |   Cosentino, Silvestrini, Malini, Giordano   |
+|   Tecnico          |   D'Esposito, Pagano, Cosentino     |
+|   Grafico          |   De Bellis, Giulivi     |
+|   Struttura Soluzione/Lib |   Pagano, Negri     |
+
+##   My Contribution
+
+-   Co-developed the internal messaging module as part of a team of three, implemented in ASP.NET MVC.
+-   Designed and implemented dynamic routing, database-backed messaging features, and a responsive UI with Bootstrap and JavaScript enhancements.
+-   Co-managed Git branching and pull requests to ensure smooth code integration.
+
+##   Features
+
+-   User roles: Student, Teacher, Administrator
+-   Full CRUD operations on courses, students, exams, and payments
+-   Secure authentication and authorization with ASP.NET Identity
+-   Real-time messaging system for internal communications
+-   Hybrid architecture leveraging both MVC and Web Forms projects
+
+##   How to Run
+
+1.  Clone the repository
+2.  Open the solution in Visual Studio
+3.  Configure the connection string in `appsettings.json` or `web.config` as needed
+4.  Run database migrations if applicable
+5.  Build and run the solution
+
+##   Contacts
+
 This was a group project developed collaboratively by the team.
-
----
