@@ -20,7 +20,7 @@ The project is organized as a multi-project Visual Studio solution, combining AS
 ## My Contribution  
 - Co-developed the internal messaging module as part of a team of three, implemented in ASP.NET MVC.  
 - Designed and implemented dynamic routing, database-backed messaging features, and a responsive UI with Bootstrap and JavaScript enhancements.  
-- Managed Git branching and pull requests to ensure smooth code integration.  
+- Co-managed Git branching and pull requests to ensure smooth code integration.  
 
 ## Features  
 - User roles: Student, Teacher, Administrator  
