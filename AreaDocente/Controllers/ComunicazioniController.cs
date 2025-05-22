@@ -87,6 +87,109 @@ namespace Comunicazioni.Controllers
         }
 
 
+        //metodo per inviare email alla creazione di una comunicazione
+
+        private async Task InvioEmail(Comunicazione comunicazione, string ruolo, string subject)
+        {
+            List<string> destinatariEmail = new List<string>();
+
+            // Determina i destinatari in base al ruolo e ai campi K_Studente/K_Docente
+            if (ruolo == "a")
+            {
+                // L'operatore potrebbe inviare a uno studente o a un docente specifico
+                if (comunicazione.K_Studente.HasValue && comunicazione.Studente?.Email != null)
+                {
+                    destinatariEmail.Add(comunicazione.Studente.Email);
+                }
+                else if (comunicazione.K_Docente.HasValue && comunicazione.Docente?.Email != null)
+                {
+                    destinatariEmail.Add(comunicazione.Docente.Email);
+                }
+            }
+            else if (ruolo == "d")
+            {
+                // Il docente potrebbe inviare a uno studente specifico
+                if (comunicazione.K_Studente.HasValue && comunicazione.Studente?.Email != null)
+                {
+                    destinatariEmail.Add(comunicazione.Studente.Email);
+                }
+                else
+                {
+                    destinatariEmail.Add("generation@brovia.it");
+                }
+            }
+            else if (ruolo == "s")
+            {
+                // Lo studente potrebbe inviare a un docente specifico
+                if (comunicazione.K_Docente.HasValue && comunicazione.Docente?.Email != null)
+                {
+                    destinatariEmail.Add(comunicazione.Docente.Email);
+                }
+                else
+                {
+                    destinatariEmail.Add("generation@brovia.it");
+                }
+            }
+
+            // Invia email se ci sono destinatari
+            if (destinatariEmail.Any())
+            {
+                using (SmtpClient smtpClient = new SmtpClient("mail.brovia.it", 587))
+                {
+                    smtpClient.Credentials = new System.Net.NetworkCredential("generation@brovia.it", "G3n3rat!on");
+                    smtpClient.EnableSsl = true; // Generalmente è meglio usare sempre SSL
+
+                    using (MailMessage mail = new MailMessage())
+                    {
+                        mail.From = new MailAddress("generation@brovia.it", "Comunicazione UniGen");
+
+                        foreach (var email in destinatariEmail.Distinct())
+                        {
+                            mail.To.Add(new MailAddress(email));
+                        }
+
+                        mail.Subject = subject;
+                        string body = "";
+
+                        if (ruolo == "d")
+                        {
+                            var docente = await dbContext.docenti.FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
+                            body = @$"In data {comunicazione.DataOraComunicazione}
+hai ricevuto una comunicazione da {docente?.Nome} {docente?.Cognome}.
+
+{comunicazione.Testo}";
+                        }
+                        else if (ruolo == "s")
+                        {
+                            var studente = await dbContext.studenti.FirstOrDefaultAsync(s => s.K_Studente == comunicazione.K_Soggetto);
+                            body = @$"In data {comunicazione.DataOraComunicazione}
+hai ricevuto una comunicazione da {studente?.Nome} {studente?.Cognome}.
+
+{comunicazione.Testo}";
+                        }
+                        else
+                        {
+                            body = @$"In data {comunicazione.DataOraComunicazione}
+hai ricevuto una comunicazione dall'Amministrazione.
+
+{comunicazione.Testo}";
+                        }
+                        mail.Body = body;
+
+                        try
+                        {
+                            await smtpClient.SendMailAsync(mail);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Errore invio email: " + ex.Message);
+                        }
+                    }
+                }
+            }
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Add(ListAndAddViewModel listAndAddViewModel)
         {
@@ -118,113 +221,7 @@ namespace Comunicazioni.Controllers
 
             await dbContext.Comunicazioni.AddAsync(comunicazione);
             await dbContext.SaveChangesAsync();
-
-            //------------------------------------------------------------------------------------------//
-            //EMAIL
-
-            List<string> destinatariEmail = new List<string>();
-
-            // Determina i destinatari in base al ruolo e ai campi K_Studente/K_Docente
-            if (ruolo == "a")
-            {
-                // L'operatore potrebbe inviare a uno studente o a un docente specifico
-                if (comunicazione.K_Studente.HasValue && comunicazione.Studente?.Email != null)
-                {
-                    destinatariEmail.Add(comunicazione.Studente.Email);
-                }
-                else if (comunicazione.K_Docente.HasValue && comunicazione.Docente?.Email != null)
-                {
-                    destinatariEmail.Add(comunicazione.Docente.Email);
-                }
-
-            }
-            else if (ruolo == "d")
-            {
-                // Il docente potrebbe inviare a uno studente specifico
-                if (comunicazione.K_Studente.HasValue && comunicazione.Studente?.Email != null)
-                {
-                    destinatariEmail.Add(comunicazione.Studente.Email);
-                }
-                else
-                {
-                    destinatariEmail.Add("generation@brovia.it");
-                }
-
-            }
-            else if (ruolo == "s")
-            {
-                // Lo studente potrebbe inviare a un docente specifico
-                if (comunicazione.K_Docente.HasValue && comunicazione.Docente?.Email != null)
-                {
-                    destinatariEmail.Add(comunicazione.Docente.Email);
-                }
-                else
-                {
-                    destinatariEmail.Add("generation@brovia.it");
-                }
-            }
-
-            // Invia email se ci sono destinatari
-            if (destinatariEmail.Any())
-            {
-                SmtpClient smtpClient = new SmtpClient("mail.brovia.it", 587);
-                //smtpClient.UseDefaultCredentials = false;
-                smtpClient.Credentials = new System.Net.NetworkCredential("generation@brovia.it", "G3n3rat!on");
-                smtpClient.EnableSsl = false;
-
-                MailMessage mail = new MailMessage();
-                mail.From = new MailAddress("generation@brovia.it", "Comunicazione UniGen");
-
-                foreach (var email in destinatariEmail.Distinct())
-                {
-                    mail.To.Add(new MailAddress(email));
-                }
-
-                mail.Subject = "Nuova comunicazione";
-
-                if (ruolo == "d")
-                {
-                    comunicazione.Docente = await dbContext.docenti
-                              .FirstOrDefaultAsync(d => d.K_Docente == comunicazione.K_Soggetto);
-
-                    mail.Body = @$"In data {comunicazione.DataOraComunicazione}  
-hai ricevuto una comunicazione da {comunicazione.Docente?.Nome} {comunicazione.Docente?.Cognome}. 
-
-{comunicazione.Testo}";
-                }
-                else if (ruolo == "s")
-                {
-                    comunicazione.Studente = await dbContext.studenti
-                              .FirstOrDefaultAsync(d => d.K_Studente == comunicazione.K_Soggetto);
-
-                    mail.Body = @$"In data {comunicazione.DataOraComunicazione}  
-hai ricevuto una comunicazione da {comunicazione.Studente?.Nome} {comunicazione.Studente?.Cognome}. 
-
-{comunicazione.Testo}";
-                }
-                else
-                {
-                    mail.Body = @$"In data {comunicazione.DataOraComunicazione}  
-hai ricevuto una comunicazione dall'Amministrazione. 
-
-{comunicazione.Testo}";
-                }
-
-                try
-                {
-                    smtpClient.Send(mail);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Errore invio email: " + ex.Message);
-                }
-            }
-
-
-            //---------------------------------------------------//
-
-
-
+            await InvioEmail(comunicazione, ruolo, "Nuova comunicazione");
             return RedirectToAction("Index", "Home");
 
         }
@@ -269,73 +266,7 @@ hai ricevuto una comunicazione dall'Amministrazione.
 
             await dbContext.Comunicazioni.AddAsync(nuovaRisposta);
             await dbContext.SaveChangesAsync();
-
-
-
-
-            /// LOGICA EMAIL: invio dell'email per la risposta
-            List<string> destinatariEmail = new List<string>();
-
-            if (ruolo == "d")
-            {
-                // Se il ruolo è docente, invia allo studente
-                if (nuovaRisposta.K_Studente.HasValue && nuovaRisposta.Studente?.Email != null)
-                {
-                    destinatariEmail.Add(nuovaRisposta.Studente.Email);
-                }
-                else
-                {
-                    destinatariEmail.Add("generation@brovia.it"); // Default admin email
-                }
-            }
-            else if (ruolo == "s")
-            {
-                // Se il ruolo è studente, invia al docente
-                if (nuovaRisposta.K_Docente.HasValue && nuovaRisposta.Docente?.Email != null)
-                {
-                    destinatariEmail.Add(nuovaRisposta.Docente.Email);
-                }
-                else
-                {
-                    destinatariEmail.Add("generation@brovia.it"); // Default admin email
-                }
-            }
-            else
-            {
-                // Se il ruolo è amministratore o altro, invia a tutti
-                destinatariEmail.Add("generation@brovia.it");
-            }
-
-            // Invia email se ci sono destinatari
-            if (destinatariEmail.Any())
-            {
-                SmtpClient smtpClient = new SmtpClient("mail.brovia.it", 587);
-                smtpClient.Credentials = new System.Net.NetworkCredential("generation@brovia.it", "G3n3rat!on");
-                smtpClient.EnableSsl = true;
-
-                MailMessage mail = new MailMessage();
-                mail.From = new MailAddress("generation@brovia.it", "Comunicazione UniGen");
-
-                foreach (var email in destinatariEmail.Distinct())
-                {
-                    mail.To.Add(new MailAddress(email));
-                }
-
-                mail.Subject = "Nuova risposta alla tua comunicazione";
-                mail.Body = @$"In data {nuovaRisposta.DataOraComunicazione}  
-hai ricevuto una risposta a una comunicazione precedente. 
-
-{nuovaRisposta.Testo}"; // Testo della nuova risposta
-
-                try
-                {
-                    smtpClient.Send(mail);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Errore invio email: " + ex.Message);
-                }
-            }
+            await InvioEmail(nuovaRisposta, ruolo, "Nuova risposta alla tua comunicazione");
 
             return RedirectToAction("Index", "Home");
         }
