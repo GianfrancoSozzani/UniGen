@@ -100,28 +100,6 @@ namespace AreaDocente.Controllers
                 .GroupBy(c => c.Codice_Comunicazione)
                 .ToList();
 
-
-            //// Aggiungi informazioni sui mittenti
-            //foreach (var gruppo in comunicazioni)
-            //{
-            //    foreach (var comunicazione in gruppo)
-            //    {
-            //        // Carica il mittente (se è un docente)
-            //        if (comunicazione.K_Soggetto.HasValue)
-            //        {
-            //            comunicazione.Docente = dbContext.docenti
-            //                .FirstOrDefault(d => d.K_Docente == comunicazione.K_Soggetto);
-            //        }
-            //        // Carica il mittente (se è uno studente) 
-            //        if (comunicazione.K_Soggetto.HasValue && comunicazione.Docente == null)
-            //        {
-            //            comunicazione.Studente = dbContext.studenti
-            //                .FirstOrDefault(s => s.K_Studente == comunicazione.K_Soggetto);
-            //        }
-            //    }
-            //}
-
-
             foreach (var gruppo in comunicazioni)// Se hai raggruppamento
             {
                 foreach (var comunicazione in gruppo)
