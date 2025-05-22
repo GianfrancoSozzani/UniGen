@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a comprehensive enterprise-level web application developed as part of the Generation Italy – Microsoft .NET Developer Program (Feb–May 2025). The solution manages the entire lifecycle of an online university, including student enrollment, course management, exams, financial administration, and internal communications.
+This is a comprehensive enterprise-level web application developed as part of the Generation Italy – Microsoft .NET Developer Program (Feb–May 2025). The solution manages the entire lifecycle of an online university, including student enrolment, course management, exams, financial administration, and internal communications.
 
 ## Technologies
 
