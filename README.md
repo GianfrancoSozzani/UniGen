@@ -10,6 +10,7 @@ This is a comprehensive enterprise-level web application developed as part of th
 -   ASP.NET Web Forms
 -   C#
 -   Entity Framework Core
+-   SQL
 -   SQL Server
 -   LINQ
 -   Bootstrap
